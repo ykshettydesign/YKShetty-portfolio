@@ -1,0 +1,155 @@
+/* ============================================================
+   SEMANTIC DESIGN TOKENS
+   ------------------------------------------------------------
+   Update colours / branding / typography here only.
+   Light defaults live under :root, dark overrides under
+   [data-theme="dark"]. Components reference these via var().
+   ============================================================ */
+
+:root {
+  /* ── Typography ── */
+  --font-display: 'Sora', sans-serif;
+  --font-body: 'DM Sans', sans-serif;
+  --font-mono: 'Space Mono', monospace;
+
+  /* ── Surfaces ── */
+  --bg-page: #FAFAFE;
+  --bg-surface: #FFFFFF;
+  --bg-surface-alt: #F8F8FC;
+  --bg-section-alt: #F5F5F9;
+  --bg-inverse: #0A0A0F;          /* WebGL / process stage */
+  --bg-hover: #F0F0F4;
+  --bg-target-active: #FAFAFF;
+
+  /* ── Text ── */
+  --text-primary: #1A1A2E;
+  --text-secondary: #5C5C6C;
+  --text-tertiary: #6B6B7A;
+  --text-muted: #8A8A96;
+  --text-body: #6A6A7C;
+  --text-on-inverse: #FFFFFF;
+  --text-on-inverse-soft: rgba(255, 255, 255, 0.5);
+
+  /* ── Borders / dividers ── */
+  --border-subtle: rgba(0, 0, 0, 0.06);
+  --border-card: rgba(0, 0, 0, 0.05);
+  --border-strong: rgba(0, 0, 0, 0.12);
+  --border-input: rgba(0, 0, 0, 0.1);
+  --border-input-hover: rgba(0, 0, 0, 0.2);
+  --border-dashed: #D8D8E4;
+  --border-fade: #D0D0DA;
+
+  /* ── Accent (brand) ── */
+  --accent: #7C5CFC;
+  --accent-hover: #6344E0;
+  --accent-strong: #6B4AE8;
+  --accent-2: #9B85FD;
+  --accent-soft-bg: #F0EEFF;
+  --accent-tint: rgba(124, 92, 252, 0.04);
+  --accent-ring: rgba(124, 92, 252, 0.18);
+  --on-accent: #FFFFFF;
+
+  /* ── Secondary accent (teal) ── */
+  --teal: #0D9488;
+  --teal-glyph: #0F9E91;
+  --teal-accent: #12897E;
+  --teal-ink: #0B5C55;
+  --teal-bg: #EEF6F4;
+
+  /* ── Chips ── */
+  --chip-border: rgba(0, 0, 0, 0.12);
+  --chip-text: #413D34;
+
+  /* ── Signal dots (window chrome) ── */
+  --dot-amber: #FBBF24;
+
+  /* ── Shadows ── */
+  --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.04);
+  --shadow-float: 0 2px 12px -4px rgba(0, 0, 0, 0.08);
+  --shadow-soft: 0 2px 12px -4px rgba(0, 0, 0, 0.08);
+  --shadow-lift: 0 16px 48px -12px rgba(0, 0, 0, 0.14), 0 0 0 1px rgba(0, 0, 0, 0.04);
+  --shadow-panel: 0 -12px 40px -8px rgba(0, 0, 0, 0.04), 0 16px 48px -12px rgba(0, 0, 0, 0.08);
+  --shadow-active: 0 0 0 1px var(--accent), 0 8px 24px -6px rgba(124, 92, 252, 0.18);
+
+  /* ── Glass headers ── */
+  --nav-bg: rgba(250, 250, 254, 0.85);
+  --nav-mobile-bg: rgba(250, 250, 254, 0.97);
+
+  /* ── Hero gradient blobs ── */
+  --blob-1: rgba(139, 92, 246, 0.34);
+  --blob-2: rgba(236, 72, 153, 0.26);
+  --blob-3: rgba(56, 189, 248, 0.24);
+  --blob-4: rgba(168, 85, 247, 0.20);
+  --blob-contact-1: rgba(139, 92, 246, 0.1);
+  --blob-contact-2: rgba(236, 72, 153, 0.06);
+}
+
+[data-theme="dark"] {
+  /* ── Surfaces ── */
+  --bg-page: #0E0E13;
+  --bg-surface: #17171E;
+  --bg-surface-alt: #131318;
+  --bg-section-alt: #121217;
+  --bg-inverse: #000005;
+  --bg-hover: #23232C;
+  --bg-target-active: #1B1B24;
+
+  /* ── Text ── */
+  --text-primary: #EDECEF;
+  --text-secondary: #A6A6B4;
+  --text-tertiary: #9494A4;
+  --text-muted: #6E6E7C;
+  --text-body: #9A9AAC;
+  --text-on-inverse: #FFFFFF;
+  --text-on-inverse-soft: rgba(255, 255, 255, 0.5);
+
+  /* ── Borders / dividers ── */
+  --border-subtle: rgba(255, 255, 255, 0.08);
+  --border-card: rgba(255, 255, 255, 0.06);
+  --border-strong: rgba(255, 255, 255, 0.14);
+  --border-input: rgba(255, 255, 255, 0.14);
+  --border-input-hover: rgba(255, 255, 255, 0.26);
+  --border-dashed: #35353F;
+  --border-fade: #35353F;
+
+  /* ── Accent (brand) — lifted for dark bg ── */
+  --accent: #9B85FD;
+  --accent-hover: #B4A4FF;
+  --accent-strong: #8A72F5;
+  --accent-2: #B4A4FF;
+  --accent-soft-bg: rgba(124, 92, 252, 0.18);
+  --accent-tint: rgba(124, 92, 252, 0.1);
+  --accent-ring: rgba(124, 92, 252, 0.3);
+  --on-accent: #12121A;
+
+  /* ── Secondary accent (teal) ── */
+  --teal: #2DD4BF;
+  --teal-glyph: #2DD4BF;
+  --teal-accent: #5EEAD4;
+  --teal-ink: #99F6E4;
+  --teal-bg: rgba(45, 212, 191, 0.12);
+
+  /* ── Chips ── */
+  --chip-border: rgba(255, 255, 255, 0.14);
+  --chip-text: #C9C6BC;
+
+  /* ── Shadows — deeper for dark ── */
+  --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.5);
+  --shadow-float: 0 8px 24px -12px rgba(0, 0, 0, 0.7);
+  --shadow-soft: 0 8px 24px -12px rgba(0, 0, 0, 0.7);
+  --shadow-lift: 0 16px 48px -12px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(255, 255, 255, 0.05);
+  --shadow-panel: 0 -12px 40px -8px rgba(0, 0, 0, 0.4), 0 16px 48px -12px rgba(0, 0, 0, 0.7);
+  --shadow-active: 0 0 0 1px var(--accent), 0 8px 24px -6px rgba(124, 92, 252, 0.35);
+
+  /* ── Glass headers ── */
+  --nav-bg: rgba(14, 14, 19, 0.85);
+  --nav-mobile-bg: rgba(14, 14, 19, 0.97);
+
+  /* ── Hero gradient blobs — a touch stronger ── */
+  --blob-1: rgba(139, 92, 246, 0.4);
+  --blob-2: rgba(236, 72, 153, 0.28);
+  --blob-3: rgba(56, 189, 248, 0.26);
+  --blob-4: rgba(168, 85, 247, 0.24);
+  --blob-contact-1: rgba(139, 92, 246, 0.14);
+  --blob-contact-2: rgba(236, 72, 153, 0.08);
+}

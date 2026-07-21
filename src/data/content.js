@@ -96,43 +96,48 @@ export const caseStudies = [
   },
 ]
 
-/* ── 02 · Practice / process ── */
-export const processCards = [
+/* ── 02 · Practice — seed→sprout story cards (scroll-driven) ── */
+export const practiceStory = [
   {
     id: 'discover',
+    num: '01 · THE SEED',
     title: 'Discover',
-    accentBar: false,
-    rethink: null,
+    callout: null,
     human: ['Stakeholder discovery', 'Field interviews', 'Context & pain mapping', 'Goals & success criteria'],
     ai: ['Cluster interview notes', 'Surface recurring themes'],
+    desc: 'A hand drops the signal. We scan the soil — market, goals, human pain — and plant.',
   },
   {
     id: 'define',
+    num: '02 · THE SPROUT',
     title: 'Define',
-    accentBar: true,
-    rethink: 'When the brief is a solution, go back for the problem.',
+    callout: {
+      label: '↺ The rethink',
+      text: 'When the brief hands us a solution, we go back for the problem.',
+    },
     human: ['Problem statement', "Must / Should / Won't", 'Feasibility alignment'],
     ai: ['Edge-case inventory', 'Constraint pre-check'],
+    desc: 'Roots anchor down, a first stem breaks ground. The invisible architecture that will hold everything.',
   },
   {
     id: 'design',
+    num: '03 · THE CANOPY',
     title: 'Design',
-    accentBar: false,
-    rethink: null,
-    human: ['Ideate variants', 'Craft & visual design', 'Systematize into tokens', 'Component review'],
+    callout: null,
+    human: ['Ideate variants', 'Craft & visual', 'Systematize into tokens', 'Component review'],
     ai: ['Variant exploration', 'First-draft microcopy', 'Token & doc automation'],
+    desc: 'Branches spread, leaves fill in, flowers open. Automation duplicates the tokens across every limb.',
   },
   {
     id: 'ship',
+    num: '04 · THE APPLES',
     title: 'Ship & learn',
-    accentBar: false,
-    rethink: null,
+    callout: null,
     human: ['Usability testing', 'MVP scope · UI validation', 'Pilot & monitor', 'Feed the next brief'],
     ai: ['Error-state & QA sweep', 'Metrics → next brief'],
+    desc: 'Flowers become apples. Ripe fruit falls, dissolves back into soil — feeding the next brief.',
   },
 ]
-
-export const processDots = ['Discover', 'Define', 'Design', 'Ship']
 
 /* ── 03 · Instruments ── */
 export const instruments = [

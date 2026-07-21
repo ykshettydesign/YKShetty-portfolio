@@ -18,6 +18,7 @@
   --bg-surface-alt: #F8F8FC;
   --bg-section-alt: #F5F5F9;
   --bg-inverse: #0A0A0F;          /* WebGL / process stage */
+  --practice-bg: #EEF0F4;         /* seed→sprout backdrop (theme-following) */
   --bg-hover: #F0F0F4;
   --bg-target-active: #FAFAFF;
 
@@ -91,6 +92,7 @@
   --bg-surface-alt: #131318;
   --bg-section-alt: #121217;
   --bg-inverse: #000005;
+  --practice-bg: #05070A;         /* seed→sprout backdrop (dark) */
   --bg-hover: #23232C;
   --bg-target-active: #1B1B24;
 

@@ -81,58 +81,63 @@ export default function Practice() {
   }, [])
 
   const handleStage = useCallback((s) => setStage(s), [])
+  const trackRef = useRef(null)
 
   return (
     <section
       id="practice"
       ref={sectionRef}
       className="practice-section"
-      style={{ position: 'relative', zIndex: 10, height: `${TRACK_VH}vh`, background: 'var(--practice-bg)' }}
+      style={{ position: 'relative', zIndex: 10, background: 'var(--practice-bg)' }}
     >
-      {/* Pinned stage: transparent WebGL canvas + story cards, held for the
-          section's scroll range. The themed section background shows through. */}
-      <div style={{ position: 'sticky', top: 0, height: '100vh', overflow: 'hidden' }}>
-        <PracticeTree sectionRef={sectionRef} onStageChange={handleStage} />
-
-        {/* section label */}
-        <div style={{ position: 'absolute', top: 'clamp(32px,4vw,56px)', left: 'clamp(22px,4vw,48px)', zIndex: 6 }}>
-          <div
-            style={{
-              fontFamily: 'var(--font-mono)',
-              fontSize: 10,
-              fontWeight: 700,
-              letterSpacing: '0.14em',
-              textTransform: 'uppercase',
-              color: 'var(--text-primary)',
-              marginBottom: 10,
-              opacity: 0.7,
-            }}
-          >
-            02 · Practice
-          </div>
-          <h2
-            style={{
-              fontFamily: 'var(--font-display)',
-              fontSize: 'clamp(24px,2.8vw,36px)',
-              fontWeight: 600,
-              lineHeight: 1.08,
-              letterSpacing: '-0.03em',
-              margin: 0,
-              color: 'var(--text-primary)',
-            }}
-          >
-            The process,
-            <br />
-            end to end.
-          </h2>
+      {/* Intro heading — normal flow, aligned to the page's 1100px column so it
+          sits on-grid with the rest of the site, then scrolls away as the
+          animation track pins below it. Text is light because the Practice
+          backdrop is always dark (in both themes). */}
+      <div style={{ maxWidth: 1100, margin: '0 auto', padding: 'clamp(64px,9vw,120px) clamp(22px,5vw,44px) clamp(40px,6vw,72px)' }}>
+        <div
+          style={{
+            fontFamily: 'var(--font-mono)',
+            fontSize: 10,
+            fontWeight: 700,
+            letterSpacing: '0.14em',
+            textTransform: 'uppercase',
+            color: 'var(--text-on-inverse-soft)',
+            marginBottom: 14,
+          }}
+        >
+          02 · Practice
         </div>
+        <h2
+          style={{
+            fontFamily: 'var(--font-display)',
+            fontSize: 'clamp(28px,3.8vw,44px)',
+            fontWeight: 600,
+            lineHeight: 1.02,
+            letterSpacing: '-0.03em',
+            margin: 0,
+            maxWidth: '18ch',
+            color: 'var(--text-on-inverse)',
+          }}
+        >
+          The process, end to end.
+        </h2>
+      </div>
 
-        {/* story cards */}
-        <div className="practice-card-layer" aria-live="polite">
-          <div className="practice-card-shell">
-            {practiceStory.map((card, i) => (
-              <StoryCard key={card.id} card={card} style={cardStyle(i, stage, isMobile)} />
-            ))}
+      {/* Animation track: the scroll distance that drives the growth. The stage
+          pins within it, so progress starts exactly when the tree is on screen
+          (the intro has scrolled away). */}
+      <div ref={trackRef} style={{ position: 'relative', height: `${TRACK_VH}vh` }}>
+        <div style={{ position: 'sticky', top: 0, height: '100vh', overflow: 'hidden' }}>
+          <PracticeTree sectionRef={trackRef} onStageChange={handleStage} />
+
+          {/* story cards */}
+          <div className="practice-card-layer" aria-live="polite">
+            <div className="practice-card-shell">
+              {practiceStory.map((card, i) => (
+                <StoryCard key={card.id} card={card} style={cardStyle(i, stage, isMobile)} />
+              ))}
+            </div>
           </div>
         </div>
       </div>

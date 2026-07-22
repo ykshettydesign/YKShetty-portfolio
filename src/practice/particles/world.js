@@ -115,9 +115,13 @@ export class DustWorld {
         uniform float uTime, uAmp, uRipple, uRippleAmp, uSize;
         attribute float aRand;
         varying float vH;
+        varying float vEdge;
         void main() {
           vec3 p = position;
           float r = length(p.xz);
+          // soft radial fade so the disc dissolves into the background
+          // instead of ending in a hard circular cut
+          vEdge = smoothstep(15.0, 9.0, r);
           // rolling dusty swell
           float w = sin(p.x * 0.5 + uTime * 0.9) * 0.5
                   + sin(p.z * 0.6 - uTime * 0.7) * 0.5
@@ -138,6 +142,7 @@ export class DustWorld {
         uniform vec3 uLow, uHigh;
         uniform float uOpacity, uAlpha, uDarken;
         varying float vH;
+        varying float vEdge;
         void main() {
           vec2 uv = gl_PointCoord - 0.5;
           float d = length(uv);
@@ -146,7 +151,7 @@ export class DustWorld {
           a = pow(a, 1.8);
           float h = clamp(vH * 0.7 + 0.45, 0.0, 1.0);
           vec3 col = mix(uLow, uHigh, h) * uDarken;
-          gl_FragColor = vec4(col * (0.7 + 0.5 * h), a * uOpacity * uAlpha);
+          gl_FragColor = vec4(col * (0.7 + 0.5 * h), a * uOpacity * uAlpha * vEdge);
         }
       `,
     });

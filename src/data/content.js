@@ -139,6 +139,18 @@ export const practiceStory = [
   },
 ]
 
+// Scroll-pinned annotations for the tree animation. One is visible at a time,
+// synced to the tree beat via annotationStage(p) in PracticeTree. Keep the
+// wording exactly as-is — plain, human, first-person voice carried by the
+// section heading (no "we").
+export const practiceAnnotations = [
+  { label: '01 // SEED', concept: 'Alignment', sentence: 'Line up business goals and user needs before anything grows.' },
+  { label: '02 // ROOTS', concept: 'Foundation', sentence: 'Dig into the research so everything above it holds.' },
+  { label: '03 // SPROUT', concept: 'Validation', sentence: "Test rough ideas early, while they're still cheap to change." },
+  { label: '04 // CANOPY', concept: 'Scale', sentence: 'Once it works, spread it across the product and automate the busywork.' },
+  { label: '05 // HARVEST', concept: 'The loop', sentence: 'Ship, learn from real use, and let it plant the next one.' },
+]
+
 /* ── 03 · Instruments ── */
 export const instruments = [
   {

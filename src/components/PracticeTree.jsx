@@ -26,6 +26,20 @@ export function cardStage(p) {
   return 3
 }
 
+// Annotation stage boundaries — mapped to the tree beats driven in world.js:
+//   SEED    seed drop + sink        (p < 0.20)
+//   ROOTS   taproot reveals 0.2–0.4 (p < 0.34)
+//   SPROUT  seedling reveals 0.34–0.5
+//   CANOPY  trunk 0.48 + canopy 0.56–0.78
+//   HARVEST fruit/ripen 0.72 + the fall/loop
+export function annotationStage(p) {
+  if (p < 0.2) return 0
+  if (p < 0.34) return 1
+  if (p < 0.5) return 2
+  if (p < 0.72) return 3
+  return 4
+}
+
 function disposeScene(scene) {
   scene.traverse((obj) => {
     if (obj.geometry) obj.geometry.dispose()
@@ -51,10 +65,12 @@ function disposeScene(scene) {
  * All three.js resources, the rAF loop and every listener are disposed on
  * unmount (StrictMode-double-mount safe).
  */
-export default function PracticeTree({ sectionRef, onStageChange, onWebGLUnavailable }) {
+export default function PracticeTree({ sectionRef, onStageChange, onAnnotationChange, onWebGLUnavailable }) {
   const canvasRef = useRef(null)
   const stageCbRef = useRef(onStageChange)
   stageCbRef.current = onStageChange
+  const annoCbRef = useRef(onAnnotationChange)
+  annoCbRef.current = onAnnotationChange
   const unavailableCbRef = useRef(onWebGLUnavailable)
   unavailableCbRef.current = onWebGLUnavailable
 
@@ -147,11 +163,17 @@ export default function PracticeTree({ sectionRef, onStageChange, onWebGLUnavail
     }
 
     let lastStage = -1
+    let lastAnno = -1
     const emitStage = (p) => {
       const s = cardStage(p)
       if (s !== lastStage) {
         lastStage = s
         if (stageCbRef.current) stageCbRef.current(s)
+      }
+      const a = annotationStage(p)
+      if (a !== lastAnno) {
+        lastAnno = a
+        if (annoCbRef.current) annoCbRef.current(a)
       }
     }
 

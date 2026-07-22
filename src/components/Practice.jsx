@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react'
-import { practiceStory } from '../data/content'
+import { practiceStory, practiceAnnotations } from '../data/content'
 import { useTheme } from '../theme/ThemeContext'
 import PracticeTree from './PracticeTree'
 import ErrorBoundary from './ErrorBoundary'
@@ -61,9 +61,38 @@ function StoryCard({ card, style }) {
             ))}
           </div>
         </div>
-        <p className="sc-desc">{card.desc}</p>
       </div>
     </article>
+  )
+}
+
+// One scroll-pinned annotation per tree beat. All five render stacked; only the
+// active one is opaque, so the crossfade reads as "one out / next in". The
+// section heading already carries the first-person voice, so this stays terse.
+function Annotations({ active }) {
+  return (
+    <div className="practice-anno-layer" aria-live="polite">
+      <div className="practice-anno-shell">
+        <div className="anno-stack">
+          {practiceAnnotations.map((a, i) => (
+            <div
+              key={a.label}
+              className={`anno-block${i === active ? ' is-active' : ''}`}
+              aria-hidden={i === active ? undefined : true}
+            >
+              <p className="anno-label">{a.label}</p>
+              <h3 className="anno-concept">{a.concept}</h3>
+              <p className="anno-sentence">{a.sentence}</p>
+            </div>
+          ))}
+        </div>
+        <div className="anno-dots" role="presentation">
+          {practiceAnnotations.map((a, i) => (
+            <span key={a.label} className={`anno-dot${i === active ? ' is-active' : ''}`} />
+          ))}
+        </div>
+      </div>
+    </div>
   )
 }
 
@@ -71,6 +100,7 @@ export default function Practice() {
   const sectionRef = useRef(null)
   const { theme } = useTheme()
   const [stage, setStage] = useState(0)
+  const [anno, setAnno] = useState(0)
   const [isMobile, setIsMobile] = useState(
     typeof window !== 'undefined' ? window.innerWidth < 821 : false,
   )
@@ -82,6 +112,7 @@ export default function Practice() {
   }, [])
 
   const handleStage = useCallback((s) => setStage(s), [])
+  const handleAnno = useCallback((a) => setAnno(a), [])
   const [webglFailed, setWebglFailed] = useState(false)
   const handleWebGLUnavailable = useCallback(() => setWebglFailed(true), [])
   const trackRef = useRef(null)
@@ -138,9 +169,13 @@ export default function Practice() {
             <PracticeTree
               sectionRef={trackRef}
               onStageChange={handleStage}
+              onAnnotationChange={handleAnno}
               onWebGLUnavailable={handleWebGLUnavailable}
             />
           </ErrorBoundary>
+
+          {/* scroll-pinned annotations — one per tree beat, opposite the cards */}
+          <Annotations active={anno} />
 
           {/* story cards */}
           <div className="practice-card-layer" aria-live="polite">

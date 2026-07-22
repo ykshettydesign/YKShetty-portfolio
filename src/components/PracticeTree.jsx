@@ -64,12 +64,25 @@ export default function PracticeTree({ sectionRef, onStageChange }) {
     const prefersReduced =
       window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
-    const renderer = new THREE.WebGLRenderer({
-      canvas,
-      antialias: true,
-      alpha: true,
-      powerPreference: 'high-performance',
-    })
+    // WebGL may be unavailable in restrictive/virtualized corporate browsers
+    // (e.g. Zscaler browser isolation, headless/software-rendered environments).
+    // Creating the renderer throws there; catch it and degrade gracefully to a
+    // transparent canvas so the section (heading + story cards) still renders
+    // instead of the whole app unmounting into a black screen.
+    let renderer
+    try {
+      renderer = new THREE.WebGLRenderer({
+        canvas,
+        antialias: true,
+        alpha: true,
+        powerPreference: 'high-performance',
+      })
+    } catch (err) {
+      if (import.meta.env && import.meta.env.DEV) {
+        console.warn('[PracticeTree] WebGL unavailable — skipping 3D scene:', err)
+      }
+      return undefined
+    }
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
     renderer.setSize(window.innerWidth, window.innerHeight)
     renderer.setClearColor(0x000000, 0)
@@ -169,6 +182,18 @@ export default function PracticeTree({ sectionRef, onStageChange }) {
     }
     window.addEventListener('resize', onResize)
 
+    // If the GL context is lost after init (common under browser isolation /
+    // GPU resets), stop the render loop rather than letting three throw inside
+    // the rAF tick. preventDefault lets the browser attempt a restore.
+    const onContextLost = (e) => {
+      e.preventDefault()
+      if (rafId) {
+        cancelAnimationFrame(rafId)
+        rafId = null
+      }
+    }
+    canvas.addEventListener('webglcontextlost', onContextLost, false)
+
     let onScroll = null
     if (prefersReduced) {
       // No idle animation: render one frame per scroll/resize event.
@@ -183,6 +208,7 @@ export default function PracticeTree({ sectionRef, onStageChange }) {
       if (rafId) cancelAnimationFrame(rafId)
       window.removeEventListener('resize', onResize)
       if (onScroll) window.removeEventListener('scroll', onScroll)
+      canvas.removeEventListener('webglcontextlost', onContextLost, false)
       disposeScene(scene)
       scene.clear()
       renderer.dispose()

@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { practiceStory } from '../data/content'
 import { useTheme } from '../theme/ThemeContext'
 import PracticeTree from './PracticeTree'
+import ErrorBoundary from './ErrorBoundary'
 
 // Number of viewport-heights of scroll track that drive the growth sequence.
 const TRACK_VH = 560
@@ -129,7 +130,9 @@ export default function Practice() {
           (the intro has scrolled away). */}
       <div ref={trackRef} style={{ position: 'relative', height: `${TRACK_VH}vh` }}>
         <div style={{ position: 'sticky', top: 0, height: '100vh', overflow: 'hidden' }}>
-          <PracticeTree sectionRef={trackRef} onStageChange={handleStage} />
+          <ErrorBoundary fallback={null}>
+            <PracticeTree sectionRef={trackRef} onStageChange={handleStage} />
+          </ErrorBoundary>
 
           {/* story cards */}
           <div className="practice-card-layer" aria-live="polite">

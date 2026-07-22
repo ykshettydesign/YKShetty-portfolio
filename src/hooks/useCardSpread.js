@@ -6,7 +6,7 @@ import { useCallback, useState } from 'react'
  * translate/rotate/scale/z-index from the active index. Pure state — no
  * listeners to leak.
  */
-const OVERLAP = 130
+const OVERLAP = 144
 const PUSH = 40
 
 export function useCardSpread(tilts) {

@@ -19,7 +19,7 @@ export default function Testimonials() {
         onMouseLeave={rest}
         style={{ position: 'relative', height: 370, display: 'flex', alignItems: 'center', justifyContent: 'flex-start', overflow: 'visible' }}
       >
-        <div style={{ position: 'relative', width: 780, height: 240, left: 10 }}>
+        <div style={{ position: 'relative', width: 1000, height: 240, left: 0 }}>
           {testimonials.map((t, i) => {
             const tf = getTransform(i, total)
             return (
@@ -31,7 +31,7 @@ export default function Testimonials() {
                   position: 'absolute',
                   top: 0,
                   left: 0,
-                  width: 250,
+                  width: 278,
                   minHeight: 220,
                   background: 'var(--bg-surface)',
                   borderRadius: 18,

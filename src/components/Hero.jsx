@@ -95,7 +95,7 @@ export default function Hero() {
               marginBottom: 10,
             }}
           >
-            The brief
+            {hero.askLabel}
           </div>
 
           <div className="hero-bubble-wrap-1" style={{ position: 'relative', minHeight: 46, marginBottom: 16 }}>
@@ -147,18 +147,47 @@ export default function Hero() {
               style={{
                 color: 'var(--text-primary)',
                 borderRadius: '20px 20px 4px 20px',
-                fontFamily: 'var(--font-display)',
-                fontSize: 'clamp(26px,3.8vw,42px)',
-                fontWeight: 600,
-                lineHeight: 1.12,
-                letterSpacing: '-0.02em',
                 boxShadow: 'var(--shadow-lift)',
                 background: 'var(--bg-surface)',
                 textAlign: 'left',
                 padding: '21px 31px',
               }}
             >
-              {hero.shift}
+              <div
+                style={{
+                  fontFamily: 'var(--font-mono)',
+                  fontSize: 10,
+                  fontWeight: 700,
+                  letterSpacing: '0.14em',
+                  textTransform: 'uppercase',
+                  color: 'var(--accent)',
+                  marginBottom: 12,
+                }}
+              >
+                {hero.replyLabel}
+              </div>
+              <div
+                style={{
+                  fontFamily: 'var(--font-display)',
+                  fontSize: 'clamp(21px,2.9vw,32px)',
+                  fontWeight: 600,
+                  lineHeight: 1.15,
+                  letterSpacing: '-0.02em',
+                }}
+              >
+                {hero.replyMain}
+              </div>
+              <div
+                style={{
+                  fontFamily: 'var(--font-body)',
+                  fontSize: 13,
+                  lineHeight: 1.5,
+                  color: 'var(--text-muted)',
+                  marginTop: 12,
+                }}
+              >
+                {hero.replyFoot}
+              </div>
             </div>
           </div>
 

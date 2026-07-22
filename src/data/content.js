@@ -13,7 +13,7 @@ export const profile = {
   location: 'Oslo',
   logo: './assets/yogilogo.svg',
   tagline:
-    'Senior Product Designer. I look past the brief to find the real problem — then design the system that solves it.',
+    'Senior Product Designer. I practice systems thinking — looking past the apparent problem to the root cause, then designing the simplest fix the system already supports.',
 }
 
 export const navLinks = [
@@ -24,8 +24,11 @@ export const navLinks = [
 ]
 
 export const hero = {
-  brief: 'Make the button bigger',
-  shift: "Let's make it work without a tap!",
+  askLabel: 'What the client asked for',
+  brief: 'Make the button bigger.',
+  replyLabel: 'What the system revealed →',
+  replyMain: "Can't tap with gloves on — so I used the scanner they had.",
+  replyFoot: 'Warehouse sorting — solved the system, not the screen.',
 }
 
 /* ── 01 · Case studies ── */

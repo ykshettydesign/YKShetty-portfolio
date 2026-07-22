@@ -122,14 +122,20 @@ img { max-width: 100%; }
 [data-hero-step="4"] .hero-bubble-2,
 [data-hero-step="5"] .hero-bubble-2 { opacity: 1; transform: scale(1); }
 
+/* Once the reply is in, the ask stays visible — shrunk to ~70% and dimmed to
+   half opacity — so the ask and the reframe read as one connected thought. */
 [data-hero-step="4"] .hero-req-label,
-[data-hero-step="5"] .hero-req-label { font-size: 9px !important; opacity: 0.25 !important; margin-bottom: 4px !important; }
+[data-hero-step="5"] .hero-req-label { font-size: 7px !important; opacity: 0.5 !important; margin-bottom: 6px !important; }
 
 [data-hero-step="4"] .hero-bubble-1,
-[data-hero-step="5"] .hero-bubble-1 { transform: scale(0.45) !important; transform-origin: 0% 0% !important; opacity: 0.2 !important; }
+[data-hero-step="5"] .hero-bubble-1 {
+  opacity: 0.5 !important;
+  font-size: clamp(13px, 1.55vw, 17px) !important;
+  padding: 11px 17px !important;
+}
 
 [data-hero-step="4"] .hero-bubble-wrap-1,
-[data-hero-step="5"] .hero-bubble-wrap-1 { margin-bottom: 0 !important; max-height: 36px !important; overflow: hidden !important; }
+[data-hero-step="5"] .hero-bubble-wrap-1 { margin-bottom: 16px !important; min-height: 0 !important; }
 
 [data-hero-step="5"] .hero-post { opacity: 1; }
 

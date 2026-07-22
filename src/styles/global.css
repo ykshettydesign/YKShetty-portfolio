@@ -176,6 +176,24 @@ img { max-width: 100%; }
    Transforms/opacity/z-index per card are set inline from scroll stage;
    these classes own the look + responsive placement.
    ============================================================ */
+
+/* Static backdrop shown behind the story cards when WebGL is unavailable
+   (e.g. corporate browser isolation) and the 3D tree can't render. Evokes the
+   glowing seed→sprout scene using its real palette so the section reads as
+   intentional, not a black void. Rendered as its own layer (not on the <canvas>,
+   whose CSS background paints unreliably after a failed GL context) and only
+   mounted on WebGL-init failure. */
+.practice-tree-fallback {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(120% 92% at 50% 116%, rgba(55, 230, 208, 0.22) 0%, rgba(47, 158, 70, 0.11) 26%, rgba(4, 6, 10, 0) 60%),
+    radial-gradient(70% 55% at 50% 6%, rgba(123, 255, 214, 0.07) 0%, rgba(4, 6, 10, 0) 55%),
+    linear-gradient(180deg, #070b12 0%, #05070a 58%, #0c0806 100%);
+}
+
 .practice-card-layer {
   position: absolute;
   inset: 0;

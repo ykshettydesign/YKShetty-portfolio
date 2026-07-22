@@ -51,10 +51,12 @@ function disposeScene(scene) {
  * All three.js resources, the rAF loop and every listener are disposed on
  * unmount (StrictMode-double-mount safe).
  */
-export default function PracticeTree({ sectionRef, onStageChange }) {
+export default function PracticeTree({ sectionRef, onStageChange, onWebGLUnavailable }) {
   const canvasRef = useRef(null)
   const stageCbRef = useRef(onStageChange)
   stageCbRef.current = onStageChange
+  const unavailableCbRef = useRef(onWebGLUnavailable)
+  unavailableCbRef.current = onWebGLUnavailable
 
   useEffect(() => {
     const canvas = canvasRef.current
@@ -81,6 +83,9 @@ export default function PracticeTree({ sectionRef, onStageChange }) {
       if (import.meta.env && import.meta.env.DEV) {
         console.warn('[PracticeTree] WebGL unavailable — skipping 3D scene:', err)
       }
+      // Signal the parent to mount a static, on-brand backdrop instead of
+      // leaving a black void where the 3D tree would be.
+      if (unavailableCbRef.current) unavailableCbRef.current()
       return undefined
     }
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))

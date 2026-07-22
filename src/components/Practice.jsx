@@ -82,6 +82,8 @@ export default function Practice() {
   }, [])
 
   const handleStage = useCallback((s) => setStage(s), [])
+  const [webglFailed, setWebglFailed] = useState(false)
+  const handleWebGLUnavailable = useCallback(() => setWebglFailed(true), [])
   const trackRef = useRef(null)
 
   return (
@@ -130,8 +132,14 @@ export default function Practice() {
           (the intro has scrolled away). */}
       <div ref={trackRef} style={{ position: 'relative', height: `${TRACK_VH}vh` }}>
         <div style={{ position: 'sticky', top: 0, height: '100vh', overflow: 'hidden' }}>
+          {webglFailed && <div className="practice-tree-fallback" aria-hidden="true" />}
+
           <ErrorBoundary fallback={null}>
-            <PracticeTree sectionRef={trackRef} onStageChange={handleStage} />
+            <PracticeTree
+              sectionRef={trackRef}
+              onStageChange={handleStage}
+              onWebGLUnavailable={handleWebGLUnavailable}
+            />
           </ErrorBoundary>
 
           {/* story cards */}

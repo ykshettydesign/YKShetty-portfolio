@@ -46,6 +46,7 @@ export default function Header() {
             <img
               src={profile.logo}
               alt={profile.name}
+              className="theme-logo"
               style={{ height: 22, width: 22, display: 'block' }}
             />
             <span

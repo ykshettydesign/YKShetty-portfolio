@@ -27,7 +27,7 @@ export default function Instruments() {
               style={{ background: 'var(--bg-surface)', borderRadius: 16, padding: '28px 24px', display: 'flex', flexDirection: 'column', minHeight: 280, boxShadow: 'var(--shadow-card)' }}
             >
               <div style={{ height: 28, display: 'flex', alignItems: 'center' }}>
-                <img src={tool.logo} alt={tool.alt} style={{ ...tool.logoStyle, opacity: 1 }} />
+                <img src={tool.logo} alt={tool.alt} className="theme-logo" style={{ ...tool.logoStyle, opacity: 1 }} />
               </div>
               <div style={{ marginTop: 'auto', paddingTop: 28 }}>
                 <div style={{ ...mono, fontSize: 9, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--text-tertiary)', fontWeight: 700, marginBottom: 8 }}>

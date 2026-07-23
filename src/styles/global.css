@@ -43,6 +43,12 @@ img { max-width: 100%; }
 .text-link--muted { color: var(--text-secondary); }
 .text-link--muted:hover { color: var(--text-primary); }
 
+/* Single-colour SVG logos rendered as <img>. The source art is white on
+   transparent, so on the dark theme it shows as-is; on the light theme we
+   invert it to near-black. Result: black logo on light bg, white on dark. */
+.theme-logo { filter: invert(1); }
+[data-theme="dark"] .theme-logo { filter: none; }
+
 .icon-btn { transition: border-color 0.2s ease, background 0.2s ease; }
 .icon-btn:hover { border-color: var(--border-input-hover); background: var(--bg-hover); }
 

@@ -11,7 +11,7 @@ export const profile = {
   name: 'Yogesh Shetty',
   role: 'Senior Product Designer',
   location: 'Oslo',
-  logo: './assets/yogilogo.svg',
+  logo: '/logos/header_logo.svg',
   tagline:
     'Senior Product Designer. I practice systems thinking — looking past the apparent problem to the root cause, then designing the simplest fix the system already supports.',
 }
@@ -158,25 +158,25 @@ export const practiceAnnotations = [
 export const instruments = [
   {
     id: 'tokenmap',
-    logo: 'uploads/tokenmap.svg',
+    logo: '/logos/tokenmap.svg',
     alt: 'Token Map',
-    logoStyle: { height: 22, width: 140 },
+    logoStyle: { height: 20, width: 'auto' },
     problem: 'Token migrations were manual, slow and error-prone across files.',
     result: 'Migrations that took a day now run in minutes.',
   },
   {
     id: 'intent',
-    logo: 'uploads/intent.svg',
+    logo: '/logos/intent.svg',
     alt: 'Intent',
-    logoStyle: { height: 30, width: 95 },
+    logoStyle: { height: 26, width: 'auto' },
     problem: 'Detached components quietly broke consistency across the system.',
     result: 'Detached instances detected and healed automatically.',
   },
   {
     id: 'focal',
-    logo: 'uploads/logos_focal.svg',
+    logo: '/logos/focalai.svg',
     alt: 'Focal AI',
-    logoStyle: { height: 28, width: 152 },
+    logoStyle: { height: 24, width: 'auto' },
     problem: 'Attention and visual hierarchy were argued, not measured.',
     result: 'Predicts where the eye lands in ~1 second.',
   },
@@ -191,7 +191,7 @@ export const about = {
     'Thirteen years embedded inside regulated enterprises across India, the Netherlands and Norway. The ambiguous, unscoped brief tends to land on my desk — I turn it into a system the team can build on, keeping engineers and stakeholders in one conversation so what ships is what everyone agreed to.',
     'Off the clock I paint watercolours — no undo, so you commit. Same instinct I bring to a room full of stakeholders.',
   ],
-  portrait: 'assets/portrait.png',
+  portrait: '/assets/portrait.jpg',
   facts: [
     { label: 'Status', value: 'EU citizen (NL)', accent: 'teal' },
     { label: 'Open to', value: 'Senior · Lead' },

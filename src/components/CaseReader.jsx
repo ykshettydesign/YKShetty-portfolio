@@ -79,7 +79,20 @@ export default function CaseReader({ study }) {
         ))}
       </div>
 
-      <a href={study.mailto} style={{ fontFamily: 'var(--font-body)', fontSize: 14, fontWeight: 500, color: 'var(--accent)' }}>
+      <a
+        href={study.mailto}
+        className="cta-pill"
+        style={{
+          display: 'inline-flex',
+          alignItems: 'center',
+          gap: 8,
+          padding: '11px 20px',
+          borderRadius: 10,
+          fontFamily: 'var(--font-body)',
+          fontSize: 14,
+          fontWeight: 600,
+        }}
+      >
         Request full case study →
       </a>
     </div>

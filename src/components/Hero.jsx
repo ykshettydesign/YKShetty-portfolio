@@ -75,7 +75,7 @@ export default function Hero() {
           style={{
             position: 'relative',
             zIndex: 2,
-            maxWidth: 520,
+            maxWidth: 640,
             width: '100%',
             padding: '0 clamp(22px,5vw,44px)',
             margin: '0 auto',
@@ -191,21 +191,7 @@ export default function Hero() {
             </div>
           </div>
 
-          <div className="hero-post" style={{ marginTop: 'clamp(44px,6vw,68px)' }}>
-            <div
-              style={{
-                fontFamily: 'var(--font-mono)',
-                fontSize: 10,
-                fontWeight: 400,
-                letterSpacing: '0.14em',
-                textTransform: 'uppercase',
-                color: 'var(--text-tertiary)',
-                marginBottom: 10,
-                textAlign: 'center',
-              }}
-            >
-              {profile.name} · {profile.location}
-            </div>
+          <div className="hero-post" style={{ marginTop: 'clamp(44px,6vw,110px)' }}>
             <p
               style={{
                 fontFamily: 'var(--font-body)',

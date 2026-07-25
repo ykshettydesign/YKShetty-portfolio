@@ -123,23 +123,25 @@ export default function ChatThread() {
       landedRef.current = true // restored fully formed — ready to swap again
     }
 
-    // ── auto-finish: glide the scroll to the stage end so the swing re-centres.
-    //    The glide is long enough to WATCH the card decelerate from its lifted,
-    //    tilted peak back down to dead-centre (easeOutCubic). The card tracks the
-    //    glide 1:1 (see the frame loop — no easing lag, no trailing), so it lands
-    //    exactly at centre as the glide ends and the swap fires immediately — a
-    //    visible, unhurried return, not a snap. `p` only ever drives the
-    //    transform; the timed beat only ever drives opacity. ──
+    // ── auto-finish: bring the swing home over an easeOutCubic timeline.
+    //    CRITICAL: the card's swing is driven by this timeline (dispRef), NOT by
+    //    window.scrollY. During the glide the browser's residual inertial/momentum
+    //    scroll fights our scrollTo and makes scrollY oscillate; if the card read
+    //    scrollY it would jitter. Decoupled, the card decelerates cleanly from its
+    //    current lifted/tilted position to dead-centre while the page catches up
+    //    underneath it. `p`→transform only; the timed beat→opacity only. ──
     const autoFinish = (start, target) => {
       autoRef.current = true
+      const dispStart = dispRef.current // continue the swing seamlessly from where it visibly is
       const t0 = performance.now(); const dur = RETURN_MS / PACE
       const ease = (k) => 1 - Math.pow(1 - k, 3)
       const stepFn = (now) => {
         if (!autoRef.current) return
         const k = clamp01((now - t0) / dur)
-        window.scrollTo(0, start + (target - start) * ease(k))
+        dispRef.current = dispStart + (1 - dispStart) * ease(k) // smooth card return, jitter-proof
+        window.scrollTo(0, start + (target - start) * ease(k)) // page glides to the stage end
         if (k < 1) requestAnimationFrame(stepFn)
-        else { autoRef.current = false; if (phaseRef.current === 0) playBeat(1) }
+        else { dispRef.current = 1; autoRef.current = false; if (phaseRef.current === 0) playBeat(1) }
       }
       requestAnimationFrame(stepFn)
     }
@@ -187,13 +189,10 @@ export default function ChatThread() {
       else stableFrames = 0
       lastFrameY = y
 
-      // displayed progress for the swing (computed first so the swap beat can be
-      // gated on it). While auto-finishing we track scroll 1:1 — no easing lag —
-      // so the card re-centres in lockstep with the glide instead of trailing it
-      // and stalling the return. Manual scrubbing keeps the eased feel.
-      if (autoRef.current) {
-        dispRef.current = rawHero
-      } else {
+      // displayed progress for the swing. During auto-finish the return is owned
+      // by autoFinish's timeline (immune to scroll jitter) — don't touch dispRef.
+      // Manual scrubbing eases dispRef toward the scroll-derived progress.
+      if (!autoRef.current) {
         dispRef.current += (rawHero - dispRef.current) * EASE
         if (Math.abs(rawHero - dispRef.current) < 0.0004) dispRef.current = rawHero
       }

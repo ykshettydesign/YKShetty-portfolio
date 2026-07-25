@@ -10,9 +10,17 @@ const BLOBS = [
   { w: '22vw', maxW: 280, top: '26%', right: '34%', color: 'var(--blob-4)', blur: 80, anim: 'drift4 10s ease-in-out infinite' },
 ]
 
+// ── tunables ──
+const PACE = 1 // higher = snappier swap beat
+const HERO_STAGE = 3.2 // viewports of scroll budget for the hero swing
+const CASE_STAGE = 0.8 // viewports per subsequent case
+const LIFT_VH = -28 // card lift at mid-swing
+const TILT = -5 // card tilt (deg) at mid-swing
+const AUTO_AT = 0.55 // auto-finish trigger point in the hero stage
+const CASE_LIFT_PX = -44 // gentle lift between cases
+
 const clamp01 = (v) => Math.max(0, Math.min(1, v))
 
-// reveal styling driven by the step machine — same overshoot feel as the hero
 const reveal = (on, from = 'translateY(14px) scale(0.96)', dur = 520) => ({
   opacity: on ? 1 : 0,
   transform: on ? 'translateY(0) scale(1)' : from,
@@ -28,27 +36,26 @@ const Dots = () => (
 )
 
 /**
- * ChatThread — the hero exchange and the case studies as ONE continuous chat.
+ * ChatThread — the hero exchange and case studies as ONE continuous chat, on a
+ * single card that is never remounted.
  *
- * A single tall track with a sticky stage; a single card that MORPHS: phase 0
- * is the hero, phases 1..N are the case studies. The top label is the fixed
- * anchor (22vh); everything grows downward from it so short→tall swaps never
- * jump.
+ * HERO STAGE (~3 viewports): the card is vertically centred and performs one
+ * sine swing tied 1:1 to scroll — lifts to −28vh + tilts −5°, then returns to
+ * centre by the end (`sin(π·p)`). The paragraph reveals behind it, rising and
+ * fading before the swap. Past 55% of the stage (going down) the scroll
+ * auto-finishes to the end so the card reliably re-centres, and the swap beat
+ * fires: hero bubbles fade → content swaps while hidden → thinking dots → the
+ * case reply pops in. Scrolling back up restores the hero.
  *
- * Scroll drives `phase` directly (content swaps instantly while moving). When
- * scroll settles (~140ms idle) the one beat plays for the resting phase: the
- * bubbles hide, then re-reveal with thinking-dots → reply. Between cases the
- * card lifts ~44px (scroll-linked) — a gentle nudge, never a scroll takeover.
- * Scrolling back up restores the previous message instantly.
+ * CASE STAGES: cases 2..N chain with the lighter beat (a ~44px lift + the same
+ * think→reply), resolved on a trailing idle so fast scrolling doesn't restart
+ * the typing on every event.
  *
- * Per-frame visuals (paragraph rise/fade + word-by-word colour, card lift,
- * blob velocity) are written straight to the DOM to avoid re-rendering on
- * every scroll event; React state only holds the infrequent step/phase.
+ * Per-frame visuals are written to the DOM; React state holds only step/phase.
  */
 export default function ChatThread() {
   const N = caseStudies.length
   const trackRef = useRef(null)
-  const stageRef = useRef(null)
   const paraRef = useRef(null)
   const driftRef = useRef(null)
   const cardRef = useRef(null)
@@ -58,7 +65,9 @@ export default function ChatThread() {
 
   const phaseRef = useRef(0)
   const timersRef = useRef([])
-  const settledRef = useRef(-1)
+  const autoRef = useRef(false)
+  const dispRef = useRef(0)
+  const lastYRef = useRef(null)
 
   const paraWords = profile.tagline.split(' ')
 
@@ -69,42 +78,58 @@ export default function ChatThread() {
     const blobEls = drift ? Array.from(drift.querySelectorAll('[data-drift]')) : []
     const prefersReduced =
       window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches
-
     if (history.scrollRestoration) history.scrollRestoration = 'manual'
 
+    const g = (ms) => Math.round(ms / PACE)
     const clearTimers = () => { timersRef.current.forEach(clearTimeout); timersRef.current = [] }
 
-    // ── on-load hero sequence (label → ask → dots → reply), timed ──
-    const HERO_SEQ = [[1, 400], [2, 1700], [3, 2900], [4, 4400]]
+    // ── on-load hero sequence ──
     let raf1 = null
     const playHero = () => {
-      clearTimers()
-      phaseRef.current = 0
-      setPhase(0)
-      setStep(0)
-      settledRef.current = prefersReduced ? 0 : -1
+      clearTimers(); autoRef.current = false; phaseRef.current = 0; setPhase(0); setStep(0)
       if (prefersReduced) { setStep(4); return }
       raf1 = requestAnimationFrame(() => {
         raf1 = requestAnimationFrame(() => {
-          HERO_SEQ.forEach(([s, ms]) => timersRef.current.push(setTimeout(() => setStep(s), ms)))
+          [[1, 400], [2, 1700], [3, 2900], [4, 4400]].forEach(([s, ms]) => timersRef.current.push(setTimeout(() => setStep(s), g(ms))))
         })
       })
     }
 
-    // ── the settle beat: hide bubbles, then re-reveal with dots → reply ──
+    // ── the swap beat: fade bubbles → swap while hidden → dots → reply ──
     const playBeat = (ph) => {
-      if (settledRef.current === ph) return
-      settledRef.current = ph
+      if (phaseRef.current === ph) return
+      phaseRef.current = ph
       clearTimers()
       setStep(1)
-      timersRef.current.push(setTimeout(() => setStep(2), 120))
-      timersRef.current.push(setTimeout(() => setStep(3), 640))
-      timersRef.current.push(setTimeout(() => setStep(4), 1500))
+      timersRef.current.push(setTimeout(() => setPhase(ph), g(480)))
+      timersRef.current.push(setTimeout(() => setStep(2), g(560)))
+      timersRef.current.push(setTimeout(() => setStep(3), g(1020)))
+      timersRef.current.push(setTimeout(() => setStep(4), g(1900)))
+    }
+    const toHero = () => {
+      autoRef.current = false
+      if (phaseRef.current === 0) return
+      clearTimers(); phaseRef.current = 0; setPhase(0); setStep(4)
     }
 
-    // ── blob drift velocity (speeds up with scroll, eases back) ──
+    // ── auto-finish: glide to the stage end, then swap ──
+    const autoFinish = (start, target) => {
+      autoRef.current = true
+      const t0 = performance.now(); const dur = 480
+      const ease = (k) => 1 - Math.pow(1 - k, 3)
+      const stepFn = (now) => {
+        if (!autoRef.current) return
+        const k = clamp01((now - t0) / dur)
+        window.scrollTo(0, start + (target - start) * ease(k))
+        if (k < 1) requestAnimationFrame(stepFn)
+        else { autoRef.current = false; if (phaseRef.current === 0) playBeat(1) }
+      }
+      requestAnimationFrame(stepFn)
+    }
+
+    // ── blob drift velocity ──
     let driftRate = 1, driftTarget = 1, driftRaf = null, driftRunning = false
-    let lastY = window.scrollY, lastT = performance.now()
+    let lastBlobY = window.scrollY, lastBlobT = performance.now()
     const driftLoop = () => {
       driftRate += (driftTarget - driftRate) * 0.12
       driftTarget += (1 - driftTarget) * 0.04
@@ -114,60 +139,71 @@ export default function ChatThread() {
     }
     const bumpDrift = () => {
       const now = performance.now()
-      const dy = Math.abs(window.scrollY - lastY)
-      const dt = Math.max(16, now - lastT)
-      driftTarget = Math.min(9, 1 + (dy / dt) * 20)
-      lastY = window.scrollY; lastT = now
+      driftTarget = Math.min(9, 1 + (Math.abs(window.scrollY - lastBlobY) / Math.max(16, now - lastBlobT)) * 20)
+      lastBlobY = window.scrollY; lastBlobT = now
       if (!driftRunning && blobEls.length) { driftRunning = true; driftRaf = requestAnimationFrame(driftLoop) }
     }
 
-    // ── per-frame scroll handler ──
+    // ── case settle (cases 2..N) ──
     let idle = null
-    const onIdle = () => {
-      if (prefersReduced) { setStep(4); return }
-      playBeat(phaseRef.current)
+    const caseIndex = () => {
+      const vh = window.innerHeight || 1
+      const cs = (window.scrollY - track.offsetTop) - HERO_STAGE * vh
+      return Math.min(N, 1 + Math.floor(cs / (CASE_STAGE * vh)))
     }
+    const onIdle = () => {
+      if (autoRef.current) return
+      const s = (window.scrollY - track.offsetTop)
+      if (s < HERO_STAGE * (window.innerHeight || 1)) return
+      const ph = caseIndex()
+      if (prefersReduced) { phaseRef.current = ph; setPhase(ph); setStep(4) } else playBeat(ph)
+    }
+
+    // ── per-frame scroll handler ──
     const frame = () => {
       const vh = window.innerHeight || 1
-      const heroBudget = vh
-      const caseBudget = 0.75 * vh
+      const heroBudget = HERO_STAGE * vh
       const s = window.scrollY - track.offsetTop
+      const rawHero = clamp01(s / heroBudget)
 
-      let ph, pHero, lift
-      if (s < heroBudget) { ph = 0; pHero = clamp01(s / heroBudget); lift = 0 }
-      else {
-        const cs = s - heroBudget
-        ph = Math.min(N, 1 + Math.floor(cs / caseBudget))
-        const frac = clamp01((cs - (ph - 1) * caseBudget) / caseBudget)
-        lift = -44 * frac
-        pHero = 1
+      const y = window.scrollY
+      const goingDown = lastYRef.current == null || y >= lastYRef.current
+      lastYRef.current = y
+
+      if (!autoRef.current) {
+        if (phaseRef.current === 0 && goingDown && rawHero >= AUTO_AT) autoFinish(y, track.offsetTop + heroBudget)
+        else if (phaseRef.current >= 1 && !goingDown && s < heroBudget && rawHero < 0.4) toHero()
       }
 
-      // paragraph: rise + fade + word-by-word colour (phase 0 only)
+      // eased displayed progress for the swing
+      dispRef.current += (rawHero - dispRef.current) * 0.1
+      if (Math.abs(rawHero - dispRef.current) < 0.0004) dispRef.current = rawHero
+
+      // card transform: swing (hero) or gentle lift (cases)
+      if (cardRef.current) {
+        if (phaseRef.current === 0) {
+          const wave = Math.sin(Math.PI * dispRef.current)
+          cardRef.current.style.transform = `translate(-50%, -50%) translateY(${(LIFT_VH * wave).toFixed(2)}vh) rotate(${(TILT * wave).toFixed(2)}deg)`
+        } else {
+          const cs = s - heroBudget
+          const frac = clamp01((cs - (phaseRef.current - 1) * CASE_STAGE * vh) / (CASE_STAGE * vh))
+          cardRef.current.style.transform = `translate(-50%, -50%) translateY(${(CASE_LIFT_PX * frac).toFixed(1)}px)`
+        }
+      }
+
+      // paragraph: rise + fade + word-by-word colour (hero stage only)
       const para = paraRef.current
       if (para) {
-        const riseVh = 26 + (-62 - 26) * clamp01(pHero / 0.8)
-        const op = ph !== 0 ? 0 : 1 - clamp01((pHero - 0.58) / 0.2)
+        const riseVh = 26 + (-62 - 26) * clamp01(rawHero / 0.8)
+        const op = phaseRef.current !== 0 ? 0 : 1 - clamp01((rawHero - 0.58) / 0.2)
         para.style.transform = `translateY(${riseVh.toFixed(2)}vh)`
         para.style.opacity = String(op)
         const spans = para.querySelectorAll('.rc-word')
-        const span = 0.5
         spans.forEach((el, i) => {
-          const threshold = (i / Math.max(1, spans.length - 1)) * span
-          const local = clamp01((pHero - threshold) / 0.05)
+          const threshold = (i / Math.max(1, spans.length - 1)) * 0.5
+          const local = clamp01((rawHero - threshold) / 0.05)
           el.style.color = local >= 1 ? 'var(--text-body)' : `color-mix(in srgb, var(--text-body) ${Math.round(local * 100)}%, var(--border-fade))`
         })
-      }
-
-      // card lift between cases (keep the translateX that centres .hero-cluster)
-      if (cardRef.current) cardRef.current.style.transform = `translateX(-50%) translateY(${lift.toFixed(1)}px)`
-
-      // phase change → instant swap while scrolling; beat plays on settle
-      if (ph !== phaseRef.current) {
-        phaseRef.current = ph
-        setPhase(ph)
-        settledRef.current = -1
-        if (!prefersReduced) { clearTimers(); setStep(4) }
       }
 
       bumpDrift()
@@ -195,7 +231,6 @@ export default function ChatThread() {
   const study = isHero ? null : caseStudies[phase - 1]
   const label = isHero ? hero.askLabel : 'The problem'
   const ask = isHero ? hero.brief : study.problem
-
   const askStyle = isHero
     ? { fontSize: 'clamp(18px,2.2vw,24px)', fontWeight: 500, lineHeight: 1.3 }
     : { fontSize: 'clamp(16px,2vw,18px)', fontWeight: 500, lineHeight: 1.35 }
@@ -205,12 +240,9 @@ export default function ChatThread() {
       id="work"
       ref={trackRef}
       data-thread-step={step}
-      style={{ position: 'relative', zIndex: 10, height: `${100 + N * 75}vh` }}
+      style={{ position: 'relative', zIndex: 10, height: `${Math.round((HERO_STAGE + N * CASE_STAGE) * 100)}vh` }}
     >
-      <div
-        ref={stageRef}
-        style={{ position: 'sticky', top: 0, height: '100vh', overflow: 'hidden', background: 'var(--bg-page)' }}
-      >
+      <div style={{ position: 'sticky', top: 0, height: '100vh', overflow: 'hidden', background: 'var(--bg-page)' }}>
         {/* gradient backdrop */}
         <div ref={driftRef} style={{ position: 'absolute', inset: 0, overflow: 'hidden', pointerEvents: 'none', top: -28 }}>
           {BLOBS.map((b, i) => (
@@ -242,7 +274,7 @@ export default function ChatThread() {
           </div>
         </div>
 
-        {/* the morphing chat card */}
+        {/* the morphing chat card — centred, swings then re-centres for the swap */}
         <div ref={cardRef} className="hero-cluster" style={{ willChange: 'transform' }}>
           <div className="thread-label" style={reveal(step >= 1, 'translateY(8px)', 380)}>{label}</div>
 
@@ -254,7 +286,6 @@ export default function ChatThread() {
             <div className="thread-dots" style={{ opacity: step === 3 ? 1 : 0, transition: 'opacity .25s' }}>
               <Dots />
             </div>
-
             <div style={reveal(step >= 4, 'translateY(20px) scale(0.92)', 560)}>
               {isHero ? (
                 <div className="case-card" style={{ borderRadius: '20px 20px 4px 20px' }}>

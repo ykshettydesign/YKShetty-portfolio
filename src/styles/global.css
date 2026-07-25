@@ -82,9 +82,10 @@ img { max-width: 100%; }
    ============================================================ */
 .hero-cluster {
   position: absolute;
-  top: 22vh;
+  top: 50%;
   left: 50%;
-  transform: translateX(-50%);
+  transform: translate(-50%, -50%);
+  transform-origin: center center;
   width: 100%;
   max-width: 640px;
   padding: 0 clamp(22px, 5vw, 44px);

@@ -83,16 +83,12 @@ export default function ChatThread() {
     const g = (ms) => Math.round(ms / PACE)
     const clearTimers = () => { timersRef.current.forEach(clearTimeout); timersRef.current = [] }
 
-    // ── on-load hero sequence ──
-    let raf1 = null
+    // ── on-load hero sequence (timers scheduled directly so a throttled
+    //    rAF can't stall the reveal) ──
     const playHero = () => {
       clearTimers(); autoRef.current = false; phaseRef.current = 0; setPhase(0); setStep(0)
       if (prefersReduced) { setStep(4); return }
-      raf1 = requestAnimationFrame(() => {
-        raf1 = requestAnimationFrame(() => {
-          [[1, 400], [2, 1700], [3, 2900], [4, 4400]].forEach(([s, ms]) => timersRef.current.push(setTimeout(() => setStep(s), g(ms))))
-        })
-      })
+      ;[[1, 400], [2, 1700], [3, 2900], [4, 4400]].forEach(([s, ms]) => timersRef.current.push(setTimeout(() => setStep(s), g(ms))))
     }
 
     // ── the swap beat: fade bubbles → swap while hidden → dots → reply ──
@@ -144,50 +140,54 @@ export default function ChatThread() {
       if (!driftRunning && blobEls.length) { driftRunning = true; driftRaf = requestAnimationFrame(driftLoop) }
     }
 
-    // ── case settle (cases 2..N) ──
-    let idle = null
+    // ── case index + settle bookkeeping (cases 2..N) ──
     const caseIndex = () => {
       const vh = window.innerHeight || 1
       const cs = (window.scrollY - track.offsetTop) - HERO_STAGE * vh
       return Math.min(N, 1 + Math.floor(cs / (CASE_STAGE * vh)))
     }
-    const onIdle = () => {
-      if (autoRef.current) return
-      const s = (window.scrollY - track.offsetTop)
-      if (s < HERO_STAGE * (window.innerHeight || 1)) return
-      const ph = caseIndex()
-      if (prefersReduced) { phaseRef.current = ph; setPhase(ph); setStep(4) } else playBeat(ph)
-    }
+    let stableFrames = 0
+    let lastFrameY = window.scrollY
 
     // ── per-frame scroll handler ──
     const frame = () => {
       const vh = window.innerHeight || 1
       const heroBudget = HERO_STAGE * vh
+      const rect = track.getBoundingClientRect()
+      if (rect.bottom < 0 || rect.top > vh) return // section off-screen — skip
+
       const s = window.scrollY - track.offsetTop
       const rawHero = clamp01(s / heroBudget)
 
       const y = window.scrollY
       const goingDown = lastYRef.current == null || y >= lastYRef.current
       lastYRef.current = y
+      if (y === lastFrameY) stableFrames += 1
+      else stableFrames = 0
+      lastFrameY = y
 
       if (!autoRef.current) {
         if (phaseRef.current === 0 && goingDown && rawHero >= AUTO_AT) autoFinish(y, track.offsetTop + heroBudget)
         else if (phaseRef.current >= 1 && !goingDown && s < heroBudget && rawHero < 0.4) toHero()
+        else if (s >= heroBudget && stableFrames > 8) {
+          const ph = caseIndex()
+          if (ph !== phaseRef.current) { if (prefersReduced) { phaseRef.current = ph; setPhase(ph); setStep(4) } else playBeat(ph) }
+        }
       }
 
       // eased displayed progress for the swing
-      dispRef.current += (rawHero - dispRef.current) * 0.1
+      dispRef.current += (rawHero - dispRef.current) * 0.12
       if (Math.abs(rawHero - dispRef.current) < 0.0004) dispRef.current = rawHero
 
       // card transform: swing (hero) or gentle lift (cases)
       if (cardRef.current) {
         if (phaseRef.current === 0) {
           const wave = Math.sin(Math.PI * dispRef.current)
-          cardRef.current.style.transform = `translate(-50%, -50%) translateY(${(LIFT_VH * wave).toFixed(2)}vh) rotate(${(TILT * wave).toFixed(2)}deg)`
+          cardRef.current.style.transform = `translateX(-50%) translateY(${(LIFT_VH * wave).toFixed(2)}vh) rotate(${(TILT * wave).toFixed(2)}deg)`
         } else {
           const cs = s - heroBudget
           const frac = clamp01((cs - (phaseRef.current - 1) * CASE_STAGE * vh) / (CASE_STAGE * vh))
-          cardRef.current.style.transform = `translate(-50%, -50%) translateY(${(CASE_LIFT_PX * frac).toFixed(1)}px)`
+          cardRef.current.style.transform = `translateX(-50%) translateY(${(CASE_LIFT_PX * frac).toFixed(1)}px)`
         }
       }
 
@@ -207,21 +207,25 @@ export default function ChatThread() {
       }
 
       bumpDrift()
-      if (idle) clearTimeout(idle)
-      idle = setTimeout(onIdle, 140)
     }
+
+    // continuous rAF loop keeps the eased swing smooth every frame; the
+    // scroll/resize listeners are fallbacks for when rAF is throttled
+    let running = true
+    let loopRaf = null
+    const loop = () => { if (!running) return; loopRaf = requestAnimationFrame(loop); frame() }
 
     window.scrollTo(0, 0)
     playHero()
-    frame()
+    loop()
     window.addEventListener('scroll', frame, { passive: true })
     window.addEventListener('resize', frame)
     return () => {
+      running = false
       window.removeEventListener('scroll', frame)
       window.removeEventListener('resize', frame)
       clearTimers()
-      if (idle) clearTimeout(idle)
-      if (raf1) cancelAnimationFrame(raf1)
+      if (loopRaf) cancelAnimationFrame(loopRaf)
       if (driftRaf) cancelAnimationFrame(driftRaf)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

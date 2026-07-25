@@ -1,7 +1,6 @@
 import React, { useRef } from 'react'
 import Header from './components/Header'
-import Hero from './components/Hero'
-import CaseThread from './components/CaseThread'
+import ChatThread from './components/ChatThread'
 import Practice from './components/Practice'
 import Instruments from './components/Instruments'
 import About from './components/About'
@@ -20,8 +19,7 @@ export default function App() {
     >
       <Header />
       <main>
-        <Hero />
-        <CaseThread />
+        <ChatThread />
         <Practice />
         <Instruments />
         <About />

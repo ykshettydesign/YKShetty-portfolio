@@ -140,8 +140,8 @@ img { max-width: 100%; }
   padding: 16px 24px;
   border-radius: 4px 20px 20px 20px;
   font-family: var(--font-display);
-  font-size: clamp(18px, 2.2vw, 24px);
-  font-weight: 500; line-height: 1.3;
+  font-size: clamp(16px, 2vw, 18px);
+  font-weight: 500; line-height: 1.35;
   box-shadow: var(--shadow-float);
 }
 /* Spacing mirrors the hero exactly: label→ask 10px, ask→reply 16px, and the
@@ -169,17 +169,22 @@ img { max-width: 100%; }
 }
 .case-title {
   font-family: var(--font-display);
-  font-size: clamp(21px, 2.9vw, 32px);
-  font-weight: 600; line-height: 1.15; letter-spacing: -0.02em;
+  font-size: clamp(20px, 2.4vw, 26px);
+  font-weight: 500; line-height: 1.2; letter-spacing: -0.02em;
 }
-.case-logo {
-  margin-top: 20px; height: 56px;
+/* A design-snippet preview area (a real work visual will drop in here) —
+   sized like a media thumbnail, not a small logo box. */
+.case-snippet {
+  margin-top: 18px;
+  height: clamp(150px, 20vh, 190px);
   border: 1px dashed var(--border-dashed);
-  border-radius: 10px;
+  border-radius: 12px;
   display: flex; align-items: center; justify-content: center;
   font-family: var(--font-mono);
-  font-size: 11px; letter-spacing: 0.2em;
+  font-size: 10px; letter-spacing: 0.2em;
   color: var(--text-muted);
+  background: var(--bg-surface-alt);
+  overflow: hidden;
 }
 .case-view {
   margin-top: 18px;

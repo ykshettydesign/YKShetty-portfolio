@@ -40,6 +40,8 @@ export const caseStudies = [
     metaLong: '01 · Posten Bring · Oslo · 2026 · SwiftSort',
     brief: 'Make the button bigger.',
     insight: "Delete touch — the scanner's already on their hand.",
+    problem: 'Sorting decisions lived in workers’ heads, so every new hire needed weeks to get up to speed.',
+    solution: 'Replaced memory with real-time, system-guided sorting — zero touch, no new hardware.',
     body:
       "Sorting lived in the veterans' memory and a mounted tablet died in trials — hands full, gloves on. I printed a static QR at every drop-off and let the ProGlove workers already wore do the reading. Zero new hardware, zero training.",
     stats: [
@@ -56,6 +58,8 @@ export const caseStudies = [
     metaLong: '02 · ABN AMRO · Neuflize OBC · 2024',
     brief: 'Wall off the whole flow.',
     insight: 'Gate only the destructive action.',
+    problem: 'Clients waited two hours on the phone just to block a lost card, and compliance wanted a login on everything.',
+    solution: 'Added authentication only where the real risk was — browsing stays free, blocking takes seconds.',
     body:
       'Private-bank clients waited two hours on the phone just to block a card, and compliance wanted authentication over everything. I authenticated at the point of commitment instead — browsing stays free, and risk signed off in a single round.',
     stats: [
@@ -72,6 +76,8 @@ export const caseStudies = [
     metaLong: '03 · Posten Bring · Oslo · 2025',
     brief: 'Rebuild it screen by screen.',
     insight: 'Map the system first, then design the shared frame.',
+    problem: 'A legacy desktop terminal chained managers to one location and took weeks to learn.',
+    solution: 'Mapped the system first, then built one shared portal — now reused across the whole Nordic suite.',
     body:
       'A desk-bound legacy terminal chained managers to one location. Before drawing screens I mapped the dependencies between driver tools and regional management — and the portal became the foundation for the whole Nordic ProdApp suite.',
     stats: [
@@ -88,6 +94,8 @@ export const caseStudies = [
     metaLong: '04 · ABN AMRO · iOS · Android · Web',
     brief: 'Sort by document type.',
     insight: "Organise by life event — the client's mental model.",
+    problem: 'Clients needed their banker to find every document, because files were sorted the bank’s way, not theirs.',
+    solution: 'Reorganised around life events — the way clients actually think — so they self-serve.',
     body:
       'High-net-worth clients leaned on their banker for every document. I built retrieval around life events rather than the compliance taxonomy — which stays underneath, invisible, doing its job.',
     stats: [

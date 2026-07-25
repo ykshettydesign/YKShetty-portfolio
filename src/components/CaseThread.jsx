@@ -121,22 +121,26 @@ export default function CaseThread() {
         <div className="thread-cluster">
           <div className="thread-label">The problem</div>
 
-          <div className="thread-ask">{study.problem}</div>
-
-          <div className="thread-dots" style={{ opacity: showDots ? 1 : 0 }}>
-            <Dots />
+          <div className="thread-ask-wrap">
+            <div className="thread-ask">{study.problem}</div>
           </div>
 
-          <div
-            className="thread-reply thread-fade"
-            style={{ opacity: showReply ? 1 : 0, pointerEvents: showReply ? 'auto' : 'none' }}
-          >
-            <article className={`case-card${phase === 'reply' ? ' thread-pop' : ''}`} key={`${study.id}-${phase === 'reply' ? 'pop' : 'live'}`}>
-              <div className="case-eyebrow">{study.metaLong}</div>
-              <div className="case-title">{study.solution}</div>
-              <div className="case-logo" aria-label="Case study logo placeholder">LOGO</div>
-              <a href={study.mailto} className="case-view cta-pill">View case study →</a>
-            </article>
+          <div className="thread-reply-zone">
+            <div className="thread-dots" style={{ opacity: showDots ? 1 : 0 }}>
+              <Dots />
+            </div>
+
+            <div
+              className="thread-reply thread-fade"
+              style={{ opacity: showReply ? 1 : 0, pointerEvents: showReply ? 'auto' : 'none' }}
+            >
+              <article className={`case-card${phase === 'reply' ? ' thread-pop' : ''}`} key={`${study.id}-${phase === 'reply' ? 'pop' : 'live'}`}>
+                <div className="case-eyebrow">{study.metaLong}</div>
+                <div className="case-title">{study.solution}</div>
+                <div className="case-logo" aria-label="Case study logo placeholder">LOGO</div>
+                <a href={study.mailto} className="case-view cta-pill">View case study →</a>
+              </article>
+            </div>
           </div>
         </div>
 

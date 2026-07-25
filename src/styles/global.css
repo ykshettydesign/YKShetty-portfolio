@@ -107,8 +107,13 @@ img { max-width: 100%; }
   font-weight: 500; line-height: 1.3;
   box-shadow: var(--shadow-float);
 }
-.thread-dots { height: 22px; display: flex; align-items: center; gap: 5px; margin-top: 16px; }
-.thread-reply { margin-top: 16px; }
+/* Spacing mirrors the hero exactly: label→ask 10px, ask→reply 16px, and the
+   dots overlay the reply slot (absolute) instead of adding height — same as
+   the hero's typing indicator — so the gap never changes between states. */
+.thread-ask-wrap { display: flex; margin-bottom: 16px; }
+.thread-reply-zone { position: relative; }
+.thread-dots { position: absolute; top: 0; left: 0; height: 22px; display: flex; align-items: center; gap: 5px; }
+.thread-reply { position: relative; }
 
 .case-card {
   background: var(--bg-surface);

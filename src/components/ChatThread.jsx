@@ -11,14 +11,14 @@ const BLOBS = [
 ]
 
 // ── tunables ──
-const PACE = 1 // higher = snappier swap beat
+const PACE = 1.25 // higher = snappier swap beat
 const HERO_STAGE = 1.2 // viewports of scroll budget for the hero swing
 const CASE_STAGE = 0.8 // viewports per subsequent case
 const LIFT_VH = -28 // card lift at mid-swing
 const TILT = -5 // card tilt (deg) at mid-swing
 const AUTO_AT = 0.5 // auto-finish trigger point in the hero stage
 const CASE_LIFT_PX = -44 // gentle lift between cases
-const EASE = 0.16 // per-frame easing for the displayed swing (higher = snappier, less lag)
+const EASE = 0.2 // per-frame easing for the displayed swing (higher = snappier, less lag)
 const SETTLED = 0.99 // displayed progress at which the swing counts as visually re-centred
 
 // paragraph parallax — travels faster than the card so it overtakes it
@@ -122,21 +122,22 @@ export default function ChatThread() {
       landedRef.current = true // restored fully formed — ready to swap again
     }
 
-    // ── auto-finish: glide the scroll to the stage end so the swing can
-    //    re-centre. It does NOT fire the swap itself — it only arms
-    //    pendingBeatRef; the frame loop fires the beat once the *displayed*
-    //    swing (dispRef) has actually settled at centre. This keeps `p` →
-    //    transform and the timed beat → opacity strictly separate. ──
+    // ── auto-finish: glide the scroll to the stage end so the swing re-centres.
+    //    While this runs the card tracks scroll 1:1 (see the frame loop — no
+    //    easing lag), so it arrives dead-centre exactly as the glide ends and
+    //    the swap fires immediately — a crisp return, not a trailing one.
+    //    `p` still only ever drives the transform; the timed beat only ever
+    //    drives opacity. ──
     const autoFinish = (start, target) => {
       autoRef.current = true
-      const t0 = performance.now(); const dur = 380
+      const t0 = performance.now(); const dur = 300
       const ease = (k) => 1 - Math.pow(1 - k, 3)
       const stepFn = (now) => {
         if (!autoRef.current) return
         const k = clamp01((now - t0) / dur)
         window.scrollTo(0, start + (target - start) * ease(k))
         if (k < 1) requestAnimationFrame(stepFn)
-        else { autoRef.current = false; if (phaseRef.current === 0) pendingBeatRef.current = true }
+        else { autoRef.current = false; if (phaseRef.current === 0) playBeat(1) }
       }
       requestAnimationFrame(stepFn)
     }
@@ -184,10 +185,16 @@ export default function ChatThread() {
       else stableFrames = 0
       lastFrameY = y
 
-      // eased displayed progress for the swing (computed first so the swap
-      // beat can be gated on the swing having *visually* re-centred)
-      dispRef.current += (rawHero - dispRef.current) * EASE
-      if (Math.abs(rawHero - dispRef.current) < 0.0004) dispRef.current = rawHero
+      // displayed progress for the swing (computed first so the swap beat can be
+      // gated on it). While auto-finishing we track scroll 1:1 — no easing lag —
+      // so the card re-centres in lockstep with the glide instead of trailing it
+      // and stalling the return. Manual scrubbing keeps the eased feel.
+      if (autoRef.current) {
+        dispRef.current = rawHero
+      } else {
+        dispRef.current += (rawHero - dispRef.current) * EASE
+        if (Math.abs(rawHero - dispRef.current) < 0.0004) dispRef.current = rawHero
+      }
 
       if (!autoRef.current) {
         if (phaseRef.current === 0) {

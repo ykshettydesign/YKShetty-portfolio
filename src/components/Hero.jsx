@@ -22,8 +22,9 @@ export default function Hero() {
   const { step, replay } = useHeroSequence()
   const heroInnerRef = useRef(null)
   const driftRootRef = useRef(null)
+  const paraRef = useRef(null)
 
-  useHeroScroll(heroInnerRef, driftRootRef)
+  useHeroScroll(paraRef, driftRootRef)
 
   return (
     <div style={{ position: 'relative', height: '200vh' }}>
@@ -35,9 +36,6 @@ export default function Hero() {
           top: 0,
           zIndex: 1,
           height: '100vh',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
           overflow: 'hidden',
           background: 'var(--bg-page)',
         }}
@@ -70,19 +68,7 @@ export default function Hero() {
           ))}
         </div>
 
-        <div
-          ref={heroInnerRef}
-          style={{
-            position: 'relative',
-            zIndex: 2,
-            maxWidth: 640,
-            width: '100%',
-            padding: '0 clamp(22px,5vw,44px)',
-            margin: '0 auto',
-            willChange: 'transform, opacity',
-            transformOrigin: 'center 40%',
-          }}
-        >
+        <div ref={heroInnerRef} className="hero-cluster">
           <div
             className="hero-req-label"
             style={{
@@ -190,8 +176,10 @@ export default function Hero() {
               </div>
             </div>
           </div>
+        </div>
 
-          <div className="hero-post" style={{ marginTop: 'clamp(44px,6vw,110px)' }}>
+        <div className="hero-para-layer">
+          <div ref={paraRef} className="hero-post">
             <p
               style={{
                 fontFamily: 'var(--font-body)',

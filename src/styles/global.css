@@ -74,6 +74,43 @@ img { max-width: 100%; }
 .typing-dots span:nth-child(3) { animation-delay: 0.4s; }
 
 /* ============================================================
+   HERO LAYOUT — the chat cluster is top-anchored (never centred) so it
+   holds a fixed Y while the case thread continues from the same anchor.
+   The bottom paragraph is a separate layer BEHIND the cluster; it rises
+   and fades on scroll (driven 1:1 in useHeroScroll), passing behind the
+   bubbles which stay static.
+   ============================================================ */
+.hero-cluster {
+  position: absolute;
+  top: 22vh;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 640px;
+  padding: 0 clamp(22px, 5vw, 44px);
+  z-index: 2;
+}
+.hero-para-layer {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+  pointer-events: none;
+}
+.hero-para-layer .hero-post {
+  width: 100%;
+  max-width: 420px;
+  padding: 0 clamp(22px, 5vw, 44px);
+  will-change: transform;
+  pointer-events: auto;
+  /* opacity keeps its entrance fade; transform is instant so the scrub
+     tracks scroll 1:1 (no easing lag) */
+  transition: opacity 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ============================================================
    CASE-STUDY CHAT THREAD — continues the hero conversation.
    Reuses the hero's bubble treatment, dots and motion feel.
    The cluster is anchored by its TOP (never centred) so swapping

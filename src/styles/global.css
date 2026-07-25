@@ -104,11 +104,12 @@ img { max-width: 100%; }
   width: 100%;
   max-width: 420px;
   padding: 0 clamp(22px, 5vw, 44px);
-  will-change: transform;
+  will-change: transform, opacity;
   pointer-events: auto;
-  /* opacity keeps its entrance fade; transform is instant so the scrub
-     tracks scroll 1:1 (no easing lag) */
-  transition: opacity 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+  /* JS drives transform AND opacity every frame — no transition, or the
+     fade would lag ~half a second behind the scroll */
+  opacity: 1;
+  transition: none;
 }
 
 /* ============================================================

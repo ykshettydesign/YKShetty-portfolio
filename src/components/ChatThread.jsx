@@ -12,12 +12,18 @@ const BLOBS = [
 
 // ── tunables ──
 const PACE = 1 // higher = snappier swap beat
-const HERO_STAGE = 3.2 // viewports of scroll budget for the hero swing
+const HERO_STAGE = 1.6 // viewports of scroll budget for the hero swing
 const CASE_STAGE = 0.8 // viewports per subsequent case
 const LIFT_VH = -28 // card lift at mid-swing
 const TILT = -5 // card tilt (deg) at mid-swing
-const AUTO_AT = 0.55 // auto-finish trigger point in the hero stage
+const AUTO_AT = 0.5 // auto-finish trigger point in the hero stage
 const CASE_LIFT_PX = -44 // gentle lift between cases
+
+// paragraph parallax — travels faster than the card so it overtakes it
+const PARA_FROM = 26 // vh at p=0
+const PARA_TO = -96 // vh at full travel (bigger span = faster than the card)
+const PARA_SPAN = 0.62 // fraction of the stage it takes to complete the rise
+const PARA_DIM_SPAN = 0.55 // scroll range over which words dim, from the first scroll
 
 const clamp01 = (v) => Math.max(0, Math.min(1, v))
 
@@ -68,6 +74,7 @@ export default function ChatThread() {
   const autoRef = useRef(false)
   const dispRef = useRef(0)
   const lastYRef = useRef(null)
+  const landedRef = useRef(false) // hero has finished its entrance
 
   const paraWords = profile.tagline.split(' ')
 
@@ -87,8 +94,11 @@ export default function ChatThread() {
     //    rAF can't stall the reveal) ──
     const playHero = () => {
       clearTimers(); autoRef.current = false; phaseRef.current = 0; setPhase(0); setStep(0)
-      if (prefersReduced) { setStep(4); return }
+      landedRef.current = false
+      if (prefersReduced) { setStep(4); landedRef.current = true; return }
       ;[[1, 400], [2, 1700], [3, 2900], [4, 4400]].forEach(([s, ms]) => timersRef.current.push(setTimeout(() => setStep(s), g(ms))))
+      // the reply's entrance runs 560ms past step 4 — only then has it "landed"
+      timersRef.current.push(setTimeout(() => { landedRef.current = true }, g(4400) + 620))
     }
 
     // ── the swap beat: fade bubbles → swap while hidden → dots → reply ──
@@ -106,6 +116,7 @@ export default function ChatThread() {
       autoRef.current = false
       if (phaseRef.current === 0) return
       clearTimers(); phaseRef.current = 0; setPhase(0); setStep(4)
+      landedRef.current = true // restored fully formed — ready to swap again
     }
 
     // ── auto-finish: glide to the stage end, then swap ──
@@ -167,7 +178,8 @@ export default function ChatThread() {
       lastFrameY = y
 
       if (!autoRef.current) {
-        if (phaseRef.current === 0 && goingDown && rawHero >= AUTO_AT) autoFinish(y, track.offsetTop + heroBudget)
+        // never interrupt the hero mid-landing — let it fully arrive first
+        if (phaseRef.current === 0 && goingDown && rawHero >= AUTO_AT && landedRef.current) autoFinish(y, track.offsetTop + heroBudget)
         else if (phaseRef.current >= 1 && !goingDown && s < heroBudget && rawHero < 0.4) toHero()
         else if (s >= heroBudget && stableFrames > 8) {
           const ph = caseIndex()
@@ -191,18 +203,24 @@ export default function ChatThread() {
         }
       }
 
-      // paragraph: rise + fade + word-by-word colour (hero stage only)
+      // paragraph: starts dark and fully readable, then travels up FASTER than
+      // the card while each word dims in turn — the dimming begins on the very
+      // first scroll (threshold 0 for the first word).
       const para = paraRef.current
       if (para) {
-        const riseVh = 26 + (-62 - 26) * clamp01(rawHero / 0.8)
+        const riseVh = PARA_FROM + (PARA_TO - PARA_FROM) * clamp01(rawHero / PARA_SPAN)
         const op = phaseRef.current !== 0 ? 0 : 1 - clamp01((rawHero - 0.58) / 0.2)
         para.style.transform = `translateY(${riseVh.toFixed(2)}vh)`
         para.style.opacity = String(op)
         const spans = para.querySelectorAll('.rc-word')
+        const n = Math.max(1, spans.length - 1)
         spans.forEach((el, i) => {
-          const threshold = (i / Math.max(1, spans.length - 1)) * 0.5
-          const local = clamp01((rawHero - threshold) / 0.05)
-          el.style.color = local >= 1 ? 'var(--text-body)' : `color-mix(in srgb, var(--text-body) ${Math.round(local * 100)}%, var(--border-fade))`
+          const threshold = (i / n) * PARA_DIM_SPAN
+          const dim = clamp01((rawHero - threshold) / 0.06) // 0 = dark, 1 = faded
+          const next = dim <= 0
+            ? 'var(--text-body)'
+            : `color-mix(in srgb, var(--text-body) ${Math.round((1 - dim) * 100)}%, var(--border-fade))`
+          if (el._c !== next) { el.style.color = next; el._c = next } // only repaint changed words
         })
       }
 
@@ -268,7 +286,7 @@ export default function ChatThread() {
           <div ref={paraRef} className="hero-post">
             <p style={{ fontFamily: 'var(--font-body)', fontSize: 15, lineHeight: 1.65, margin: '0 0 24px', textAlign: 'center' }}>
               {paraWords.map((w, i) => (
-                <span key={i} className="rc-word" style={{ color: 'var(--border-fade)' }}>{w}{i < paraWords.length - 1 ? ' ' : ''}</span>
+                <span key={i} className="rc-word" style={{ color: 'var(--text-body)' }}>{w}{i < paraWords.length - 1 ? ' ' : ''}</span>
               ))}
             </p>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 22, alignItems: 'center', fontFamily: 'var(--font-body)', fontSize: 14, fontWeight: 500, justifyContent: 'center' }}>

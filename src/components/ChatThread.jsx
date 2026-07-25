@@ -11,13 +11,13 @@ const BLOBS = [
 ]
 
 // ── tunables ──
-const PACE = 1.25 // higher = snappier swap beat
+const PACE = 1.875 // higher = snappier chat-bubble beat (label→ask→dots→reply). 1.875 ≈ 1.5× the old 1.25
 const HERO_STAGE = 1.2 // viewports of scroll budget for the hero swing
 const CASE_STAGE = 0.8 // viewports per subsequent case
 const LIFT_VH = -28 // card lift at mid-swing
 const TILT = -5 // card tilt (deg) at mid-swing
 const AUTO_AT = 0.5 // auto-finish trigger point in the hero stage (peak of the swing)
-const RETURN_MS = 900 // base duration of the auto-finish return glide (divided by PACE) — long enough to watch the card swing back to centre
+const RETURN_MS = 720 // auto-finish return-glide duration (independent of PACE) — long enough to watch the card swing back to centre
 const CASE_LIFT_PX = -44 // gentle lift between cases
 const EASE = 0.2 // per-frame easing for the displayed swing (higher = snappier, less lag)
 const SETTLED = 0.99 // displayed progress at which the swing counts as visually re-centred
@@ -133,7 +133,7 @@ export default function ChatThread() {
     const autoFinish = (start, target) => {
       autoRef.current = true
       const dispStart = dispRef.current // continue the swing seamlessly from where it visibly is
-      const t0 = performance.now(); const dur = RETURN_MS / PACE
+      const t0 = performance.now(); const dur = RETURN_MS
       const ease = (k) => 1 - Math.pow(1 - k, 3)
       const stepFn = (now) => {
         if (!autoRef.current) return

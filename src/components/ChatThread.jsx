@@ -16,7 +16,8 @@ const HERO_STAGE = 1.2 // viewports of scroll budget for the hero swing
 const CASE_STAGE = 0.8 // viewports per subsequent case
 const LIFT_VH = -28 // card lift at mid-swing
 const TILT = -5 // card tilt (deg) at mid-swing
-const AUTO_AT = 0.5 // auto-finish trigger point in the hero stage
+const AUTO_AT = 0.5 // auto-finish trigger point in the hero stage (peak of the swing)
+const RETURN_MS = 900 // base duration of the auto-finish return glide (divided by PACE) — long enough to watch the card swing back to centre
 const CASE_LIFT_PX = -44 // gentle lift between cases
 const EASE = 0.2 // per-frame easing for the displayed swing (higher = snappier, less lag)
 const SETTLED = 0.99 // displayed progress at which the swing counts as visually re-centred
@@ -123,14 +124,15 @@ export default function ChatThread() {
     }
 
     // ── auto-finish: glide the scroll to the stage end so the swing re-centres.
-    //    While this runs the card tracks scroll 1:1 (see the frame loop — no
-    //    easing lag), so it arrives dead-centre exactly as the glide ends and
-    //    the swap fires immediately — a crisp return, not a trailing one.
-    //    `p` still only ever drives the transform; the timed beat only ever
-    //    drives opacity. ──
+    //    The glide is long enough to WATCH the card decelerate from its lifted,
+    //    tilted peak back down to dead-centre (easeOutCubic). The card tracks the
+    //    glide 1:1 (see the frame loop — no easing lag, no trailing), so it lands
+    //    exactly at centre as the glide ends and the swap fires immediately — a
+    //    visible, unhurried return, not a snap. `p` only ever drives the
+    //    transform; the timed beat only ever drives opacity. ──
     const autoFinish = (start, target) => {
       autoRef.current = true
-      const t0 = performance.now(); const dur = 300
+      const t0 = performance.now(); const dur = RETURN_MS / PACE
       const ease = (k) => 1 - Math.pow(1 - k, 3)
       const stepFn = (now) => {
         if (!autoRef.current) return

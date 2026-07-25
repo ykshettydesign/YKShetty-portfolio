@@ -12,12 +12,14 @@ const BLOBS = [
 
 // ── tunables ──
 const PACE = 1 // higher = snappier swap beat
-const HERO_STAGE = 1.6 // viewports of scroll budget for the hero swing
+const HERO_STAGE = 1.2 // viewports of scroll budget for the hero swing
 const CASE_STAGE = 0.8 // viewports per subsequent case
 const LIFT_VH = -28 // card lift at mid-swing
 const TILT = -5 // card tilt (deg) at mid-swing
 const AUTO_AT = 0.5 // auto-finish trigger point in the hero stage
 const CASE_LIFT_PX = -44 // gentle lift between cases
+const EASE = 0.16 // per-frame easing for the displayed swing (higher = snappier, less lag)
+const SETTLED = 0.99 // displayed progress at which the swing counts as visually re-centred
 
 // paragraph parallax — travels faster than the card so it overtakes it
 const PARA_FROM = 26 // vh at p=0
@@ -75,6 +77,7 @@ export default function ChatThread() {
   const dispRef = useRef(0)
   const lastYRef = useRef(null)
   const landedRef = useRef(false) // hero has finished its entrance
+  const pendingBeatRef = useRef(false) // scroll parked at stage end; waiting for the swing to visually re-centre before the swap beat
 
   const paraWords = profile.tagline.split(' ')
 
@@ -93,7 +96,7 @@ export default function ChatThread() {
     // ── on-load hero sequence (timers scheduled directly so a throttled
     //    rAF can't stall the reveal) ──
     const playHero = () => {
-      clearTimers(); autoRef.current = false; phaseRef.current = 0; setPhase(0); setStep(0)
+      clearTimers(); autoRef.current = false; pendingBeatRef.current = false; phaseRef.current = 0; setPhase(0); setStep(0)
       landedRef.current = false
       if (prefersReduced) { setStep(4); landedRef.current = true; return }
       ;[[1, 400], [2, 1700], [3, 2900], [4, 4400]].forEach(([s, ms]) => timersRef.current.push(setTimeout(() => setStep(s), g(ms))))
@@ -113,23 +116,27 @@ export default function ChatThread() {
       timersRef.current.push(setTimeout(() => setStep(4), g(1900)))
     }
     const toHero = () => {
-      autoRef.current = false
+      autoRef.current = false; pendingBeatRef.current = false
       if (phaseRef.current === 0) return
       clearTimers(); phaseRef.current = 0; setPhase(0); setStep(4)
       landedRef.current = true // restored fully formed — ready to swap again
     }
 
-    // ── auto-finish: glide to the stage end, then swap ──
+    // ── auto-finish: glide the scroll to the stage end so the swing can
+    //    re-centre. It does NOT fire the swap itself — it only arms
+    //    pendingBeatRef; the frame loop fires the beat once the *displayed*
+    //    swing (dispRef) has actually settled at centre. This keeps `p` →
+    //    transform and the timed beat → opacity strictly separate. ──
     const autoFinish = (start, target) => {
       autoRef.current = true
-      const t0 = performance.now(); const dur = 480
+      const t0 = performance.now(); const dur = 380
       const ease = (k) => 1 - Math.pow(1 - k, 3)
       const stepFn = (now) => {
         if (!autoRef.current) return
         const k = clamp01((now - t0) / dur)
         window.scrollTo(0, start + (target - start) * ease(k))
         if (k < 1) requestAnimationFrame(stepFn)
-        else { autoRef.current = false; if (phaseRef.current === 0) playBeat(1) }
+        else { autoRef.current = false; if (phaseRef.current === 0) pendingBeatRef.current = true }
       }
       requestAnimationFrame(stepFn)
     }
@@ -177,19 +184,42 @@ export default function ChatThread() {
       else stableFrames = 0
       lastFrameY = y
 
+      // eased displayed progress for the swing (computed first so the swap
+      // beat can be gated on the swing having *visually* re-centred)
+      dispRef.current += (rawHero - dispRef.current) * EASE
+      if (Math.abs(rawHero - dispRef.current) < 0.0004) dispRef.current = rawHero
+
       if (!autoRef.current) {
-        // never interrupt the hero mid-landing — let it fully arrive first
-        if (phaseRef.current === 0 && goingDown && rawHero >= AUTO_AT && landedRef.current) autoFinish(y, track.offsetTop + heroBudget)
-        else if (phaseRef.current >= 1 && !goingDown && s < heroBudget && rawHero < 0.4) toHero()
-        else if (s >= heroBudget && stableFrames > 8) {
-          const ph = caseIndex()
-          if (ph !== phaseRef.current) { if (prefersReduced) { phaseRef.current = ph; setPhase(ph); setStep(4) } else playBeat(ph) }
+        if (phaseRef.current === 0) {
+          // HERO. `p` (rawHero/dispRef) only ever drives the transform below.
+          // The swap beat — the ONLY thing that fades the bubbles — fires
+          // strictly after the swing has re-centred, never from scroll.
+          if (pendingBeatRef.current) {
+            // parked at the stage end: wait for the displayed swing to settle
+            // at centre, THEN fade+swap. Abandon if the user scrolls back up.
+            if (rawHero < 0.9) pendingBeatRef.current = false
+            else if (dispRef.current >= SETTLED) {
+              pendingBeatRef.current = false
+              if (prefersReduced) { phaseRef.current = 1; setPhase(1); setStep(4) } else playBeat(1)
+            }
+          } else if (goingDown && rawHero >= AUTO_AT && landedRef.current) {
+            // never interrupt the hero mid-landing — let it fully arrive first
+            autoFinish(y, track.offsetTop + heroBudget)
+          } else if (s >= heroBudget && stableFrames > 8) {
+            // scrolled clean past the stage without auto-finishing (e.g. a fast
+            // fling before the entrance landed): arm the beat so it fires once
+            // dispRef has settled at centre.
+            pendingBeatRef.current = true
+          }
+        } else {
+          // CASE phases (1..N)
+          if (!goingDown && s < heroBudget && rawHero < 0.4) toHero()
+          else if (s >= heroBudget && stableFrames > 8) {
+            const ph = caseIndex()
+            if (ph !== phaseRef.current) { if (prefersReduced) { phaseRef.current = ph; setPhase(ph); setStep(4) } else playBeat(ph) }
+          }
         }
       }
-
-      // eased displayed progress for the swing
-      dispRef.current += (rawHero - dispRef.current) * 0.12
-      if (Math.abs(rawHero - dispRef.current) < 0.0004) dispRef.current = rawHero
 
       // card transform: swing (hero) or gentle lift (cases)
       if (cardRef.current) {

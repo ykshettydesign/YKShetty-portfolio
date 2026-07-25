@@ -68,6 +68,7 @@ export default function ChatThread() {
   const paraRef = useRef(null)
   const driftRef = useRef(null)
   const cardRef = useRef(null)
+  const meterRef = useRef(null) // fill element of the scroll-progress line
 
   const [step, setStep] = useState(0) // 1 label · 2 ask · 3 dots · 4 reply
   const [phase, setPhase] = useState(0) // 0 hero · 1..N cases
@@ -229,17 +230,23 @@ export default function ChatThread() {
         }
       }
 
-      // card transform: swing (hero) or gentle lift (cases)
-      if (cardRef.current) {
-        if (phaseRef.current === 0) {
-          const wave = Math.sin(Math.PI * dispRef.current)
-          cardRef.current.style.transform = `translateX(-50%) translateY(${(LIFT_VH * wave).toFixed(2)}vh) rotate(${(TILT * wave).toFixed(2)}deg)`
-        } else {
-          const cs = s - heroBudget
-          const frac = clamp01((cs - (phaseRef.current - 1) * CASE_STAGE * vh) / (CASE_STAGE * vh))
-          cardRef.current.style.transform = `translateX(-50%) translateY(${(CASE_LIFT_PX * frac).toFixed(1)}px)`
-        }
+      // card transform: swing (hero) or gentle lift (cases).
+      // meterProg = scroll progress toward the NEXT hand-off (0→1): for the hero
+      // it fills exactly as the auto-finish trigger approaches (AUTO_AT), so a
+      // full bar == "next section is about to load"; for cases it fills across
+      // the case's own stage. Drives the scroll-progress line.
+      let meterProg
+      if (phaseRef.current === 0) {
+        const wave = Math.sin(Math.PI * dispRef.current)
+        if (cardRef.current) cardRef.current.style.transform = `translateX(-50%) translateY(${(LIFT_VH * wave).toFixed(2)}vh) rotate(${(TILT * wave).toFixed(2)}deg)`
+        meterProg = clamp01(rawHero / AUTO_AT)
+      } else {
+        const cs = s - heroBudget
+        const frac = clamp01((cs - (phaseRef.current - 1) * CASE_STAGE * vh) / (CASE_STAGE * vh))
+        if (cardRef.current) cardRef.current.style.transform = `translateX(-50%) translateY(${(CASE_LIFT_PX * frac).toFixed(1)}px)`
+        meterProg = frac
       }
+      if (meterRef.current) meterRef.current.style.transform = `scaleX(${meterProg.toFixed(4)})`
 
       // paragraph: starts dark and fully readable, then travels up FASTER than
       // the card while each word dims in turn — the dimming begins on the very
@@ -367,6 +374,11 @@ export default function ChatThread() {
               )}
             </div>
           </div>
+        </div>
+
+        {/* scroll-progress line — fills as you scroll toward the next hand-off */}
+        <div className="scroll-meter" role="presentation" aria-hidden="true">
+          <i ref={meterRef} />
         </div>
 
         <div className="thread-progress" role="presentation">

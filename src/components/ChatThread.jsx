@@ -178,7 +178,7 @@ export default function ChatThread() {
     // expose carousel controls to the JSX buttons
     apiRef.current = {
       next: () => clickTo(phaseRef.current + 1),
-      prev: () => { const c = phaseRef.current; if (c > 1) clickTo(c - 1); else if (c === 1) goHero() },
+      prev: () => { const c = phaseRef.current; if (c > 1) clickTo(c - 1) }, // disabled on case 1; scroll up to return to the intro
       go: (i) => { if (i === 0) goHero(); else clickTo(i) },
     }
 
@@ -257,10 +257,12 @@ export default function ChatThread() {
           if (goingDown && rawHero >= AUTO_AT && landedRef.current) autoFinishTo(track.offsetTop + heroBudget, 1)
           else if (rawHero >= 1 && landedRef.current) toStage(1) // flung past before the glide could fire
         } else {
-          // carousel: cases advance by CLICK only. Scrolling UP past the hero
-          // boundary returns to the hero; scrolling DOWN just carries you out of
-          // the pinned section to the next page (native sticky release).
-          if (!goingDown && rawHero < 0.95 && landedRef.current) toStage(0)
+          // carousel: cases advance by CLICK only. Scrolling UP glides smoothly
+          // back to the hero — the exact mirror of the entry glide (the card
+          // swings, the page glides to the top, the hero types back in) via the
+          // same decoupled, jitter-proof timeline. Scrolling DOWN carries you out
+          // of the pinned section to the next page (native sticky release).
+          if (!goingDown && rawHero < 0.85 && landedRef.current) autoFinishTo(track.offsetTop, 0)
         }
       }
 
@@ -408,28 +410,30 @@ export default function ChatThread() {
           <i ref={meterRef} />
         </div>
 
-        {/* dots ARE the carousel navigation — click to jump to any case (or the intro) */}
-        <div className="thread-progress" role="tablist" aria-label="Case study navigation">
-          <button
-            type="button"
-            className={phase === 0 ? 'on' : ''}
-            aria-label="Intro"
-            aria-selected={phase === 0}
-            role="tab"
-            onClick={() => apiRef.current.go?.(0)}
-          />
-          {caseStudies.map((c, i) => (
+        {/* case carousel controls — labelled Prev / counter / Next, just below the card */}
+        {!isHero && (
+          <div className="carousel-controls">
             <button
-              key={c.id}
               type="button"
-              className={phase === i + 1 ? 'on' : ''}
-              aria-label={`Case study ${i + 1}`}
-              aria-selected={phase === i + 1}
-              role="tab"
-              onClick={() => apiRef.current.go?.(i + 1)}
-            />
-          ))}
-        </div>
+              className="carousel-nav carousel-prev"
+              aria-label="Previous case study"
+              onClick={() => apiRef.current.prev?.()}
+              disabled={phase <= 1}
+            >
+              <span aria-hidden="true">‹</span> Prev
+            </button>
+            <span className="carousel-count" aria-hidden="true">{phase} / {N}</span>
+            <button
+              type="button"
+              className="carousel-nav carousel-next"
+              aria-label="Next case study"
+              onClick={() => apiRef.current.next?.()}
+              disabled={phase >= N}
+            >
+              Next <span aria-hidden="true">›</span>
+            </button>
+          </div>
+        )}
       </div>
     </section>
   )

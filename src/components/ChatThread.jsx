@@ -13,7 +13,7 @@ const BLOBS = [
 // ── tunables ──
 const PACE = 1.875 // higher = snappier chat-bubble beat (label→ask→dots→reply). 1.875 ≈ 1.5× the old 1.25
 const HERO_STAGE = 0.5 // viewports of scroll budget for the hero swing — halved from 1.0 so the card rises to peak in half the scroll (2× faster ascent)
-const CAROUSEL_TAIL_VH = 190 // vh below the hero: ~100 sticky pin (holds the click-through case carousel) + exit tail that then releases to the next section
+const CAROUSEL_TAIL_VH = 110 // vh below the hero = 100vh sticky pin + a small (~10vh) buffer, so scrolling down out of the carousel reaches the next section almost immediately (no long dead scroll)
 const LIFT_VH = -28 // card lift at mid-swing (hero)
 const TILT = -5 // card tilt (deg) at mid-swing (hero)
 const AUTO_AT = 0.5 // hero: scroll past this fraction commits into the first case
@@ -80,6 +80,7 @@ export default function ChatThread() {
   const dispRef = useRef(0)
   const lastYRef = useRef(null)
   const landedRef = useRef(false) // current stage's reveal has finished (blocks committing mid-beat)
+  const restHeroRef = useRef(false) // hero was returned to via scroll-up — hold it at rest (no swing) so scrolling reads as regular content
   const apiRef = useRef({}) // carousel controls (next/prev/go), wired up inside the effect
 
   const paraWords = profile.tagline.split(' ')
@@ -100,7 +101,7 @@ export default function ChatThread() {
     //    rAF can't stall the reveal) ──
     const playHero = () => {
       clearTimers(); autoRef.current = false; phaseRef.current = 0; setPhase(0); setStep(0)
-      landedRef.current = false
+      landedRef.current = false; restHeroRef.current = false
       if (prefersReduced) { setStep(4); landedRef.current = true; return }
       ;[[1, 400], [2, 1700], [3, 2900], [4, 4400]].forEach(([s, ms]) => timersRef.current.push(setTimeout(() => setStep(s), g(ms))))
       // the reply's entrance runs 560ms past step 4 — only then has it "landed"
@@ -129,18 +130,19 @@ export default function ChatThread() {
       dispRef.current = 0
     }
 
-    // ── smooth return to the hero (scrolling up out of the carousel) ──
-    // No snap, no scroll hijack. The case sits at rest (translateY 0); we switch to
-    // the hero at its OTHER rest point (disp = 1, sin(π)=0 → also translateY 0), so
-    // the card doesn't jump. The frame loop then eases the swing toward the scroll
-    // position, so the hero swings back naturally as you keep scrolling up. Content
-    // cross-fades case → hero (no re-typing).
+    // ── return to the hero (scrolling up out of the carousel) ──
+    // No snap, no swing, no scroll hijack: the case sits at rest (translateY 0) and
+    // the hero is held at rest too (restHeroRef → dispRef stays 0), so the card
+    // doesn't jump or swing — scrolling up just reads as ordinary content scroll
+    // back to the hero. Content cross-fades case → hero. The forward swing re-engages
+    // the moment you scroll back down (see the frame loop).
     const toHero = () => {
       if (phaseRef.current === 0) return
       clearTimers()
       phaseRef.current = 0
       landedRef.current = true
-      dispRef.current = 1 // hero rest at high scroll — seamless with the case's rest
+      restHeroRef.current = true
+      dispRef.current = 0 // hero at rest — seamless with the case's rest (both translateY 0)
       setStep(1) // fade the case bubbles out
       timersRef.current.push(setTimeout(() => { setPhase(0); setStep(4) }, g(240))) // swap to hero, fade in
     }
@@ -258,10 +260,17 @@ export default function ChatThread() {
       lastYRef.current = y
 
       // HERO is scroll-driven: ease the swing toward the scroll position. CASES are
-      // click-driven — dispRef is owned by clickTo/goHero (autoRef), never scroll.
+      // click-driven — dispRef is owned by clickTo (autoRef), never scroll. After a
+      // scroll-up return the hero is held at rest (restHeroRef) so it reads as regular
+      // content scroll; scrolling back down re-engages the forward swing.
       if (p === 0 && !autoRef.current) {
-        dispRef.current += (rawHero - dispRef.current) * EASE
-        if (Math.abs(rawHero - dispRef.current) < 0.0004) dispRef.current = rawHero
+        if (restHeroRef.current) {
+          dispRef.current = 0
+          if (goingDown) restHeroRef.current = false
+        } else {
+          dispRef.current += (rawHero - dispRef.current) * EASE
+          if (Math.abs(rawHero - dispRef.current) < 0.0004) dispRef.current = rawHero
+        }
       }
 
       if (!autoRef.current) {

@@ -18,9 +18,9 @@ const LIFT_VH = -28 // card lift at mid-swing
 const TILT = -5 // card tilt (deg) at mid-swing
 const AUTO_AT = 0.5 // auto-finish trigger point in the hero stage (peak of the swing)
 const RETURN_MS = 500 // auto-finish return-glide duration (independent of PACE) — faster swing-back, still smooth (well above the janky ~300 range)
-const CASE_LIFT_PX = -44 // gentle lift between cases
+const CASE_SWING_VH = -14 // case→case swing amplitude (vh) — same shape as the hero, lighter since it repeats
+const CASE_SWING_TILT = -3 // case→case swing tilt (deg)
 const EASE = 0.26 // per-frame easing for the displayed swing (higher = snappier, less lag) — raised to keep the faster ascent tracking tightly
-const SETTLED = 0.99 // displayed progress at which the swing counts as visually re-centred
 
 // paragraph parallax — travels faster than the card so it overtakes it
 const PARA_FROM = 26 // vh at p=0
@@ -78,8 +78,7 @@ export default function ChatThread() {
   const autoRef = useRef(false)
   const dispRef = useRef(0)
   const lastYRef = useRef(null)
-  const landedRef = useRef(false) // hero has finished its entrance
-  const pendingBeatRef = useRef(false) // scroll parked at stage end; waiting for the swing to visually re-centre before the swap beat
+  const landedRef = useRef(false) // current stage's reveal has finished (blocks committing mid-beat)
 
   const paraWords = profile.tagline.split(' ')
 
@@ -98,7 +97,7 @@ export default function ChatThread() {
     // ── on-load hero sequence (timers scheduled directly so a throttled
     //    rAF can't stall the reveal) ──
     const playHero = () => {
-      clearTimers(); autoRef.current = false; pendingBeatRef.current = false; phaseRef.current = 0; setPhase(0); setStep(0)
+      clearTimers(); autoRef.current = false; phaseRef.current = 0; setPhase(0); setStep(0)
       landedRef.current = false
       if (prefersReduced) { setStep(4); landedRef.current = true; return }
       ;[[1, 400], [2, 1700], [3, 2900], [4, 4400]].forEach(([s, ms]) => timersRef.current.push(setTimeout(() => setStep(s), g(ms))))
@@ -111,38 +110,56 @@ export default function ChatThread() {
       if (phaseRef.current === ph) return
       phaseRef.current = ph
       clearTimers()
+      landedRef.current = false // don't allow the next hand-off until this reply lands
       setStep(1)
       timersRef.current.push(setTimeout(() => setPhase(ph), g(480)))
       timersRef.current.push(setTimeout(() => setStep(2), g(560)))
       timersRef.current.push(setTimeout(() => setStep(3), g(1020)))
       timersRef.current.push(setTimeout(() => setStep(4), g(1900)))
+      timersRef.current.push(setTimeout(() => { landedRef.current = true }, g(1900) + 560))
     }
-    const toHero = () => {
-      autoRef.current = false; pendingBeatRef.current = false
-      if (phaseRef.current === 0) return
-      clearTimers(); phaseRef.current = 0; setPhase(0); setStep(4)
-      landedRef.current = true // restored fully formed — ready to swap again
+    // Snap directly to a stage, fully-formed (no typing beat). Used going BACKWARD
+    // (restore an already-seen card) and for fast flings clean past a stage.
+    // dispRef is snapped to the new stage's current scroll progress so the swing
+    // doesn't jump or play a phantom lift.
+    const toStage = (np) => {
+      autoRef.current = false
+      if (phaseRef.current === np) return
+      clearTimers(); phaseRef.current = np; setPhase(np); setStep(4)
+      landedRef.current = true // fully formed — ready to hand off again
+      const vh = window.innerHeight || 1
+      const heroBudget = HERO_STAGE * vh, caseBudget = CASE_STAGE * vh
+      const st = np === 0 ? 0 : heroBudget + (np - 1) * caseBudget
+      const en = np === 0 ? heroBudget : heroBudget + np * caseBudget
+      dispRef.current = clamp01(((window.scrollY - track.offsetTop) - st) / (en - st))
     }
 
-    // ── auto-finish: bring the swing home over an easeOutCubic timeline.
+    // ── unified hand-off glide: bring the swing home over an easeOutCubic timeline,
+    //    then swap to the target stage. Used FORWARD for every stage (hero→case1
+    //    AND case→case), so the whole thread hands off identically.
     //    CRITICAL: the card's swing is driven by this timeline (dispRef), NOT by
-    //    window.scrollY. During the glide the browser's residual inertial/momentum
-    //    scroll fights our scrollTo and makes scrollY oscillate; if the card read
-    //    scrollY it would jitter. Decoupled, the card decelerates cleanly from its
-    //    current lifted/tilted position to dead-centre while the page catches up
-    //    underneath it. `p`→transform only; the timed beat→opacity only. ──
-    const autoFinish = (start, target) => {
+    //    window.scrollY — during the glide the browser's residual momentum scroll
+    //    fights our scrollTo and makes scrollY oscillate; reading it would jitter
+    //    the card. Decoupled, the card decelerates cleanly to rest while the page
+    //    catches up underneath it. ──
+    const autoFinishTo = (targetY, targetPhase) => {
       autoRef.current = true
       const dispStart = dispRef.current // continue the swing seamlessly from where it visibly is
+      const startY = window.scrollY
       const t0 = performance.now(); const dur = RETURN_MS
       const ease = (k) => 1 - Math.pow(1 - k, 3)
       const stepFn = (now) => {
         if (!autoRef.current) return
         const k = clamp01((now - t0) / dur)
-        dispRef.current = dispStart + (1 - dispStart) * ease(k) // smooth card return, jitter-proof
-        window.scrollTo(0, start + (target - start) * ease(k)) // page glides to the stage end
+        dispRef.current = dispStart + (1 - dispStart) * ease(k) // swing home to rest (disp→1, wave→0)
+        window.scrollTo(0, startY + (targetY - startY) * ease(k)) // page glides to the stage boundary
         if (k < 1) requestAnimationFrame(stepFn)
-        else { dispRef.current = 1; autoRef.current = false; if (phaseRef.current === 0) playBeat(1) }
+        else {
+          autoRef.current = false
+          if (prefersReduced) { phaseRef.current = targetPhase; setPhase(targetPhase); setStep(4); landedRef.current = true }
+          else playBeat(targetPhase)
+          dispRef.current = 0 // new stage begins at rest (wave 0 → translateY 0; seamless, old end was also flat)
+        }
       }
       requestAnimationFrame(stepFn)
     }
@@ -164,89 +181,63 @@ export default function ChatThread() {
       if (!driftRunning && blobEls.length) { driftRunning = true; driftRaf = requestAnimationFrame(driftLoop) }
     }
 
-    // ── case index + settle bookkeeping (cases 2..N) ──
-    const caseIndex = () => {
-      const vh = window.innerHeight || 1
-      const cs = (window.scrollY - track.offsetTop) - HERO_STAGE * vh
-      return Math.min(N, 1 + Math.floor(cs / (CASE_STAGE * vh)))
-    }
-    let stableFrames = 0
-    let lastFrameY = window.scrollY
-
     // ── per-frame scroll handler ──
     const frame = () => {
       const vh = window.innerHeight || 1
       const heroBudget = HERO_STAGE * vh
+      const caseBudget = CASE_STAGE * vh
       const rect = track.getBoundingClientRect()
       if (rect.bottom < 0 || rect.top > vh) return // section off-screen — skip
 
+      // current stage + progress THROUGH it (0→1). Hero and every case are treated
+      // identically — this is what makes the hand-offs feel the same.
+      const p = phaseRef.current
+      const stageStart = p === 0 ? 0 : heroBudget + (p - 1) * caseBudget
+      const stageEnd = p === 0 ? heroBudget : heroBudget + p * caseBudget
       const s = window.scrollY - track.offsetTop
-      const rawHero = clamp01(s / heroBudget)
+      const rawProgRaw = (s - stageStart) / (stageEnd - stageStart) // unclamped (can go <0 above the stage)
+      const rawProg = clamp01(rawProgRaw)
+      const rawHero = clamp01(s / heroBudget) // hero-only, for the paragraph parallax
 
       const y = window.scrollY
       const goingDown = lastYRef.current == null || y >= lastYRef.current
       lastYRef.current = y
-      if (y === lastFrameY) stableFrames += 1
-      else stableFrames = 0
-      lastFrameY = y
 
-      // displayed progress for the swing. During auto-finish the return is owned
-      // by autoFinish's timeline (immune to scroll jitter) — don't touch dispRef.
-      // Manual scrubbing eases dispRef toward the scroll-derived progress.
+      // displayed swing progress — eased toward the scroll-derived stage progress.
+      // During a hand-off glide the swing is owned by autoFinishTo's timeline
+      // (immune to scroll jitter) — don't touch dispRef then.
       if (!autoRef.current) {
-        dispRef.current += (rawHero - dispRef.current) * EASE
-        if (Math.abs(rawHero - dispRef.current) < 0.0004) dispRef.current = rawHero
+        dispRef.current += (rawProg - dispRef.current) * EASE
+        if (Math.abs(rawProg - dispRef.current) < 0.0004) dispRef.current = rawProg
       }
 
+      // ── unified hand-off: every stage commits the SAME way — scroll past AUTO_AT
+      //    → glide + swing home → swap. No settle-wait, so the swap flows out of the
+      //    scroll instead of waiting for you to stop. ──
       if (!autoRef.current) {
-        if (phaseRef.current === 0) {
-          // HERO. `p` (rawHero/dispRef) only ever drives the transform below.
-          // The swap beat — the ONLY thing that fades the bubbles — fires
-          // strictly after the swing has re-centred, never from scroll.
-          if (pendingBeatRef.current) {
-            // parked at the stage end: wait for the displayed swing to settle
-            // at centre, THEN fade+swap. Abandon if the user scrolls back up.
-            if (rawHero < 0.9) pendingBeatRef.current = false
-            else if (dispRef.current >= SETTLED) {
-              pendingBeatRef.current = false
-              if (prefersReduced) { phaseRef.current = 1; setPhase(1); setStep(4) } else playBeat(1)
-            }
-          } else if (goingDown && rawHero >= AUTO_AT && landedRef.current) {
-            // never interrupt the hero mid-landing — let it fully arrive first
-            autoFinish(y, track.offsetTop + heroBudget)
-          } else if (s >= heroBudget && stableFrames > 8) {
-            // scrolled clean past the stage without auto-finishing (e.g. a fast
-            // fling before the entrance landed): arm the beat so it fires once
-            // dispRef has settled at centre.
-            pendingBeatRef.current = true
-          }
-        } else {
-          // CASE phases (1..N)
-          if (!goingDown && s < heroBudget && rawHero < 0.4) toHero()
-          else if (s >= heroBudget && stableFrames > 8) {
-            const ph = caseIndex()
-            if (ph !== phaseRef.current) { if (prefersReduced) { phaseRef.current = ph; setPhase(ph); setStep(4) } else playBeat(ph) }
-          }
+        if (p < N && rawProg >= 1 && landedRef.current) {
+          toStage(p + 1) // already scrolled clean past this stage (fast fling) — snap, no glide
+        } else if (goingDown && p < N && rawProg >= AUTO_AT && landedRef.current) {
+          if (prefersReduced) toStage(p + 1)
+          else autoFinishTo(track.offsetTop + stageEnd, p + 1) // glide into the next stage
+        } else if (p > 0 && rawProgRaw <= -0.08) {
+          // scrolled ~8% back into the previous stage (hysteresis so boundary jitter
+          // can't undo a fresh commit) — restore that card fully-formed
+          toStage(p - 1)
         }
       }
 
-      // card transform: swing (hero) or gentle lift (cases).
-      // meterProg = scroll progress toward the NEXT hand-off (0→1): for the hero
-      // it fills exactly as the auto-finish trigger approaches (AUTO_AT), so a
-      // full bar == "next section is about to load"; for cases it fills across
-      // the case's own stage. Drives the scroll-progress line.
-      let meterProg
-      if (phaseRef.current === 0) {
-        const wave = Math.sin(Math.PI * dispRef.current)
-        if (cardRef.current) cardRef.current.style.transform = `translateX(-50%) translateY(${(LIFT_VH * wave).toFixed(2)}vh) rotate(${(TILT * wave).toFixed(2)}deg)`
-        meterProg = clamp01(rawHero / AUTO_AT)
-      } else {
-        const cs = s - heroBudget
-        const frac = clamp01((cs - (phaseRef.current - 1) * CASE_STAGE * vh) / (CASE_STAGE * vh))
-        if (cardRef.current) cardRef.current.style.transform = `translateX(-50%) translateY(${(CASE_LIFT_PX * frac).toFixed(1)}px)`
-        meterProg = frac
-      }
-      if (meterRef.current) meterRef.current.style.transform = `scaleX(${meterProg.toFixed(4)})`
+      // card transform: the SAME swing for hero and cases (cases use a lighter
+      // amplitude). rest → lift → rest via sin(π·disp); flat (wave 0) at both stage
+      // boundaries, so swaps are seamless. `p`→transform only; the beat→opacity only.
+      const amp = p === 0 ? LIFT_VH : CASE_SWING_VH
+      const tlt = p === 0 ? TILT : CASE_SWING_TILT
+      const wave = Math.sin(Math.PI * dispRef.current)
+      if (cardRef.current) cardRef.current.style.transform = `translateX(-50%) translateY(${(amp * wave).toFixed(2)}vh) rotate(${(tlt * wave).toFixed(2)}deg)`
+
+      // scroll-progress line: fills 0→1 as you approach this stage's hand-off (AUTO_AT),
+      // so a full bar == "next section is about to load".
+      if (meterRef.current) meterRef.current.style.transform = `scaleX(${clamp01(rawProg / AUTO_AT).toFixed(4)})`
 
       // paragraph: starts dark and fully readable, then travels up FASTER than
       // the card while each word dims in turn — the dimming begins on the very

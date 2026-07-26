@@ -182,7 +182,10 @@ export default function ChatThread() {
       const stepFn = (now) => {
         if (!autoRef.current) return
         const k = clamp01((now - t0) / dur)
-        window.scrollTo(0, startY + (targetY - startY) * ease(k))
+        // behavior:'instant' — the page has html{scroll-behavior:smooth}; without
+        // this override, the browser's own smooth-scroll fights our per-frame
+        // easing (two animations chasing the same position = jitter/lag)
+        window.scrollTo({ top: startY + (targetY - startY) * ease(k), left: 0, behavior: 'instant' })
         dispRef.current = dispStart * (1 - ease(k)) // ease the swing to rest at the top
         if (k < 1) requestAnimationFrame(stepFn)
         else { autoRef.current = false; dispRef.current = 0 }
@@ -215,7 +218,10 @@ export default function ChatThread() {
         if (!autoRef.current) return
         const k = clamp01((now - t0) / dur)
         dispRef.current = dispStart + (1 - dispStart) * ease(k) // swing home to rest (disp→1, wave→0)
-        window.scrollTo(0, startY + (targetY - startY) * ease(k)) // page glides to the stage boundary
+        // behavior:'instant' overrides html{scroll-behavior:smooth} — otherwise the
+        // browser's own smooth-scroll animates toward each new target we set here,
+        // permanently chasing a moving goalpost instead of landing on it
+        window.scrollTo({ top: startY + (targetY - startY) * ease(k), left: 0, behavior: 'instant' }) // page glides to the stage boundary
         if (k < 1) requestAnimationFrame(stepFn)
         else {
           autoRef.current = false
@@ -278,9 +284,17 @@ export default function ChatThread() {
 
       if (!autoRef.current) {
         if (p === 0) {
-          // hero → first case: scroll past AUTO_AT glides into the carousel
-          if (goingDown && rawHero >= AUTO_AT && landedRef.current) autoFinishTo(track.offsetTop + heroBudget, 1)
-          else if (rawHero >= 1 && landedRef.current) toStage(1) // flung past before the glide could fire
+          // hero → first case. Order matters: check "already past the whole
+          // budget" FIRST — a fast fling can jump `s` past heroBudget in a
+          // single frame, and rawHero clamps to 1 either way (barely past the
+          // commit point, or way past it). If we glided in that case, the
+          // target (track.offsetTop + heroBudget) would be BEHIND where the
+          // user already scrolled to, snapping the page backward against
+          // their gesture. So: already past the full budget → snap in place,
+          // no scroll movement. Only mid-swing (still within the budget, past
+          // the commit point) do we glide the remaining bit forward.
+          if (s >= heroBudget && landedRef.current) toStage(1)
+          else if (goingDown && rawHero >= AUTO_AT && landedRef.current) autoFinishTo(track.offsetTop + heroBudget, 1)
         } else {
           // carousel: cases advance by CLICK only. Scrolling UP glides smoothly
           // back to the hero — the exact mirror of the entry glide (the card
@@ -311,6 +325,10 @@ export default function ChatThread() {
         const op = phaseRef.current !== 0 ? 0 : 1 - clamp01((rawHero - 0.58) / 0.2)
         para.style.transform = `translateY(${riseVh.toFixed(2)}vh)`
         para.style.opacity = String(op)
+        // the CSS gives this element pointer-events:auto (needed for its links
+        // while visible in the hero) — without this, the faded-out paragraph
+        // stays clickable and can catch stray clicks behind the case card
+        para.style.pointerEvents = op > 0.05 ? 'auto' : 'none'
         const spans = para.querySelectorAll('.rc-word')
         const n = Math.max(1, spans.length - 1)
         spans.forEach((el, i) => {
@@ -332,7 +350,7 @@ export default function ChatThread() {
     let loopRaf = null
     const loop = () => { if (!running) return; loopRaf = requestAnimationFrame(loop); frame() }
 
-    window.scrollTo(0, 0)
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' }) // instant reset — smooth here would visibly slide on load
     playHero()
     loop()
     window.addEventListener('scroll', frame, { passive: true })
@@ -389,7 +407,14 @@ export default function ChatThread() {
               ))}
             </p>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 22, alignItems: 'center', fontFamily: 'var(--font-body)', fontSize: 14, fontWeight: 500, justifyContent: 'center' }}>
-              <a href="#work" className="text-link text-link--primary" style={{ paddingBottom: 3 }}>Case studies ↓</a>
+              <a
+                href="#work"
+                className="text-link text-link--primary"
+                style={{ paddingBottom: 3 }}
+                onClick={(e) => { e.preventDefault(); apiRef.current.go?.(1) }}
+              >
+                Case studies ↓
+              </a>
               <a href={`mailto:${CONTACT_EMAIL}`} className="text-link text-link--muted">Say hello</a>
             </div>
           </div>

@@ -265,8 +265,11 @@ export default function ChatThread() {
       // content scroll; scrolling back down re-engages the forward swing.
       if (p === 0 && !autoRef.current) {
         if (restHeroRef.current) {
+          // scrolling back up: hold the hero flat (no swing) so it reads as regular
+          // content scroll — release only once we've reached the FULL top, at which
+          // point the forward swing animation is armed again.
           dispRef.current = 0
-          if (goingDown) restHeroRef.current = false
+          if (rawHero <= 0.02) restHeroRef.current = false
         } else {
           dispRef.current += (rawHero - dispRef.current) * EASE
           if (Math.abs(rawHero - dispRef.current) < 0.0004) dispRef.current = rawHero

@@ -120,16 +120,29 @@ export default function ChatThread() {
       timersRef.current.push(setTimeout(() => setStep(4), g(1900)))
       timersRef.current.push(setTimeout(() => { landedRef.current = true }, g(1900) + 560))
     }
-    // Snap directly to a stage, fully-formed (no typing beat). Used when scroll
-    // crosses the hero↔carousel boundary. Hero snaps its swing to the scroll
-    // position (near-rest at the boundary → no jump); a case snaps to rest.
+    // Snap to a case fully-formed (used for a fast fling clean past the hero).
     const toStage = (np) => {
       autoRef.current = false
       if (phaseRef.current === np) return
       clearTimers(); phaseRef.current = np; setPhase(np); setStep(4)
-      landedRef.current = true // fully formed — ready to hand off again
-      const heroBudget = HERO_STAGE * (window.innerHeight || 1)
-      dispRef.current = np === 0 ? clamp01((window.scrollY - track.offsetTop) / heroBudget) : 0
+      landedRef.current = true
+      dispRef.current = 0
+    }
+
+    // ── smooth return to the hero (scrolling up out of the carousel) ──
+    // No snap, no scroll hijack. The case sits at rest (translateY 0); we switch to
+    // the hero at its OTHER rest point (disp = 1, sin(π)=0 → also translateY 0), so
+    // the card doesn't jump. The frame loop then eases the swing toward the scroll
+    // position, so the hero swings back naturally as you keep scrolling up. Content
+    // cross-fades case → hero (no re-typing).
+    const toHero = () => {
+      if (phaseRef.current === 0) return
+      clearTimers()
+      phaseRef.current = 0
+      landedRef.current = true
+      dispRef.current = 1 // hero rest at high scroll — seamless with the case's rest
+      setStep(1) // fade the case bubbles out
+      timersRef.current.push(setTimeout(() => { setPhase(0); setStep(4) }, g(240))) // swap to hero, fade in
     }
 
     // ── case→case click swing: a single time-based hump (rest→lift→rest via
@@ -262,7 +275,7 @@ export default function ChatThread() {
           // swings, the page glides to the top, the hero types back in) via the
           // same decoupled, jitter-proof timeline. Scrolling DOWN carries you out
           // of the pinned section to the next page (native sticky release).
-          if (!goingDown && rawHero < 0.85 && landedRef.current) autoFinishTo(track.offsetTop, 0)
+          if (!goingDown && rawHero < 0.9 && landedRef.current) toHero()
         }
       }
 
@@ -403,37 +416,37 @@ export default function ChatThread() {
               )}
             </div>
           </div>
+
+          {/* carousel controls — in the card's OWN flow, directly below it (never on top of it) */}
+          {!isHero && (
+            <div className="carousel-controls">
+              <button
+                type="button"
+                className="carousel-nav carousel-prev"
+                aria-label="Previous case study"
+                onClick={() => apiRef.current.prev?.()}
+                disabled={phase <= 1}
+              >
+                <span aria-hidden="true">‹</span> Prev
+              </button>
+              <span className="carousel-count" aria-hidden="true">{phase} / {N}</span>
+              <button
+                type="button"
+                className="carousel-nav carousel-next"
+                aria-label="Next case study"
+                onClick={() => apiRef.current.next?.()}
+                disabled={phase >= N}
+              >
+                Next <span aria-hidden="true">›</span>
+              </button>
+            </div>
+          )}
         </div>
 
         {/* scroll-progress line — hero only (fills toward the first case); hidden in the carousel */}
         <div className="scroll-meter" role="presentation" aria-hidden="true" style={{ opacity: isHero ? 1 : 0, transition: 'opacity .3s ease' }}>
           <i ref={meterRef} />
         </div>
-
-        {/* case carousel controls — labelled Prev / counter / Next, just below the card */}
-        {!isHero && (
-          <div className="carousel-controls">
-            <button
-              type="button"
-              className="carousel-nav carousel-prev"
-              aria-label="Previous case study"
-              onClick={() => apiRef.current.prev?.()}
-              disabled={phase <= 1}
-            >
-              <span aria-hidden="true">‹</span> Prev
-            </button>
-            <span className="carousel-count" aria-hidden="true">{phase} / {N}</span>
-            <button
-              type="button"
-              className="carousel-nav carousel-next"
-              aria-label="Next case study"
-              onClick={() => apiRef.current.next?.()}
-              disabled={phase >= N}
-            >
-              Next <span aria-hidden="true">›</span>
-            </button>
-          </div>
-        )}
       </div>
     </section>
   )

@@ -408,17 +408,18 @@ export default function ChatThread() {
           <i ref={meterRef} />
         </div>
 
-        {/* case carousel controls — click-driven; shown only while in the cases */}
+        {/* case carousel controls — click-driven; sit just below the card, shown only in the cases */}
         {!isHero && (
-          <>
+          <div className="carousel-controls">
             <button
               type="button"
               className="carousel-nav carousel-prev"
               aria-label={phase === 1 ? 'Back to intro' : 'Previous case study'}
               onClick={() => apiRef.current.prev?.()}
             >
-              ‹
+              <span aria-hidden="true">‹</span> Prev
             </button>
+            <span className="carousel-count" aria-hidden="true">{phase} / {N}</span>
             <button
               type="button"
               className="carousel-nav carousel-next"
@@ -426,9 +427,9 @@ export default function ChatThread() {
               onClick={() => apiRef.current.next?.()}
               disabled={phase >= N}
             >
-              ›
+              Next <span aria-hidden="true">›</span>
             </button>
-          </>
+          </div>
         )}
 
         <div className="thread-progress" role="tablist" aria-label="Case study navigation">

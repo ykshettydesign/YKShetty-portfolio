@@ -18,12 +18,14 @@ const CAM = [
 
 const smooth = (t) => t * t * (3 - 2 * t)
 
-// Card stage boundaries in tree-progress space (from the concept).
+// Card stage boundaries in tree-progress space. One card per tree beat, so these
+// mirror annotationStage() below — SEED / ROOTS / SPROUT / CANOPY / HARVEST.
 export function cardStage(p) {
-  if (p < 0.18) return 0
-  if (p < 0.5) return 1
-  if (p < 0.78) return 2
-  return 3
+  if (p < 0.2) return 0
+  if (p < 0.34) return 1
+  if (p < 0.5) return 2
+  if (p < 0.72) return 3
+  return 4
 }
 
 // Annotation stage boundaries — mapped to the tree beats driven in world.js:

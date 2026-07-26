@@ -110,43 +110,64 @@ export const caseStudies = [
 /* ── 02 · Practice — seed→sprout story cards (scroll-driven) ── */
 export const practiceStory = [
   {
-    id: 'discover',
+    id: 'alignment',
     num: '01 · THE SEED',
-    title: 'Discover',
-    callout: null,
-    human: ['Stakeholder discovery', 'Field interviews', 'Context & pain mapping', 'Goals & success criteria'],
-    ai: ['Cluster interview notes', 'Surface recurring themes'],
-    desc: 'A hand drops the signal. We scan the soil — market, goals, human pain — and plant.',
-  },
-  {
-    id: 'define',
-    num: '02 · THE SPROUT',
-    title: 'Define',
+    title: 'Alignment',
     callout: {
-      label: '↺ The rethink',
-      text: 'When the brief hands us a solution, we go back for the problem.',
+      label: '◎ Find the overlap',
+      text: 'The business wants a metric to move; users want a task to disappear. I use research and data to find the one change that does both — not a compromise between them.',
     },
-    human: ['Problem statement', "Must / Should / Won't", 'Feasibility alignment'],
-    ai: ['Edge-case inventory', 'Constraint pre-check'],
-    desc: 'Roots anchor down, a first stem breaks ground. The invisible architecture that will hold everything.',
+    human: ['User research', 'Read the data', 'Find the real need'],
+    ai: ['Cluster the notes', 'Surface patterns'],
+    desc: 'A hand drops the signal. I read the soil — business goals, user pain, the data underneath — and plant.',
   },
   {
-    id: 'design',
-    num: '03 · THE CANOPY',
-    title: 'Design',
-    callout: null,
-    human: ['Ideate variants', 'Craft & visual', 'Systematize into tokens', 'Component review'],
-    ai: ['Variant exploration', 'First-draft microcopy', 'Token & doc automation'],
-    desc: 'Branches spread, leaves fill in, flowers open. Automation duplicates the tokens across every limb.',
+    id: 'foundation',
+    num: '02 · THE ROOTS',
+    title: 'Foundation',
+    callout: {
+      label: '↺ Find the real problem',
+      text: "Sometimes a brief already comes with a solution attached. I hand it back and ask what problem we're really solving.",
+    },
+    human: ['Problem statement', 'In / out of scope', 'Feasibility check'],
+    ai: ['Edge-case list', 'Flag tech limits'],
+    desc: 'Roots anchor down, a first stem breaks ground. The invisible structure that holds everything up.',
   },
   {
-    id: 'ship',
-    num: '04 · THE APPLES',
-    title: 'Ship & learn',
-    callout: null,
-    human: ['Usability testing', 'MVP scope · UI validation', 'Pilot & monitor', 'Feed the next brief'],
-    ai: ['Error-state & QA sweep', 'Metrics → next brief'],
-    desc: 'Flowers become apples. Ripe fruit falls, dissolves back into soil — feeding the next brief.',
+    id: 'explore',
+    num: '03 · THE SPROUT',
+    title: 'Explore',
+    callout: {
+      label: '⚑ Try many, keep one',
+      text: "I sketch several rough directions before I commit to one — then prototype it and put it in front of real users, while it's still cheap to be wrong.",
+    },
+    human: ['Explore directions', 'Prototype', 'Usability testing'],
+    ai: ['Mockup variants', 'First-draft copy'],
+    desc: 'First shoots test the air in every direction. The strongest one keeps growing.',
+  },
+  {
+    id: 'scale',
+    num: '04 · THE CANOPY',
+    title: 'Scale',
+    callout: {
+      label: '⧉ Build it once',
+      text: 'I turn each decision into a design system, so the team can build the rest without me in the room.',
+    },
+    human: ['Craft & visual', 'Design system', 'Component review'],
+    ai: ['Token propagation', 'Doc automation'],
+    desc: 'Branches spread and repeat the same pattern. The system carries it across every limb.',
+  },
+  {
+    id: 'loop',
+    num: '05 · THE HARVEST',
+    title: 'Loop',
+    callout: {
+      label: '⟳ Learn from real use',
+      text: "Once it's live, I stop guessing and measure. If the numbers didn't move, I say so — and that honesty writes the next brief.",
+    },
+    human: ['Track metrics', 'Watch real sessions', 'Feed the next brief'],
+    ai: ['Error & QA sweep', 'Analytics → insight'],
+    desc: 'Fruit ripens and falls, dissolving back into soil — feeding the next brief.',
   },
 ]
 
@@ -157,9 +178,9 @@ export const practiceStory = [
 export const practiceAnnotations = [
   { label: '01 // SEED', concept: 'Alignment', sentence: 'Line up business goals and user needs before anything grows.' },
   { label: '02 // ROOTS', concept: 'Foundation', sentence: 'Dig into the research so everything above it holds.' },
-  { label: '03 // SPROUT', concept: 'Validation', sentence: "Test rough ideas early, while they're still cheap to change." },
+  { label: '03 // SPROUT', concept: 'Explore', sentence: "Explore several rough directions, then test the strongest while it's cheap to change." },
   { label: '04 // CANOPY', concept: 'Scale', sentence: 'Once it works, spread it across the product and automate the busywork.' },
-  { label: '05 // HARVEST', concept: 'The loop', sentence: 'Ship, learn from real use, and let it plant the next one.' },
+  { label: '05 // HARVEST', concept: 'Loop', sentence: 'Ship, learn from real use, and let it plant the next one.' },
 ]
 
 /* ── 03 · Instruments ── */

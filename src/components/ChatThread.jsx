@@ -69,6 +69,7 @@ export default function ChatThread() {
   const paraRef = useRef(null)
   const driftRef = useRef(null)
   const cardRef = useRef(null)
+  const morphRef = useRef(null) // inner wrapper that carries the swing; controls sit outside it so they never swing
   const meterRef = useRef(null) // fill element of the scroll-progress line
 
   const [step, setStep] = useState(0) // 1 label · 2 ask · 3 dots · 4 reply
@@ -310,7 +311,7 @@ export default function ChatThread() {
       const amp = p === 0 ? LIFT_VH : CASE_SWING_VH
       const tlt = p === 0 ? TILT : CASE_SWING_TILT
       const wave = Math.sin(Math.PI * dispRef.current)
-      if (cardRef.current) cardRef.current.style.transform = `translateX(-50%) translateY(${(amp * wave).toFixed(2)}vh) rotate(${(tlt * wave).toFixed(2)}deg)`
+      if (morphRef.current) morphRef.current.style.transform = `translateY(${(amp * wave).toFixed(2)}vh) rotate(${(tlt * wave).toFixed(2)}deg)`
 
       // scroll-progress line (hero only; hidden during the carousel): fills toward
       // the hand-off into the first case.
@@ -421,7 +422,8 @@ export default function ChatThread() {
         </div>
 
         {/* the morphing chat card — centred, swings then re-centres for the swap */}
-        <div ref={cardRef} className="hero-cluster" style={{ willChange: 'transform' }}>
+        <div ref={cardRef} className="hero-cluster">
+          <div ref={morphRef} className="hero-cluster-morph" style={{ willChange: 'transform' }}>
           <div className="thread-label" style={reveal(step >= 1, 'translateY(8px)', 380)}>{label}</div>
 
           <div className="thread-ask-wrap" style={{ marginBottom: 16 }}>
@@ -454,7 +456,9 @@ export default function ChatThread() {
             </div>
           </div>
 
-          {/* carousel controls — in the card's OWN flow, directly below it (never on top of it) */}
+          </div>
+
+          {/* carousel controls — OUTSIDE the swinging inner wrapper, so they stay put while the card morphs */}
           {!isHero && (
             <div className="carousel-controls">
               <button

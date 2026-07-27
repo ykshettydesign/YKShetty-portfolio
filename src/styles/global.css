@@ -85,11 +85,16 @@ img { max-width: 100%; }
   top: 22vh;
   left: 50%;
   transform: translateX(-50%);
-  transform-origin: top center;
   width: 100%;
   max-width: 640px;
   padding: 0 clamp(22px, 5vw, 44px);
   z-index: 2;
+}
+/* Inner wrapper that carries the swap swing (translateY + rotate). Keeping the
+   swing here — not on .hero-cluster — leaves the carousel controls (a sibling
+   below) still while the card morphs. */
+.hero-cluster-morph {
+  transform-origin: top center;
 }
 .hero-para-layer {
   position: absolute;

@@ -155,6 +155,11 @@ export default function ChatThread() {
       if (autoRef.current) return
       if (target < 0 || target > N || target === phaseRef.current) return
       if (target === 0) { goHero(); return }
+      // A case→case switch reads as the conversation simply continuing: the beat
+      // (fade → new question → dots → answer) carries it, with NO card swing. The
+      // swing is kept only for the hero→case1 hand-off (fromCase === false), which
+      // is a scroll-style entrance rather than a switch between two cases.
+      const fromCase = phaseRef.current >= 1
       autoRef.current = true
       const t0 = performance.now()
       const smooth = (k) => k * k * (3 - 2 * k) // ease-in-out so the lift accelerates then settles
@@ -163,7 +168,8 @@ export default function ChatThread() {
       const stepFn = (now) => {
         if (!autoRef.current) return
         const k = clamp01((now - t0) / CLICK_MS)
-        dispRef.current = smooth(k) // 0→1 ⇒ wave sin(π·disp) does rest→peak→rest
+        if (!fromCase) dispRef.current = smooth(k) // swing only on the hero hand-off; case→case stays still
+        // the rAF loop still runs the full CLICK_MS so autoRef gates double-clicks either way
         if (k < 1) requestAnimationFrame(stepFn)
         else { autoRef.current = false; dispRef.current = 0 }
       }

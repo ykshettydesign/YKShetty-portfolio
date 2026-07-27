@@ -464,31 +464,33 @@ export default function ChatThread() {
 
           </div>
 
-          {/* carousel controls — OUTSIDE the swinging inner wrapper, so they stay put while the card morphs */}
-          {!isHero && (
-            <div className="carousel-controls">
-              <button
-                type="button"
-                className="carousel-nav carousel-prev"
-                aria-label="Previous case study"
-                onClick={() => apiRef.current.prev?.()}
-                disabled={phase <= 1}
-              >
-                <span aria-hidden="true">‹</span> Prev
-              </button>
-              <span className="carousel-count" aria-hidden="true">{phase} / {N}</span>
-              <button
-                type="button"
-                className="carousel-nav carousel-next"
-                aria-label="Next case study"
-                onClick={() => apiRef.current.next?.()}
-                disabled={phase >= N}
-              >
-                Next <span aria-hidden="true">›</span>
-              </button>
-            </div>
-          )}
         </div>
+
+        {/* carousel controls — pinned to the bottom of the hero viewport (a direct child of the
+            sticky container), so they never shift with the card's height or motion */}
+        {!isHero && (
+          <div className="carousel-controls">
+            <button
+              type="button"
+              className="carousel-nav carousel-prev"
+              aria-label="Previous case study"
+              onClick={() => apiRef.current.prev?.()}
+              disabled={phase <= 1}
+            >
+              <span aria-hidden="true">‹</span> Prev
+            </button>
+            <span className="carousel-count" aria-hidden="true">{phase} / {N}</span>
+            <button
+              type="button"
+              className="carousel-nav carousel-next"
+              aria-label="Next case study"
+              onClick={() => apiRef.current.next?.()}
+              disabled={phase >= N}
+            >
+              Next <span aria-hidden="true">›</span>
+            </button>
+          </div>
+        )}
 
         {/* scroll-progress line — hero only (fills toward the first case); hidden in the carousel */}
         <div className="scroll-meter" role="presentation" aria-hidden="true" style={{ opacity: isHero ? 1 : 0, transition: 'opacity .3s ease' }}>

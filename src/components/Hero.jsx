@@ -24,7 +24,7 @@ export default function Hero() {
   const driftRootRef = useRef(null)
   const paraRef = useRef(null)
 
-  useHeroScroll(heroInnerRef, paraRef, driftRootRef)
+  useHeroScroll(heroInnerRef, driftRootRef)
 
   return (
     <div style={{ position: 'relative', height: '200vh' }}>
@@ -176,10 +176,7 @@ export default function Hero() {
               </div>
             </div>
           </div>
-        </div>
-
-        <div className="hero-para-layer">
-          <div ref={paraRef} className="hero-post">
+          <div ref={paraRef} className="hero-post" style={{ marginTop: 'clamp(40px,6vw,64px)' }}>
             <p
               style={{
                 fontFamily: 'var(--font-body)',

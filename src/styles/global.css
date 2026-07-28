@@ -100,7 +100,7 @@ img { max-width: 100%; }
    zooms/fades with the cluster on scroll (no separate layer). */
 .hero-post {
   width: 100%;
-  max-width: 580px;
+  max-width: 520px;
   margin: 0 auto;
   will-change: transform, opacity;
 }

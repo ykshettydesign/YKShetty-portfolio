@@ -364,6 +364,12 @@ img { max-width: 100%; }
   .mobile-cards { display: flex !important; }
   .spread { max-width: 100% !important; overflow-x: auto !important; }
   .hero-section { position: relative !important; }
+
+  /* Pull the chat cluster up so it sits just below the nav instead of
+     leaving a tall empty band, and open up the gap between the chat card
+     and the tagline paragraph below it. */
+  .hero-cluster { top: 72px; }
+  .hero-post { margin-top: clamp(64px, 16vw, 88px) !important; }
 }
 
 /* ============================================================

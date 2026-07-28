@@ -24,7 +24,7 @@ export default function Hero() {
   const driftRootRef = useRef(null)
   const paraRef = useRef(null)
 
-  useHeroScroll(paraRef, driftRootRef)
+  useHeroScroll(heroInnerRef, paraRef, driftRootRef)
 
   return (
     <div style={{ position: 'relative', height: '200vh' }}>

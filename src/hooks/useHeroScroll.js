@@ -1,54 +1,41 @@
 import { useEffect } from 'react'
 
 /**
- * Two scroll-linked hero behaviours:
- *  1. The bottom paragraph is scrubbed 1:1 with scroll — it rises upward
- *     (from ~+26vh toward −62vh) behind the chat cluster and fades out over
- *     p 0.58 → 0.78, so it's gone before the case-study handoff. The chat
- *     cluster itself never moves or re-animates while this happens.
+ * Two scroll-linked hero behaviours (the original drag-and-drop hero):
+ *  1. Zoom-out: as the page scrolls one viewport, the hero cluster (chat
+ *     bubbles) and the tagline scale down 1 → 0.72 and fade 1 → 0.35, so the
+ *     drag board reads as rising up over a receding hero.
  *  2. The drifting gradient blobs speed up with scroll velocity, then ease
  *     back to their resting playback rate.
  *
- * `p` is scroll progress across the hero's one-viewport pin budget. A single
- * rAF-throttled scroll handler reads scroll once and derives the paragraph
- * transform + opacity from that one value.
+ * A single passive scroll listener drives both, rAF-throttled for the scale.
  */
-export function useHeroScroll(paraRef, driftRootRef) {
+export function useHeroScroll(heroInnerRef, paraRef, driftRootRef) {
   useEffect(() => {
+    const heroInner = heroInnerRef.current
     const driftRoot = driftRootRef.current
     const blobs = driftRoot ? Array.from(driftRoot.querySelectorAll('[data-drift]')) : []
 
-    // ── tunables ──
-    const RISE_FROM = 26 // vh at p=0 (below the card)
-    const RISE_TO = -62 // vh at p=1 (up and out of view)
-    const FADE_START = 0.58
-    const FADE_END = 0.78
-
     const clamp01 = (v) => Math.max(0, Math.min(1, v))
 
-    // ── 1. paragraph scrub (rAF-throttled) ──
-    let paraRaf = null
-    const updatePara = () => {
-      paraRaf = null
-      const para = paraRef.current
-      if (!para) return
+    // ── 1. hero zoom-out on scroll (runs directly in the scroll handler, as the
+    //    original did — a scale + opacity write is cheap enough not to need rAF) ──
+    const updateHeroScale = () => {
       const vh = window.innerHeight || 1
-      const p = clamp01(window.scrollY / vh)
-      const riseVh = RISE_FROM + (RISE_TO - RISE_FROM) * p
-      para.style.transform = `translateY(${riseVh.toFixed(2)}vh)`
-      if (p <= FADE_START) {
-        // let the entrance (data-hero-step CSS) own opacity before the fade window
-        para.style.opacity = ''
-      } else if (p >= FADE_END) {
-        para.style.opacity = '0'
-      } else {
-        para.style.opacity = (1 - (p - FADE_START) / (FADE_END - FADE_START)).toFixed(3)
+      const progress = clamp01(window.scrollY / vh)
+      const scale = 1 - progress * 0.28 // 1 → 0.72
+      const opacity = 1 - progress * 0.65 // 1 → 0.35
+      if (heroInner) {
+        // preserve the cluster's translateX(-50%) centering, add the zoom
+        heroInner.style.transform = `translateX(-50%) scale(${scale.toFixed(3)})`
+        heroInner.style.opacity = opacity.toFixed(3)
+      }
+      const para = paraRef && paraRef.current
+      if (para) {
+        para.style.transform = `scale(${scale.toFixed(3)})`
+        para.style.opacity = opacity.toFixed(3)
       }
     }
-    const requestPara = () => {
-      if (paraRaf == null) paraRaf = requestAnimationFrame(updatePara)
-    }
-
     // ── 2. blob drift velocity ──
     let driftRate = 1
     let driftTarget = 1
@@ -91,19 +78,18 @@ export function useHeroScroll(paraRef, driftRootRef) {
     }
 
     const onScroll = () => {
-      requestPara()
+      updateHeroScale()
       updateDriftSpeed()
     }
 
     window.addEventListener('scroll', onScroll, { passive: true })
-    updatePara()
+    updateHeroScale()
 
     return () => {
       window.removeEventListener('scroll', onScroll)
-      if (paraRaf) cancelAnimationFrame(paraRaf)
       if (driftRaf) cancelAnimationFrame(driftRaf)
     }
-  }, [paraRef, driftRootRef])
+  }, [heroInnerRef, paraRef, driftRootRef])
 }
 
 export default useHeroScroll

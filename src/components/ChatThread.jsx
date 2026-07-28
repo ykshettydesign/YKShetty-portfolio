@@ -289,28 +289,9 @@ export default function ChatThread() {
         }
       }
 
-      if (!autoRef.current) {
-        if (p === 0) {
-          // hero → first case. Order matters: check "already past the whole
-          // budget" FIRST — a fast fling can jump `s` past heroBudget in a
-          // single frame, and rawHero clamps to 1 either way (barely past the
-          // commit point, or way past it). If we glided in that case, the
-          // target (track.offsetTop + heroBudget) would be BEHIND where the
-          // user already scrolled to, snapping the page backward against
-          // their gesture. So: already past the full budget → snap in place,
-          // no scroll movement. Only mid-swing (still within the budget, past
-          // the commit point) do we glide the remaining bit forward.
-          if (s >= heroBudget && landedRef.current) toStage(1)
-          else if (goingDown && rawHero >= AUTO_AT && landedRef.current) autoFinishTo(track.offsetTop + heroBudget, 1)
-        } else {
-          // carousel: cases advance by CLICK only. Scrolling UP glides smoothly
-          // back to the hero — the exact mirror of the entry glide (the card
-          // swings, the page glides to the top, the hero types back in) via the
-          // same decoupled, jitter-proof timeline. Scrolling DOWN carries you out
-          // of the pinned section to the next page (native sticky release).
-          if (!goingDown && rawHero < 0.9 && landedRef.current) toHero()
-        }
-      }
+      // Hero-only: the exchange no longer commits into an in-card carousel. The hero
+      // plays its swing + paragraph reveal on scroll, then the sticky section releases
+      // to the drag-drop case board (<Work/>) that follows it in the page.
 
       // card transform: rest → lift → rest via sin(π·disp). Hero swings on scroll;
       // cases swing on click. `disp`→transform only; the beat→opacity only.
@@ -383,7 +364,7 @@ export default function ChatThread() {
 
   return (
     <section
-      id="work"
+      id="hero"
       ref={trackRef}
       data-thread-step={step}
       style={{ position: 'relative', zIndex: 10, height: `${Math.round(HERO_STAGE * 100) + CAROUSEL_TAIL_VH}vh` }}
@@ -418,7 +399,6 @@ export default function ChatThread() {
                 href="#work"
                 className="text-link text-link--primary"
                 style={{ paddingBottom: 3 }}
-                onClick={(e) => { e.preventDefault(); apiRef.current.go?.(1) }}
               >
                 Case studies ↓
               </a>

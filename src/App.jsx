@@ -1,6 +1,7 @@
 import React, { useRef } from 'react'
 import Header from './components/Header'
 import ChatThread from './components/ChatThread'
+import Work from './components/Work'
 import Practice from './components/Practice'
 import Instruments from './components/Instruments'
 import About from './components/About'
@@ -20,6 +21,7 @@ export default function App() {
       <Header />
       <main>
         <ChatThread />
+        <Work />
         <Practice />
         <Instruments />
         <About />

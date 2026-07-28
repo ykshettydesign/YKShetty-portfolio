@@ -53,7 +53,7 @@ export default function Work() {
   }, [active])
 
   return (
-    <section id="work" style={{ position: 'relative', zIndex: 10, marginTop: '-100vh' }}>
+    <section id="work" style={{ position: 'relative', zIndex: 10 }}>
       <div style={{ maxWidth: 1100, margin: '0 auto', padding: '0 clamp(22px,5vw,44px) 81px' }}>
         <MobileCaseCards />
 

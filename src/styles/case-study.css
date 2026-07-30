@@ -55,6 +55,9 @@
   --cs-accent: var(--accent);
   --cs-radius: 14px;
   --cs-radius-lg: 20px;
+
+  /* Cap for inline decision images (keeps the decisions section compact). */
+  --cs-decision-media-w: 560px;
 }
 
 /* ============================================================
@@ -427,65 +430,99 @@
 .cs-ba-tag--after { color: var(--cs-accent); }
 
 /* ============================================================
-   DECISION BLOCK — title, body, and the trade-off note
-   (Alternative considered / Why we didn't). The trade-off is the
-   strongest signal in the story, so it gets a distinct, readable
-   treatment rather than being buried in prose.
+   DESIGN DECISIONS — left-rail list
+   ------------------------------------------------------------
+   One cohesive, left-aligned unit at the wide track: the section
+   heading + intro share a left edge with the decision rows below.
+   Each decision is a rail (title/index) + a content column (body,
+   an inline height-capped image, and a compact trade-off note).
+   Borderless — rows separated by a hairline. Reads as a scannable
+   spec; far shorter than stacked cards.
    ============================================================ */
+.cs-decisionlist { max-width: var(--cs-wide); margin-inline: auto; }
+.cs-content > .cs-decisionlist { margin-top: var(--cs-section-gap); }
+
+.cs-decisionlist-head { max-width: var(--cs-column); }
+.cs-decisionlist-title {
+  font-family: var(--font-display);
+  font-size: var(--cs-text-h2);
+  font-weight: 600;
+  line-height: 1.14;
+  letter-spacing: -0.025em;
+  color: var(--text-primary);
+  margin: 0;
+}
+.cs-decisionlist-intro,
+.cs-decisionlist-coda-body { margin-inline: 0; margin-top: var(--cs-4); }
+.cs-decisionlist-rows { margin-top: clamp(34px, 5vw, 52px); }
+
 .cs-decision {
-  max-width: var(--cs-column);
-  margin-inline: auto;
-  padding: clamp(22px, 3vw, 30px) clamp(22px, 3vw, 30px) clamp(22px, 3vw, 28px);
-  background: var(--bg-surface);
-  border: 1px solid var(--border-card);
-  border-radius: var(--cs-radius-lg);
-  box-shadow: var(--shadow-card);
+  display: grid;
+  grid-template-columns: minmax(150px, 210px) minmax(0, 1fr);
+  gap: clamp(20px, 4vw, 56px);
+  align-items: start;
+}
+.cs-decision + .cs-decision {
+  margin-top: clamp(28px, 4vw, 40px);
+  padding-top: clamp(28px, 4vw, 40px);
+  border-top: 1px solid var(--border-subtle);
 }
 .cs-decision-index {
   font-family: var(--font-mono);
   font-size: 11px;
   font-weight: 700;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.1em;
   color: var(--cs-accent);
+  margin-bottom: 9px;
 }
 .cs-decision-title {
   font-family: var(--font-display);
   font-size: var(--cs-text-h3);
   font-weight: 600;
-  line-height: 1.28;
+  line-height: 1.24;
   letter-spacing: -0.015em;
   color: var(--text-primary);
-  margin: 8px 0 0;
+  margin: 0;
 }
+.cs-decision-main { min-width: 0; }
 .cs-decision-body {
   font-family: var(--font-body);
   font-size: var(--cs-text-small);
   line-height: 1.66;
   color: var(--text-body);
-  margin: var(--cs-4) 0 0;
 }
 .cs-decision-body > * { margin: 0; }
 .cs-decision-body > * + * { margin-top: 0.9em; }
 .cs-decision-body strong { color: var(--text-primary); font-weight: 600; }
 
+/* Inline decision image — height-capped so it supports the point without
+   turning the section into a scroll marathon. */
+.cs-decision-media { margin-top: var(--cs-5); max-width: var(--cs-decision-media-w); }
+.cs-decision-media .cs-caption { margin-top: var(--cs-2); }
+
+/* Trade-off note — kept visually distinct (accent labels + a top rule) but
+   compact: a two-column label/text list, no box, no extra padding stack. */
 .cs-tradeoff {
   margin-top: var(--cs-5);
-  border-radius: var(--cs-radius);
-  border: 1px solid var(--accent-ring);
-  background: var(--accent-tint);
-  overflow: hidden;
+  padding-top: var(--cs-4);
+  border-top: 1px solid var(--accent-ring);
+  display: grid;
+  gap: 10px;
 }
-.cs-tradeoff-row { padding: 14px clamp(16px, 2vw, 20px); }
-.cs-tradeoff-row + .cs-tradeoff-row { border-top: 1px solid var(--accent-ring); }
+.cs-tradeoff-row {
+  display: grid;
+  grid-template-columns: minmax(0, 150px) minmax(0, 1fr);
+  gap: 6px 20px;
+  align-items: baseline;
+}
 .cs-tradeoff-label {
-  display: block;
   font-family: var(--font-mono);
   font-size: 9.5px;
   font-weight: 700;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--cs-accent);
-  margin-bottom: 6px;
+  margin: 0;
 }
 .cs-tradeoff-text {
   font-family: var(--font-body);
@@ -495,6 +532,14 @@
   margin: 0;
 }
 .cs-tradeoff-text strong { color: var(--text-primary); font-weight: 600; }
+
+.cs-decisionlist-coda {
+  max-width: var(--cs-column);
+  margin-top: clamp(34px, 5vw, 52px);
+  padding-top: clamp(28px, 4vw, 36px);
+  border-top: 1px solid var(--border-subtle);
+}
+.cs-decisionlist-coda-title { margin-inline: 0; }
 
 /* ============================================================
    COMPARISON TABLE

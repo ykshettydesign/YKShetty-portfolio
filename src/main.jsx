@@ -3,9 +3,11 @@ import ReactDOM from 'react-dom/client'
 import App from './App'
 import ErrorBoundary from './components/ErrorBoundary'
 import { ThemeProvider } from './theme/ThemeContext'
+import { RouterProvider } from './router'
 import { CONTACT_EMAIL } from './data/content'
 import './styles/tokens.css'
 import './styles/global.css'
+import './styles/case-study.css'
 
 // Last-resort fallback if anything above throws during render/mount. Kept
 // self-contained (no theme/CSS-var dependency) so it always renders legibly,
@@ -54,7 +56,9 @@ ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <ErrorBoundary fallback={<AppFallback />}>
       <ThemeProvider>
-        <App />
+        <RouterProvider>
+          <App />
+        </RouterProvider>
       </ThemeProvider>
     </ErrorBoundary>
   </React.StrictMode>,

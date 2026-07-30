@@ -63,22 +63,46 @@ export default function CaseReader({ study }) {
         ))}
       </div>
 
-      <a
-        href={study.mailto}
-        className="cta-pill"
-        style={{
-          display: 'inline-flex',
-          alignItems: 'center',
-          gap: 8,
-          padding: '11px 20px',
-          borderRadius: 10,
-          fontFamily: 'var(--font-body)',
-          fontSize: 14,
-          fontWeight: 600,
-        }}
-      >
-        Request full case study →
-      </a>
+      <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 16 }}>
+        {study.href ? (
+          <a
+            href={study.href}
+            className="cta-pill"
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: 8,
+              padding: '11px 20px',
+              borderRadius: 10,
+              fontFamily: 'var(--font-body)',
+              fontSize: 14,
+              fontWeight: 600,
+            }}
+          >
+            Read the full case study →
+          </a>
+        ) : null}
+        <a
+          href={study.mailto}
+          className={study.href ? 'text-link text-link--muted' : 'cta-pill'}
+          style={
+            study.href
+              ? { fontFamily: 'var(--font-body)', fontSize: 14, fontWeight: 500 }
+              : {
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: 8,
+                  padding: '11px 20px',
+                  borderRadius: 10,
+                  fontFamily: 'var(--font-body)',
+                  fontSize: 14,
+                  fontWeight: 600,
+                }
+          }
+        >
+          {study.href ? 'Request full case study' : 'Request full case study →'}
+        </a>
+      </div>
     </div>
   )
 }

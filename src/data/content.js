@@ -38,6 +38,7 @@ export const caseStudies = [
     index: '01',
     meta: 'Posten Bring · 2026',
     metaLong: '01 · Posten Bring · Oslo · 2026 · SwiftSort',
+    href: '/case-studies/swiftsort', // full case study page
     brief: 'Make the button bigger.',
     card: "Sorting sped up ~40% — decisions moved from workers' memory to the moment of scan.",
     cover: null, // neutral placeholder until a real cover image is dropped in

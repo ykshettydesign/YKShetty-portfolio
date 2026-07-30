@@ -1,0 +1,664 @@
+/* ============================================================
+   CASE STUDY — token layer + module styling
+   ------------------------------------------------------------
+   Self-contained visual system for the case-study reader. Colour
+   and font roles come from the site tokens (tokens.css); this file
+   adds the case-study-specific SCALE tokens (type, spacing, measure,
+   widths) under a --cs-* namespace so a single edit here re-rhythms
+   every case study without touching the home page.
+
+   Layout model:
+     .cs-content is a vertical FLOW. Blocks get their rhythm from
+     `> * + *`; SectionHeadings open a larger gap to break sections.
+     Prose is held to --cs-measure; figures/tables can widen to
+     --cs-wide or break full-bleed.
+   ============================================================ */
+
+:root {
+  /* ── Type scale (display = Sora, body = DM Sans, mono = Space Mono) ── */
+  --cs-text-eyebrow: 11px;
+  --cs-text-caption: 13px;
+  --cs-text-small: 14.5px;
+  --cs-text-body: 17px;
+  --cs-text-lead: clamp(18px, 1.4vw, 20px);
+  --cs-text-h3: clamp(19px, 1.8vw, 22px);
+  --cs-text-h2: clamp(24px, 3vw, 33px);
+  --cs-text-quote: clamp(21px, 3vw, 29px);
+  --cs-text-subtitle: clamp(17px, 2.2vw, 21px);
+  --cs-text-title: clamp(33px, 6vw, 60px);
+  --cs-text-metric: clamp(24px, 3.4vw, 34px);
+
+  /* ── Spacing scale (4px base) ── */
+  --cs-1: 4px;
+  --cs-2: 8px;
+  --cs-3: 12px;
+  --cs-4: 16px;
+  --cs-5: 24px;
+  --cs-6: 32px;
+  --cs-7: 48px;
+  --cs-8: 64px;
+  --cs-9: 96px;
+
+  /* Default vertical rhythm between flowing blocks, and the larger gap a new
+     section opens above a SectionHeading. */
+  --cs-flow: 26px;
+  --cs-section-gap: clamp(52px, 8vw, 84px);
+
+  /* ── Reading measure + column widths ── */
+  --cs-measure: 68ch;     /* comfortable prose line length */
+  --cs-column: 720px;     /* the reading column */
+  --cs-wide: 1080px;      /* wide media / tables / meta */
+  --cs-gutter: clamp(22px, 5vw, 44px);
+
+  /* ── Case-study accent hooks (default to the brand accent; a case study can
+        override --cs-accent via its own accent token if it wants a signature) ── */
+  --cs-accent: var(--accent);
+  --cs-radius: 14px;
+  --cs-radius-lg: 20px;
+}
+
+/* ============================================================
+   PAGE + SHELL
+   ============================================================ */
+.cs-page {
+  min-height: 100vh;
+  background: var(--bg-page);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+}
+
+.cs-wrap {
+  max-width: var(--cs-wide);
+  margin: 0 auto;
+  padding: 0 var(--cs-gutter);
+}
+
+/* The content flow spans the wide track (≤1080). Individual blocks self-limit:
+   text centres at the reading measure, most modules at the reading column, and
+   media/tables can open out to the full wide track or break full-bleed. */
+.cs-content {
+  max-width: var(--cs-wide);
+  margin: 0 auto;
+  padding: clamp(40px, 7vw, 72px) 0 clamp(56px, 9vw, 104px);
+}
+.cs-content > * { margin-top: var(--cs-flow); }
+.cs-content > :first-child { margin-top: 0; }
+
+/* ── Masthead: eyebrow tags, title, subtitle ── */
+.cs-masthead {
+  max-width: var(--cs-wide);
+  margin: 0 auto;
+  padding: clamp(40px, 7vw, 88px) 0 0;
+}
+.cs-tags {
+  font-family: var(--font-mono);
+  font-size: var(--cs-text-eyebrow);
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--cs-accent);
+  margin: 0 0 var(--cs-5);
+}
+.cs-title {
+  font-family: var(--font-display);
+  font-size: var(--cs-text-title);
+  font-weight: 600;
+  line-height: 1.04;
+  letter-spacing: -0.035em;
+  color: var(--text-primary);
+  margin: 0;
+  max-width: 20ch;
+}
+.cs-subtitle {
+  font-family: var(--font-display);
+  font-size: var(--cs-text-subtitle);
+  font-weight: 400;
+  line-height: 1.4;
+  letter-spacing: -0.01em;
+  color: var(--text-secondary);
+  margin: var(--cs-5) 0 0;
+  max-width: 52ch;
+}
+
+/* ── Project at a glance — label/value meta grid ── */
+.cs-glance {
+  max-width: var(--cs-wide);
+  margin: clamp(36px, 6vw, 64px) auto 0;
+  padding: clamp(24px, 3vw, 32px) clamp(24px, 3vw, 36px);
+  background: var(--bg-surface);
+  border: 1px solid var(--border-card);
+  border-radius: var(--cs-radius-lg);
+  box-shadow: var(--shadow-card);
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(18px, 2.4vw, 26px) clamp(32px, 6vw, 72px);
+}
+.cs-glance-item { display: grid; gap: 6px; }
+.cs-glance-label {
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+.cs-glance-value {
+  font-family: var(--font-body);
+  font-size: var(--cs-text-small);
+  line-height: 1.5;
+  color: var(--text-primary);
+}
+
+/* ============================================================
+   PROSE
+   ============================================================ */
+.cs-prose {
+  max-width: var(--cs-measure);
+  margin-inline: auto;
+  font-family: var(--font-body);
+  font-size: var(--cs-text-body);
+  line-height: 1.72;
+  color: var(--text-body);
+}
+.cs-prose > * { margin: 0; }
+.cs-prose > * + * { margin-top: 1.1em; }
+.cs-prose strong { color: var(--text-primary); font-weight: 600; }
+.cs-prose em { font-style: italic; }
+.cs-prose a {
+  color: var(--cs-accent);
+  border-bottom: 1px solid var(--accent-ring);
+  transition: border-color 0.2s ease;
+}
+.cs-prose a:hover { border-color: var(--cs-accent); }
+.cs-prose ul, .cs-prose ol { padding-left: 1.25em; }
+.cs-prose li { margin-top: 0.5em; }
+.cs-prose li::marker { color: var(--text-muted); }
+
+/* A lead paragraph variant — slightly larger, for section openers. */
+.cs-prose--lead { font-size: var(--cs-text-lead); line-height: 1.65; color: var(--text-secondary); }
+
+/* ============================================================
+   SECTION HEADING
+   ============================================================ */
+.cs-heading {
+  scroll-margin-top: 88px;
+  max-width: var(--cs-measure);
+  margin-inline: auto;
+}
+.cs-content > .cs-heading { margin-top: var(--cs-section-gap); }
+.cs-heading-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin: 0 0 10px;
+}
+.cs-heading-title {
+  font-family: var(--font-display);
+  font-size: var(--cs-text-h2);
+  font-weight: 600;
+  line-height: 1.14;
+  letter-spacing: -0.025em;
+  color: var(--text-primary);
+  margin: 0;
+}
+.cs-heading-anchor {
+  color: inherit;
+  border: 0;
+}
+.cs-heading-anchor:hover { color: var(--cs-accent); }
+
+/* Sub-heading (h3) for in-section titles */
+.cs-subheading {
+  font-family: var(--font-display);
+  font-size: var(--cs-text-h3);
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: -0.015em;
+  color: var(--text-primary);
+  max-width: var(--cs-measure);
+  margin-inline: auto;
+}
+
+/* ============================================================
+   OUTCOME BAND
+   ============================================================ */
+.cs-outcomeband {
+  max-width: var(--cs-wide);
+  margin-inline: auto;
+  background: var(--accent-tint);
+  border: 1px solid var(--accent-ring);
+  border-radius: var(--cs-radius-lg);
+  padding: clamp(24px, 3vw, 34px) clamp(24px, 3vw, 38px);
+}
+.cs-outcomeband-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--cs-accent);
+  margin: 0 0 var(--cs-5);
+}
+.cs-outcomeband-list {
+  display: grid;
+  gap: clamp(16px, 2.2vw, 22px);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+.cs-outcomeband-item {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 12px;
+  align-items: start;
+}
+.cs-outcomeband-mark {
+  width: 8px; height: 8px;
+  margin-top: 8px;
+  border-radius: 50%;
+  background: var(--cs-accent);
+  flex: none;
+}
+.cs-outcomeband-text {
+  font-family: var(--font-body);
+  font-size: var(--cs-text-small);
+  line-height: 1.55;
+  color: var(--text-secondary);
+}
+.cs-outcomeband-text strong { color: var(--text-primary); font-weight: 600; }
+
+/* ============================================================
+   PULL QUOTE — variants: user, principle
+   ============================================================ */
+.cs-pullquote {
+  max-width: var(--cs-column);
+  margin-inline: auto;
+  border: 0;
+  padding: 0;
+}
+.cs-pullquote-text {
+  font-family: var(--font-display);
+  font-size: var(--cs-text-quote);
+  font-weight: 500;
+  line-height: 1.32;
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+.cs-pullquote-cite {
+  display: block;
+  margin-top: var(--cs-4);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+/* user: a real quote — quotation feel, neutral ink, hanging quote mark */
+.cs-pullquote--user {
+  padding-left: clamp(20px, 3vw, 34px);
+  border-left: 2px solid var(--border-strong);
+}
+.cs-pullquote--user .cs-pullquote-text { color: var(--text-primary); font-style: italic; font-weight: 400; }
+/* principle: a design principle — accent-forward, weightier */
+.cs-pullquote--principle {
+  padding-left: clamp(20px, 3vw, 34px);
+  border-left: 3px solid var(--cs-accent);
+}
+.cs-pullquote--principle .cs-pullquote-text { color: var(--text-primary); }
+.cs-pullquote--principle .cs-pullquote-text strong { color: var(--cs-accent); }
+
+/* ============================================================
+   IMAGE FIGURE + PLACEHOLDER
+   ============================================================ */
+.cs-figure { max-width: var(--cs-column); margin-inline: auto; }
+.cs-figure--wide { max-width: var(--cs-wide); }
+.cs-figure--full {
+  max-width: none;
+  width: 100vw;
+  margin-left: 50%;
+  transform: translateX(-50%);
+  padding-inline: var(--cs-gutter);
+}
+.cs-figure-media {
+  display: block;
+  width: 100%;
+  border-radius: var(--cs-radius);
+  border: 1px solid var(--border-card);
+  background: var(--bg-surface-alt);
+  overflow: hidden;
+}
+.cs-figure-media img { display: block; width: 100%; height: auto; }
+.cs-caption {
+  margin: var(--cs-3) 0 0;
+  font-family: var(--font-body);
+  font-size: var(--cs-text-caption);
+  font-style: italic;
+  line-height: 1.5;
+  color: var(--text-muted);
+  max-width: 60ch;
+}
+
+/* Placeholder shown until a real image file is dropped in — clearly styled,
+   never breaks the layout, shows the alt text so intent stays legible. */
+.cs-placeholder {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  text-align: center;
+  padding: clamp(28px, 6vw, 56px) clamp(20px, 4vw, 40px);
+  min-height: 180px;
+  aspect-ratio: 16 / 9;
+  border: 1px dashed var(--border-dashed);
+  border-radius: var(--cs-radius);
+  background:
+    repeating-linear-gradient(-45deg, var(--accent-tint) 0 10px, transparent 10px 20px),
+    var(--bg-surface-alt);
+  color: var(--text-muted);
+}
+.cs-placeholder--bare { aspect-ratio: auto; min-height: 140px; }
+.cs-placeholder-tag {
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--cs-accent);
+}
+.cs-placeholder-alt {
+  font-family: var(--font-body);
+  font-size: var(--cs-text-caption);
+  line-height: 1.5;
+  color: var(--text-secondary);
+  max-width: 46ch;
+}
+.cs-placeholder-file {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.04em;
+  color: var(--text-muted);
+  opacity: 0.8;
+}
+
+/* ============================================================
+   ILLUSTRATION ROW — 2–4 images, one shared caption
+   ============================================================ */
+.cs-illrow { max-width: var(--cs-wide); margin-inline: auto; }
+.cs-illrow-grid {
+  display: grid;
+  gap: clamp(12px, 1.6vw, 18px);
+  grid-template-columns: repeat(var(--cs-cols, 3), minmax(0, 1fr));
+}
+.cs-illrow-cell { display: flex; flex-direction: column; }
+.cs-illrow-cell .cs-figure-media,
+.cs-illrow-cell .cs-placeholder { height: 100%; }
+
+/* ============================================================
+   BEFORE / AFTER
+   ============================================================ */
+.cs-beforeafter { max-width: var(--cs-wide); margin-inline: auto; }
+.cs-beforeafter-grid {
+  display: grid;
+  gap: clamp(14px, 2vw, 22px);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: start;
+}
+.cs-ba-col { display: grid; gap: 10px; }
+.cs-ba-tag {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.cs-ba-tag::before {
+  content: "";
+  width: 7px; height: 7px; border-radius: 50%;
+  background: currentColor;
+}
+.cs-ba-tag--before { color: var(--text-muted); }
+.cs-ba-tag--after { color: var(--cs-accent); }
+
+/* ============================================================
+   DECISION BLOCK — title, body, and the trade-off note
+   (Alternative considered / Why we didn't). The trade-off is the
+   strongest signal in the story, so it gets a distinct, readable
+   treatment rather than being buried in prose.
+   ============================================================ */
+.cs-decision {
+  max-width: var(--cs-column);
+  margin-inline: auto;
+  padding: clamp(22px, 3vw, 30px) clamp(22px, 3vw, 30px) clamp(22px, 3vw, 28px);
+  background: var(--bg-surface);
+  border: 1px solid var(--border-card);
+  border-radius: var(--cs-radius-lg);
+  box-shadow: var(--shadow-card);
+}
+.cs-decision-index {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--cs-accent);
+}
+.cs-decision-title {
+  font-family: var(--font-display);
+  font-size: var(--cs-text-h3);
+  font-weight: 600;
+  line-height: 1.28;
+  letter-spacing: -0.015em;
+  color: var(--text-primary);
+  margin: 8px 0 0;
+}
+.cs-decision-body {
+  font-family: var(--font-body);
+  font-size: var(--cs-text-small);
+  line-height: 1.66;
+  color: var(--text-body);
+  margin: var(--cs-4) 0 0;
+}
+.cs-decision-body > * { margin: 0; }
+.cs-decision-body > * + * { margin-top: 0.9em; }
+.cs-decision-body strong { color: var(--text-primary); font-weight: 600; }
+
+.cs-tradeoff {
+  margin-top: var(--cs-5);
+  border-radius: var(--cs-radius);
+  border: 1px solid var(--accent-ring);
+  background: var(--accent-tint);
+  overflow: hidden;
+}
+.cs-tradeoff-row { padding: 14px clamp(16px, 2vw, 20px); }
+.cs-tradeoff-row + .cs-tradeoff-row { border-top: 1px solid var(--accent-ring); }
+.cs-tradeoff-label {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--cs-accent);
+  margin-bottom: 6px;
+}
+.cs-tradeoff-text {
+  font-family: var(--font-body);
+  font-size: var(--cs-text-caption);
+  line-height: 1.6;
+  color: var(--text-secondary);
+  margin: 0;
+}
+.cs-tradeoff-text strong { color: var(--text-primary); font-weight: 600; }
+
+/* ============================================================
+   COMPARISON TABLE
+   ============================================================ */
+.cs-table-wrap { max-width: var(--cs-wide); margin-inline: auto; }
+.cs-table-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.cs-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-body);
+  font-size: var(--cs-text-small);
+  min-width: 520px;
+}
+.cs-table caption {
+  text-align: left;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: var(--cs-4);
+}
+.cs-table th, .cs-table td {
+  text-align: left;
+  padding: 13px 18px;
+  vertical-align: top;
+  line-height: 1.5;
+  border-bottom: 1px solid var(--border-subtle);
+}
+.cs-table thead th {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+  background: var(--bg-surface-alt);
+  border-bottom: 1px solid var(--border-strong);
+}
+.cs-table tbody th {
+  font-weight: 600;
+  color: var(--text-primary);
+  width: 30%;
+}
+.cs-table td { color: var(--text-body); }
+.cs-table td strong, .cs-table tbody th strong { color: var(--text-primary); font-weight: 600; }
+.cs-table tbody tr:last-child th,
+.cs-table tbody tr:last-child td { border-bottom: 0; }
+
+/* ============================================================
+   METRIC ROW / OUTCOME TABLE
+   ============================================================ */
+.cs-metricrow { max-width: var(--cs-wide); margin-inline: auto; }
+.cs-metricrow-grid {
+  display: grid;
+  gap: clamp(12px, 1.6vw, 16px);
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+}
+.cs-metric {
+  padding: clamp(18px, 2.2vw, 24px);
+  background: var(--bg-surface);
+  border: 1px solid var(--border-card);
+  border-radius: var(--cs-radius);
+  box-shadow: var(--shadow-card);
+  display: grid;
+  gap: 8px;
+  align-content: start;
+}
+.cs-metric-value {
+  font-family: var(--font-display);
+  font-size: var(--cs-text-metric);
+  font-weight: 600;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  color: var(--cs-accent);
+}
+.cs-metric-value--text {
+  font-size: var(--cs-text-h3);
+  color: var(--text-primary);
+}
+.cs-metric-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+.cs-metric-note {
+  font-family: var(--font-body);
+  font-size: var(--cs-text-caption);
+  line-height: 1.5;
+  color: var(--text-secondary);
+}
+
+/* ============================================================
+   FOOTER — next project + contact
+   ============================================================ */
+.cs-footer {
+  border-top: 1px solid var(--border-subtle);
+  background: var(--bg-surface-alt);
+}
+.cs-footer-inner {
+  max-width: var(--cs-wide);
+  margin: 0 auto;
+  padding: clamp(48px, 8vw, 88px) var(--cs-gutter) clamp(36px, 5vw, 52px);
+}
+.cs-next-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin: 0 0 var(--cs-4);
+}
+.cs-next-link {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 14px;
+  font-family: var(--font-display);
+  font-size: clamp(26px, 5vw, 44px);
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  color: var(--text-primary);
+  border: 0;
+  transition: color 0.2s ease;
+}
+.cs-next-link:hover { color: var(--cs-accent); }
+.cs-next-link .cs-next-arrow { color: var(--cs-accent); transition: transform 0.2s ease; }
+.cs-next-link:hover .cs-next-arrow { transform: translateX(4px); }
+.cs-footer-contact {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  align-items: center;
+  margin-top: clamp(40px, 6vw, 64px);
+  font-family: var(--font-body);
+  font-size: 15px;
+  font-weight: 500;
+}
+.cs-footer-meta {
+  margin-top: clamp(40px, 6vw, 64px);
+  padding-top: 18px;
+  border-top: 1px solid var(--border-subtle);
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  color: var(--text-muted);
+}
+
+/* ============================================================
+   RESPONSIVE — stack, don't squash (≤720px)
+   ============================================================ */
+@media (max-width: 720px) {
+  .cs-glance { grid-template-columns: minmax(0, 1fr); }
+  .cs-outcomeband-list { grid-template-columns: minmax(0, 1fr); }
+  .cs-illrow-grid { grid-template-columns: minmax(0, 1fr); }
+  .cs-beforeafter-grid { grid-template-columns: minmax(0, 1fr); }
+  .cs-figure--full { padding-inline: var(--cs-gutter); }
+}

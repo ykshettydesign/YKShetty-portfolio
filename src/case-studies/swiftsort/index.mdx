@@ -1,0 +1,512 @@
+import {
+  OutcomeBand,
+  Prose,
+  PullQuote,
+  ImageFigure,
+  IllustrationRow,
+  BeforeAfter,
+  DecisionBlock,
+  ComparisonTable,
+  MetricRow,
+} from '../../components/case-study'
+
+{/* Base path for this case study's images. Drop the real files into
+    public/case-studies/swiftsort/images/ using the filenames below — until then
+    each <ImageFigure> shows a styled placeholder with its alt text. */}
+export const IMAGES = '/case-studies/swiftsort/images'
+
+{/* Structured data for the shared shell (title, subtitle, tags, and the
+    Project-at-a-glance meta block). The body below is content only. */}
+export const meta = {
+  order: 1,
+  title: 'SwiftSort — from memorized routes to instant, system-guided action',
+  subtitle:
+    'Shifting sorting decisions from workers to the system, across high-volume Nordic logistics terminals.',
+  tags: ['Logistics UX', 'Mobile & wearable', 'End-to-end ownership', 'POC → production'],
+  glance: [
+    {
+      label: 'Role',
+      value:
+        'Sole designer on this project (part of a wider design team) — owned research, UX strategy, interaction design, and design–engineering alignment end to end',
+    },
+    { label: 'Team', value: '1 Product Manager · 4 Engineers · 2 Operations Leads' },
+    { label: 'Region', value: 'Nordic' },
+    { label: 'Platform', value: 'Android tablet + ProGlove wearable scanner' },
+    { label: 'Timeline', value: '3 months, proof-of-concept through to production' },
+    { label: 'Tools', value: 'Figma, Figma Make, Banani, MS Copilot' },
+  ],
+}
+
+<ImageFigure
+  fullBleed
+  src={`${IMAGES}/01-hero.png`}
+  alt="The finished SwiftSort screen on a terminal tablet: a large destination card reading “12 CD”, the address, a barcode, and a QR “DROP” code on the right."
+  caption="The finished SwiftSort screen — a large destination card, address, barcode and a QR “DROP” code. The shipped product, before the story begins."
+/>
+
+## The outcome
+
+<Prose>
+
+SwiftSort is **live in production**, running across the client's Nordic terminals. It replaced memory-dependent sorting with a scan-guided workflow — and the operations side felt the difference firsthand.
+
+</Prose>
+
+<OutcomeBand
+  items={[
+    <><strong>Shipped and running in live terminals</strong> — not a prototype or a pilot that stalled</>,
+    <><strong>Faster onboarding and fewer gate errors</strong> — reported by terminal managers to business stakeholders, not just observed by the design team</>,
+    <><strong>Zero new hardware, zero layout changes</strong> — it ran on scanners workers already used</>,
+  ]}
+/>
+
+<Prose lead>
+
+**The short version:** A major Nordic logistics provider needed to sort more parcels, faster, without buying equipment or retraining staff. The sorting knowledge lived in workers' heads — which route, which gate, which order. SwiftSort moved that knowledge into the system, and triggered it with a scan instead of a decision.
+
+</Prose>
+
+<Prose>
+
+*The whole project ran on one principle:*
+
+</Prose>
+
+<PullQuote variant="principle">
+  <strong>Find the behavior that already exists, and build the system around it</strong> — so workers have less to learn, not more.
+</PullQuote>
+
+## The problem
+
+<Prose>
+
+Imagine standing on a warehouse floor as parcels pour in. Every box looks the same. Nothing tells you which one has to leave *today* and which one can wait. You have to *know* — from experience — which gate each postal code maps to, and in what order to stack things.
+
+That was the daily reality. Sorting depended entirely on what workers had memorized. When I asked one operator how he kept it all straight, he shrugged:
+
+</Prose>
+
+<PullQuote variant="user">I just memorize it. When I forget, I ask someone.</PullQuote>
+
+<Prose>
+
+That one sentence is the whole problem. Critical operational knowledge wasn't in the system — it was in people's heads, and it walked out the door every time someone changed shifts or left.
+
+**What that cost the business:**
+
+- **Slow throughput** during peak hours, because every parcel required a mental lookup
+- **Frequent errors** — urgent and low-priority goods mixed at the gate, so time-sensitive deliveries missed their trucks
+- **Painful onboarding** — a new hire couldn't be useful until they'd memorized the routes, which took weeks
+- **Inconsistent terminals** — experienced operators were fast; everyone else was slow, and no two sites ran the same way
+
+The company needed to handle more volume without buying new equipment, redesigning the floor, or adding training. Those constraints ruled out most obvious answers.
+
+**The reframe that shaped everything:**
+
+</Prose>
+
+<PullQuote variant="principle">
+  Sorting was never a screen problem. It was a *decision* problem. Workers were doing system-level thinking — mapping, remembering, sequencing — manually, under pressure. The real opportunity wasn't to show them information faster. It was to move the thinking out of their heads and into the system.
+</PullQuote>
+
+## How I approached it
+
+<Prose>
+
+I started on the terminal floor, not in Figma. Over the discovery phase I shadowed forklift operators through full shifts, watched how loose goods and pallets actually got stacked, and sat with terminal managers and operations leads to understand where the informal workarounds lived.
+
+The job wasn't to invent a new way to sort. It was to find the behavior that *already worked* and build the system around it. That principle — stated up top — ended up driving every major decision below.
+
+**One boundary worth naming.** SwiftSort doesn't decide *where* a parcel should go — routing and drop-off assignment are set by planners in a separate system, upstream of us. Our app's job is to take that data and make the right action obvious and instant at the sorting moment. I mention this because it defines what I actually owned: not the routing logic, but the worker-facing decision layer — the point where upstream data becomes a physical action on a noisy terminal floor. Knowing exactly where our slice started and ended shaped every trade-off that followed.
+
+</Prose>
+
+<ImageFigure
+  wide
+  src={`${IMAGES}/05-research-synthesis.png`}
+  alt="A clustered affinity view of field observations grouped into themes such as memory dependence, environmental constraints, and LIFO stacking behaviour."
+  caption="Field observations, clustered into themes — memory dependence, environmental constraints, LIFO stacking behaviour. The “how I made sense of it” artifact."
+/>
+
+## What the old workflow actually looked like
+
+<Prose>
+
+A single parcel took three steps — one physical, two mental. Watch the mental load grow:
+
+</Prose>
+
+<IllustrationRow
+  items={[
+    {
+      src: `${IMAGES}/02-illustration-scan.png`,
+      alt: 'Comic panel — the driver calmly scans the box, an empty thought-bubble above them: no mental effort.',
+    },
+    {
+      src: `${IMAGES}/03-illustration-read.png`,
+      alt: 'Comic panel — the driver reads the label, a small thought-bubble with a magnifying glass and a question mark: mild effort.',
+    },
+    {
+      src: `${IMAGES}/04-illustration-mental-lookup.png`,
+      alt: 'Comic panel — the driver looks overwhelmed, a huge chaotic thought-bubble tangled with gate numbers, routes and arrows.',
+    },
+  ]}
+  caption="One physical step, two mental ones — and the mental load is where the time, the errors, and the training cost all lived."
+/>
+
+<ComparisonTable
+  head={['Step', 'What the worker did', 'Type']}
+  rows={[
+    ['1. Scan', 'Scan the barcode', 'Physical'],
+    ['2. Read', 'Read the postal code off the label', 'Mental'],
+    ['3. Decide', 'Recall which gate, which route, which order', <><strong>Mental — the bottleneck</strong></>],
+  ]}
+/>
+
+<Prose>
+
+Steps 2 and 3 were invisible work happening inside someone's head. That's where the time, the errors, and the training cost all lived — and none of it was written down anywhere the system could see.
+
+</Prose>
+
+## The moment that changed the design
+
+<Prose>
+
+The most important decision in this project didn't come from the brief. It came from watching a mistake.
+
+</Prose>
+
+### The wrong direction
+
+<Prose>
+
+During proof-of-concept testing, I watched forklift drivers struggle to reach a button on a mounted tablet. The tablet was bolted in the only spot it physically fit — which turned out not to be a spot a human arm could comfortably reach mid-operation.
+
+The team's response was the response *anyone* would give: **make the button bigger. Move the tablet. Add a second button.** We spent days debating button placement. Everyone was solving the problem as stated — "the button is hard to reach" — and no one was questioning whether the button should exist.
+
+</Prose>
+
+### The reframe
+
+<Prose>
+
+I went home, opened the session recording from that day, and watched it again the next morning.
+
+This time I noticed something I'd missed live: **every worker in the recording was already wearing a ProGlove scanner.** Activated. In the workflow. They weren't reaching for the tablet because they wanted to touch it — they were reaching because the system asked them to confirm with a tap.
+
+So I asked a different question: *what if the button didn't have to be reachable?*
+
+I proposed adding a **static QR code** as the last card in the list — a code the worker could scan with the ProGlove already on their hand, *or* tap like any other button. On a mounted tablet that's sometimes out of arm's reach, the scan path means reach stops mattering. The QR becomes, in effect, a physical button the worker can trigger from wherever they're standing — without giving up the tap for anyone who prefers it.
+
+Getting the team there took more than the idea itself. The button debate had momentum — people had invested days in it. Rather than argue placement, I brought the group back to the recording and let them watch the glove do the work. Seeing it was faster than being told. The conversation shifted from "where does the button go" to "why does reach have to be the constraint," and the room moved on its own.
+
+I want to be honest about the confidence level here: at that point it was a hunch, not a proven answer. Adding a scan path to a live operation is the kind of idea that's either elegant or redundant, and I couldn't tell which yet from a meeting room. The whole thing hinged on one question I couldn't answer at a desk — would a worker mid-shift, gloves on, actually reach for the scan instead of stretching for the button? That question is what sent the concept straight to the floor for testing rather than into a polished mockup.
+
+</Prose>
+
+<PullQuote variant="principle">
+  <strong>The insight came from watching a recording a second time — not from the brief.</strong> The fix wasn't a bigger button or a better mount. It was giving the worker a second way in, so the mounting distance stopped being a problem to solve.
+</PullQuote>
+
+<BeforeAfter
+  before={{
+    src: `${IMAGES}/06-reframe-before.png`,
+    alt: 'The out-of-reach button mounted on the forklift tablet — a worker stretching to reach it mid-operation.',
+  }}
+  after={{
+    src: `${IMAGES}/07-reframe-after.png`,
+    alt: 'The QR “DROP” card that gives a scannable path to the same confirmation action.',
+  }}
+  caption="Scan or tap. Reach stops mattering."
+/>
+
+## Working with engineering
+
+<Prose>
+
+The static-QR idea only worked because engineering pressure-tested it early.
+
+Engineering's first instinct was a **dynamic QR** — a unique code generated for every scanned parcel. Within a day, they flagged the problems: significant backend complexity, scalability concerns, and a timeline we couldn't hit.
+
+We landed on **static QR** together — and it turned out to be not just simpler but genuinely *better*:
+
+- **Reliable** — no backend to fail, works offline
+- **Scalable** — print, attach, deploy; the same code works at every terminal
+- **Zero-config** — operations can place codes anywhere without involving IT
+
+The engineering constraint didn't compromise the design. It *improved* it. The thing that was easiest to build was also the thing that was most robust on the floor.
+
+</Prose>
+
+## How the workflow shrank
+
+<Prose>
+
+The proof-of-concept removed the *recall* step. The final design removed the *reaching* — the confirmation no longer depended on the worker being close enough to the screen.
+
+</Prose>
+
+<ComparisonTable
+  head={['', 'Old workflow', 'Final design']}
+  rows={[
+    ['Scan the parcel', '✅', '✅ (unchanged)'],
+    ['Read the postal code', 'Manual, from the label', <><strong>Eliminated</strong> — destination shown instantly</>],
+    ['Recall gate & route', 'Mental lookup', <><strong>Eliminated</strong> — no memory needed</>],
+    ['Confirm drop-off', 'Tap a button you had to reach', <><strong>Scan or tap</strong> — the QR works from anywhere</>],
+  ]}
+/>
+
+<Prose>
+
+Three steps, two of them mental, became a scan and a single confirmation that no longer depended on reach.
+
+</Prose>
+
+<ImageFigure
+  wide
+  src={`${IMAGES}/08-workflow-after.png`}
+  alt="The three-step workflow diagram with steps 2 and 3 (read the postal code, recall gate and route) crossed out and greyed, ending in “Confirm by scan or tap.”"
+  caption="The same three steps — now with the two mental ones removed, ending in a single “confirm by scan or tap.”"
+/>
+
+## The design decisions (and what each one traded off)
+
+<Prose>
+
+Every choice below came from that same principle — find the existing behavior, let the system follow it. None of these asked workers to learn something new.
+
+</Prose>
+
+<DecisionBlock
+  index="Decision 01"
+  title="The QR code doubles as the button"
+  tradeoff={{
+    considered: 'ProGlove gesture events — a wave or motion to confirm.',
+    why: (
+      <>
+        Engineering flagged them as unstable in a noisy, fast-moving environment. A scannable, tappable QR was
+        more reliable — and it degraded gracefully, since if one input failed the other still worked.
+      </>
+    ),
+  }}
+>
+
+On the mounted tablet, the QR sits as the last card in the drop list — and it works two ways: scan it with the ProGlove, or tap it like any other button. That dual function is deliberate. Forklift mounts vary, and on some vehicles the tablet ends up too far for a comfortable mid-operation reach. The scan path means the confirmation works regardless of where the tablet had to be mounted; the tap stays for anyone close enough to use it. Reach stops being a design problem because the worker always has a path that fits their vehicle.
+
+</DecisionBlock>
+
+<ImageFigure
+  src={`${IMAGES}/09-qr-scan-or-tap.png`}
+  alt="The tablet drop list with the QR “DROP” card as the final item, annotated to show both paths: scan with ProGlove, or tap to confirm."
+  caption="The QR “DROP” card as the final item in the list — annotated to show both paths: scan with the ProGlove, or tap to confirm."
+/>
+
+<DecisionBlock
+  index="Decision 02"
+  title="Scan-first — not voice"
+  tradeoff={{
+    considered: 'Voice commands.',
+    why: (
+      <>
+        In a loud warehouse, reading barcode values aloud introduced <strong>more</strong> errors than it
+        removed. Voice feedback would be missed or forgotten, especially when a worker handles several drop-offs
+        at once. This was the clearest “no” in the project — a good idea the environment rejected.
+      </>
+    ),
+  }}
+>
+
+Workers already scanned barcodes constantly, so making the *scan itself* the trigger required no new behavior.
+
+</DecisionBlock>
+
+<DecisionBlock index="Decision 03" title="The screen mirrors the physical stack (LIFO)">
+
+During research I saw that forklift drivers almost always drop off the **most recently scanned** item first — roughly 95–99% of the time, last-in is first-out.
+
+So the design puts the **latest scanned pallet as the largest card at the top**, with smaller cards beneath. The order on screen matches the order on the forklift — no mental translation.
+
+*The honest edge case:* that leaves 1–5% of cases where last-scanned *isn't* next-dropped. Workers can scan any card directly to override the default, but this is the assumption I'd most want to instrument over a longer run (more below).
+
+</DecisionBlock>
+
+<ImageFigure
+  src={`${IMAGES}/10-lifo-layout.png`}
+  alt="The main screen showing the large top card “12 CD, 1726 Sarpsborg” with smaller cards beneath — “06 AB”, “18 CD”."
+  caption="Largest card = last scanned = next dropped. The order on screen matches the order on the forklift."
+/>
+
+<DecisionBlock index="Decision 04" title="Priority surfaces at the moment of sorting">
+
+Time-sensitive shipments now appear with a distinct accent treatment, floating to the top of the stack — **before** the worker decides where to place the parcel.
+
+The priority signal used to live in dispatch, far upstream. Moving it to the sorting moment is why urgent and low-priority goods stopped mixing at the gate.
+
+*Not in the brief. Found in the field.*
+
+</DecisionBlock>
+
+<DecisionBlock index="Decision 05" title="Stacking mode for loose goods">
+
+Drivers loading several loose items to the same destination used to create one card per item — slow and repetitive. Stacking mode lets them group everything and drop off in a single scan, triggered by a barcode embedded in the primary card.
+
+*Not in the brief. Found in the field.*
+
+</DecisionBlock>
+
+<ImageFigure
+  src={`${IMAGES}/11-stacking-mode.png`}
+  alt="The split-screen stacking view: the main sort list on the left, a “Stacking Mode” panel on the right grouping multiple parcels under one destination."
+  caption="Stacking mode — one scan, many items grouped under a single destination."
+/>
+
+### Designed for an industrial floor
+
+<Prose>
+
+Underpinning all of it, the interface had to survive the environment: readable at 1–2 meters, high-contrast for outdoor glare, large glove-friendly targets, and one decision per screen so nothing competes for a worker's split-second attention.
+
+</Prose>
+
+## One solution, two form factors
+
+<Prose>
+
+The QR-as-button was never meant to be everywhere. It solved a *specific* physical problem — a tablet mounted out of reach on a forklift — and the moment the physical context changed, so did the design.
+
+Some workers don't use a mounted tablet at all. They carry a handheld **TC57**, which has a scanner built in and no separate ProGlove. For them, reach is never a problem: the device is already in their hand. So the TC57 version deliberately **drops the QR entirely** and confirms drop-off with a simple tap on the green **Drop** button.
+
+The same task, designed twice:
+
+</Prose>
+
+<ComparisonTable
+  head={['', 'Mounted tablet + ProGlove', 'Handheld TC57']}
+  rows={[
+    ['Where the device lives', 'Bolted to the forklift, sometimes out of reach', 'In the worker’s hand'],
+    ['How you confirm a drop', 'Scan the QR card, or tap it', 'Tap the Drop button'],
+    ['Why', 'Reach varies by vehicle — the scan path removes that variable', 'Reach is never in question — so no QR needed'],
+  ]}
+/>
+
+<Prose>
+
+This is the part I'm most deliberate about: the clever solution was matched to the context that *needed* it, and withheld from the context that didn't. A QR on the TC57 would have been a solution in search of a problem — extra visual weight solving a constraint that doesn't exist in-hand. Matching the input to the device's physical reality, rather than standardizing one pattern everywhere, is the same principle as the rest of the project: *let the existing reality decide the design.*
+
+</Prose>
+
+<ImageFigure
+  src={`${IMAGES}/12-tc57-stacking.png`}
+  alt="The handheld TC57 stacking screen: a “23 CD” header, a green “Drop” button top-right, and the grouped parcel list for Fløyfjellsveien 178 / 9876 Bergen — with no QR card."
+  caption="In-hand device — tap to drop, no QR needed."
+/>
+
+<ImageFigure
+  wide
+  src={`${IMAGES}/13-tablet-vs-tc57.png`}
+  alt="The two form factors side by side: the tablet with the QR “DROP” card versus the TC57 with the tap-only Drop button."
+  caption="Same task. The device's reach decided the input."
+/>
+
+## Exploring, then discarding
+
+<Prose>
+
+Not everything survived. Early on I used Figma Make to generate six LIFO card layouts fast, then killed most of them against a single test: could a worker read it at arm's length, in motion, wearing gloves? Most couldn't. The variants that packed in more information — the ones that looked richer on a desktop screen — were the first to go.
+
+</Prose>
+
+<ImageFigure
+  wide
+  src={`${IMAGES}/14-discarded-variants.png`}
+  alt="A grid of early LIFO card layout explorations with the rejected variants visibly marked."
+  caption="The range considered — and the judgment applied. Most explorations were killed against one test: readable at arm's length, in motion, wearing gloves."
+/>
+
+## How AI fit into the process
+
+<Prose>
+
+AI tools compressed the slow early phase; the field decided what actually shipped.
+
+- **Figma Make** generated six LIFO card variants in the time it would've taken to build one cleanly
+- **MS Copilot** clustered raw field-research notes into themes — which is how the "priority at the sorting moment" finding surfaced
+- **Banani** structured the stacking-mode flow before I committed it to Figma
+
+Net effect: roughly **30% faster early exploration**. Every decision that shipped still came from on-site testing, not from a generated mockup.
+
+</Prose>
+
+## Testing on the floor
+
+<Prose>
+
+This wasn't validated in a design tool. It was validated on Zebra devices, on the terminal floor, twice.
+
+**Round 1 failed in useful ways.** Workers struggled with controls *while moving*, stacking interactions were too fiddly, and scan feedback wasn't clear enough. Nothing about the concept was wrong — the execution was too fine-grained for a glove and a moving forklift.
+
+**I iterated:** stronger visual hierarchy, clearer color coding, higher visibility for the latest scan, bigger targets, simpler interactions.
+
+**Round 2 confirmed the fix.** Workers moved through sorting noticeably faster, preferred the guided flow over memorization, and stacking got measurably more consistent. This was the round that gave us the confidence to ship — the workflow held up under real movement, real gloves, real noise.
+
+</Prose>
+
+<ImageFigure
+  wide
+  src={`${IMAGES}/15-round1-vs-round2.png`}
+  alt="A before/after of a screen that changed between test rounds — the stacking interaction or scan-feedback state — annotated with what Round 1 taught and how Round 2 answered it."
+  caption="What the Round 1 failure taught, and how Round 2 answered it."
+/>
+
+## Outcomes
+
+<MetricRow
+  items={[
+    { value: 'Live in production', valueText: true, note: "Running across the client's Nordic terminals" },
+    { value: 'Faster onboarding', valueText: true, note: 'Reported by terminal managers — new starters productive sooner, nothing to memorize' },
+    { value: 'Fewer errors at the gate', valueText: true, note: 'Reported by terminal managers — urgent and low-priority goods stopped mixing' },
+    { value: 'None', label: 'New hardware required' },
+    { value: 'None', label: 'Terminal layout changes' },
+  ]}
+/>
+
+<Prose>
+
+The onboarding and error improvements aren't design-team self-assessment — they came from terminal managers, who raised them with business stakeholders as evidence the system was working on the floor. That's the validation I trust most: the people running the operation found the change real enough to report upward.
+
+Beyond that, the *shape* of the operation changed. New starters reached confidence faster because there was nothing to memorize. Delivery priority became visible at the exact moment it mattered, so time-sensitive shipments left on time. Low-volume routes could be consolidated instead of dispatched half-empty — which is what made fast-delivery commitments more scalable.
+
+</Prose>
+
+## What we shipped knowingly incomplete
+
+<Prose>
+
+We went live as an MVP with one known, unresolved issue: **changing a drop-off location isn't intuitive yet, and parcels don't group as cleanly as they should.** We knew this before launch — and shipped anyway, on purpose.
+
+The reasoning: drop-off locations are set upstream by planners, and we couldn't fully predict how that data would format and behave once it hit real terminals at volume. Rather than guess at the perfect grouping and re-editing model in a design tool, we shipped the core workflow, put it in front of real operations, and treated the first release as a way to *learn how drop-off data actually behaves in the wild.* The grouping and location-editing experience is the next thing to optimize, now that we have real formatting patterns to design against instead of assumptions.
+
+This is the trade-off I'd defend hardest: an MVP with a named, understood gap that generates real learning beats a "complete" design built on guesses about data we didn't yet control. Shipping to learn — and being honest about what isn't solved yet — is how this kind of operational system actually gets better.
+
+*The LIFO default (last-scanned = next-dropped) also rests on a 95–99% behavioral assumption. It held across observation and testing, with a manual override for the exception — but the override rate is another thing I'd want to instrument over a full peak season before calling it settled.*
+
+</Prose>
+
+## The takeaway
+
+<Prose>
+
+SwiftSort wasn't a UI redesign. It was a redesign of **how a decision gets made** on a warehouse floor.
+
+By moving the thinking out of workers' heads and into the system — and by triggering it with behavior they already had — sorting shifted from *memory-based* to *system-guided*, from *experience-dependent* to *scalable*, from *manual interpretation* to *instant action*.
+
+The clearest lesson: in operational systems, great design usually isn't about adding features. It's about **removing constraints** — and the best removal in this project came from watching a recording twice and asking why *reach* had to be the thing we designed around at all.
+
+</Prose>
+
+<Prose>
+
+*Yogesh Shetty · Product Designer — sole designer on SwiftSort, end to end*
+
+</Prose>

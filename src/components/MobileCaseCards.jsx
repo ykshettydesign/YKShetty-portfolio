@@ -62,37 +62,25 @@ export default function MobileCaseCards() {
             {expanded && (
               <div style={{ padding: '0 20px 22px', borderTop: '1px solid var(--border-subtle)' }}>
                 <div style={{ paddingTop: 18 }}>
-                  {c.cover ? (
-                    <img src={c.cover} alt={`${c.id} cover`} className="case-cover" />
-                  ) : (
-                    <div className="case-cover case-cover--placeholder" aria-hidden="true">
-                      <span>Cover image</span>
-                    </div>
-                  )}
-                  <div style={{ ...mono, fontSize: 9, fontWeight: 700, letterSpacing: '0.09em', textTransform: 'uppercase', color: 'var(--text-muted)', margin: '16px 0 5px' }}>
+                  <div style={{ ...mono, fontSize: 9, fontWeight: 700, letterSpacing: '0.09em', textTransform: 'uppercase', color: 'var(--text-muted)', margin: '0 0 5px' }}>
                     The problem
                   </div>
-                  <div style={{ fontFamily: 'var(--font-display)', fontSize: 16, fontWeight: 400, lineHeight: 1.25, color: 'var(--text-secondary)' }}>
+                  <p style={{ fontFamily: 'var(--font-body)', fontSize: 14, lineHeight: 1.65, color: 'var(--text-body)', margin: 0 }}>
                     {c.problem}
-                  </div>
+                  </p>
                   <div style={{ ...mono, fontSize: 9, fontWeight: 700, letterSpacing: '0.09em', textTransform: 'uppercase', color: 'var(--accent)', margin: '16px 0 5px' }}>
                     How I solved it
                   </div>
-                  <div
-                    style={{
-                      fontFamily: 'var(--font-display)',
-                      fontSize: 19,
-                      fontWeight: 600,
-                      lineHeight: 1.18,
-                      letterSpacing: '-0.02em',
-                      color: 'var(--text-primary)',
-                    }}
-                  >
+                  <p style={{ fontFamily: 'var(--font-body)', fontSize: 14, lineHeight: 1.65, color: 'var(--text-secondary)', margin: 0 }}>
                     {c.solution}
-                  </div>
-                  <p style={{ fontFamily: 'var(--font-body)', fontSize: 14, lineHeight: 1.65, color: 'var(--text-body)', margin: '14px 0 0' }}>
-                    {c.body}
                   </p>
+                  {c.cover ? (
+                    <img src={c.cover} alt={`${c.id} cover`} className="case-cover" style={{ margin: '16px 0 0' }} />
+                  ) : (
+                    <div className="case-cover case-cover--placeholder" style={{ margin: '16px 0 0' }} aria-hidden="true">
+                      <span>Cover image</span>
+                    </div>
+                  )}
                   <div style={{ display: 'flex', gap: 32, margin: '20px 0 18px' }}>
                     {c.stats.map((s) => (
                       <div key={s.label}>

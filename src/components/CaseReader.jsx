@@ -9,43 +9,48 @@ const label = {
   textTransform: 'uppercase',
   marginBottom: 7,
 }
+const para = {
+  fontFamily: 'var(--font-body)',
+  fontSize: 14.5,
+  lineHeight: 1.7,
+  color: 'var(--text-body)',
+  margin: 0,
+  maxWidth: '54ch',
+}
 
 /**
- * The "reader" content for a single active case study: a clean
- * Problem → How I solved it → Results read, with a cover image on top.
- * The whole block fades in (owned by the parent's opacity transition) — no
- * strike-out gimmick.
+ * The "reader" content for a single active case study — a tight, scannable read:
+ *   Title → The problem → How I solved it → cover image → Results.
+ * One paragraph each; the deeper detail lives behind "Request full case study".
+ * The whole block fades in (owned by the parent's opacity transition).
  */
 export default function CaseReader({ study }) {
   if (!study) return null
   return (
     <div data-detail={study.id}>
-      {/* cover — real image when present, neutral placeholder otherwise */}
+      {/* 1 · title */}
+      <div style={{ ...mono, fontSize: 9, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--text-tertiary)', marginBottom: 22 }}>
+        {study.metaLong}
+      </div>
+
+      {/* 2 · the problem */}
+      <div style={{ ...label, color: 'var(--text-muted)' }}>The problem</div>
+      <p style={para}>{study.problem}</p>
+
+      {/* 3 · how I solved it */}
+      <div style={{ ...label, color: 'var(--accent)', margin: '20px 0 6px' }}>How I solved it</div>
+      <p style={{ ...para, color: 'var(--text-secondary)' }}>{study.solution}</p>
+
+      {/* 4 · cover image (real when present, else a neutral placeholder) */}
       {study.cover ? (
-        <img src={study.cover} alt={`${study.id} cover`} className="case-cover" />
+        <img src={study.cover} alt={`${study.id} cover`} className="case-cover" style={{ margin: '22px 0 0' }} />
       ) : (
-        <div className="case-cover case-cover--placeholder" aria-hidden="true">
+        <div className="case-cover case-cover--placeholder" style={{ margin: '22px 0 0' }} aria-hidden="true">
           <span>Cover image</span>
         </div>
       )}
 
-      <div style={{ ...mono, fontSize: 9, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--text-tertiary)', margin: '20px 0 22px' }}>
-        {study.metaLong}
-      </div>
-
-      <div style={{ ...label, color: 'var(--text-muted)' }}>The problem</div>
-      <p style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(17px,2vw,22px)', fontWeight: 400, lineHeight: 1.25, color: 'var(--text-secondary)', margin: 0 }}>
-        {study.problem}
-      </p>
-
-      <div style={{ ...label, color: 'var(--accent)', margin: '22px 0 6px' }}>How I solved it</div>
-      <p style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(19px,2.3vw,26px)', fontWeight: 600, lineHeight: 1.18, letterSpacing: '-0.02em', color: 'var(--text-primary)', margin: 0 }}>
-        {study.solution}
-      </p>
-      <p style={{ fontFamily: 'var(--font-body)', fontSize: 14.5, lineHeight: 1.7, color: 'var(--text-body)', margin: '14px 0 0', maxWidth: '52ch' }}>
-        {study.body}
-      </p>
-
+      {/* 5 · results */}
       <div style={{ ...label, color: 'var(--text-muted)', margin: '24px 0 10px' }}>Results</div>
       <div style={{ display: 'flex', gap: 44, marginBottom: 26 }}>
         {study.stats.map((s) => (

@@ -39,6 +39,8 @@ export const caseStudies = [
     meta: 'Posten Bring · 2026',
     metaLong: '01 · Posten Bring · Oslo · 2026 · SwiftSort',
     brief: 'Make the button bigger.',
+    card: "Sorting sped up ~40% — decisions moved from workers' memory to the moment of scan.",
+    cover: null, // neutral placeholder until a real cover image is dropped in
     insight: "Delete touch — the scanner's already on their hand.",
     problem: 'Sorting decisions lived in workers’ heads, so every new hire needed weeks to get up to speed.',
     solution: 'Replaced memory with real-time, system-guided sorting — zero touch, no new hardware.',
@@ -57,6 +59,8 @@ export const caseStudies = [
     meta: 'ABN AMRO · 2024',
     metaLong: '02 · ABN AMRO · Neuflize OBC · 2024',
     brief: 'Wall off the whole flow.',
+    card: 'A 2-hour banking task cut to 60 seconds of self-service.',
+    cover: null, // neutral placeholder until a real cover image is dropped in
     insight: 'Gate only the destructive action.',
     problem: 'Clients waited two hours on the phone just to block a lost card, and compliance wanted a login on everything.',
     solution: 'Added authentication only where the real risk was — browsing stays free, blocking takes seconds.',
@@ -75,6 +79,8 @@ export const caseStudies = [
     meta: 'Posten Bring · 2025',
     metaLong: '03 · Posten Bring · Oslo · 2025',
     brief: 'Rebuild it screen by screen.',
+    card: 'Onboarding 65% faster — a legacy terminal re-architected as a cloud portal.',
+    cover: null, // neutral placeholder until a real cover image is dropped in
     insight: 'Map the system first, then design the shared frame.',
     problem: 'A legacy desktop terminal chained managers to one location and took weeks to learn.',
     solution: 'Mapped the system first, then built one shared portal — now reused across the whole Nordic suite.',
@@ -93,6 +99,8 @@ export const caseStudies = [
     meta: 'ABN AMRO · multi',
     metaLong: '04 · ABN AMRO · iOS · Android · Web',
     brief: 'Sort by document type.',
+    card: 'A complex document archive made self-service — across all three platforms.',
+    cover: null, // neutral placeholder until a real cover image is dropped in
     insight: "Organise by life event — the client's mental model.",
     problem: 'Clients needed their banker to find every document, because files were sorted the bank’s way, not theirs.',
     solution: 'Reorganised around life events — the way clients actually think — so they self-serve.',

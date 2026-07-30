@@ -188,6 +188,27 @@ img { max-width: 100%; }
   font-family: var(--font-body);
   font-size: 14px; font-weight: 600;
 }
+/* Case reader cover — a real image when present, else a neutral placeholder
+   slot sized like a media banner. Swap in a real image via the case `cover`. */
+.case-cover {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  border-radius: 12px;
+}
+.case-cover--placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-surface-alt);
+  border: 1px dashed var(--border-dashed);
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
 
 /* motion: the same gentle overshoot as the hero bubbles */
 .thread-pop { animation: threadPop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both; }

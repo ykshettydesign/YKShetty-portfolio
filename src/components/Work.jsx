@@ -1,6 +1,6 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useRef } from 'react'
 import { caseStudies } from '../data/content'
-import { useDragBoard, playReframe } from '../hooks/useDragBoard'
+import { useDragBoard } from '../hooks/useDragBoard'
 import MobileCaseCards from './MobileCaseCards'
 import CaseReader from './CaseReader'
 
@@ -42,16 +42,6 @@ export default function Work() {
 
   const activeStudy = caseStudies.find((c) => c.id === active) || null
 
-  // Run the reframe reveal whenever a new case becomes active.
-  useEffect(() => {
-    if (!active) return undefined
-    const t = setTimeout(() => {
-      const block = detailRef.current?.querySelector(`[data-detail="${active}"]`)
-      playReframe(block)
-    }, 180)
-    return () => clearTimeout(t)
-  }, [active])
-
   return (
     <section id="work" style={{ position: 'relative', zIndex: 10, marginTop: '-100vh' }}>
       <div style={{ maxWidth: 1100, margin: '0 auto', padding: '0 clamp(22px,5vw,44px) 81px' }}>
@@ -88,11 +78,11 @@ export default function Work() {
                 01 · Case studies
               </div>
               <div style={{ fontFamily: 'var(--font-display)', fontSize: 13, fontWeight: 500, color: 'var(--text-secondary)', marginLeft: 4 }}>
-                — The brief vs. the shift
+                — The problem, and how I solved it
               </div>
             </div>
             <div style={{ ...mono, fontSize: 9, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--text-muted)' }}>
-              <span className="drag-desktop">Drag a brief into the reader — or click one</span>
+              <span className="drag-desktop">Drag a case into the reader — or click one</span>
               <span className="drag-mobile" style={{ display: 'none' }}>Tap a card to open</span>
             </div>
           </div>
@@ -123,19 +113,16 @@ export default function Work() {
               }}
             >
               <div style={{ ...mono, fontSize: 9, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--text-muted)' }}>
-                Briefs · 04
+                Cases · 04
               </div>
               {caseStudies.map((c, i) => (
                 <div key={c.id} ref={setCardRefs[i]} data-card={c.id} style={cardBase}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 14, ...mono, fontSize: 10, color: 'var(--text-secondary)' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12, ...mono, fontSize: 10, color: 'var(--text-secondary)' }}>
                     <span>{c.meta}</span>
                     <span style={{ fontWeight: 700, color: 'var(--border-fade)' }}>{c.index}</span>
                   </div>
-                  <div style={{ ...mono, fontSize: 9, fontWeight: 700, letterSpacing: '0.09em', textTransform: 'uppercase', color: 'var(--text-muted)', marginBottom: 8 }}>
-                    The brief
-                  </div>
-                  <div style={{ fontFamily: 'var(--font-display)', fontSize: 18, fontWeight: 500, lineHeight: 1.2, color: 'var(--text-primary)' }}>
-                    {c.brief}
+                  <div style={{ fontFamily: 'var(--font-display)', fontSize: 15.5, fontWeight: 500, lineHeight: 1.3, letterSpacing: '-0.01em', color: 'var(--text-primary)' }}>
+                    {c.card}
                   </div>
                 </div>
               ))}
@@ -147,7 +134,7 @@ export default function Work() {
               style={{ position: 'relative', padding: '26px 32px 32px', background: 'var(--bg-surface)', transition: 'background .25s' }}
             >
               <div style={{ ...mono, fontSize: 9, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--text-muted)' }}>
-                The shift
+                The case
               </div>
 
               {/* empty state */}
@@ -171,12 +158,12 @@ export default function Work() {
                 <div style={{ fontSize: 28, lineHeight: 1, color: 'var(--border-fade)', fontWeight: 300 }}>↳</div>
                 <div style={{ textAlign: 'center' }}>
                   <div className="drop-desktop" style={{ fontFamily: 'var(--font-display)', fontSize: 18, fontWeight: 500, color: 'var(--text-primary)' }}>
-                    Drop a card to read the case study
+                    Drop a case to read it
                   </div>
                   <div className="drop-mobile" style={{ display: 'none', fontFamily: 'var(--font-display)', fontSize: 18, fontWeight: 500, color: 'var(--text-primary)' }}>
                     Tap a card to open
                   </div>
-                  <div style={{ ...mono, fontSize: 10, color: 'var(--text-muted)', marginTop: 6 }}>the answer glows</div>
+                  <div style={{ ...mono, fontSize: 10, color: 'var(--text-muted)', marginTop: 6 }}>the case opens</div>
                 </div>
               </div>
 

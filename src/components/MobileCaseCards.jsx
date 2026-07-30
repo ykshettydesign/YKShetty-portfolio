@@ -44,13 +44,14 @@ export default function MobileCaseCards() {
                 <div
                   style={{
                     fontFamily: 'var(--font-display)',
-                    fontSize: 18,
+                    fontSize: 16,
                     fontWeight: 500,
-                    lineHeight: 1.2,
+                    lineHeight: 1.3,
+                    letterSpacing: '-0.01em',
                     color: 'var(--text-primary)',
                   }}
                 >
-                  {c.brief}
+                  {c.card}
                 </div>
               </div>
               <div style={{ fontSize: 22, color: 'var(--text-tertiary)', flex: 'none', marginLeft: 16 }}>
@@ -61,33 +62,35 @@ export default function MobileCaseCards() {
             {expanded && (
               <div style={{ padding: '0 20px 22px', borderTop: '1px solid var(--border-subtle)' }}>
                 <div style={{ paddingTop: 18 }}>
-                  <div
-                    style={{
-                      fontFamily: 'var(--font-body)',
-                      fontSize: 16,
-                      color: 'var(--text-tertiary)',
-                      textDecoration: 'line-through',
-                      textDecorationColor: 'var(--accent)',
-                    }}
-                  >
-                    {c.brief}
+                  {c.cover ? (
+                    <img src={c.cover} alt={`${c.id} cover`} className="case-cover" />
+                  ) : (
+                    <div className="case-cover case-cover--placeholder" aria-hidden="true">
+                      <span>Cover image</span>
+                    </div>
+                  )}
+                  <div style={{ ...mono, fontSize: 9, fontWeight: 700, letterSpacing: '0.09em', textTransform: 'uppercase', color: 'var(--text-muted)', margin: '16px 0 5px' }}>
+                    The problem
+                  </div>
+                  <div style={{ fontFamily: 'var(--font-display)', fontSize: 16, fontWeight: 400, lineHeight: 1.25, color: 'var(--text-secondary)' }}>
+                    {c.problem}
                   </div>
                   <div style={{ ...mono, fontSize: 9, fontWeight: 700, letterSpacing: '0.09em', textTransform: 'uppercase', color: 'var(--accent)', margin: '16px 0 5px' }}>
-                    The shift
+                    How I solved it
                   </div>
                   <div
                     style={{
                       fontFamily: 'var(--font-display)',
-                      fontSize: 20,
+                      fontSize: 19,
                       fontWeight: 600,
-                      lineHeight: 1.15,
+                      lineHeight: 1.18,
                       letterSpacing: '-0.02em',
                       color: 'var(--text-primary)',
                     }}
                   >
-                    {c.insight}
+                    {c.solution}
                   </div>
-                  <p style={{ fontFamily: 'var(--font-body)', fontSize: 14, lineHeight: 1.65, color: 'var(--text-body)', margin: '16px 0 0' }}>
+                  <p style={{ fontFamily: 'var(--font-body)', fontSize: 14, lineHeight: 1.65, color: 'var(--text-body)', margin: '14px 0 0' }}>
                     {c.body}
                   </p>
                   <div style={{ display: 'flex', gap: 32, margin: '20px 0 18px' }}>

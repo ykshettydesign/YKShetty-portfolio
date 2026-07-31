@@ -5,20 +5,30 @@ import { Media } from './Media'
  * A crafted, art-directed hero: a brand backdrop (deep gradient + accent glow +
  * a faint scan/grid motif) with a device frame that holds the real product
  * screenshot. Turns a flat UI export into a premium hero without any image
- * editing — and every case study inherits the same treatment. Falls back to a
- * styled placeholder inside the device until the screenshot is dropped in.
+ * editing — and every case study inherits the same treatment.
+ *
+ * Pass `secondary` = { src, alt } to render a second, smaller device beside the
+ * primary (e.g. the handheld TC57 next to the tablet — telegraphs the
+ * "two form factors" story up front). Falls back to styled placeholders.
  */
-export function HeroShowcase({ src, alt = '', chip, ...rest }) {
+export function HeroShowcase({ src, alt = '', chip, secondary, ...rest }) {
   return (
-    <div className="cs-hero" {...rest}>
+    <div className={`cs-hero${secondary ? ' cs-hero--multi' : ''}`} {...rest}>
       <span className="cs-hero-grid" aria-hidden="true" />
       <span className="cs-hero-glow" aria-hidden="true" />
       <div className="cs-hero-stage">
-        <div className="cs-hero-device">
+        <div className="cs-hero-device cs-hero-device--tablet">
           <div className="cs-hero-screen">
             <Media src={src} alt={alt} />
           </div>
         </div>
+        {secondary ? (
+          <div className="cs-hero-device cs-hero-device--phone">
+            <div className="cs-hero-screen cs-hero-screen--phone">
+              <Media src={secondary.src} alt={secondary.alt} />
+            </div>
+          </div>
+        ) : null}
       </div>
       {chip ? (
         <span className="cs-hero-chip">

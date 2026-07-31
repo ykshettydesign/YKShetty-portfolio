@@ -839,6 +839,27 @@
 .cs-hero-screen .cs-figure-media { height: 100%; border: 0; border-radius: 0; background: #fff; }
 .cs-hero-screen .cs-figure-media img { height: 100%; object-fit: cover; }
 .cs-hero-screen .cs-placeholder { height: 100%; aspect-ratio: auto; border: 0; border-radius: 0; }
+
+/* Two-device variant: primary tablet + a smaller handheld beside it, bottom-
+   aligned — states "one solution, two form factors" at a glance. */
+.cs-hero--multi .cs-hero-stage {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: clamp(16px, 3vw, 44px);
+}
+.cs-hero--multi .cs-hero-device--tablet { width: min(560px, 66%); }
+.cs-hero-device--phone {
+  width: clamp(118px, 15vw, 172px);
+  padding: 7px;
+  border-radius: 26px;
+  flex: none;
+}
+.cs-hero-screen--phone { aspect-ratio: 9 / 18; border-radius: 20px; }
+/* The small handheld frame can't hold the full alt text in its empty state —
+   show just the tag + filename so the placeholder reads clean. */
+.cs-hero-screen--phone .cs-placeholder { padding: 14px 10px; gap: 6px; }
+.cs-hero-screen--phone .cs-placeholder-alt { display: none; }
 .cs-hero-chip {
   position: absolute;
   left: 50%;

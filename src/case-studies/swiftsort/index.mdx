@@ -6,6 +6,7 @@ import {
   IllustrationRow,
   BeforeAfter,
   DecisionBlock,
+  DecisionList,
   ComparisonTable,
   MetricRow,
 } from '../../components/case-study'
@@ -270,17 +271,23 @@ Three steps, two of them mental, became a scan and a single confirmation that no
   caption="The same three steps — now with the two mental ones removed, ending in a single “confirm by scan or tap.”"
 />
 
-## The design decisions (and what each one traded off)
-
-<Prose>
-
-Every choice below came from that same principle — find the existing behavior, let the system follow it. None of these asked workers to learn something new.
-
-</Prose>
+<DecisionList
+  heading="The design decisions"
+  eyebrow="And what each one traded off"
+  intro={<>Every choice below came from that same principle — find the existing behavior, let the system follow it. None of these asked workers to learn something new.</>}
+  coda={{
+    title: 'Designed for an industrial floor',
+    body: <>Underpinning all of it, the interface had to survive the environment: readable at 1–2 meters, high-contrast for outdoor glare, large glove-friendly targets, and one decision per screen so nothing competes for a worker's split-second attention.</>,
+  }}
+>
 
 <DecisionBlock
-  index="Decision 01"
+  index="01"
   title="The QR code doubles as the button"
+  media={{
+    src: `${IMAGES}/09-qr-scan-or-tap.png`,
+    alt: 'The QR “DROP” card as the final item in the tablet drop list — scan it with the ProGlove, or tap to confirm.',
+  }}
   tradeoff={{
     considered: 'ProGlove gesture events — a wave or motion to confirm.',
     why: (
@@ -296,14 +303,8 @@ On the mounted tablet, the QR sits as the last card in the drop list — and it 
 
 </DecisionBlock>
 
-<ImageFigure
-  src={`${IMAGES}/09-qr-scan-or-tap.png`}
-  alt="The tablet drop list with the QR “DROP” card as the final item, annotated to show both paths: scan with ProGlove, or tap to confirm."
-  caption="The QR “DROP” card as the final item in the list — annotated to show both paths: scan with the ProGlove, or tap to confirm."
-/>
-
 <DecisionBlock
-  index="Decision 02"
+  index="02"
   title="Scan-first — not voice"
   tradeoff={{
     considered: 'Voice commands.',
@@ -321,7 +322,14 @@ Workers already scanned barcodes constantly, so making the *scan itself* the tri
 
 </DecisionBlock>
 
-<DecisionBlock index="Decision 03" title="The screen mirrors the physical stack (LIFO)">
+<DecisionBlock
+  index="03"
+  title="The screen mirrors the physical stack (LIFO)"
+  media={{
+    src: `${IMAGES}/10-lifo-layout.png`,
+    alt: 'The main screen: a large top card “12 CD, 1726 Sarpsborg” with smaller “06 AB” and “18 CD” cards beneath — largest card = last scanned = next dropped.',
+  }}
+>
 
 During research I saw that forklift drivers almost always drop off the **most recently scanned** item first — roughly 95–99% of the time, last-in is first-out.
 
@@ -331,13 +339,7 @@ So the design puts the **latest scanned pallet as the largest card at the top**,
 
 </DecisionBlock>
 
-<ImageFigure
-  src={`${IMAGES}/10-lifo-layout.png`}
-  alt="The main screen showing the large top card “12 CD, 1726 Sarpsborg” with smaller cards beneath — “06 AB”, “18 CD”."
-  caption="Largest card = last scanned = next dropped. The order on screen matches the order on the forklift."
-/>
-
-<DecisionBlock index="Decision 04" title="Priority surfaces at the moment of sorting">
+<DecisionBlock index="04" title="Priority surfaces at the moment of sorting">
 
 Time-sensitive shipments now appear with a distinct accent treatment, floating to the top of the stack — **before** the worker decides where to place the parcel.
 
@@ -347,7 +349,14 @@ The priority signal used to live in dispatch, far upstream. Moving it to the sor
 
 </DecisionBlock>
 
-<DecisionBlock index="Decision 05" title="Stacking mode for loose goods">
+<DecisionBlock
+  index="05"
+  title="Stacking mode for loose goods"
+  media={{
+    src: `${IMAGES}/11-stacking-mode.png`,
+    alt: 'The split-screen stacking view: the main sort list on the left, a “Stacking Mode” panel on the right grouping multiple parcels under one destination.',
+  }}
+>
 
 Drivers loading several loose items to the same destination used to create one card per item — slow and repetitive. Stacking mode lets them group everything and drop off in a single scan, triggered by a barcode embedded in the primary card.
 
@@ -355,19 +364,7 @@ Drivers loading several loose items to the same destination used to create one c
 
 </DecisionBlock>
 
-<ImageFigure
-  src={`${IMAGES}/11-stacking-mode.png`}
-  alt="The split-screen stacking view: the main sort list on the left, a “Stacking Mode” panel on the right grouping multiple parcels under one destination."
-  caption="Stacking mode — one scan, many items grouped under a single destination."
-/>
-
-### Designed for an industrial floor
-
-<Prose>
-
-Underpinning all of it, the interface had to survive the environment: readable at 1–2 meters, high-contrast for outdoor glare, large glove-friendly targets, and one decision per screen so nothing competes for a worker's split-second attention.
-
-</Prose>
+</DecisionList>
 
 ## One solution, two form factors
 

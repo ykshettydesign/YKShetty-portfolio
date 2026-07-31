@@ -194,7 +194,7 @@
    ============================================================ */
 .cs-prose {
   max-width: var(--cs-measure);
-  margin-inline: auto;
+  margin-inline: 0;
   font-family: var(--font-body);
   font-size: var(--cs-text-body);
   line-height: 1.72;
@@ -223,7 +223,7 @@
 .cs-heading {
   scroll-margin-top: 88px;
   max-width: var(--cs-measure);
-  margin-inline: auto;
+  margin-inline: 0;
 }
 .cs-content > .cs-heading { margin-top: var(--cs-section-gap); }
 .cs-heading-eyebrow {
@@ -274,7 +274,7 @@
   letter-spacing: -0.015em;
   color: var(--text-primary);
   max-width: var(--cs-measure);
-  margin-inline: auto;
+  margin-inline: 0;
 }
 
 /* ============================================================
@@ -331,7 +331,7 @@
    ============================================================ */
 .cs-pullquote {
   max-width: var(--cs-column);
-  margin-inline: auto;
+  margin-inline: 0;
   border: 0;
   padding: 0;
 }
@@ -382,7 +382,7 @@
 /* ============================================================
    IMAGE FIGURE + PLACEHOLDER
    ============================================================ */
-.cs-figure { max-width: var(--cs-column); margin-inline: auto; }
+.cs-figure { max-width: var(--cs-column); margin-inline: 0; }
 .cs-figure--wide { max-width: var(--cs-wide); }
 .cs-figure--full {
   max-width: none;

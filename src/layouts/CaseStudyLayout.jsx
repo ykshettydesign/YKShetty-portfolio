@@ -36,7 +36,11 @@ export default function CaseStudyLayout({ meta = {}, next, children }) {
     const root = rootRef.current
     if (!root) return
     root.querySelectorAll('.cs-content > *').forEach((el) => {
-      if (!el.classList.contains('cs-figure--full')) el.setAttribute('data-reveal', '')
+      // Skip blocks that own a transform (full-bleed figure, hero) — the
+      // reveal's translateY would fight their centering.
+      if (!el.classList.contains('cs-figure--full') && !el.classList.contains('cs-hero')) {
+        el.setAttribute('data-reveal', '')
+      }
     })
   }, [])
   useScrollReveal(rootRef)

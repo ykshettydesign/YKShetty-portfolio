@@ -776,6 +776,99 @@
 }
 
 /* ============================================================
+   HERO SHOWCASE — art-directed device-on-backdrop hero
+   ------------------------------------------------------------
+   A self-contained dark brand backdrop (reads on light AND dark
+   themes) with an accent glow + faint scan grid, and a device
+   frame holding the real product screenshot.
+   ============================================================ */
+.cs-hero {
+  position: relative;
+  width: 100vw;
+  margin-left: 50%;
+  transform: translateX(-50%);
+  overflow: hidden;
+  isolation: isolate;
+  display: grid;
+  place-items: center;
+  padding: clamp(44px, 7vw, 96px) var(--cs-gutter);
+  background:
+    radial-gradient(120% 150% at 80% 8%, #2b2168 0%, #1a1740 34%, #0d0b1a 72%, #0a0910 100%);
+}
+.cs-hero-grid {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  opacity: 0.16;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.55) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.55) 1px, transparent 1px);
+  background-size: 28px 28px;
+  -webkit-mask-image: radial-gradient(circle at 50% 42%, #000 0%, transparent 72%);
+  mask-image: radial-gradient(circle at 50% 42%, #000 0%, transparent 72%);
+}
+.cs-hero-glow {
+  position: absolute;
+  z-index: -1;
+  top: -18%;
+  right: 4%;
+  width: min(60vw, 760px);
+  height: min(60vw, 760px);
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(124, 92, 252, 0.6), transparent 62%);
+  filter: blur(70px);
+  pointer-events: none;
+}
+.cs-hero-stage { width: 100%; display: grid; place-items: center; }
+.cs-hero-device {
+  width: min(720px, 100%);
+  padding: 10px;
+  border-radius: 22px;
+  background: linear-gradient(180deg, #33333f 0%, #17171f 100%);
+  box-shadow:
+    0 44px 90px -34px rgba(0, 0, 0, 0.75),
+    0 0 0 1px rgba(255, 255, 255, 0.06),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.04);
+}
+.cs-hero-screen {
+  aspect-ratio: 16 / 10;
+  border-radius: 13px;
+  overflow: hidden;
+  background: #fff;
+}
+.cs-hero-screen .cs-figure-media { height: 100%; border: 0; border-radius: 0; background: #fff; }
+.cs-hero-screen .cs-figure-media img { height: 100%; object-fit: cover; }
+.cs-hero-screen .cs-placeholder { height: 100%; aspect-ratio: auto; border: 0; border-radius: 0; }
+.cs-hero-chip {
+  position: absolute;
+  left: 50%;
+  bottom: clamp(18px, 3.5vw, 30px);
+  transform: translateX(-50%);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 15px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #efecff;
+}
+.cs-hero-chip-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #7c5cfc;
+  box-shadow: 0 0 0 4px rgba(124, 92, 252, 0.25);
+}
+
+/* ============================================================
    RESPONSIVE — stack, don't squash (≤720px)
    ============================================================ */
 @media (max-width: 720px) {

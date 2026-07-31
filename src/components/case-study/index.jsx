@@ -18,8 +18,9 @@ export { DecisionBlock } from './DecisionBlock'
 export { DecisionList } from './DecisionList'
 export { ComparisonTable } from './ComparisonTable'
 export { MetricRow } from './MetricRow'
-export { SectionHeading, SubHeading } from './SectionHeading'
+export { SectionHeading, SubHeading, SectionIconsContext } from './SectionHeading'
 export { Media, Placeholder } from './Media'
+export { Icon } from './Icon'
 
 /**
  * Map for <MDXProvider>. Keeps hand-authored MDX terse: `## Heading` becomes a

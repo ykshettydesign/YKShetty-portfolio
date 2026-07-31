@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { MDXProvider } from '@mdx-js/react'
 import CaseStudyLayout from '../layouts/CaseStudyLayout'
-import { mdxComponents } from '../components/case-study'
+import { mdxComponents, SectionIconsContext } from '../components/case-study'
 import { getCaseStudy, getNextCaseStudy } from '../case-studies/registry'
 import { Link } from '../router'
 
@@ -29,9 +29,11 @@ export default function CaseStudyPage({ slug }) {
 
   return (
     <CaseStudyLayout meta={meta} next={next}>
-      <MDXProvider components={mdxComponents}>
-        <Component />
-      </MDXProvider>
+      <SectionIconsContext.Provider value={meta.sectionIcons || {}}>
+        <MDXProvider components={mdxComponents}>
+          <Component />
+        </MDXProvider>
+      </SectionIconsContext.Provider>
     </CaseStudyLayout>
   )
 }

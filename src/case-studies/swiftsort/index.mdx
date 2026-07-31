@@ -36,6 +36,24 @@ export const meta = {
     { label: 'Timeline', value: '3 months, proof-of-concept through to production' },
     { label: 'Tools', value: 'Figma, Figma Make, Banani, MS Copilot' },
   ],
+  // Section eyebrow icons, keyed by heading slug. Authored headings stay plain
+  // markdown `##`; the icon is looked up here (SectionIconsContext).
+  sectionIcons: {
+    'the-outcome': 'rocket',
+    'the-problem': 'alert',
+    'how-i-approached-it': 'compass',
+    'what-the-old-workflow-actually-looked-like': 'eye',
+    'the-moment-that-changed-the-design': 'refresh',
+    'working-with-engineering': 'merge',
+    'how-the-workflow-shrank': 'minimize',
+    'one-solution-two-form-factors': 'smartphone',
+    'exploring-then-discarding': 'filter',
+    'how-ai-fit-into-the-process': 'sparkles',
+    'testing-on-the-floor': 'flask',
+    outcomes: 'chart',
+    'what-we-shipped-knowingly-incomplete': 'flag',
+    'the-takeaway': 'target',
+  },
 }
 
 <ImageFigure
@@ -55,9 +73,9 @@ SwiftSort is **live in production**, running across the client's Nordic terminal
 
 <OutcomeBand
   items={[
-    <><strong>Shipped and running in live terminals</strong> — not a prototype or a pilot that stalled</>,
-    <><strong>Faster onboarding and fewer gate errors</strong> — reported by terminal managers to business stakeholders, not just observed by the design team</>,
-    <><strong>Zero new hardware, zero layout changes</strong> — it ran on scanners workers already used</>,
+    { icon: 'rocket', text: <><strong>Shipped and running in live terminals</strong> — not a prototype or a pilot that stalled</> },
+    { icon: 'trendUp', text: <><strong>Faster onboarding and fewer gate errors</strong> — reported by terminal managers to business stakeholders, not just observed by the design team</> },
+    { icon: 'cube', text: <><strong>Zero new hardware, zero layout changes</strong> — it ran on scanners workers already used</> },
   ]}
 />
 
@@ -274,6 +292,7 @@ Three steps, two of them mental, became a scan and a single confirmation that no
 <DecisionList
   heading="The design decisions"
   eyebrow="And what each one traded off"
+  icon="sliders"
   intro={<>Every choice below came from that same principle — find the existing behavior, let the system follow it. None of these asked workers to learn something new.</>}
   coda={{
     title: 'Designed for an industrial floor',
@@ -460,11 +479,11 @@ This wasn't validated in a design tool. It was validated on Zebra devices, on th
 
 <MetricRow
   items={[
-    { value: 'Live in production', valueText: true, note: "Running across the client's Nordic terminals" },
-    { value: 'Faster onboarding', valueText: true, note: 'Reported by terminal managers — new starters productive sooner, nothing to memorize' },
-    { value: 'Fewer errors at the gate', valueText: true, note: 'Reported by terminal managers — urgent and low-priority goods stopped mixing' },
-    { value: 'None', label: 'New hardware required' },
-    { value: 'None', label: 'Terminal layout changes' },
+    { icon: 'rocket', value: 'Live in production', valueText: true, note: "Running across the client's Nordic terminals" },
+    { icon: 'trendUp', value: 'Faster onboarding', valueText: true, note: 'Reported by terminal managers — new starters productive sooner, nothing to memorize' },
+    { icon: 'check', value: 'Fewer errors at the gate', valueText: true, note: 'Reported by terminal managers — urgent and low-priority goods stopped mixing' },
+    { icon: 'ban', value: 'None', label: 'New hardware required' },
+    { icon: 'ban', value: 'None', label: 'Terminal layout changes' },
   ]}
 />
 

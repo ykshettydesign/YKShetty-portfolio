@@ -1,12 +1,11 @@
 import React from 'react'
+import { Icon } from './Icon'
 
 /**
- * A styled way to present outcomes as label + status/value pairs. `items` is an
- * array of:
- *   { value, valueText, label, note }
- * where `value` is the headline (accent figure by default; set `valueText` for a
- * textual status rendered in ink), `label` a small mono caption, and `note` a
- * supporting line. Cards flow responsively (auto-fit) and never squash.
+ * Outcomes as label + status/value cards, each anchored by an icon chip.
+ *   items = [{ icon, value, valueText, label, note }]
+ * `value` is the headline (accent figure by default; `valueText` renders a
+ * textual status in ink). Cards flow responsively (auto-fit) and never squash.
  */
 export function MetricRow({ items = [], ...rest }) {
   return (
@@ -14,6 +13,11 @@ export function MetricRow({ items = [], ...rest }) {
       <div className="cs-metricrow-grid">
         {items.map((item, i) => (
           <div className="cs-metric" key={i}>
+            {item.icon ? (
+              <span className="cs-metric-icon" aria-hidden="true">
+                <Icon name={item.icon} size={18} />
+              </span>
+            ) : null}
             {item.value != null ? (
               <div className={`cs-metric-value${item.valueText ? ' cs-metric-value--text' : ''}`}>
                 {item.value}

@@ -1,4 +1,5 @@
 import React from 'react'
+import { Icon } from './Icon'
 
 function toId(node) {
   if (typeof node === 'string' || typeof node === 'number') {
@@ -14,12 +15,16 @@ function toId(node) {
  * "Designed for an industrial floor") in the same left-aligned column.
  * Children are <DecisionBlock> rows.
  */
-export function DecisionList({ heading, eyebrow, intro, coda, id, children, ...rest }) {
+export function DecisionList({ heading, eyebrow, icon, intro, coda, id, children, ...rest }) {
   const anchor = id || toId(heading)
   return (
     <section className="cs-decisionlist" id={anchor} {...rest}>
       <div className="cs-decisionlist-head">
-        {eyebrow ? <div className="cs-heading-eyebrow">{eyebrow}</div> : null}
+        <div className="cs-heading-eyebrow">
+          <span className="cs-heading-num" aria-hidden="true" />
+          {icon ? <Icon name={icon} size={14} className="cs-heading-icon" /> : null}
+          {eyebrow ? <span>{eyebrow}</span> : null}
+        </div>
         {heading ? (
           <h2 className="cs-decisionlist-title">
             <a href={`#${anchor}`} className="cs-heading-anchor">{heading}</a>

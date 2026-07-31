@@ -1,24 +1,49 @@
-import React from 'react'
+import React, { useEffect, useRef } from 'react'
 import CaseStudyHeader from './CaseStudyHeader'
 import { contact } from '../data/content'
 import { Link } from '../router'
+import { Icon } from '../components/case-study'
+import { useScrollReveal } from '../hooks/useScrollReveal'
+
+/** Default icon per standard glance label (a case study can override via meta). */
+const GLANCE_ICONS = {
+  Role: 'user',
+  Team: 'users',
+  Region: 'pin',
+  Platform: 'device',
+  Timeline: 'calendar',
+  Tools: 'wrench',
+}
 
 /**
  * The shared case-study shell — identical on every case study. Only the content
  * modules passed as children change between stories. Everything else (nav,
- * title/subtitle, tags, the Project-at-a-glance meta block, and the
- * next-project + contact footer) is driven by the `meta` object a case study's
- * MDX file exports.
- *
- *   meta  = { title, subtitle, tags[], glance[{label,value}], accent? }
- *   next  = { slug, meta } | null   (the next case study, for the footer link)
+ * reading-progress bar, title/subtitle, tags, the icon-anchored
+ * Project-at-a-glance block, and the next-project + contact footer) is driven by
+ * the `meta` object a case study's MDX file exports.
  */
 export default function CaseStudyLayout({ meta = {}, next, children }) {
   const { title, subtitle, tags = [], glance = [], accent } = meta
   const rootStyle = accent ? { '--cs-accent': accent } : undefined
+  const rootRef = useRef(null)
+
+  // Progressive reveal: stamp each top-level content block with [data-reveal] so
+  // the site's IntersectionObserver fades them in on scroll. The masthead is
+  // above-the-fold (LCP) content — left untouched so it paints instantly — and
+  // the full-bleed hero is skipped (it owns a transform the reveal would fight).
+  // Runs before useScrollReveal so the observer sees the marks.
+  useEffect(() => {
+    const root = rootRef.current
+    if (!root) return
+    root.querySelectorAll('.cs-content > *').forEach((el) => {
+      if (!el.classList.contains('cs-figure--full')) el.setAttribute('data-reveal', '')
+    })
+  }, [])
+  useScrollReveal(rootRef)
 
   return (
-    <div className="cs-page" style={rootStyle}>
+    <div className="cs-page" style={rootStyle} ref={rootRef}>
+      <ReadingProgress />
       <CaseStudyHeader />
 
       <main>
@@ -35,8 +60,13 @@ export default function CaseStudyLayout({ meta = {}, next, children }) {
             <dl className="cs-glance">
               {glance.map((item) => (
                 <div className="cs-glance-item" key={item.label}>
-                  <dt className="cs-glance-label">{item.label}</dt>
-                  <dd className="cs-glance-value" style={{ margin: 0 }}>{item.value}</dd>
+                  <span className="cs-glance-icon" aria-hidden="true">
+                    <Icon name={item.icon || GLANCE_ICONS[item.label]} size={16} />
+                  </span>
+                  <div className="cs-glance-textwrap">
+                    <dt className="cs-glance-label">{item.label}</dt>
+                    <dd className="cs-glance-value">{item.value}</dd>
+                  </div>
                 </div>
               ))}
             </dl>
@@ -50,6 +80,34 @@ export default function CaseStudyLayout({ meta = {}, next, children }) {
       </main>
 
       <CaseStudyFooter next={next} />
+    </div>
+  )
+}
+
+/** Thin scroll-linked reading-progress bar pinned to the top edge. */
+function ReadingProgress() {
+  const ref = useRef(null)
+  useEffect(() => {
+    let raf = 0
+    const onScroll = () => {
+      cancelAnimationFrame(raf)
+      raf = requestAnimationFrame(() => {
+        const h = document.documentElement
+        const max = h.scrollHeight - h.clientHeight
+        const p = max > 0 ? Math.min(Math.max(h.scrollTop / max, 0), 1) : 0
+        if (ref.current) ref.current.style.transform = `scaleX(${p})`
+      })
+    }
+    window.addEventListener('scroll', onScroll, { passive: true })
+    onScroll()
+    return () => {
+      window.removeEventListener('scroll', onScroll)
+      cancelAnimationFrame(raf)
+    }
+  }, [])
+  return (
+    <div className="cs-progress" aria-hidden="true">
+      <i ref={ref} />
     </div>
   )
 }

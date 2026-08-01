@@ -36,7 +36,7 @@ export default function Work() {
   const detailRef = useRef(null)
   const containerRef = useRef(null)
 
-  const { active, setCardRefs, closeActive } = useDragBoard(
+  const { active, setCardRefs, closeActive, activateCard } = useDragBoard(
     { boardRef, scatterRef, targetRef, emptyRef, detailRef },
     caseStudies,
   )
@@ -53,6 +53,7 @@ export default function Work() {
     const GROW = 0.1
     const clamp01 = (v) => Math.max(0, Math.min(1, v))
     let raf = null
+    let autoDropped = false
     const update = () => {
       raf = null
       const r = board.getBoundingClientRect()
@@ -61,6 +62,13 @@ export default function Work() {
       // to ~35% down the viewport.
       const p = clamp01((vh - r.top) / (vh * 0.65))
       el.style.maxWidth = `${Math.round(BASE * (1 + GROW * p))}px`
+      // Once the board is well into view, auto-drop the first card into the
+      // reader — a one-time demo of the interaction. Fires once; after that the
+      // board is the user's to drive.
+      if (!autoDropped && p >= 0.85) {
+        autoDropped = true
+        activateCard(caseStudies[0].id)
+      }
     }
     const onScroll = () => { if (raf == null) raf = requestAnimationFrame(update) }
     window.addEventListener('scroll', onScroll, { passive: true })

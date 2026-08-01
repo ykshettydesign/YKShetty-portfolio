@@ -465,7 +465,39 @@
 }
 .cs-illrow-cell { display: flex; flex-direction: column; }
 .cs-illrow-cell .cs-figure-media,
-.cs-illrow-cell .cs-placeholder { height: 100%; }
+.cs-illrow-cell .cs-placeholder { flex: 1; }
+
+/* Per-image caption block — a title + a type tag, so a labelled strip can stand
+   in for a separate step table. */
+.cs-illrow-meta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  margin-top: var(--cs-3);
+}
+.cs-illrow-title {
+  font-family: var(--font-body);
+  font-size: var(--cs-text-small);
+  font-weight: 600;
+  line-height: 1.35;
+  color: var(--text-primary);
+}
+.cs-illrow-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.cs-illrow-tag--neutral { color: var(--text-tertiary); border: 1px solid var(--border-strong); }
+.cs-illrow-tag--mental { color: var(--cs-accent); background: var(--accent-soft-bg); }
+.cs-illrow-tag--bottleneck { color: var(--on-accent); background: var(--cs-accent); }
 
 /* ============================================================
    BEFORE / AFTER

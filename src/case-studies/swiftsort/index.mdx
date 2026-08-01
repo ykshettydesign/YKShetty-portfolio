@@ -164,25 +164,24 @@ A single parcel took three steps — one physical, two mental. Watch the mental 
     {
       src: `${IMAGES}/02-illustration-scan.png`,
       alt: 'Comic panel — the driver calmly scans the box, an empty thought-bubble above them: no mental effort.',
+      title: 'Scan the barcode',
+      tag: 'Physical',
+      tone: 'neutral',
     },
     {
       src: `${IMAGES}/03-illustration-read.png`,
       alt: 'Comic panel — the driver reads the label, a small thought-bubble with a magnifying glass and a question mark: mild effort.',
+      title: 'Read the postal code off the label',
+      tag: 'Mental',
+      tone: 'mental',
     },
     {
       src: `${IMAGES}/04-illustration-mental-lookup.png`,
       alt: 'Comic panel — the driver looks overwhelmed, a huge chaotic thought-bubble tangled with gate numbers, routes and arrows.',
+      title: 'Recall which gate, which route, which order',
+      tag: 'Mental — the bottleneck',
+      tone: 'bottleneck',
     },
-  ]}
-  caption="One physical step, two mental ones — and the mental load is where the time, the errors, and the training cost all lived."
-/>
-
-<ComparisonTable
-  head={['Step', 'What the worker did', 'Type']}
-  rows={[
-    ['1. Scan', 'Scan the barcode', 'Physical'],
-    ['2. Read', 'Read the postal code off the label', 'Mental'],
-    ['3. Decide', 'Recall which gate, which route, which order', <><strong>Mental — the bottleneck</strong></>],
   ]}
 />
 

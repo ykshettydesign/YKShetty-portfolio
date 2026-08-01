@@ -104,6 +104,8 @@ export class DustWorld {
         uAmp: { value: 0.5 },
         uRipple: { value: 0 }, // 0..1 expanding ring radius
         uRippleAmp: { value: 0 },
+        uRippleCenter: { value: new THREE.Vector2(0, 0) }, // xz origin of the ring
+
         uSize: { value: 1.5 },
         uOpacity: { value: 1 },
         uLow: { value: new THREE.Color("#0b3f7a") },
@@ -113,6 +115,7 @@ export class DustWorld {
       },
       vertexShader: /* glsl */ `
         uniform float uTime, uAmp, uRipple, uRippleAmp, uSize;
+        uniform vec2 uRippleCenter;
         attribute float aRand;
         varying float vH;
         varying float vEdge;
@@ -127,9 +130,11 @@ export class DustWorld {
                   + sin(p.z * 0.6 - uTime * 0.7) * 0.5
                   + sin((p.x + p.z) * 0.33 + uTime * 1.1) * 0.4;
           float rim = smoothstep(15.0, 3.0, r);
-          // single expanding ripple ring
+          // single expanding ripple ring, measured from its own origin (the
+          // seed at the trunk, or the apple's landing point) — not the disc centre
+          float rr = length(p.xz - uRippleCenter);
           float ringR = uRipple * 14.0;
-          float ring = exp(-pow((r - ringR) * 1.1, 2.0)) * uRippleAmp * (1.0 - uRipple);
+          float ring = exp(-pow((rr - ringR) * 1.1, 2.0)) * uRippleAmp * (1.0 - uRipple);
           p.y = w * uAmp * rim + ring;
           vH = p.y;
           vec4 mv = modelViewMatrix * vec4(p, 1.0);
@@ -463,8 +468,9 @@ export class DustWorld {
     this.fallMat.uniforms.uRipen.value = ripen;
 
     // ---- stage 6: gravity fall + ONE finale dust wave ------------------
-    // linear fall time, squared for gravity acceleration (starts slow, speeds up)
-    const fallLin = clamp((p - 0.88) / (0.98 - 0.88));
+    // linear fall time, squared for gravity acceleration (starts slow, speeds up).
+    // The apple lands by ~0.94, leaving the tail of the scroll for its impact wave.
+    const fallLin = clamp((p - 0.86) / (0.94 - 0.86));
     const gAccel = fallLin * fallLin;
     this.fall.visible = fruitReveal > 0.01;
     this.fall.position.set(
@@ -473,10 +479,15 @@ export class DustWorld {
       this.fallAnchor.z
     );
     this.fall.rotation.z = fallLin * 3.0;
-    // the impact wave: a single expanding dust ripple, played once at the end
-    if (p >= 0.9) {
-      ripple = range(p, 0.9, 1.0);
+    // impact wave: blooms the instant the apple lands (p≈0.94) and radiates from
+    // WHERE it hit — not the trunk. Before that, the ripple origin is the disc centre
+    // (the early seed-drop wave).
+    if (p >= 0.94) {
+      ripple = range(p, 0.94, 1.0);
       rippleAmp = 1.8;
+      this.waveMat.uniforms.uRippleCenter.value.set(this.fallAnchor.x, this.fallAnchor.z);
+    } else {
+      this.waveMat.uniforms.uRippleCenter.value.set(0, 0);
     }
     this.waveMat.uniforms.uRipple.value = ripple;
     this.waveMat.uniforms.uRippleAmp.value = rippleAmp;

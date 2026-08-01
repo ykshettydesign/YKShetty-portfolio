@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react'
 import * as THREE from 'three'
 import { DustWorld } from '../practice/particles/world.js'
-import { clamp } from '../practice/config.js'
+import { clamp, pulse } from '../practice/config.js'
 
 const V = (x, y, z) => new THREE.Vector3(x, y, z)
 
@@ -136,6 +136,14 @@ export default function PracticeTree({ sectionRef, onStageChange, onAnnotationCh
       const lt = smooth(clamp((p - a.p) / (b.p - a.p)))
       _pos.lerpVectors(a.pos, b.pos, lt)
       _tgt.lerpVectors(a.tgt, b.tgt, lt)
+      // "Scale" beat (p≈0.5–0.72): the canopy grows past the top of frame while
+      // the camera is still framed low. A 0→1→0 bump over this window lifts the
+      // look-target and dollies the camera back, giving the crown headroom, then
+      // eases fully back to zero — the scroll choreography is untouched.
+      const framePush = pulse(p, 0.5, 0.72)
+      _tgt.y += framePush * 1.7
+      _pos.y += framePush * 0.9
+      _pos.z += framePush * 3.2
       _pos.x += Math.sin(time * 0.22) * 0.3
       _pos.y += Math.cos(time * 0.18) * 0.18
       if (isMobile) _pos.sub(_tgt).multiplyScalar(1.28).add(_tgt)

@@ -135,11 +135,18 @@ export function generateTree(seed = 7, opts = {}) {
   for (const l of leaves) l.growth /= maxDist;
   for (const f of fruits) f.growth /= maxDist;
 
-  // pick one clearly-visible, high-up fruit for the falling loop
+  // pick the fruit for the falling loop: low and close to the crown axis so it
+  // reads as a bottom-of-crown apple hanging *inside* the foliage, nudged
+  // slightly front-facing so the drop stays visible to the camera.
+  const crownCen = new Vector3();
+  for (const l of leaves) crownCen.add(l.pos);
+  crownCen.multiplyScalar(1 / Math.max(1, leaves.length));
   let fallIndex = 0;
   let best = -Infinity;
   fruits.forEach((f, i) => {
-    const score = f.pos.y + f.pos.z * 0.4 - Math.abs(f.pos.x) * 0.2;
+    const horiz = Math.hypot(f.pos.x - crownCen.x, f.pos.z - crownCen.z);
+    // reward: low in the crown, hugging the crown axis, gently toward the camera
+    const score = -f.pos.y * 0.6 - horiz * 0.8 + f.pos.z * 0.25;
     if (score > best) {
       best = score;
       fallIndex = i;

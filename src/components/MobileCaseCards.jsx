@@ -74,13 +74,18 @@ export default function MobileCaseCards() {
                   <p style={{ fontFamily: 'var(--font-display)', fontSize: 20, fontWeight: 600, lineHeight: 1.2, letterSpacing: '-0.02em', color: 'var(--text-primary)', margin: 0 }}>
                     {c.solution}
                   </p>
-                  {c.cover ? (
-                    <img src={c.cover} alt={`${c.id} cover`} className="case-cover" style={{ margin: '16px 0 0' }} />
-                  ) : (
-                    <div className="case-cover case-cover--placeholder" style={{ margin: '16px 0 0' }} aria-hidden="true">
-                      <span>Cover image</span>
-                    </div>
-                  )}
+                  <div className="case-cover case-cover--placeholder" style={{ position: 'relative', overflow: 'hidden', margin: '16px 0 0' }} aria-hidden="true">
+                    <span>Cover image</span>
+                    {c.cover && (
+                      <img
+                        key={c.cover}
+                        src={c.cover}
+                        alt=""
+                        onError={(e) => { e.currentTarget.style.display = 'none' }}
+                        style={{ position: 'absolute', inset: -1, objectFit: 'cover' }}
+                      />
+                    )}
+                  </div>
                   <div style={{ display: 'flex', gap: 32, margin: '20px 0 18px' }}>
                     {c.stats.map((s) => (
                       <div key={s.label}>

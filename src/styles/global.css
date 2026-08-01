@@ -574,7 +574,7 @@ img { max-width: 100%; }
     transform: translateX(-50%);
     width: min(92vw, 430px);
   }
-  .story-card { top: auto; bottom: 0; transform-origin: center bottom; }
+  .story-card { top: auto; clear: 0; transform-origin: center bottom; }
   .sc-body { padding: 20px 20px 18px; }
   .sc-num { margin-bottom: 8px; }
   .sc-title { font-size: 30px; margin-bottom: 14px; }

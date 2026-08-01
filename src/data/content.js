@@ -41,7 +41,7 @@ export const caseStudies = [
     href: '/case-studies/swiftsort', // full case study page
     brief: 'Make the button bigger.',
     card: "Sorting sped up ~40% — decisions moved from workers' memory to the moment of scan.",
-    cover: '/case-studies/swiftsort/cover.jpg',
+    cover: '/case-studies/swiftsort/images/cover.jpg',
     insight: "Delete touch — the scanner's already on their hand.",
     problem: 'Sorting decisions lived in workers’ heads, so every new hire needed weeks to get up to speed.',
     solution: 'Replaced memory with real-time, system-guided sorting — zero touch, no new hardware.',

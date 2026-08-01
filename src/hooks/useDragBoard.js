@@ -121,10 +121,13 @@ export function useDragBoard(refs, cards) {
         if (c.x === undefined) { c.x = c.sx; c.y = c.sy; c.r = c.sr }
       })
       const t = target.getBoundingClientRect()
-      slotScale = 0.62
+      slotScale = 0.66
       const visW = CARD_W * slotScale
-      slotX = t.right - b.left - visW - 30
-      slotY = t.top - b.top + 42
+      // Land the card centered over the top of the cover strip (clear of the
+      // close button in the top-right), sitting at the panel's top edge so its
+      // whole summary stays visible above the cover art.
+      slotX = t.left - b.left + (t.width - visW) / 2
+      slotY = t.top - b.top + 16
       slotR = -1
       cardW = CARD_W
     }

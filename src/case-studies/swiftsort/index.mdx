@@ -138,9 +138,9 @@ The company needed to handle more volume without buying new equipment, redesigni
 
 I started on the terminal floor, not in Figma. Over the discovery phase I shadowed forklift operators through full shifts, watched how loose goods and pallets actually got stacked, and sat with terminal managers and operations leads to understand where the informal workarounds lived.
 
-The job wasn't to invent a new way to sort. It was to find the behavior that *already worked* and build the system around it. That principle — stated up top — ended up driving every major decision below.
+The job wasn't to invent a new way to sort, but to find the behavior that *already worked* — the principle that drove every decision below.
 
-**One boundary worth naming.** SwiftSort doesn't decide *where* a parcel should go — routing and drop-off assignment are set by planners in a separate system, upstream of us. Our app's job is to take that data and make the right action obvious and instant at the sorting moment. I mention this because it defines what I actually owned: not the routing logic, but the worker-facing decision layer — the point where upstream data becomes a physical action on a noisy terminal floor. Knowing exactly where our slice started and ended shaped every trade-off that followed.
+**One boundary worth naming.** SwiftSort doesn't decide *where* a parcel goes — routing and drop-off assignment are set by planners upstream. Our job is to make the right action obvious and instant at the sorting moment. So what I owned wasn't the routing logic; it was the worker-facing decision layer — the point where upstream data becomes a physical action on a noisy floor. Knowing exactly where our slice started and ended shaped every trade-off that followed.
 
 </Prose>
 
@@ -265,7 +265,7 @@ The engineering constraint didn't compromise the design. It *improved* it. The t
 
 <Prose>
 
-The proof-of-concept removed the *recall* step. The final design removed the *reaching* — the confirmation no longer depended on the worker being close enough to the screen.
+Same three steps — the two mental ones designed away, and the confirmation freed from reach.
 
 </Prose>
 
@@ -279,24 +279,11 @@ The proof-of-concept removed the *recall* step. The final design removed the *re
   ]}
 />
 
-<Prose>
-
-Three steps, two of them mental, became a scan and a single confirmation that no longer depended on reach.
-
-</Prose>
-
-<ImageFigure
-  wide
-  src={`${IMAGES}/08-workflow-after.png`}
-  alt="The three-step workflow diagram with steps 2 and 3 (read the postal code, recall gate and route) crossed out and greyed, ending in “Confirm by scan or tap.”"
-  caption="The same three steps — now with the two mental ones removed, ending in a single “confirm by scan or tap.”"
-/>
-
 <DecisionList
   heading="The design decisions"
   eyebrow="And what each one traded off"
   icon="sliders"
-  intro={<>Every choice below came from that same principle — find the existing behavior, let the system follow it. None of these asked workers to learn something new.</>}
+  intro={<>Every choice below came from that same principle. None of them asked workers to learn something new.</>}
   coda={{
     title: 'Designed for an industrial floor',
     body: <>Underpinning all of it, the interface had to survive the environment: readable at 1–2 meters, high-contrast for outdoor glare, large glove-friendly targets, and one decision per screen so nothing competes for a worker's split-second attention.</>,
@@ -321,7 +308,7 @@ Three steps, two of them mental, became a scan and a single confirmation that no
   }}
 >
 
-On the mounted tablet, the QR sits as the last card in the drop list — and it works two ways: scan it with the ProGlove, or tap it like any other button. That dual function is deliberate. Forklift mounts vary, and on some vehicles the tablet ends up too far for a comfortable mid-operation reach. The scan path means the confirmation works regardless of where the tablet had to be mounted; the tap stays for anyone close enough to use it. Reach stops being a design problem because the worker always has a path that fits their vehicle.
+The QR sits as the **last card** in the drop list, and the dual input is deliberate: scan it with the ProGlove, or tap it. That redundancy is the point — if one input fails, the other still works, and reach never decides whether a worker can confirm.
 
 </DecisionBlock>
 
@@ -357,7 +344,7 @@ During research I saw that forklift drivers almost always drop off the **most re
 
 So the design puts the **latest scanned pallet as the largest card at the top**, with smaller cards beneath. The order on screen matches the order on the forklift — no mental translation.
 
-*The honest edge case:* that leaves 1–5% of cases where last-scanned *isn't* next-dropped. Workers can scan any card directly to override the default, but this is the assumption I'd most want to instrument over a longer run (more below).
+*The honest edge case:* that leaves 1–5% of cases where last-scanned *isn't* next-dropped. Workers can scan any card directly to override — but the override rate is the one assumption I'd want to instrument over a full peak season before calling it settled.
 
 </DecisionBlock>
 
@@ -428,11 +415,13 @@ This is the part I'm most deliberate about: the clever solution was matched to t
   caption="Same task. The device's reach decided the input."
 />
 
-## Exploring, then discarding
+## How the work got made
 
 <Prose>
 
-Not everything survived. Early on I used Figma Make to generate six LIFO card layouts fast, then killed most of them against a single test: could a worker read it at arm's length, in motion, wearing gloves? Most couldn't. The variants that packed in more information — the ones that looked richer on a desktop screen — were the first to go.
+AI compressed the slow early phase; the field decided what shipped. **Figma Make** generated six LIFO card layouts fast — and I killed most against one test: could a worker read it at arm's length, in motion, wearing gloves? The variants that looked richer on a desktop screen were the first to go. **MS Copilot** clustered raw field notes into themes (that's how the "priority at the sorting moment" finding surfaced); **Banani** structured the stacking flow before I committed it to Figma.
+
+Net effect: roughly **30% faster early exploration** — but every decision that shipped came from on-site testing, not a generated mockup.
 
 </Prose>
 
@@ -440,22 +429,8 @@ Not everything survived. Early on I used Figma Make to generate six LIFO card la
   wide
   src={`${IMAGES}/14-discarded-variants.png`}
   alt="A grid of early LIFO card layout explorations with the rejected variants visibly marked."
-  caption="The range considered — and the judgment applied. Most explorations were killed against one test: readable at arm's length, in motion, wearing gloves."
+  caption="The range Figma Make gave me — and the judgment applied. Most were killed against one test: readable at arm's length, in motion, wearing gloves."
 />
-
-## How AI fit into the process
-
-<Prose>
-
-AI tools compressed the slow early phase; the field decided what actually shipped.
-
-- **Figma Make** generated six LIFO card variants in the time it would've taken to build one cleanly
-- **MS Copilot** clustered raw field-research notes into themes — which is how the "priority at the sorting moment" finding surfaced
-- **Banani** structured the stacking-mode flow before I committed it to Figma
-
-Net effect: roughly **30% faster early exploration**. Every decision that shipped still came from on-site testing, not from a generated mockup.
-
-</Prose>
 
 ## Testing on the floor
 
@@ -480,19 +455,9 @@ This wasn't validated in a design tool. It was validated on Zebra devices, on th
 
 ## Outcomes
 
-<MetricRow
-  items={[
-    { icon: 'rocket', value: 'Live in production', valueText: true, note: "Running across the client's Nordic terminals" },
-    { icon: 'trendUp', value: 'Faster onboarding', valueText: true, note: 'Reported by terminal managers — new starters productive sooner, nothing to memorize' },
-    { icon: 'check', value: 'Fewer errors at the gate', valueText: true, note: 'Reported by terminal managers — urgent and low-priority goods stopped mixing' },
-    { icon: 'ban', value: 'None', label: 'New hardware required' },
-    { icon: 'ban', value: 'None', label: 'Terminal layout changes' },
-  ]}
-/>
-
 <Prose>
 
-The onboarding and error improvements aren't design-team self-assessment — they came from terminal managers, who raised them with business stakeholders as evidence the system was working on the floor. That's the validation I trust most: the people running the operation found the change real enough to report upward.
+The wins up top aren't design-team self-assessment — the faster onboarding and fewer gate errors came from **terminal managers**, who raised them with business stakeholders as evidence the system was working on the floor. That's the validation I trust most: the people running the operation found the change real enough to report upward.
 
 Beyond that, the *shape* of the operation changed. New starters reached confidence faster because there was nothing to memorize. Delivery priority became visible at the exact moment it mattered, so time-sensitive shipments left on time. Low-volume routes could be consolidated instead of dispatched half-empty — which is what made fast-delivery commitments more scalable.
 
@@ -507,8 +472,6 @@ We went live as an MVP with one known, unresolved issue: **changing a drop-off l
 The reasoning: drop-off locations are set upstream by planners, and we couldn't fully predict how that data would format and behave once it hit real terminals at volume. Rather than guess at the perfect grouping and re-editing model in a design tool, we shipped the core workflow, put it in front of real operations, and treated the first release as a way to *learn how drop-off data actually behaves in the wild.* The grouping and location-editing experience is the next thing to optimize, now that we have real formatting patterns to design against instead of assumptions.
 
 This is the trade-off I'd defend hardest: an MVP with a named, understood gap that generates real learning beats a "complete" design built on guesses about data we didn't yet control. Shipping to learn — and being honest about what isn't solved yet — is how this kind of operational system actually gets better.
-
-*The LIFO default (last-scanned = next-dropped) also rests on a 95–99% behavioral assumption. It held across observation and testing, with a manual override for the exception — but the override rate is another thing I'd want to instrument over a full peak season before calling it settled.*
 
 </Prose>
 

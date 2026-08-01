@@ -48,6 +48,8 @@ export const meta = {
     'working-with-engineering': 'merge',
     'how-the-workflow-shrank': 'minimize',
     'one-solution-two-form-factors': 'smartphone',
+    'a-second-win-surfaced-by-the-business': 'layers',
+    'how-the-work-got-made': 'sparkles',
     'exploring-then-discarding': 'filter',
     'how-ai-fit-into-the-process': 'sparkles',
     'testing-on-the-floor': 'flask',
@@ -82,12 +84,6 @@ SwiftSort is **live in production**, running across the client's Nordic terminal
     { icon: 'cube', text: <><strong>Zero new hardware, zero layout changes</strong> — it ran on scanners workers already used</> },
   ]}
 />
-
-<Prose lead>
-
-**The short version:** A major Nordic logistics provider needed to sort more parcels, faster. The sorting knowledge lived in workers' heads — which route, which gate, which order. SwiftSort moved that knowledge into the system, and triggered it with a scan instead of a decision.
-
-</Prose>
 
 <Prose>
 
@@ -356,21 +352,6 @@ The priority signal used to live in dispatch, far upstream. Moving it to the sor
 
 </DecisionBlock>
 
-<DecisionBlock
-  index="05"
-  title="Stacking mode for loose goods"
-  media={{
-    src: `${IMAGES}/11-stacking-mode.png`,
-    alt: 'The split-screen stacking view: the main sort list on the left, a “Stacking Mode” panel on the right grouping multiple parcels under one destination.',
-  }}
->
-
-Drivers loading several loose items to the same destination used to create one card per item — slow and repetitive. Stacking mode lets them group everything and drop off in a single scan, triggered by a barcode embedded in the primary card.
-
-*Not in the brief. Found in the field.*
-
-</DecisionBlock>
-
 </DecisionList>
 
 ## One solution, two form factors
@@ -410,6 +391,30 @@ This is the part I'm most deliberate about: the clever solution was matched to t
   alt="The two form factors side by side: the tablet with the QR “DROP” card versus the TC57 with the tap-only Drop button."
   caption="Same task. The device's reach decided the input."
 />
+
+## A second win, surfaced by the business
+
+<Prose>
+
+The QR insight came from watching the floor. This one came from the other direction — a discovery session with the business.
+
+Going through how the terminals actually ran with managers and ops leads, a pattern surfaced that observation alone had missed: when a driver had **several loose items headed to the same destination**, the app made them handle each one separately — a card per item, scanned and dropped one at a time. Quietly repetitive, and slower than it needed to be at volume.
+
+The idea didn't come from me alone. In a brainstorm with the **tech lead and product owner**, we shaped the high-level solution together — let a driver **group everything bound for one destination and drop it in a single scan**, triggered by a barcode embedded in the primary card. Engineering pressure-tested feasibility in the room; the PO kept us anchored on what mattered most; I designed the flow around both.
+
+</Prose>
+
+<ImageFigure
+  src={`${IMAGES}/11-stacking-mode.png`}
+  alt="The split-screen stacking view: the main sort list on the left, a “Stacking Mode” panel on the right grouping multiple parcels under one destination."
+  caption="Stacking mode — group loose items under one destination, drop them in a single scan."
+/>
+
+<Prose>
+
+It's the clearest example of a decision that came from the room, not the brief — and the reason I treat discovery meetings as design research, not status updates.
+
+</Prose>
 
 ## How the work got made
 

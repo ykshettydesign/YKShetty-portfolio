@@ -40,6 +40,11 @@ const ICONS = {
     P('M3.27 6.96 12 12.01l8.73-5.05'),
     P('M12 22.08V12'),
   ],
+  layers: [
+    <polygon points="12 2 2 7 12 12 22 7 12 2" key="a" />,
+    <polyline points="2 17 12 22 22 17" key="b" />,
+    <polyline points="2 12 12 17 22 12" key="c" />,
+  ],
   check: [P('M22 11.08V12a10 10 0 1 1-5.93-9.14'), <polyline points="22 4 12 14.01 9 11.01" key="p" />],
   ban: [<circle cx="12" cy="12" r="10" key="c" />, <line x1="4.93" y1="4.93" x2="19.07" y2="19.07" key="l" />],
   shield: [P('M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z')],

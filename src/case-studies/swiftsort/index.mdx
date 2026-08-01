@@ -136,11 +136,11 @@ The company needed to handle more volume without buying new equipment, redesigni
 
 <Prose>
 
-I started on the terminal floor, not in Figma. Over the discovery phase I shadowed forklift operators through full shifts, watched how loose goods and pallets actually got stacked, and sat with terminal managers and operations leads to understand where the informal workarounds lived.
+I started on the terminal floor, not in Figma — shadowing forklift operators through full shifts, watching how goods and pallets actually got stacked, and sitting with terminal managers and ops leads to find where the informal workarounds lived.
 
 The job wasn't to invent a new way to sort, but to find the behavior that *already worked* — the principle that drove every decision below.
 
-**One boundary worth naming.** SwiftSort doesn't decide *where* a parcel goes — routing and drop-off assignment are set by planners upstream. Our job is to make the right action obvious and instant at the sorting moment. So what I owned wasn't the routing logic; it was the worker-facing decision layer — the point where upstream data becomes a physical action on a noisy floor. Knowing exactly where our slice started and ended shaped every trade-off that followed.
+**One boundary worth naming:** SwiftSort doesn't decide *where* a parcel goes — planners set routing upstream. My slice was the worker-facing decision layer: the moment upstream data becomes a physical action on a noisy floor. Knowing exactly where that slice started and ended shaped every trade-off below.
 
 </Prose>
 
@@ -213,17 +213,15 @@ The team's response was the response *anyone* would give: **make the button bigg
 
 <Prose>
 
-I went home, opened the session recording from that day, and watched it again the next morning.
-
-This time I noticed something I'd missed live: **every worker in the recording was already wearing a ProGlove scanner.** Activated. In the workflow. They weren't reaching for the tablet because they wanted to touch it — they were reaching because the system asked them to confirm with a tap.
+I opened the session recording from that day and watched it again the next morning — and saw what I'd missed live: **every worker was already wearing a ProGlove scanner.** Activated, in the workflow. They weren't reaching for the tablet because they wanted to touch it — the system was asking them to confirm with a tap.
 
 So I asked a different question: *what if the button didn't have to be reachable?*
 
-I proposed adding a **static QR code** as the last card in the list — a code the worker could scan with the ProGlove already on their hand, *or* tap like any other button. On a mounted tablet that's sometimes out of arm's reach, the scan path means reach stops mattering. The QR becomes, in effect, a physical button the worker can trigger from wherever they're standing — without giving up the tap for anyone who prefers it.
+I proposed a **static QR code** as the last card in the list — scan it with the ProGlove already on your hand, *or* tap it. On a tablet that's sometimes out of arm's reach, the scan path makes reach irrelevant: the QR becomes a button you can trigger from wherever you're standing.
 
-Getting the team there took more than the idea itself. The button debate had momentum — people had invested days in it. Rather than argue placement, I brought the group back to the recording and let them watch the glove do the work. Seeing it was faster than being told. The conversation shifted from "where does the button go" to "why does reach have to be the constraint," and the room moved on its own.
+Getting the team there took more than the idea. The button debate had days of momentum — so rather than argue placement, I brought everyone back to the recording and let them watch the glove do the work. The question shifted from "where does the button go" to "why is reach the constraint," and the room moved on its own.
 
-I want to be honest about the confidence level here: at that point it was a hunch, not a proven answer. Adding a scan path to a live operation is the kind of idea that's either elegant or redundant, and I couldn't tell which yet from a meeting room. The whole thing hinged on one question I couldn't answer at a desk — would a worker mid-shift, gloves on, actually reach for the scan instead of stretching for the button? That question is what sent the concept straight to the floor for testing rather than into a polished mockup.
+I'll be honest about the confidence level: it was a hunch, not a proven answer — the kind of idea that's either elegant or redundant, and I couldn't tell which from a meeting room. It hinged on one thing I couldn't settle at a desk: would a worker mid-shift, gloves on, actually reach for the scan? That question sent it straight to the floor instead of into a polished mockup.
 
 </Prose>
 
@@ -379,9 +377,7 @@ Drivers loading several loose items to the same destination used to create one c
 
 <Prose>
 
-The QR-as-button was never meant to be everywhere. It solved a *specific* physical problem — a tablet mounted out of reach on a forklift — and the moment the physical context changed, so did the design.
-
-Some workers don't use a mounted tablet at all. They carry a handheld **TC57**, which has a scanner built in and no separate ProGlove. For them, reach is never a problem: the device is already in their hand. So the TC57 version deliberately **drops the QR entirely** and confirms drop-off with a simple tap on the green **Drop** button.
+The QR-as-button was never meant to be everywhere — it solved a *specific* physical problem: a tablet out of reach on a forklift. Some workers don't use a mounted tablet at all; they carry a handheld **TC57** with a built-in scanner, already in hand. So that version **drops the QR entirely** and confirms with a tap on the green **Drop** button.
 
 The same task, designed twice:
 
@@ -398,7 +394,7 @@ The same task, designed twice:
 
 <Prose>
 
-This is the part I'm most deliberate about: the clever solution was matched to the context that *needed* it, and withheld from the context that didn't. A QR on the TC57 would have been a solution in search of a problem — extra visual weight solving a constraint that doesn't exist in-hand. Matching the input to the device's physical reality, rather than standardizing one pattern everywhere, is the same principle as the rest of the project: *let the existing reality decide the design.*
+This is the part I'm most deliberate about: the clever solution was matched to the context that *needed* it, and withheld from the one that didn't. A QR on the TC57 would have been a solution in search of a problem — visual weight solving a constraint that doesn't exist in-hand. Match the input to the device's reality; don't standardize one pattern everywhere.
 
 </Prose>
 
@@ -469,9 +465,9 @@ Beyond that, the *shape* of the operation changed. New starters reached confiden
 
 We went live as an MVP with one known, unresolved issue: **changing a drop-off location isn't intuitive yet, and parcels don't group as cleanly as they should.** We knew this before launch — and shipped anyway, on purpose.
 
-The reasoning: drop-off locations are set upstream by planners, and we couldn't fully predict how that data would format and behave once it hit real terminals at volume. Rather than guess at the perfect grouping and re-editing model in a design tool, we shipped the core workflow, put it in front of real operations, and treated the first release as a way to *learn how drop-off data actually behaves in the wild.* The grouping and location-editing experience is the next thing to optimize, now that we have real formatting patterns to design against instead of assumptions.
+Drop-off locations come from planners upstream, and we couldn't predict how that data would behave at real volume. So rather than guess at the perfect grouping model in a design tool, we shipped the core workflow and used the first release to *learn how the data actually behaves in the wild.* Grouping and location-editing is the next thing to optimize — now against real patterns instead of assumptions.
 
-This is the trade-off I'd defend hardest: an MVP with a named, understood gap that generates real learning beats a "complete" design built on guesses about data we didn't yet control. Shipping to learn — and being honest about what isn't solved yet — is how this kind of operational system actually gets better.
+It's the trade-off I'd defend hardest: an MVP with a named, understood gap that generates real learning beats a "complete" design built on guesses about data we didn't control.
 
 </Prose>
 

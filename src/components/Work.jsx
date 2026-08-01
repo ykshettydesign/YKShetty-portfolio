@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { caseStudies } from '../data/content'
 import { useDragBoard } from '../hooks/useDragBoard'
 import MobileCaseCards from './MobileCaseCards'
@@ -34,6 +34,7 @@ export default function Work() {
   const targetRef = useRef(null)
   const emptyRef = useRef(null)
   const detailRef = useRef(null)
+  const containerRef = useRef(null)
 
   const { active, setCardRefs, closeActive } = useDragBoard(
     { boardRef, scatterRef, targetRef, emptyRef, detailRef },
@@ -42,9 +43,39 @@ export default function Work() {
 
   const activeStudy = caseStudies.find((c) => c.id === active) || null
 
+  // Scroll-driven width: the container grows from its base width to +10% as the
+  // board rises into view, then eases back on the way out. rAF-throttled.
+  useEffect(() => {
+    const el = containerRef.current
+    const board = boardRef.current
+    if (!el || !board) return undefined
+    const BASE = 1100
+    const GROW = 0.1
+    const clamp01 = (v) => Math.max(0, Math.min(1, v))
+    let raf = null
+    const update = () => {
+      raf = null
+      const r = board.getBoundingClientRect()
+      const vh = window.innerHeight || 1
+      // 0 when the board top sits at the viewport bottom → 1 once it has risen
+      // to ~35% down the viewport.
+      const p = clamp01((vh - r.top) / (vh * 0.65))
+      el.style.maxWidth = `${Math.round(BASE * (1 + GROW * p))}px`
+    }
+    const onScroll = () => { if (raf == null) raf = requestAnimationFrame(update) }
+    window.addEventListener('scroll', onScroll, { passive: true })
+    window.addEventListener('resize', onScroll)
+    update()
+    return () => {
+      window.removeEventListener('scroll', onScroll)
+      window.removeEventListener('resize', onScroll)
+      if (raf) cancelAnimationFrame(raf)
+    }
+  }, [])
+
   return (
     <section id="work" style={{ position: 'relative', zIndex: 10, marginTop: '-100vh' }}>
-      <div style={{ maxWidth: 1100, margin: '0 auto', padding: '0 clamp(22px,5vw,44px) 81px' }}>
+      <div ref={containerRef} style={{ maxWidth: 1100, margin: '0 auto', padding: '0 clamp(22px,5vw,44px) 81px', willChange: 'max-width' }}>
         <MobileCaseCards />
 
         <div
@@ -95,7 +126,7 @@ export default function Work() {
               position: 'relative',
               touchAction: 'none',
               display: 'grid',
-              gridTemplateColumns: 'minmax(280px,0.86fr) minmax(0,1.14fr)',
+              gridTemplateColumns: 'minmax(250px,0.72fr) minmax(0,1.28fr)',
               minHeight: 600,
               overflow: 'hidden',
             }}

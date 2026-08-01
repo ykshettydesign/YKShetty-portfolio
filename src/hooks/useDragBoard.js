@@ -160,7 +160,7 @@ export function useDragBoard(refs, cards) {
           tx = c.sx; ty = c.sy; tr = c.sr; targetScale = 1
         }
         if (c.scale === undefined) c.scale = 1
-        const k = c.drag ? 0.30 : scrubbing ? 0.4 : c.id === activeRef.current ? 0.34 : 0.16
+        const k = c.drag ? 0.30 : scrubbing ? 0.4 : c.id === activeRef.current ? 0.14 : 0.16
         c.x += (tx - c.x) * k
         c.y += (ty - c.y) * k
         c.r += (tr - c.r) * k

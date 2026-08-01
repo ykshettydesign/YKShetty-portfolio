@@ -144,7 +144,7 @@ The job wasn't to invent a new way to sort, but to find the behavior that *alrea
   wide
   src={`${IMAGES}/05-research-synthesis.png`}
   alt="A clustered affinity view of field observations grouped into themes such as memory dependence, environmental constraints, and LIFO stacking behaviour."
-  caption="Field observations, clustered into themes — memory dependence, environmental constraints, LIFO stacking behaviour. The “how I made sense of it” artifact."
+  caption="Field observations, clustered into themes — memory dependence, environmental constraints, LIFO stacking behaviour."
 />
 
 ## What the old workflow actually looked like
@@ -213,11 +213,11 @@ I opened the session recording from that day and watched it again the next morni
 
 So I asked a different question: *what if the button didn't have to be reachable?*
 
-I proposed a **static QR code** as the last card in the list — scan it with the ProGlove already on your hand, *or* tap it. On a tablet that's sometimes out of arm's reach, the scan path makes reach irrelevant: the QR becomes a button you can trigger from wherever you're standing.
+I proposed a **static QR code** as the last card in the list — scan it with the ProGlove already on your hand, *or* tap it. On a tablet that's sometimes out of arm's reach, the scan path makes reach irrelevant: a button you can trigger from wherever you're standing.
 
 Getting the team there took more than the idea. The button debate had days of momentum — so rather than argue placement, I brought everyone back to the recording and let them watch the glove do the work. The question shifted from "where does the button go" to "why is reach the constraint," and the room moved on its own.
 
-I'll be honest about the confidence level: it was a hunch, not a proven answer — the kind of idea that's either elegant or redundant, and I couldn't tell which from a meeting room. It hinged on one thing I couldn't settle at a desk: would a worker mid-shift, gloves on, actually reach for the scan? That question sent it straight to the floor instead of into a polished mockup.
+I'll be honest: it was a hunch, not a proven answer — the kind of idea that's either elegant or redundant, and I couldn't tell which from a meeting room. It hinged on one thing I couldn't settle at a desk: would a worker mid-shift, gloves on, actually reach for the scan? That question sent it to the floor instead of a polished mockup.
 
 </Prose>
 
@@ -280,7 +280,7 @@ Same three steps — the two mental ones designed away, and the confirmation fre
   intro={<>Every choice below came from that same principle. None of them asked workers to learn something new.</>}
   coda={{
     title: 'Designed for an industrial floor',
-    body: <>Underpinning all of it, the interface had to survive the environment: readable at 1–2 meters, high-contrast for outdoor glare, large glove-friendly targets, and one decision per screen so nothing competes for a worker's split-second attention.</>,
+    body: <>Underpinning all of it, the interface had to survive the environment: readable at 1–2 meters, high-contrast for outdoor glare, large glove-friendly targets, and one decision per screen.</>,
   }}
 >
 
@@ -296,7 +296,7 @@ Same three steps — the two mental ones designed away, and the confirmation fre
     why: (
       <>
         Engineering flagged them as unstable in a noisy, fast-moving environment. A scannable, tappable QR was
-        more reliable — and it degraded gracefully, since if one input failed the other still worked.
+        simply more reliable.
       </>
     ),
   }}
@@ -314,8 +314,8 @@ The QR sits as the **last card** in the drop list, and the dual input is deliber
     why: (
       <>
         In a loud warehouse, reading barcode values aloud introduced <strong>more</strong> errors than it
-        removed. Voice feedback would be missed or forgotten, especially when a worker handles several drop-offs
-        at once. This was the clearest “no” in the project — a good idea the environment rejected.
+        removed — missed or forgotten, especially when a worker handles several drop-offs at once. The clearest
+        “no” in the project.
       </>
     ),
   }}
@@ -375,7 +375,7 @@ The same task, designed twice:
 
 <Prose>
 
-This is the part I'm most deliberate about: the clever solution was matched to the context that *needed* it, and withheld from the one that didn't. A QR on the TC57 would have been a solution in search of a problem — visual weight solving a constraint that doesn't exist in-hand. Match the input to the device's reality; don't standardize one pattern everywhere.
+This is the part I'm most deliberate about: the clever solution was matched to the context that *needed* it, and withheld from the one that didn't. A QR on the TC57 would have been a solution in search of a problem. Match the input to the device's reality; don't standardize one pattern everywhere.
 
 </Prose>
 
@@ -430,20 +430,20 @@ Net effect: roughly **30% faster early exploration** — but every decision that
   wide
   src={`${IMAGES}/14-discarded-variants.png`}
   alt="A grid of early LIFO card layout explorations with the rejected variants visibly marked."
-  caption="The range Figma Make gave me — and the judgment applied. Most were killed against one test: readable at arm's length, in motion, wearing gloves."
+  caption="The range Figma Make gave me. Most were killed against one test: readable at arm's length, in motion, wearing gloves."
 />
 
 ## Testing on the floor
 
 <Prose>
 
-This wasn't validated in a design tool. It was validated on Zebra devices, on the terminal floor, twice.
+Not validated in a design tool — validated on Zebra devices, on the terminal floor, twice.
 
 **Round 1 failed in useful ways.** Workers struggled with controls *while moving*, stacking interactions were too fiddly, and scan feedback wasn't clear enough. Nothing about the concept was wrong — the execution was too fine-grained for a glove and a moving forklift.
 
 **I iterated:** stronger visual hierarchy, clearer color coding, higher visibility for the latest scan, bigger targets, simpler interactions.
 
-**Round 2 confirmed the fix.** Workers moved through sorting noticeably faster, preferred the guided flow over memorization, and stacking got measurably more consistent. This was the round that gave us the confidence to ship — the workflow held up under real movement, real gloves, real noise.
+**Round 2 confirmed the fix.** Workers moved through sorting noticeably faster, preferred the guided flow over memorization, and stacking got measurably more consistent — holding up under real movement, real gloves, real noise. That's what let us ship.
 
 </Prose>
 
@@ -458,9 +458,9 @@ This wasn't validated in a design tool. It was validated on Zebra devices, on th
 
 <Prose>
 
-The wins up top aren't design-team self-assessment — the faster onboarding and fewer gate errors came from **terminal managers**, who raised them with business stakeholders as evidence the system was working on the floor. That's the validation I trust most: the people running the operation found the change real enough to report upward.
+The wins up top aren't self-assessment — the faster onboarding and fewer gate errors came from **terminal managers**, who raised them with business stakeholders as proof the system was working. That's the validation I trust most: the people running the operation found it real enough to report upward.
 
-Beyond that, the *shape* of the operation changed. New starters reached confidence faster because there was nothing to memorize. Delivery priority became visible at the exact moment it mattered, so time-sensitive shipments left on time. Low-volume routes could be consolidated instead of dispatched half-empty — which is what made fast-delivery commitments more scalable.
+Beyond that, the *shape* of the operation changed. Delivery priority became visible at the moment it mattered, so time-sensitive shipments left on time; and low-volume routes could be consolidated instead of dispatched half-empty — which made fast-delivery commitments more scalable.
 
 </Prose>
 
@@ -470,7 +470,7 @@ Beyond that, the *shape* of the operation changed. New starters reached confiden
 
 We went live as an MVP with one known, unresolved issue: **changing a drop-off location isn't intuitive yet, and parcels don't group as cleanly as they should.** We knew this before launch — and shipped anyway, on purpose.
 
-Drop-off locations come from planners upstream, and we couldn't predict how that data would behave at real volume. So rather than guess at the perfect grouping model in a design tool, we shipped the core workflow and used the first release to *learn how the data actually behaves in the wild.* Grouping and location-editing is the next thing to optimize — now against real patterns instead of assumptions.
+Drop-off locations come from planners upstream, and we couldn't predict how that data would behave at real volume. So rather than guess at the grouping model in a design tool, we shipped the core workflow and used the first release to *learn how the data behaves in the wild* — then optimize grouping and location-editing against real patterns, not assumptions.
 
 It's the trade-off I'd defend hardest: an MVP with a named, understood gap that generates real learning beats a "complete" design built on guesses about data we didn't control.
 
@@ -482,7 +482,7 @@ It's the trade-off I'd defend hardest: an MVP with a named, understood gap that 
 
 SwiftSort wasn't a UI redesign. It was a redesign of **how a decision gets made** on a warehouse floor.
 
-By moving the thinking out of workers' heads and into the system — and by triggering it with behavior they already had — sorting shifted from *memory-based* to *system-guided*, from *experience-dependent* to *scalable*, from *manual interpretation* to *instant action*.
+By moving the thinking out of workers' heads and into the system — triggered by behavior they already had — sorting shifted from *memory-based* to *system-guided*, from *experience-dependent* to *scalable*.
 
 The clearest lesson: in operational systems, great design usually isn't about adding features. It's about **removing constraints** — and the best removal in this project came from watching a recording twice and asking why *reach* had to be the thing we designed around at all.
 

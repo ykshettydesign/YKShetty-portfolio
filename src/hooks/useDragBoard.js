@@ -160,11 +160,20 @@ export function useDragBoard(refs, cards) {
           tx = c.sx; ty = c.sy; tr = c.sr; targetScale = 1
         }
         if (c.scale === undefined) c.scale = 1
-        const k = c.drag ? 0.30 : scrubbing ? 0.4 : c.id === activeRef.current ? 0.14 : 0.16
+        const landing = c.id === activeRef.current && !c.drag && !scrubbing
+        const k = c.drag ? 0.55 : scrubbing ? 0.4 : landing ? 0.5 : 0.16
         c.x += (tx - c.x) * k
         c.y += (ty - c.y) * k
         c.r += (tr - c.r) * k
         c.scale += (targetScale - c.scale) * k
+        // The landing card snaps the last stretch instead of crawling through
+        // the ease-out tail — keeps the arrival quick and visibly complete.
+        if (landing) {
+          if (Math.abs(tx - c.x) < 0.8) c.x = tx
+          if (Math.abs(ty - c.y) < 0.8) c.y = ty
+          if (Math.abs(tr - c.r) < 0.05) c.r = tr
+          if (Math.abs(targetScale - c.scale) < 0.006) c.scale = targetScale
+        }
         if (
           Math.abs(tx - c.x) + Math.abs(ty - c.y) + Math.abs(tr - c.r) + Math.abs(targetScale - c.scale) >
           0.05

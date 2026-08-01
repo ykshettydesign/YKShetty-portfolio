@@ -34,41 +34,30 @@ export default function Work() {
   const targetRef = useRef(null)
   const emptyRef = useRef(null)
   const detailRef = useRef(null)
-  const containerRef = useRef(null)
 
-  const { active, setCardRefs, closeActive, activateCard } = useDragBoard(
+  const { active, setCardRefs, closeActive, setDropProgress } = useDragBoard(
     { boardRef, scatterRef, targetRef, emptyRef, detailRef },
     caseStudies,
   )
 
   const activeStudy = caseStudies.find((c) => c.id === active) || null
 
-  // Scroll-driven width: the container grows from its base width to +10% as the
-  // board rises into view, then eases back on the way out. rAF-throttled.
+  // Scroll-linked drop: map the board's rise through the viewport to 0→1 and
+  // hand it to the drag board, which flings the first card along an arc into
+  // the reader as you scroll up (and back out as you scroll down). rAF-throttled.
   useEffect(() => {
-    const el = containerRef.current
     const board = boardRef.current
-    if (!el || !board) return undefined
-    const BASE = 1100
-    const GROW = 0.1
+    if (!board) return undefined
     const clamp01 = (v) => Math.max(0, Math.min(1, v))
     let raf = null
-    let autoDropped = false
     const update = () => {
       raf = null
       const r = board.getBoundingClientRect()
       const vh = window.innerHeight || 1
       // 0 when the board top sits at the viewport bottom → 1 once it has risen
-      // to ~35% down the viewport.
-      const p = clamp01((vh - r.top) / (vh * 0.65))
-      el.style.maxWidth = `${Math.round(BASE * (1 + GROW * p))}px`
-      // Once the board is well into view, auto-drop the first card into the
-      // reader — a one-time demo of the interaction. Fires once; after that the
-      // board is the user's to drive.
-      if (!autoDropped && p >= 0.85) {
-        autoDropped = true
-        activateCard(caseStudies[0].id)
-      }
+      // so the board sits comfortably in view (top ~15% down).
+      const p = clamp01((vh - r.top) / (vh * 0.85))
+      setDropProgress(p)
     }
     const onScroll = () => { if (raf == null) raf = requestAnimationFrame(update) }
     window.addEventListener('scroll', onScroll, { passive: true })
@@ -79,11 +68,11 @@ export default function Work() {
       window.removeEventListener('resize', onScroll)
       if (raf) cancelAnimationFrame(raf)
     }
-  }, [])
+  }, [setDropProgress])
 
   return (
     <section id="work" style={{ position: 'relative', zIndex: 10, marginTop: '-100vh' }}>
-      <div ref={containerRef} style={{ maxWidth: 1100, margin: '0 auto', padding: '0 clamp(22px,5vw,44px) 81px', willChange: 'max-width' }}>
+      <div style={{ maxWidth: 1100, margin: '0 auto', padding: '0 clamp(22px,5vw,44px) 81px' }}>
         <MobileCaseCards />
 
         <div
@@ -206,11 +195,9 @@ export default function Work() {
                 </div>
               </div>
 
-              {/* detail */}
-              <div
-                ref={detailRef}
-                style={{ position: 'relative', opacity: active ? 1 : 0, transition: 'opacity .35s', pointerEvents: active ? 'auto' : 'none', paddingTop: 22 }}
-              >
+              {/* detail — opacity/pointer-events owned by the drag hook so the
+                  scroll-linked drop can fade the reader in over its last stretch */}
+              <div ref={detailRef} style={{ position: 'relative', paddingTop: 22 }}>
                 <CaseReader study={activeStudy} />
               </div>
 

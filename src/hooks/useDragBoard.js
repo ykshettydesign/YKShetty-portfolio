@@ -32,6 +32,7 @@ export function playReframe(block) {
 const ACCENT = '#7C5CFC'
 const SHADOW_REST = '0 2px 12px -4px rgba(0,0,0,.08)'
 const SHADOW_ACTIVE = `0 0 0 1px ${ACCENT}, 0 8px 24px -6px rgba(124,92,252,.18)`
+const clamp01 = (v) => Math.max(0, Math.min(1, v))
 
 /**
  * Physics drag-and-drop case board. Cards scatter in the left pane and can
@@ -50,6 +51,7 @@ export function useDragBoard(refs, cards) {
   const [active, setActive] = useState(null)
   const activeRef = useRef(null)
   const applyActiveRef = useRef(() => {})
+  const setDropProgressRef = useRef(() => {})
 
   const cardElsRef = useRef([])
   const setCardRefs = useMemo(
@@ -77,6 +79,20 @@ export function useDragBoard(refs, cards) {
     let raf = null
     let running = false
     let stopped = false
+
+    // Scroll-linked drop of the first card: `scrub` (0→1) places it along a
+    // quadratic-bezier arc between its scatter spot and the reader slot. Any
+    // manual activation sets `scrubReleased`, handing the board to the user.
+    let scrub = null
+    let scrubReleased = false
+    let scrubActive = false
+    const ARC_LIFT = 90 // px the arc bows upward at its peak
+    const arcPoint = (x0, y0, x2, y2, t) => {
+      const cx = (x0 + x2) / 2
+      const cy = Math.min(y0, y2) - ARC_LIFT
+      const mt = 1 - t
+      return [mt * mt * x0 + 2 * mt * t * cx + t * t * x2, mt * mt * y0 + 2 * mt * t * cy + t * t * y2]
+    }
 
     const emptyEl = () => emptyRef.current
     const detailEl = () => detailRef.current
@@ -127,16 +143,21 @@ export function useDragBoard(refs, cards) {
         let tx
         let ty
         let tr
+        let targetScale
+        const scrubbing = i === 0 && scrub !== null && !scrubReleased && !c.drag && slotX !== undefined
         if (c.drag && c.dragX !== undefined) {
-          tx = c.dragX; ty = c.dragY; tr = 0; moving = true
+          tx = c.dragX; ty = c.dragY; tr = 0; targetScale = 1; moving = true
+        } else if (scrubbing) {
+          const [ax, ay] = arcPoint(c.sx, c.sy, slotX, slotY, scrub)
+          tx = ax; ty = ay; tr = c.sr + (slotR - c.sr) * scrub
+          targetScale = 1 + (slotScale - 1) * scrub
         } else if (c.id === activeRef.current && slotX !== undefined) {
-          tx = slotX; ty = slotY; tr = slotR
+          tx = slotX; ty = slotY; tr = slotR; targetScale = slotScale
         } else {
-          tx = c.sx; ty = c.sy; tr = c.sr
+          tx = c.sx; ty = c.sy; tr = c.sr; targetScale = 1
         }
-        const targetScale = c.id === activeRef.current && !c.drag ? slotScale : 1
         if (c.scale === undefined) c.scale = 1
-        const k = c.drag ? 0.55 : c.id === activeRef.current ? 0.2 : 0.16
+        const k = c.drag ? 0.55 : scrubbing ? 0.4 : c.id === activeRef.current ? 0.2 : 0.16
         c.x += (tx - c.x) * k
         c.y += (ty - c.y) * k
         c.r += (tr - c.r) * k
@@ -161,6 +182,7 @@ export function useDragBoard(refs, cards) {
     }
 
     const applyActive = (id) => {
+      scrubReleased = true // any manual activation hands the board to the user
       activeRef.current = id
       setActive(id)
       state.forEach((c, i) => {
@@ -172,6 +194,7 @@ export function useDragBoard(refs, cards) {
         c.dragX = undefined
       })
       if (detailEl()) {
+        detailEl().style.transition = 'opacity .35s'
         detailEl().style.opacity = id ? '1' : '0'
         detailEl().style.pointerEvents = id ? 'auto' : 'none'
       }
@@ -180,6 +203,36 @@ export function useDragBoard(refs, cards) {
       ensureLoop()
     }
     applyActiveRef.current = applyActive
+
+    // Scroll-driven drop: place the first card along the arc by scroll progress,
+    // mounting/unmounting the reader at the boundary and fading its content in
+    // over the last third of the travel.
+    const setDropProgress = (p) => {
+      if (scrubReleased || state[0].drag) return
+      const t = clamp01(p)
+      scrub = t
+      const firstId = state[0].id
+      if (t > 0.02 && activeRef.current !== firstId) {
+        activeRef.current = firstId
+        setActive(firstId)
+        const el0 = cardEls[0]
+        if (el0) { el0.style.boxShadow = SHADOW_ACTIVE; el0.style.zIndex = '9' }
+        if (detailEl()) { detailEl().style.transition = 'none'; detailEl().style.pointerEvents = 'auto' }
+        scatter.style.overflow = 'visible'
+        if (emptyEl()) emptyEl().style.opacity = '0'
+      } else if (t <= 0.02 && scrubActive) {
+        activeRef.current = null
+        setActive(null)
+        const el0 = cardEls[0]
+        if (el0) { el0.style.boxShadow = SHADOW_REST; el0.style.zIndex = '5' }
+        if (detailEl()) detailEl().style.pointerEvents = 'none'
+        if (emptyEl()) emptyEl().style.opacity = '1'
+      }
+      scrubActive = t > 0.02
+      if (detailEl()) detailEl().style.opacity = String(clamp01((t - 0.65) / 0.35))
+      ensureLoop()
+    }
+    setDropProgressRef.current = setDropProgress
 
     const cardCleanups = []
     const wireCard = (c, i) => {
@@ -248,6 +301,7 @@ export function useDragBoard(refs, cards) {
     }
 
     layout()
+    if (detailEl()) { detailEl().style.opacity = '0'; detailEl().style.pointerEvents = 'none' }
     state.forEach((c, i) => wireCard(c, i))
     ensureLoop()
 
@@ -261,7 +315,7 @@ export function useDragBoard(refs, cards) {
     let nudgeIO = null
     const first = state[0]
     const doNudge = () => {
-      if (activeRef.current || first.drag || nudgeBusy) return
+      if (scrub !== null || activeRef.current || first.drag || nudgeBusy) return
       nudgeBusy = true
       const baseX = first.sx
       const baseY = first.sy
@@ -324,8 +378,9 @@ export function useDragBoard(refs, cards) {
 
   const closeActive = useCallback(() => applyActiveRef.current(null), [])
   const activateCard = useCallback((id) => applyActiveRef.current(id), [])
+  const setDropProgress = useCallback((p) => setDropProgressRef.current(p), [])
 
-  return { active, setCardRefs, closeActive, activateCard }
+  return { active, setCardRefs, closeActive, activateCard, setDropProgress }
 }
 
 export default useDragBoard

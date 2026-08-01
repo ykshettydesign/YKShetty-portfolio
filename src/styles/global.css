@@ -429,7 +429,7 @@ img { max-width: 100%; }
   width: 452px;
 }
 @media (min-width: 821px) {
-  .practice-card-shell { right: 6%; }
+  .practice-card-shell { right: 12%; }
 }
 .story-card {
   position: absolute;

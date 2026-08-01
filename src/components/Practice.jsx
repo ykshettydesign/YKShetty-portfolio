@@ -10,8 +10,8 @@ const TRACK_VH = 560
 // Fixed resting transform per card — keyed ONLY by the card's own index.
 // A card settles at its own angle/offset once placed and never moves again,
 // even as newer cards stack on top of it.
-const CARD_ROT = [5, -4, 3, -5, 2]
-const CARD_OFF_X = [0, -8, 7, -6, 8]
+const CARD_ROT = [0, -1.5, 1.5, -2, 2]
+const CARD_OFF_X = [0, -6, 5, -5, 6]
 
 function cardStyle(k, active, isMobile) {
   const restY = isMobile ? '0px' : '-50%'

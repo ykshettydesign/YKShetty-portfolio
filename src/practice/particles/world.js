@@ -6,6 +6,11 @@ import { makeDustMaterial, DustBuilder } from "./dust.js";
 
 const V = (x, y, z) => new THREE.Vector3(x, y, z);
 
+// The falling apple (and the branch carrying it) is nudged down-and-right of
+// its generated tip so the drop reads clearly. Shared so the branch bends to
+// meet the relocated fruit.
+const FALL_OFFSET = V(1.2, -1.0, 0);
+
 export class DustWorld {
   constructor(scene) {
     this.scene = scene;
@@ -313,7 +318,7 @@ export class DustWorld {
     const barkA = new THREE.Color("#8a6636");
     const barkB = new THREE.Color("#5e441f");
     const c = new THREE.Color();
-    for (const br of this.tree.branches) {
+    this.tree.branches.forEach((br, bi) => {
       const len = br.curve.getLength();
       const radius = Math.max(br.r1, (br.r0 + br.r1) * 0.5);
       // trunk (depth 0) gets far more dust; brighter too
@@ -321,8 +326,18 @@ export class DustWorld {
       const count = Math.floor(len * density) + 40;
       const brightness = br.depth === 0 ? 0.15 : 0.55;
       c.copy(barkA).lerp(barkB, brightness + Math.random() * 0.3);
-      b.addCurve(br.curve, radius, count, br.gStart, br.gEnd, c, 1.0, 2.6);
-    }
+      // the branch carrying the falling apple bends to follow it: base stays
+      // put (attached to its parent), the tip takes the full down-right offset.
+      let curve = br.curve;
+      if (bi === this.tree.fallBranchIndex) {
+        const pts = br.curve.points;
+        const bent = pts.map((pt, i) =>
+          pt.clone().addScaledVector(FALL_OFFSET, i / (pts.length - 1))
+        );
+        curve = new THREE.CatmullRomCurve3(bent);
+      }
+      b.addCurve(curve, radius, count, br.gStart, br.gEnd, c, 1.0, 2.6);
+    });
     this.woodyMat = this._mat({ size: 1.1, drift: 0.05 });
     this.woody = b.build(this.woodyMat);
     this.group.add(this.woody);
@@ -371,7 +386,7 @@ export class DustWorld {
     const c = PALETTE.appleRipe.clone();
     this.fallIndex = this.tree.fallIndex;
     // nudge the falling apple a touch down-and-right of its branch tip
-    this.fallAnchor = this.tree.fruits[this.fallIndex].pos.clone().add(V(1.2, -1.0, 0));
+    this.fallAnchor = this.tree.fruits[this.fallIndex].pos.clone().add(FALL_OFFSET);
     this.tree.fruits.forEach((f, i) => {
       if (i === this.fallIndex) return;
       b.addBlob(f.pos, 0.42 * f.scale, 0.36 * f.scale, 0.42 * f.scale, 200, f.growth, c, 1.2, 2.8);

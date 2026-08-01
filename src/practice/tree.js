@@ -55,6 +55,7 @@ export function generateTree(seed = 7, opts = {}) {
       gEnd: 0,
     };
     branches.push(branch);
+    const myBranchIndex = branches.length - 1;
     maxDist = Math.max(maxDist, endDist);
 
     const tip = pts[pts.length - 1];
@@ -92,6 +93,7 @@ export function generateTree(seed = 7, opts = {}) {
         scale: rand(0.8, 1.15),
         growth: endDist,
         anchor: tip.clone(),
+        branchIndex: myBranchIndex,
       });
     }
 
@@ -146,5 +148,7 @@ export function generateTree(seed = 7, opts = {}) {
     }
   });
 
-  return { branches, leaves, fruits, fallIndex, maxDist };
+  const fallBranchIndex = fruits.length ? fruits[fallIndex].branchIndex : -1;
+
+  return { branches, leaves, fruits, fallIndex, fallBranchIndex, maxDist };
 }

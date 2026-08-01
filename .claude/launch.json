@@ -2,17 +2,10 @@
   "version": "0.0.1",
   "configurations": [
     {
-      "name": "portfolio-dev-verify",
+      "name": "portfolio-dev",
       "runtimeExecutable": "npm",
-      "runtimeArgs": [
-        "run",
-        "dev",
-        "--",
-        "--port",
-        "5233",
-        "--strictPort"
-      ],
-      "port": 5233,
+      "runtimeArgs": ["run", "dev", "--", "--port", "5199", "--strictPort"],
+      "port": 5199,
       "autoPort": false
     }
   ]

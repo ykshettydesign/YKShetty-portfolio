@@ -72,7 +72,7 @@ export default function Work() {
 
   return (
     <section id="work" style={{ position: 'relative', zIndex: 10, marginTop: '-100vh' }}>
-      <div style={{ maxWidth: 1265, margin: '0 auto', padding: '0 clamp(22px,5vw,44px) 81px' }}>
+      <div style={{ maxWidth: 1164, margin: '0 auto', padding: '0 clamp(22px,5vw,44px) 81px' }}>
         <MobileCaseCards />
 
         <div

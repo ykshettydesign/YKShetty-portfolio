@@ -28,46 +28,44 @@ const solPara = {
 }
 
 /**
- * The "reader" content for a single active case study — a tight, scannable read:
- *   Title → The problem → How I solved it → cover image → Results.
- * One paragraph each; the deeper detail lives behind "Request full case study".
- * The whole block fades in (owned by the parent's opacity transition).
+ * The "reader" content for a single active case study — a tight, scannable read
+ * that fits in one view without scrolling:
+ *   [cover backdrop + title] → The problem → How I solved it → Results.
+ * The cover is a compact header strip (title overlaid) rather than a tall
+ * mid-flow banner, so the whole panel stays above the fold. One paragraph each;
+ * the deeper detail lives behind "Request full case study". The block fades in
+ * (owned by the parent's opacity transition).
  */
 export default function CaseReader({ study }) {
   if (!study) return null
   return (
     <div data-detail={study.id}>
-      {/* 1 · title */}
-      <div style={{ ...mono, fontSize: 9, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--text-tertiary)', marginBottom: 22 }}>
-        {study.metaLong}
-      </div>
-
-      {/* 2 · the problem */}
-      <div style={{ ...label, color: 'var(--text-muted)' }}>The problem</div>
-      <p style={probPara}>{study.problem}</p>
-
-      {/* 3 · how I solved it */}
-      <div style={{ ...label, color: 'var(--accent)', margin: '22px 0 6px' }}>How I solved it</div>
-      <p style={solPara}>{study.solution}</p>
-
-      {/* 4 · cover image — real image on top of the neutral placeholder; if the
-          image is missing or fails to load, onError hides it and the placeholder
-          shows through. */}
-      <div className="case-cover case-cover--placeholder" style={{ position: 'relative', overflow: 'hidden', margin: '22px 0 0' }} aria-hidden="true">
-        <span>Cover image</span>
+      {/* 1 · cover backdrop — compact header strip with the title overlaid. A
+          real image fills it when present; otherwise the accent gradient shows.
+          If the image fails to load, onError hides it and the gradient + scrim
+          keep the title legible. */}
+      <div className="case-cover-strip">
         {study.cover && (
           <img
             key={study.cover}
             src={study.cover}
             alt=""
             onError={(e) => { e.currentTarget.style.display = 'none' }}
-            style={{ position: 'absolute', inset: -1, objectFit: 'cover' }}
           />
         )}
+        <div className="case-cover-strip__meta">{study.metaLong}</div>
       </div>
 
-      {/* 5 · results */}
-      <div style={{ ...label, color: 'var(--text-muted)', margin: '24px 0 10px' }}>Results</div>
+      {/* 2 · the problem */}
+      <div style={{ ...label, color: 'var(--text-muted)', marginTop: 22 }}>The problem</div>
+      <p style={probPara}>{study.problem}</p>
+
+      {/* 3 · how I solved it */}
+      <div style={{ ...label, color: 'var(--accent)', margin: '18px 0 6px' }}>How I solved it</div>
+      <p style={solPara}>{study.solution}</p>
+
+      {/* 4 · results */}
+      <div style={{ ...label, color: 'var(--text-muted)', margin: '20px 0 10px' }}>Results</div>
       <div style={{ display: 'flex', gap: 44, marginBottom: 26 }}>
         {study.stats.map((s) => (
           <div key={s.label}>

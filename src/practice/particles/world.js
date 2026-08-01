@@ -370,7 +370,8 @@ export class DustWorld {
     const b = new DustBuilder();
     const c = PALETTE.appleRipe.clone();
     this.fallIndex = this.tree.fallIndex;
-    this.fallAnchor = this.tree.fruits[this.fallIndex].pos.clone();
+    // nudge the falling apple a touch down-and-right of its branch tip
+    this.fallAnchor = this.tree.fruits[this.fallIndex].pos.clone().add(V(1.2, -1.0, 0));
     this.tree.fruits.forEach((f, i) => {
       if (i === this.fallIndex) return;
       b.addBlob(f.pos, 0.42 * f.scale, 0.36 * f.scale, 0.42 * f.scale, 200, f.growth, c, 1.2, 2.8);

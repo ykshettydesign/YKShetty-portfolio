@@ -9,13 +9,22 @@ const label = {
   textTransform: 'uppercase',
   marginBottom: 7,
 }
-const para = {
-  fontFamily: 'var(--font-body)',
-  fontSize: 14.5,
-  lineHeight: 1.7,
-  color: 'var(--text-body)',
+const probPara = {
+  fontFamily: 'var(--font-display)',
+  fontSize: 'clamp(17px,2vw,22px)',
+  fontWeight: 400,
+  lineHeight: 1.3,
+  color: 'var(--text-secondary)',
   margin: 0,
-  maxWidth: '54ch',
+}
+const solPara = {
+  fontFamily: 'var(--font-display)',
+  fontSize: 'clamp(19px,2.3vw,26px)',
+  fontWeight: 600,
+  lineHeight: 1.2,
+  letterSpacing: '-0.02em',
+  color: 'var(--text-primary)',
+  margin: 0,
 }
 
 /**
@@ -35,11 +44,11 @@ export default function CaseReader({ study }) {
 
       {/* 2 · the problem */}
       <div style={{ ...label, color: 'var(--text-muted)' }}>The problem</div>
-      <p style={para}>{study.problem}</p>
+      <p style={probPara}>{study.problem}</p>
 
       {/* 3 · how I solved it */}
-      <div style={{ ...label, color: 'var(--accent)', margin: '20px 0 6px' }}>How I solved it</div>
-      <p style={{ ...para, color: 'var(--text-secondary)' }}>{study.solution}</p>
+      <div style={{ ...label, color: 'var(--accent)', margin: '22px 0 6px' }}>How I solved it</div>
+      <p style={solPara}>{study.solution}</p>
 
       {/* 4 · cover image (real when present, else a neutral placeholder) */}
       {study.cover ? (

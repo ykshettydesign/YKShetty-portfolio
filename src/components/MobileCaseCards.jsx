@@ -65,13 +65,13 @@ export default function MobileCaseCards() {
                   <div style={{ ...mono, fontSize: 9, fontWeight: 700, letterSpacing: '0.09em', textTransform: 'uppercase', color: 'var(--text-muted)', margin: '0 0 5px' }}>
                     The problem
                   </div>
-                  <p style={{ fontFamily: 'var(--font-body)', fontSize: 14, lineHeight: 1.65, color: 'var(--text-body)', margin: 0 }}>
+                  <p style={{ fontFamily: 'var(--font-display)', fontSize: 17, fontWeight: 400, lineHeight: 1.3, color: 'var(--text-secondary)', margin: 0 }}>
                     {c.problem}
                   </p>
-                  <div style={{ ...mono, fontSize: 9, fontWeight: 700, letterSpacing: '0.09em', textTransform: 'uppercase', color: 'var(--accent)', margin: '16px 0 5px' }}>
+                  <div style={{ ...mono, fontSize: 9, fontWeight: 700, letterSpacing: '0.09em', textTransform: 'uppercase', color: 'var(--accent)', margin: '18px 0 5px' }}>
                     How I solved it
                   </div>
-                  <p style={{ fontFamily: 'var(--font-body)', fontSize: 14, lineHeight: 1.65, color: 'var(--text-secondary)', margin: 0 }}>
+                  <p style={{ fontFamily: 'var(--font-display)', fontSize: 20, fontWeight: 600, lineHeight: 1.2, letterSpacing: '-0.02em', color: 'var(--text-primary)', margin: 0 }}>
                     {c.solution}
                   </p>
                   {c.cover ? (

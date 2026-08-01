@@ -80,6 +80,8 @@ export function generateTree(seed = 7, opts = {}) {
           scale: rand(0.7, 1.25) * leafScaleMul,
           spin: rand(0, Math.PI * 2),
           growth: dist,
+          branchIndex: myBranchIndex,
+          branchT: t,
         });
       }
     }

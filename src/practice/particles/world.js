@@ -356,7 +356,11 @@ export class DustWorld {
       c.copy(leaf).lerp(gloss, Math.random() * 0.5);
       const len = 1.15 * l.scale;
       const wid = 0.55 * l.scale;
-      b.addLeafPuff(l.pos, l.normal, len, wid, 70, l.growth, c, 0.9, 2.6);
+      // leaves on the fall branch travel with it (tapered like the branch bend)
+      const pos = l.branchIndex === this.tree.fallBranchIndex
+        ? l.pos.clone().addScaledVector(FALL_OFFSET, l.branchT)
+        : l.pos;
+      b.addLeafPuff(pos, l.normal, len, wid, 70, l.growth, c, 0.9, 2.6);
     }
     center.multiplyScalar(1 / Math.max(1, this.tree.leaves.length));
     this.crownCenter = center.clone();

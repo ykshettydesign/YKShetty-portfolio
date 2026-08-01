@@ -408,9 +408,11 @@ export class DustWorld {
   buildBlossoms() {
     const b = new DustBuilder();
     const c = PALETTE.blossom.clone();
-    for (const f of this.tree.fruits) {
-      b.addBlob(f.anchor, 0.16, 0.16, 0.16, 40, 0.0, c, 1.6, 3.6);
-    }
+    this.tree.fruits.forEach((f, i) => {
+      // the falling fruit's blossom follows it down-and-right, like its branch
+      const anchor = i === this.tree.fallIndex ? f.anchor.clone().add(FALL_OFFSET) : f.anchor;
+      b.addBlob(anchor, 0.16, 0.16, 0.16, 40, 0.0, c, 1.6, 3.6);
+    });
     this.blossomMat = this._mat({ size: 1.5, drift: 0.08 });
     this.blossomMat.uniforms.uReveal.value = 1;
     this.blossoms = b.build(this.blossomMat);

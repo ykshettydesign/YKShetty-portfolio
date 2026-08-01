@@ -57,7 +57,12 @@ export default function Work() {
       // 0 when the board top sits at the viewport bottom → 1 once it has risen
       // so the board sits comfortably in view (top ~15% down).
       const p = clamp01((vh - r.top) / (vh * 0.85))
-      setDropProgress(p)
+      // Hold the card in the scatter a little longer, then run the drop over a
+      // shorter stretch — so it starts later and lands fast once it goes.
+      const DROP_START = 0.34
+      const DROP_END = 0.58
+      const drop = clamp01((p - DROP_START) / (DROP_END - DROP_START))
+      setDropProgress(drop)
     }
     const onScroll = () => { if (raf == null) raf = requestAnimationFrame(update) }
     window.addEventListener('scroll', onScroll, { passive: true })

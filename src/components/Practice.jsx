@@ -7,27 +7,23 @@ import ErrorBoundary from './ErrorBoundary'
 // Number of viewport-heights of scroll track that drive the growth sequence.
 const TRACK_VH = 560
 
-// Card-stack offsets — ported from the concept's applyCards().
-const STACK_ROTS = [-4, -1.5, 2, 5]
-const STACK_OFF_X = [-10, -4, 4, 10]
-const STACK_OFF_Y = [8, 4, 2, 0]
+// Fixed resting transform per card — keyed ONLY by the card's own index.
+// A card settles at its own angle/offset once placed and never moves again,
+// even as newer cards stack on top of it.
+const CARD_ROT = [5, -4, 3, -5, 2]
+const CARD_OFF_X = [0, -8, 7, -6, 8]
 
 function cardStyle(k, active, isMobile) {
   const restY = isMobile ? '0px' : '-50%'
-  if (k === active) {
-    return { transform: `translate(0, ${restY}) rotate(0deg) scale(1)`, opacity: 1, zIndex: 20 }
+  // Placed card (current or already passed): hold its fixed resting pose.
+  if (k <= active) {
+    const rot = CARD_ROT[k] ?? 0
+    const ox = CARD_OFF_X[k] ?? 0
+    const ty = isMobile ? '0px' : restY
+    // Newer cards sit on top; a placed card keeps its exact pose forever.
+    return { transform: `translate(${ox}px, ${ty}) rotate(${rot}deg)`, opacity: 1, zIndex: 10 + k }
   }
-  if (k < active) {
-    const dist = active - k
-    const ox = STACK_OFF_X[k]
-    const s = 1 - Math.min(0.06, dist * 0.02)
-    if (isMobile) {
-      const oy = -(6 + dist * 11)
-      return { transform: `translate(${ox}px, ${oy}px) rotate(${STACK_ROTS[k]}deg) scale(${s})`, opacity: 1, zIndex: 19 - dist }
-    }
-    const oy = STACK_OFF_Y[k] + dist * 14
-    return { transform: `translate(${ox}px, calc(-50% + ${oy}px)) rotate(${STACK_ROTS[k]}deg) scale(${s})`, opacity: 1, zIndex: 19 - dist }
-  }
+  // Upcoming card: waiting off-screen below.
   const hideY = isMobile ? '45%' : '90%'
   return { transform: `translate(0, ${hideY}) rotate(2deg) scale(.96)`, opacity: 0, zIndex: 1 }
 }

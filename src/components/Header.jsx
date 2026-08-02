@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { navLinks, profile, CONTACT_EMAIL } from '../data/content'
 import { useTheme } from '../theme/ThemeContext'
 
@@ -17,6 +17,30 @@ export default function Header() {
   const toggleMobile = useCallback(() => setMobileOpen((v) => !v), [])
   const closeMenu = useCallback(() => setMobileOpen(false), [])
 
+  // Auto-hide on scroll: slide the bar up when scrolling down into content,
+  // slide it back on scroll up. Always visible near the very top. (To use the
+  // literal inverse, swap the two setHidden calls below.)
+  const [hidden, setHidden] = useState(false)
+  useEffect(() => {
+    let lastY = window.scrollY
+    let raf = null
+    const update = () => {
+      raf = null
+      const y = window.scrollY
+      const delta = y - lastY
+      if (y < 80) setHidden(false)
+      else if (delta > 4) setHidden(true)
+      else if (delta < -4) setHidden(false)
+      lastY = y
+    }
+    const onScroll = () => { if (raf == null) raf = requestAnimationFrame(update) }
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => {
+      window.removeEventListener('scroll', onScroll)
+      if (raf) cancelAnimationFrame(raf)
+    }
+  }, [])
+
   return (
     <header
       className={mobileOpen ? 'mobile-menu-open' : ''}
@@ -28,6 +52,9 @@ export default function Header() {
         backdropFilter: 'blur(16px) saturate(180%)',
         WebkitBackdropFilter: 'blur(16px) saturate(180%)',
         borderBottom: '1px solid var(--border-subtle)',
+        transform: hidden && !mobileOpen ? 'translateY(-100%)' : 'translateY(0)',
+        transition: 'transform 0.35s cubic-bezier(0.4, 0, 0.2, 1)',
+        willChange: 'transform',
       }}
     >
       <div

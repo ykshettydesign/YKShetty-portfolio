@@ -155,17 +155,14 @@ export default function Work() {
                 >
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12, ...mono, fontSize: 10, color: 'var(--text-secondary)' }}>
                     <span>{c.meta}</span>
-                    <span style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                      {/* draggable signifier — grip handle, brightens on hover */}
-                      <svg className="case-card-grip" width="10" height="14" viewBox="0 0 10 14" aria-hidden="true">
-                        <g fill="currentColor">
-                          <circle cx="2" cy="2" r="1.25" /><circle cx="8" cy="2" r="1.25" />
-                          <circle cx="2" cy="7" r="1.25" /><circle cx="8" cy="7" r="1.25" />
-                          <circle cx="2" cy="12" r="1.25" /><circle cx="8" cy="12" r="1.25" />
-                        </g>
-                      </svg>
-                      <span style={{ fontWeight: 700, color: 'var(--border-fade)' }}>{c.index}</span>
-                    </span>
+                    {/* draggable signifier — grip handle, brightens on hover */}
+                    <svg className="case-card-grip" width="10" height="14" viewBox="0 0 10 14" aria-hidden="true">
+                      <g fill="currentColor">
+                        <circle cx="2" cy="2" r="1.25" /><circle cx="8" cy="2" r="1.25" />
+                        <circle cx="2" cy="7" r="1.25" /><circle cx="8" cy="7" r="1.25" />
+                        <circle cx="2" cy="12" r="1.25" /><circle cx="8" cy="12" r="1.25" />
+                      </g>
+                    </svg>
                   </div>
                   <div style={{ fontFamily: 'var(--font-display)', fontSize: 15, fontWeight: 400, lineHeight: 1.3, letterSpacing: '-0.01em', color: 'var(--text-primary)' }}>
                     {c.card}

@@ -16,6 +16,8 @@ const probPara = {
   lineHeight: 1.3,
   color: 'var(--text-secondary)',
   margin: 0,
+  // leave the top-right clear so the dropped card stays visible over it
+  maxWidth: 'calc(100% - 170px)',
 }
 const solPara = {
   fontFamily: 'var(--font-display)',

@@ -179,16 +179,12 @@ export default function Work() {
               ref={targetRef}
               style={{ position: 'relative', padding: '26px 32px 32px', background: 'var(--bg-surface)', transition: 'background .25s' }}
             >
-              <div style={{ ...mono, fontSize: 9, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--text-muted)' }}>
-                The case
-              </div>
-
               {/* empty state */}
               <div
                 ref={emptyRef}
                 style={{
                   position: 'absolute',
-                  inset: '52px 32px 32px',
+                  inset: '30px 32px 32px',
                   border: '1px dashed var(--border-dashed)',
                   borderRadius: 12,
                   display: 'flex',
@@ -215,7 +211,7 @@ export default function Work() {
 
               {/* detail — opacity/pointer-events owned by the drag hook so the
                   scroll-linked drop can fade the reader in over its last stretch */}
-              <div ref={detailRef} style={{ position: 'relative', paddingTop: 22 }}>
+              <div ref={detailRef} style={{ position: 'relative', paddingTop: 0 }}>
                 <CaseReader study={activeStudy} />
               </div>
 

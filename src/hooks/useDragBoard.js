@@ -112,12 +112,22 @@ export function useDragBoard(refs, cards) {
         maxY: Math.max(top, bottom - 150),
       }
       const usableW = Math.max(0, bounds.maxX - bounds.minX)
-      const usableH = Math.max(0, bounds.maxY - bounds.minY)
+      // Set widths first so heights measure correctly, then stack the cards
+      // with an EQUAL gap using each card's real height — this keeps the
+      // *visible* gaps even even though the cards hold different amounts of
+      // text. seed.x still offsets them horizontally; seed.r keeps the tilt.
+      state.forEach((c, i) => { cardEls[i].style.width = `${CARD_W}px` })
+      const heights = state.map((c, i) => cardEls[i].offsetHeight)
+      const totalH = heights.reduce((sum, h) => sum + h, 0)
+      const gap = state.length > 1
+        ? Math.min(56, Math.max(24, (bottom - top - totalH) / (state.length - 1)))
+        : 0
+      let cy = top
       state.forEach((c, i) => {
-        cardEls[i].style.width = `${CARD_W}px`
         c.sx = bounds.minX + c.seed.x * usableW
-        c.sy = bounds.minY + c.seed.y * usableH
+        c.sy = cy
         c.sr = c.seed.r
+        cy += heights[i] + gap
         if (c.x === undefined) { c.x = c.sx; c.y = c.sy; c.r = c.sr }
       })
       const t = target.getBoundingClientRect()

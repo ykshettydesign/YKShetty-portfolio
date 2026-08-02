@@ -256,6 +256,9 @@ img { max-width: 100%; }
   z-index: 1;
   background: linear-gradient(to top, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0.15) 45%, rgba(0, 0, 0, 0) 78%);
 }
+/* Plain variant: a mid-flow cover banner with no overlaid title, so it needs
+   no legibility scrim. */
+.case-cover-strip--plain::after { content: none; }
 .case-cover-strip__meta {
   position: relative;
   z-index: 2;

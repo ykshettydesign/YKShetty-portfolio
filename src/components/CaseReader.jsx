@@ -65,22 +65,22 @@ export default function CaseReader({ study }) {
         )}
       </div>
 
-      {/* 4 · results */}
+      {/* 4 · results + CTA share one row — stats left, action right */}
       <div style={{ ...label, color: 'var(--text-muted)', margin: '20px 0 10px' }}>Results</div>
-      <div style={{ display: 'flex', gap: 44, marginBottom: 26 }}>
-        {study.stats.map((s) => (
-          <div key={s.label}>
-            <div style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(24px,3vw,34px)', fontWeight: 600, color: 'var(--accent)' }}>
-              {s.value}
+      <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', gap: 24, flexWrap: 'wrap' }}>
+        <div style={{ display: 'flex', gap: 44 }}>
+          {study.stats.map((s) => (
+            <div key={s.label}>
+              <div style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(24px,3vw,34px)', fontWeight: 600, color: 'var(--text-primary)' }}>
+                {s.value}
+              </div>
+              <div style={{ ...mono, fontSize: 10, color: 'var(--text-secondary)', marginTop: 8 }}>{s.label}</div>
             </div>
-            <div style={{ ...mono, fontSize: 10, color: 'var(--text-secondary)', marginTop: 8 }}>{s.label}</div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
 
-      {/* single CTA — read the full case study when there's a page for it,
-          otherwise request it by email. */}
-      <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 16 }}>
+        {/* single CTA — read the full case study when there's a page for it,
+            otherwise request it by email. Short label so it fits the row. */}
         <a
           href={study.href || study.mailto}
           className="cta-pill"
@@ -93,9 +93,10 @@ export default function CaseReader({ study }) {
             fontFamily: 'var(--font-body)',
             fontSize: 14,
             fontWeight: 600,
+            whiteSpace: 'nowrap',
           }}
         >
-          {study.href ? 'Read the full case study →' : 'Request full case study →'}
+          {study.href ? 'Read case study →' : 'Request case study →'}
         </a>
       </div>
     </div>

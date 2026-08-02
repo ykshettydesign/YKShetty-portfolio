@@ -229,19 +229,21 @@ img { max-width: 100%; }
   .case-card-float { animation: none; }
 }
 
-/* Case reader header — the cover as a compact backdrop strip with the case
-   title overlaid, so the whole reader fits in one view. Falls back to an accent
-   gradient when there's no cover (or the image fails to load). */
-.case-cover-strip {
+/* Case reader cover — the payoff. A tall banner carrying the solution: "How I
+   solved it" kicker + statement in white on a frosted panel pinned to the
+   bottom, so the claim lands on the evidence. `min-height` lets the banner grow
+   for a long solution while keeping a strip of image visible above it. Falls
+   back to an accent gradient when there's no cover (or the image fails). */
+.case-cover-hero {
   position: relative;
   display: flex;
   align-items: flex-end;
   overflow: hidden;
-  height: clamp(150px, 20vh, 200px);
-  border-radius: 12px;
+  min-height: clamp(224px, 30vh, 288px);
+  border-radius: 14px;
   background: linear-gradient(135deg, var(--accent-strong), var(--bg-inverse));
 }
-.case-cover-strip img {
+.case-cover-hero img {
   position: absolute;
   inset: 0;
   z-index: 0;
@@ -249,27 +251,40 @@ img { max-width: 100%; }
   height: 100%;
   object-fit: cover;
 }
-.case-cover-strip::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0.15) 45%, rgba(0, 0, 0, 0) 78%);
-}
-/* Plain variant: a mid-flow cover banner with no overlaid title, so it needs
-   no legibility scrim. */
-.case-cover-strip--plain::after { content: none; }
-.case-cover-strip__meta {
+/* frosted panel — dark gradient + blur, masked so it melts into the image
+   rather than cutting a hard edge. The text sits in the opaque lower band. */
+.case-cover-hero__panel {
   position: relative;
   z-index: 2;
-  padding: 12px 16px;
+  width: 100%;
+  padding: 18px 20px 17px;
+  color: #fff;
+  background: linear-gradient(to top, rgba(8, 8, 16, 0.66) 0%, rgba(8, 8, 16, 0.30) 62%, rgba(8, 8, 16, 0) 100%);
+  -webkit-backdrop-filter: blur(7px);
+  backdrop-filter: blur(7px);
+  -webkit-mask-image: linear-gradient(to top, #000 62%, transparent 100%);
+  mask-image: linear-gradient(to top, #000 62%, transparent 100%);
+}
+.case-cover-hero__kicker {
   font-family: var(--font-mono);
   font-size: 9px;
   font-weight: 700;
-  letter-spacing: 0.09em;
+  letter-spacing: 0.11em;
   text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.72);
+  margin-bottom: 6px;
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.45);
+}
+.case-cover-hero__solution {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(17px, 2vw, 20px);
+  line-height: 1.22;
+  letter-spacing: -0.02em;
+  margin: 0;
   color: #fff;
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.45);
+  text-shadow: 0 1px 10px rgba(0, 0, 0, 0.35);
+  text-wrap: balance;
 }
 
 /* motion: the same gentle overshoot as the hero bubbles */

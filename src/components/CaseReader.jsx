@@ -18,20 +18,11 @@ const probPara = {
   // leave the top-right clear so the dropped card stays visible over it
   maxWidth: 'calc(100% - 170px)',
 }
-const solPara = {
-  fontFamily: 'var(--font-display)',
-  fontSize: 'clamp(19px,2.3vw,26px)',
-  fontWeight: 600,
-  lineHeight: 1.2,
-  letterSpacing: '-0.02em',
-  color: 'var(--text-primary)',
-  margin: 0,
-}
-
 /**
  * The "reader" content for a single active case study — a tight, scannable read:
- *   title → The problem → How I solved it → cover image → Results → CTA.
- * One paragraph each; the deeper detail lives behind the full-case-study link.
+ *   title → The problem → cover (with the solution set over it) → Results → CTA.
+ * The cover is the payoff: a tall banner with "How I solved it" + the solution
+ * statement laid over the bottom in white, so the claim lands on the evidence.
  * The block fades in (owned by the parent's opacity transition).
  */
 export default function CaseReader({ study }) {
@@ -47,14 +38,11 @@ export default function CaseReader({ study }) {
       <div style={{ ...label, color: 'var(--text-muted)' }}>The problem</div>
       <p style={probPara}>{study.problem}</p>
 
-      {/* 2 · how I solved it */}
-      <div style={{ ...label, color: 'var(--accent)', margin: '18px 0 6px' }}>How I solved it</div>
-      <p style={solPara}>{study.solution}</p>
-
-      {/* 3 · cover image — a banner between the solution and the results. A real
-          image fills it when present; otherwise the accent gradient shows. If it
-          fails to load, onError hides it and the gradient shows through. */}
-      <div className="case-cover-strip case-cover-strip--plain" style={{ margin: '20px 0 0' }} aria-hidden="true">
+      {/* 2 · the solution, set over the cover — "How I solved it" kicker + the
+          statement in white on a frosted panel. A real image fills the banner
+          when present; otherwise the accent gradient shows. If the image fails
+          to load, onError hides it and the gradient carries the text. */}
+      <div className="case-cover-hero" style={{ margin: '18px 0 0' }}>
         {study.cover && (
           <img
             key={study.cover}
@@ -63,6 +51,10 @@ export default function CaseReader({ study }) {
             onError={(e) => { e.currentTarget.style.display = 'none' }}
           />
         )}
+        <div className="case-cover-hero__panel">
+          <div className="case-cover-hero__kicker">How I solved it</div>
+          <p className="case-cover-hero__solution">{study.solution}</p>
+        </div>
       </div>
 
       {/* 4 · results + CTA share one row — stats left, action right */}

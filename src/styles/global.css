@@ -241,6 +241,10 @@ img { max-width: 100%; }
   overflow: hidden;
   min-height: clamp(269px, 36vh, 346px);
   border-radius: 14px;
+  /* clip-path (not just overflow+radius) so the oversized, filtered blur image
+     is clipped to the rounded corners too — overflow:hidden alone lets a
+     filtered child keep square corners. */
+  clip-path: inset(0 round 14px);
   background: linear-gradient(135deg, var(--accent-strong), var(--bg-inverse));
 }
 .case-cover-hero img {

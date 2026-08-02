@@ -126,7 +126,7 @@ export default function Work() {
               touchAction: 'none',
               display: 'grid',
               gridTemplateColumns: 'minmax(250px,0.72fr) minmax(0,1.28fr)',
-              minHeight: 600,
+              minHeight: 720,
               overflow: 'hidden',
             }}
           >
@@ -167,7 +167,7 @@ export default function Work() {
                       <span style={{ fontWeight: 700, color: 'var(--border-fade)' }}>{c.index}</span>
                     </span>
                   </div>
-                  <div style={{ fontFamily: 'var(--font-display)', fontSize: 15.5, fontWeight: 500, lineHeight: 1.3, letterSpacing: '-0.01em', color: 'var(--text-primary)' }}>
+                  <div style={{ fontFamily: 'var(--font-display)', fontSize: 15, fontWeight: 400, lineHeight: 1.3, letterSpacing: '-0.01em', color: 'var(--text-primary)' }}>
                     {c.card}
                   </div>
                 </div>

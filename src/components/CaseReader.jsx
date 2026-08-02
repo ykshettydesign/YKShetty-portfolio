@@ -41,8 +41,15 @@ export default function CaseReader({ study }) {
       {/* 2 · the solution, set over the cover — "How I solved it" kicker + the
           statement in white on a frosted panel. A real image fills the banner
           when present; otherwise the accent gradient shows. If the image fails
-          to load, onError hides it and the gradient carries the text. */}
-      <div className="case-cover-hero" style={{ margin: '18px 0 0' }}>
+          to load, onError hides it and the gradient carries the text.
+          The cover is a link into the full case study (same target as the CTA),
+          so it routes through the password gate for protected studies. */}
+      <a
+        href={study.href || study.mailto}
+        className="case-cover-hero"
+        style={{ margin: '18px 0 0' }}
+        aria-label={study.href ? 'Read the full case study' : 'Request the case study'}
+      >
         {study.cover && (
           <>
             <img
@@ -67,7 +74,7 @@ export default function CaseReader({ study }) {
           <div className="case-cover-hero__kicker">How I solved it</div>
           <p className="case-cover-hero__solution">{study.solution}</p>
         </div>
-      </div>
+      </a>
 
       {/* 4 · results + CTA share one row — stats left, action right */}
       <div style={{ ...label, color: 'var(--text-muted)', margin: '20px 0 10px' }}>Results</div>
@@ -84,13 +91,10 @@ export default function CaseReader({ study }) {
         </div>
 
         {/* single CTA — read the full case study when there's a page for it,
-            otherwise request it by email. Short label so it fits the row.
-            The `reader-cta` class stretches this link (via a ::before overlay)
-            across the whole reader panel, so a click anywhere on the reader
-            opens the case study — the pill stays the visible affordance. */}
+            otherwise request it by email. Short label so it fits the row. */}
         <a
           href={study.href || study.mailto}
-          className="cta-pill reader-cta"
+          className="cta-pill"
           style={{
             display: 'inline-flex',
             alignItems: 'center',

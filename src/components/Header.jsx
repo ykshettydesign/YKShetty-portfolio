@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { navLinks, profile, CONTACT_EMAIL } from '../data/content'
 import { useTheme } from '../theme/ThemeContext'
+import { Link } from '../router'
 
 const labelStyle = {
   fontFamily: 'var(--font-mono)',
@@ -10,18 +11,30 @@ const labelStyle = {
   textTransform: 'uppercase',
 }
 
-export default function Header() {
+/**
+ * The one site nav, used on every page.
+ *
+ * `subpage` switches it between its two forms:
+ *   - home (default): the logo scrolls to #top and the section links are bare
+ *     in-page anchors (#work …); the bar auto-hides on scroll into content.
+ *   - subpage (case studies / gate): the logo routes home via SPA, and the
+ *     section links point back to the home page (/#work …) so they scroll
+ *     correctly from another route; the bar stays put (no auto-hide).
+ * Everything else — layout, width, theme toggle — is shared, so the two forms
+ * can never drift apart.
+ */
+export default function Header({ subpage = false }) {
   const [mobileOpen, setMobileOpen] = useState(false)
   const { theme, toggleTheme } = useTheme()
 
   const toggleMobile = useCallback(() => setMobileOpen((v) => !v), [])
   const closeMenu = useCallback(() => setMobileOpen(false), [])
 
-  // Auto-hide on scroll: slide the bar up when scrolling down into content,
-  // slide it back on scroll up. Always visible near the very top. (To use the
-  // literal inverse, swap the two setHidden calls below.)
+  // Auto-hide on scroll (home only): slide the bar up when scrolling down into
+  // content, slide it back on scroll up. Always visible near the very top.
   const [hidden, setHidden] = useState(false)
   useEffect(() => {
+    if (subpage) return undefined
     let lastY = window.scrollY
     let raf = null
     const update = () => {
@@ -39,7 +52,33 @@ export default function Header() {
       window.removeEventListener('scroll', onScroll)
       if (raf) cancelAnimationFrame(raf)
     }
-  }, [])
+  }, [subpage])
+
+  // Section links are bare anchors at home, home-prefixed on a subpage.
+  const sectionHref = (href) => (subpage ? `/${href}` : href)
+
+  const logoInner = (
+    <>
+      <img
+        src={profile.logo}
+        alt={profile.name}
+        className="theme-logo"
+        style={{ height: 22, width: 22, display: 'block' }}
+      />
+      <span
+        style={{
+          fontFamily: 'var(--font-display)',
+          fontSize: 14,
+          fontWeight: 700,
+          letterSpacing: '0.02em',
+          color: 'var(--text-primary)',
+        }}
+      >
+        {profile.name}
+      </span>
+    </>
+  )
+  const logoStyle = { display: 'flex', alignItems: 'center', gap: 10, height: 20 }
 
   return (
     <header
@@ -69,25 +108,11 @@ export default function Header() {
         }}
       >
         <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
-          <a href="#top" style={{ display: 'flex', alignItems: 'center', gap: 10, height: 20 }}>
-            <img
-              src={profile.logo}
-              alt={profile.name}
-              className="theme-logo"
-              style={{ height: 22, width: 22, display: 'block' }}
-            />
-            <span
-              style={{
-                fontFamily: 'var(--font-display)',
-                fontSize: 14,
-                fontWeight: 700,
-                letterSpacing: '0.02em',
-                color: 'var(--text-primary)',
-              }}
-            >
-              {profile.name}
-            </span>
-          </a>
+          {subpage ? (
+            <Link to="/" style={logoStyle}>{logoInner}</Link>
+          ) : (
+            <a href="#top" style={logoStyle}>{logoInner}</a>
+          )}
         </div>
 
         <button
@@ -118,7 +143,7 @@ export default function Header() {
           style={{ display: 'flex', alignItems: 'center', gap: 28 }}
         >
           {navLinks.map((link) => (
-            <a key={link.href} href={link.href} onClick={closeMenu} className="nav-link" style={labelStyle}>
+            <a key={link.href} href={sectionHref(link.href)} onClick={closeMenu} className="nav-link" style={labelStyle}>
               {link.label}
             </a>
           ))}

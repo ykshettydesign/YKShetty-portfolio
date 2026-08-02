@@ -24,7 +24,7 @@ export const PROTECTED_SLUGS = new Set([
 
 /**
  * SHA-256 hashes of the accepted passwords (case-sensitive, trimmed).
- * Current plaintext: "YKShetty" and "yks-carft".
+ * Any one of them unlocks. Keep the plaintext out of this file.
  */
 export const PASSWORD_HASHES = [
   '5787deaa7a8ea2bd70a681eed552e3ea03c59dca5ecffa7dcab1365afe4433c1',

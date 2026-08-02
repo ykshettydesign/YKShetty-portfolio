@@ -14,6 +14,10 @@ export default function Instruments() {
           <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(28px,3.8vw,44px)', fontWeight: 600, lineHeight: 1.02, letterSpacing: '-0.03em', margin: 0, maxWidth: '22ch', color: 'var(--text-primary)' }}>
             When the work repeats, the tool gets built.
           </h2>
+          <p style={{ fontFamily: 'var(--font-body)', fontSize: 'clamp(15px,1.6vw,17px)', lineHeight: 1.55, color: 'var(--text-secondary)', margin: '18px 0 0', maxWidth: '52ch' }}>
+            Three tools I designed and built for my own workflow — then published to the{' '}
+            <span style={{ color: 'var(--text-primary)' }}>Figma Community</span>, where other designers use them too.
+          </p>
         </div>
 
         <div
@@ -22,9 +26,14 @@ export default function Instruments() {
           style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 'clamp(14px,2vw,20px)', transitionDelay: '0.12s' }}
         >
           {instruments.map((tool) => (
-            <div
+            <a
               key={tool.id}
-              style={{ background: 'var(--bg-surface)', borderRadius: 16, padding: '28px 24px', display: 'flex', flexDirection: 'column', minHeight: 280, boxShadow: 'var(--shadow-card)' }}
+              href={tool.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={`${tool.alt} on the Figma Community`}
+              className="instrument-card"
+              style={{ background: 'var(--bg-surface)', borderRadius: 16, padding: '28px 24px', display: 'flex', flexDirection: 'column', minHeight: 280, boxShadow: 'var(--shadow-card)', color: 'inherit' }}
             >
               <div style={{ height: 28, display: 'flex', alignItems: 'center' }}>
                 <img src={tool.logo} alt={tool.alt} className="theme-logo" style={{ ...tool.logoStyle, opacity: 1 }} />
@@ -43,8 +52,11 @@ export default function Instruments() {
                 <div style={{ fontFamily: 'var(--font-body)', fontSize: 15, lineHeight: 1.5, color: 'var(--text-primary)' }}>
                   {tool.result}
                 </div>
+                <div className="instrument-cta" style={{ ...mono, fontSize: 10, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', marginTop: 20, display: 'flex', alignItems: 'center', gap: 6 }}>
+                  View on Figma Community <span className="instrument-cta-arrow" aria-hidden="true">↗</span>
+                </div>
               </div>
-            </div>
+            </a>
           ))}
         </div>
       </div>

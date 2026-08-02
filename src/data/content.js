@@ -189,6 +189,7 @@ export const instruments = [
     logoStyle: { height: 20, width: 126 },
     problem: 'Token migrations were manual, slow and error-prone across files.',
     result: 'Migrations that took a day now run in minutes.',
+    href: 'https://www.figma.com/community/plugin/1614997660400970378/token-map',
   },
   {
     id: 'intent',
@@ -197,6 +198,7 @@ export const instruments = [
     logoStyle: { height: 26, width: 82 },
     problem: 'Detached components quietly broke consistency across the system.',
     result: 'Detached instances detected and healed automatically.',
+    href: 'https://www.figma.com/community/plugin/1610840315625561207/intent',
   },
   {
     id: 'focal',
@@ -205,6 +207,7 @@ export const instruments = [
     logoStyle: { height: 18, width: 99 },
     problem: 'Attention and visual hierarchy were argued, not measured.',
     result: 'Predicts where the eye lands in ~1 second.',
+    href: 'https://www.figma.com/community/plugin/1651583678533726308/focal-ai',
   },
 ]
 

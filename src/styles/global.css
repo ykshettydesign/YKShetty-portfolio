@@ -49,6 +49,22 @@ img { max-width: 100%; }
 .theme-logo { filter: invert(1); }
 [data-theme="dark"] .theme-logo { filter: none; }
 
+/* Instruments cards — link out to each tool's Figma Community page. */
+.instrument-card {
+  text-decoration: none;
+  border: 1px solid transparent;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+.instrument-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--border-input-hover);
+  box-shadow: var(--shadow-card-hover, var(--shadow-card));
+}
+.instrument-card .instrument-cta { color: var(--text-tertiary); transition: color 0.2s ease; }
+.instrument-card:hover .instrument-cta { color: var(--accent); }
+.instrument-card:hover .instrument-cta-arrow { transform: translate(2px, -2px); }
+.instrument-cta-arrow { display: inline-block; transition: transform 0.2s ease; }
+
 .icon-btn { transition: border-color 0.2s ease, background 0.2s ease; }
 .icon-btn:hover { border-color: var(--border-input-hover); background: var(--bg-hover); }
 

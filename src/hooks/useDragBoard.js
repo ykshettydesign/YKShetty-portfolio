@@ -206,7 +206,7 @@ export function useDragBoard(refs, cards) {
 
     // Scroll-driven drop: place the first card along the arc by scroll progress,
     // mounting/unmounting the reader at the boundary and fading its content in
-    // over the last third of the travel.
+    // once the card is placed at the end of the arc.
     const setDropProgress = (p) => {
       if (scrubReleased || state[0].drag) return
       const t = clamp01(p)
@@ -217,7 +217,7 @@ export function useDragBoard(refs, cards) {
         setActive(firstId)
         const el0 = cardEls[0]
         if (el0) { el0.style.boxShadow = SHADOW_ACTIVE; el0.style.zIndex = '9' }
-        if (detailEl()) { detailEl().style.transition = 'none'; detailEl().style.pointerEvents = 'auto' }
+        if (detailEl()) { detailEl().style.transition = 'opacity .4s ease'; detailEl().style.pointerEvents = 'auto' }
         scatter.style.overflow = 'visible'
         if (emptyEl()) emptyEl().style.opacity = '0'
       } else if (t <= 0.02 && scrubActive) {
@@ -229,7 +229,10 @@ export function useDragBoard(refs, cards) {
         if (emptyEl()) emptyEl().style.opacity = '1'
       }
       scrubActive = t > 0.02
-      if (detailEl()) detailEl().style.opacity = String(clamp01((t - 0.65) / 0.35))
+      // Reveal the reader content only once the card is essentially placed
+      // (end of the arc) — the .4s transition fades it in cleanly on landing,
+      // and back out if you scroll away before it settles.
+      if (detailEl()) detailEl().style.opacity = t > 0.9 ? '1' : '0'
       ensureLoop()
     }
     setDropProgressRef.current = setDropProgress

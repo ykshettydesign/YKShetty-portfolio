@@ -79,6 +79,7 @@ export function useDragBoard(refs, cards) {
     let raf = null
     let running = false
     let stopped = false
+    let dragOver = false // the dragged card is currently over the reader drop zone
 
     // Scroll-linked drop of the first card: `scrub` (0→1) places it along a
     // quadratic-bezier arc between its scatter spot and the reader slot. Any
@@ -141,7 +142,7 @@ export function useDragBoard(refs, cards) {
 
     const isOverTarget = (x, y) => {
       const t = target.getBoundingClientRect()
-      return x > t.left - 20 && x < t.right + 20 && y > t.top - 20 && y < t.bottom + 20
+      return x > t.left - 28 && x < t.right + 28 && y > t.top - 28 && y < t.bottom + 28
     }
 
     const loop = () => {
@@ -156,7 +157,9 @@ export function useDragBoard(refs, cards) {
         let targetScale
         const scrubbing = i === 0 && scrub !== null && !scrubReleased && !c.drag && slotX !== undefined
         if (c.drag && c.dragX !== undefined) {
-          tx = c.dragX; ty = c.dragY; tr = 0; targetScale = 1; moving = true
+          // lift + tilt the card while it hovers the drop zone, so both sides
+          // acknowledge the drop.
+          tx = c.dragX; ty = c.dragY; tr = dragOver ? -1 : 0; targetScale = dragOver ? 1.04 : 1; moving = true
         } else if (scrubbing) {
           const [ax, ay] = arcPoint(c.sx, c.sy, slotX, slotY, scrub)
           tx = ax; ty = ay; tr = c.sr + (slotR - c.sr) * scrub
@@ -279,11 +282,13 @@ export function useDragBoard(refs, cards) {
         c.dragY = e.clientY - b.top + c.grabDY
         ensureLoop()
         const over = isOverTarget(e.clientX, e.clientY)
-        if (emptyEl() && activeRef.current === null) {
-          emptyEl().style.borderColor = over ? ACCENT : ''
-          emptyEl().style.background = over ? 'rgba(124,92,252,0.04)' : 'transparent'
+        dragOver = over
+        // drop-zone affordance on the reader itself (works empty or occupied)
+        target.classList.toggle('drop-target-active', over)
+        if (over) {
+          const lbl = target.querySelector('.drop-label')
+          if (lbl) lbl.textContent = activeRef.current ? 'Drop to swap' : 'Release to open'
         }
-        target.style.background = over ? 'var(--bg-target-active)' : 'var(--bg-surface)'
       }
       const onUp = (e) => {
         if (!c.drag) return
@@ -291,9 +296,14 @@ export function useDragBoard(refs, cards) {
         el.style.cursor = 'grab'
         el.style.zIndex = '5'
         scatter.style.zIndex = ''
-        if (emptyEl()) { emptyEl().style.borderColor = ''; emptyEl().style.background = 'transparent' }
-        target.style.background = 'var(--bg-surface)'
         const over = isOverTarget(e.clientX, e.clientY)
+        dragOver = false
+        target.classList.remove('drop-target-active')
+        if (over) {
+          // release flash on the ring, then clean it up
+          target.classList.add('drop-flash')
+          setTimeout(() => target.classList.remove('drop-flash'), 300)
+        }
         if (!moved || over) {
           applyActive(c.id)
         } else {

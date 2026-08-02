@@ -212,6 +212,11 @@ export default function Work() {
                 <CaseReader study={activeStudy} />
               </div>
 
+              {/* drop-zone affordance — ring + label fade in while a card hovers
+                  the reader (toggled by the drag hook). pointer-events:none. */}
+              <div className="drop-ring" aria-hidden="true" />
+              <div className="drop-label" aria-hidden="true" />
+
               {/* close */}
               <button
                 type="button"

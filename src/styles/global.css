@@ -304,6 +304,64 @@ img { max-width: 100%; }
   text-wrap: balance;
 }
 
+/* Drop-zone affordance — while a card is dragged over the reader, a ring +
+   label fade in over whatever the reader is showing (empty or occupied). The
+   drag hook toggles .drop-target-active on the reader, and .drop-flash on
+   release. Both overlays are pointer-events:none so they never block clicks. */
+.drop-ring {
+  position: absolute;
+  inset: 8px;
+  z-index: 8;
+  border-radius: 14px;
+  border: 2px solid var(--accent);
+  background: var(--accent-tint);
+  opacity: 0;
+  transform: scale(0.97);
+  pointer-events: none;
+  transition: opacity 0.16s ease, transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.drop-label {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: 9;
+  transform: translate(-50%, -50%) translateY(8px);
+  padding: 8px 16px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: #fff;
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+  box-shadow: 0 8px 20px -6px var(--accent-ring);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.18s ease, transform 0.28s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.drop-target-active .drop-ring {
+  opacity: 1;
+  transform: scale(1);
+  animation: dropBreathe 1.5s ease-in-out 0.3s infinite;
+}
+.drop-target-active .drop-label {
+  opacity: 1;
+  transform: translate(-50%, -50%) translateY(0);
+}
+.drop-target-active.drop-flash .drop-ring {
+  animation: none;
+  border-color: var(--accent-hover);
+  box-shadow: 0 0 0 6px var(--accent-ring);
+  transform: scale(1.014);
+}
+@keyframes dropBreathe {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(124, 92, 252, 0); }
+  50% { box-shadow: 0 0 0 4px var(--accent-ring); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .drop-target-active .drop-ring { animation: none; }
+}
+
 /* motion: the same gentle overshoot as the hero bubbles */
 .thread-pop { animation: threadPop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both; }
 @keyframes threadPop {

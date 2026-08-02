@@ -8,14 +8,40 @@
    ============================================================ */
 
 .gate-stage {
+  position: relative;
+  overflow: hidden;
   min-height: calc(100vh - 56px);
   display: grid;
-  place-items: center;
-  padding: 40px 22px 64px;
+  justify-items: center;
+  align-items: start;        /* bias the card into the upper third, echoing the hero chat */
+  padding: clamp(48px, 12vh, 150px) 22px 64px;
+}
+/* Faint brand ambiance behind the card — same gradient language as the hero,
+   so the gate reads as part of the site rather than a bare utility screen. */
+.gate-stage::before,
+.gate-stage::after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(72px);
+  opacity: .55;
+  pointer-events: none;
+  z-index: 0;
+}
+.gate-stage::before {
+  width: min(46vw, 420px); aspect-ratio: 1;
+  top: 4%; left: 12%;
+  background: radial-gradient(circle, var(--blob-1), transparent 70%);
+}
+.gate-stage::after {
+  width: min(40vw, 360px); aspect-ratio: 1;
+  bottom: 6%; right: 10%;
+  background: radial-gradient(circle, var(--blob-3), transparent 70%);
 }
 
 .gate-card {
   position: relative;
+  z-index: 1;
   width: 100%;
   max-width: 460px;
   background: var(--bg-surface);
@@ -65,14 +91,21 @@
   border: 1px solid var(--border-subtle);
 }
 .gate-row.them .gate-bubble { background: var(--bg-surface-alt); border-radius: 4px 18px 18px 18px; }
-.gate-row.me .gate-bubble { background: var(--bg-surface); border-radius: 18px 18px 4px 18px; }
+/* My side gets a soft accent tint so the reply separates from the card (esp. in
+   dark mode, where a plain surface bubble was invisible) and reads as the
+   emphasised message over the neutral question. */
+.gate-row.me .gate-bubble {
+  background: var(--accent-soft-bg);
+  border-color: var(--accent-ring);
+  border-radius: 18px 18px 4px 18px;
+}
 .gate-kicker {
   display: block; font-family: var(--font-mono); font-size: 9px; font-weight: 700;
-  letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin-bottom: 7px;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--accent-strong); margin-bottom: 7px;
 }
 .gate-bubble small {
   display: block; font-family: var(--font-body); font-size: 12.5px;
-  line-height: 1.5; color: var(--text-muted); margin-top: 8px; font-weight: 400;
+  line-height: 1.5; color: var(--text-secondary); margin-top: 8px; font-weight: 400;
 }
 .gate-bubble small a { color: var(--accent); text-decoration: none; border-bottom: 1px solid var(--accent-ring); }
 
@@ -100,7 +133,7 @@
 /* typing indicator */
 .gate-typing {
   display: inline-flex; gap: 4px; padding: 16px 18px;
-  background: var(--bg-surface); border: 1px solid var(--border-subtle);
+  background: var(--accent-soft-bg); border: 1px solid var(--accent-ring);
   border-radius: 18px 18px 4px 18px; box-shadow: var(--shadow-float);
 }
 .gate-typing span { width: 6px; height: 6px; border-radius: 50%; background: var(--text-muted); animation: gate-blink 1.2s infinite; }

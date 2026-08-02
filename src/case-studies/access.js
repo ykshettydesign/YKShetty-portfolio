@@ -31,6 +31,9 @@ export const PASSWORD_HASHES = [
   '2742ce32dae07660045ae5247b21e600b5c4834d7c665335ac1c98893e5eaf11',
 ]
 
+/** sessionStorage key holding the per-session unlock flag. */
+const STORAGE_KEY = 'cs-unlocked'
+
 /** Does this slug sit behind the password gate? */
 export function isProtected(slug) {
   return PROTECTED_SLUGS.has(slug)

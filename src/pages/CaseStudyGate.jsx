@@ -156,7 +156,7 @@ export default function CaseStudyGate({ title, onUnlock }) {
               </button>
               <button type="submit" className="gate-send" aria-label="Unlock case study" title="Unlock">↑</button>
             </form>
-            <a href="/#work" className="gate-back">‹ Back to work</a>
+            <a href="/#work" className="gate-back">← Back to work</a>
           </div>
         </div>
       </div>

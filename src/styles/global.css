@@ -259,13 +259,15 @@ img { max-width: 100%; }
   left: 0;
   right: 0;
   bottom: 0;
-  height: 88%;
+  /* only the bottom band, behind the text — the top half of the photo stays
+     sharp. The mask feathers this band's top so the frost fades into the image. */
+  height: 56%;
   z-index: 1;
   pointer-events: none;
   -webkit-backdrop-filter: blur(8px);
   backdrop-filter: blur(8px);
-  -webkit-mask-image: linear-gradient(to top, #000 34%, rgba(0, 0, 0, 0.5) 62%, transparent 100%);
-  mask-image: linear-gradient(to top, #000 34%, rgba(0, 0, 0, 0.5) 62%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to top, #000 42%, rgba(0, 0, 0, 0.5) 74%, transparent 100%);
+  mask-image: linear-gradient(to top, #000 42%, rgba(0, 0, 0, 0.5) 74%, transparent 100%);
 }
 /* text panel — just the dark tint (fades via its own alpha) + the copy */
 .case-cover-hero__panel {

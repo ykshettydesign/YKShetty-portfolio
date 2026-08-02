@@ -47,7 +47,7 @@
   /* ── Reading measure + column widths ── */
   --cs-measure: 68ch;     /* comfortable prose line length */
   --cs-column: 720px;     /* the reading column */
-  --cs-wide: 1080px;      /* wide media / tables / meta */
+  --cs-wide: 1100px;      /* wide media / tables / meta — matches the site grid (Header/About/Footer = 1100) */
   --cs-gutter: clamp(22px, 5vw, 44px);
 
   /* ── Case-study accent hooks (default to the brand accent; a case study can

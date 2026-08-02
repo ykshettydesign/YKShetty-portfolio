@@ -37,7 +37,7 @@ export default function CaseStudyHeader() {
     >
       <div
         style={{
-          maxWidth: 1080,
+          maxWidth: 1100,
           margin: '0 auto',
           padding: '0 clamp(22px,5vw,44px)',
           height: 56,

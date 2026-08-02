@@ -51,6 +51,9 @@ export default function CaseReader({ study }) {
             onError={(e) => { e.currentTarget.style.display = 'none' }}
           />
         )}
+        {/* dedicated blur layer — masked on its own so the blur feathers into
+            the image (a mask on a combined background+blur+text element won't). */}
+        <div className="case-cover-hero__blur" aria-hidden="true" />
         <div className="case-cover-hero__panel">
           <div className="case-cover-hero__kicker">How I solved it</div>
           <p className="case-cover-hero__solution">{study.solution}</p>

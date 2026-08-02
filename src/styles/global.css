@@ -37,6 +37,19 @@ img { max-width: 100%; }
 }
 .cta-pill:hover { background: var(--accent-hover); color: var(--on-accent) !important; transform: translateY(-1px); }
 
+/* Stretched link: make the whole reader panel clickable. The ::before overlays
+   the reader content (its nearest positioned ancestor is the reader wrapper,
+   which is position:relative), so a click anywhere on the reader opens the case
+   study while the pill stays the visible affordance. z-index 3 sits above the
+   cover panel (z-index 2) yet below the reader's close button (z-index 12), and
+   the drop-zone overlays (8/9) are pointer-events:none so they never block it. */
+.reader-cta::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+}
+
 .text-link { transition: color 0.2s ease, border-color 0.2s ease; }
 .text-link--primary { color: var(--text-primary); border-bottom: 1px solid var(--border-fade); }
 .text-link--primary:hover { color: var(--accent); border-color: var(--accent); }

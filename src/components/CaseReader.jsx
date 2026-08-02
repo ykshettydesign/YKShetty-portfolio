@@ -84,10 +84,13 @@ export default function CaseReader({ study }) {
         </div>
 
         {/* single CTA — read the full case study when there's a page for it,
-            otherwise request it by email. Short label so it fits the row. */}
+            otherwise request it by email. Short label so it fits the row.
+            The `reader-cta` class stretches this link (via a ::before overlay)
+            across the whole reader panel, so a click anywhere on the reader
+            opens the case study — the pill stays the visible affordance. */}
         <a
           href={study.href || study.mailto}
-          className="cta-pill"
+          className="cta-pill reader-cta"
           style={{
             display: 'inline-flex',
             alignItems: 'center',

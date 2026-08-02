@@ -11,7 +11,6 @@ const label = {
 }
 const probPara = {
   fontFamily: 'var(--font-display)',
-  fontSize: 'clamp(17px,2vw,22px)',
   fontWeight: 400,
   lineHeight: 1.3,
   color: 'var(--text-secondary)',

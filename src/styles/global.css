@@ -237,7 +237,7 @@ img { max-width: 100%; }
   display: flex;
   align-items: flex-end;
   overflow: hidden;
-  height: clamp(96px, 13vh, 128px);
+  height: clamp(150px, 20vh, 200px);
   border-radius: 12px;
   background: linear-gradient(135deg, var(--accent-strong), var(--bg-inverse));
 }

@@ -110,9 +110,6 @@ export default function Work() {
               <div style={{ ...mono, fontSize: 10, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--text-tertiary)' }}>
                 01 · Case studies
               </div>
-              <div style={{ fontFamily: 'var(--font-display)', fontSize: 13, fontWeight: 500, color: 'var(--text-secondary)', marginLeft: 4 }}>
-                — The problem, and how I solved it
-              </div>
             </div>
             <div style={{ ...mono, fontSize: 9, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--text-muted)' }}>
               <span className="drag-desktop">Drag a case into the reader — or click one</span>

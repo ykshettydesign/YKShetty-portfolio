@@ -126,7 +126,7 @@ export default function Work() {
               touchAction: 'none',
               display: 'grid',
               gridTemplateColumns: 'minmax(250px,0.72fr) minmax(0,1.28fr)',
-              minHeight: 720,
+              minHeight: 620,
               overflow: 'hidden',
             }}
           >

@@ -67,7 +67,7 @@ export default function CaseReader({ study }) {
 
       {/* 4 · results + CTA share one row — stats left, action right */}
       <div style={{ ...label, color: 'var(--text-muted)', margin: '20px 0 10px' }}>Results</div>
-      <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', gap: 24, flexWrap: 'wrap' }}>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 24, flexWrap: 'wrap' }}>
         <div style={{ display: 'flex', gap: 44 }}>
           {study.stats.map((s) => (
             <div key={s.label}>

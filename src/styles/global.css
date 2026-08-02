@@ -239,7 +239,7 @@ img { max-width: 100%; }
   display: flex;
   align-items: flex-end;
   overflow: hidden;
-  min-height: clamp(224px, 30vh, 288px);
+  min-height: clamp(269px, 36vh, 346px);
   border-radius: 14px;
   background: linear-gradient(135deg, var(--accent-strong), var(--bg-inverse));
 }
@@ -257,13 +257,15 @@ img { max-width: 100%; }
   position: relative;
   z-index: 2;
   width: 100%;
-  padding: 18px 20px 17px;
+  padding: 30px 20px 17px;
   color: #fff;
-  background: linear-gradient(to top, rgba(8, 8, 16, 0.66) 0%, rgba(8, 8, 16, 0.30) 62%, rgba(8, 8, 16, 0) 100%);
+  background: linear-gradient(to top, rgba(8, 8, 16, 0.66) 0%, rgba(8, 8, 16, 0.26) 55%, rgba(8, 8, 16, 0) 100%);
   -webkit-backdrop-filter: blur(7px);
   backdrop-filter: blur(7px);
-  -webkit-mask-image: linear-gradient(to top, #000 62%, transparent 100%);
-  mask-image: linear-gradient(to top, #000 62%, transparent 100%);
+  /* long, smooth feather so the top of the blur dissolves into the image
+     instead of showing a hard panel edge */
+  -webkit-mask-image: linear-gradient(to top, #000 40%, transparent 96%);
+  mask-image: linear-gradient(to top, #000 40%, transparent 96%);
 }
 .case-cover-hero__kicker {
   font-family: var(--font-mono);

@@ -120,7 +120,7 @@ export function useDragBoard(refs, cards) {
       const heights = state.map((c, i) => cardEls[i].offsetHeight)
       const totalH = heights.reduce((sum, h) => sum + h, 0)
       const gap = state.length > 1
-        ? Math.min(56, Math.max(24, (bottom - top - totalH) / (state.length - 1)))
+        ? Math.min(16, Math.max(24, (bottom - top - totalH) / (state.length - 1)))
         : 0
       let cy = top
       state.forEach((c, i) => {

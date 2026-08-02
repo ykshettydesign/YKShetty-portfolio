@@ -176,7 +176,7 @@ export default function Hero() {
               </div>
             </div>
           </div>
-          <div ref={paraRef} className="hero-post" style={{ marginTop: 'clamp(40px,6vw,180px)' }}>
+          <div ref={paraRef} className="hero-post" style={{ marginTop: 'clamp(40px,14vw,64px)' }}>
             <p
               style={{
                 fontFamily: 'var(--font-body)',

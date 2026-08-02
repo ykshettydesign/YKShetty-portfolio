@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import CaseStudyHeader from '../layouts/CaseStudyHeader'
 import { isValidPassword, unlock } from '../case-studies/access'
-import { CONTACT_EMAIL } from '../data/content'
 
 const LINKEDIN = 'https://www.linkedin.com/in/ykshetty/'
 
@@ -157,11 +156,7 @@ export default function CaseStudyGate({ title, onUnlock }) {
               </button>
               <button type="submit" className="gate-send" aria-label="Unlock case study" title="Unlock">↑</button>
             </form>
-            <div className="gate-hint">
-              password in my résumé · or{' '}
-              <a href={LINKEDIN} target="_blank" rel="noopener noreferrer">LinkedIn ↗</a>
-              {' '}· <a href={`mailto:${CONTACT_EMAIL}?subject=Case%20study%20access`}>email</a>
-            </div>
+            <a href="/#work" className="gate-back">‹ Back to work</a>
           </div>
         </div>
       </div>

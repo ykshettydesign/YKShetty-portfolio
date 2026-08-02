@@ -112,7 +112,7 @@ export default function Work() {
               </div>
             </div>
             <div style={{ ...mono, fontSize: 9, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--text-muted)' }}>
-              <span className="drag-desktop">Drag a case into the reader — or click one</span>
+              <span className="drag-desktop">Drop or click a card to the right panel</span>
               <span className="drag-mobile" style={{ display: 'none' }}>Tap a card to open</span>
             </div>
           </div>

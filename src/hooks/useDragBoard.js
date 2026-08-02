@@ -296,7 +296,11 @@ export function useDragBoard(refs, cards) {
         el.style.cursor = 'grab'
         el.style.zIndex = '5'
         scatter.style.zIndex = ''
-        const over = isOverTarget(e.clientX, e.clientY)
+        // Decide the drop from the last-known hover state, not the release
+        // event's coordinates — a trackpad pointerup/cancel can carry stale or
+        // off coords, which would drop a valid release. `over` matches exactly
+        // what the ring was showing when the finger lifted.
+        const over = dragOver
         dragOver = false
         target.classList.remove('drop-target-active')
         if (over) {
@@ -316,10 +320,17 @@ export function useDragBoard(refs, cards) {
       el.addEventListener('pointerdown', onDown)
       el.addEventListener('pointermove', onMove)
       el.addEventListener('pointerup', onUp)
+      // also finish the drag if the pointer is cancelled or capture is lost
+      // (trackpad gestures, focus changes) — otherwise the card sticks mid-drag
+      // and the release never registers.
+      el.addEventListener('pointercancel', onUp)
+      el.addEventListener('lostpointercapture', onUp)
       cardCleanups.push(() => {
         el.removeEventListener('pointerdown', onDown)
         el.removeEventListener('pointermove', onMove)
         el.removeEventListener('pointerup', onUp)
+        el.removeEventListener('pointercancel', onUp)
+        el.removeEventListener('lostpointercapture', onUp)
       })
     }
 

@@ -251,23 +251,23 @@ img { max-width: 100%; }
   height: 100%;
   object-fit: cover;
 }
-/* blur layer — isolated so the mask feathers the backdrop blur itself (a mask
-   on a combined background+blur element only fades the background, leaving a
-   hard blur edge). Pinned to the bottom, blur ramps from nothing at the top. */
-.case-cover-hero__blur {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  /* only the bottom band, behind the text — the top half of the photo stays
-     sharp. The mask feathers this band's top so the frost fades into the image. */
-  height: 56%;
+/* Blurred copy of the cover, masked to the bottom band — a real filter:blur on
+   the image element (not backdrop-filter), so it keeps working under the
+   reveal wrapper's ancestor transform. Oversized by 14px so the blur's soft
+   edges fall outside the clip instead of showing a transparent halo. The mask
+   feathers the top of the band into the sharp image above. */
+.case-cover-hero img.case-cover-hero__blurimg {
   z-index: 1;
+  inset: -14px;
+  width: calc(100% + 28px);
+  height: calc(100% + 28px);
+  object-fit: cover;
+  filter: blur(9px);
   pointer-events: none;
-  -webkit-backdrop-filter: blur(8px);
-  backdrop-filter: blur(8px);
-  -webkit-mask-image: linear-gradient(to top, #000 42%, rgba(0, 0, 0, 0.5) 74%, transparent 100%);
-  mask-image: linear-gradient(to top, #000 42%, rgba(0, 0, 0, 0.5) 74%, transparent 100%);
+  /* transparent by ~56% up so only the bottom band is blurred and the top of
+     the photo stays sharp; the middle stop feathers the transition. */
+  -webkit-mask-image: linear-gradient(to top, #000 28%, rgba(0, 0, 0, 0.45) 42%, transparent 56%);
+  mask-image: linear-gradient(to top, #000 28%, rgba(0, 0, 0, 0.45) 42%, transparent 56%);
 }
 /* text panel — just the dark tint (fades via its own alpha) + the copy */
 .case-cover-hero__panel {

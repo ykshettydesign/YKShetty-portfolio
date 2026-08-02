@@ -44,16 +44,25 @@ export default function CaseReader({ study }) {
           to load, onError hides it and the gradient carries the text. */}
       <div className="case-cover-hero" style={{ margin: '18px 0 0' }}>
         {study.cover && (
-          <img
-            key={study.cover}
-            src={study.cover}
-            alt=""
-            onError={(e) => { e.currentTarget.style.display = 'none' }}
-          />
+          <>
+            <img
+              key={study.cover}
+              src={study.cover}
+              alt=""
+              onError={(e) => { e.currentTarget.style.display = 'none' }}
+            />
+            {/* a blurred copy of the cover, masked to the bottom band — real
+                filter:blur on the image itself, so it survives the reveal
+                wrapper's ancestor transform (backdrop-filter does not). */}
+            <img
+              className="case-cover-hero__blurimg"
+              src={study.cover}
+              alt=""
+              aria-hidden="true"
+              onError={(e) => { e.currentTarget.style.display = 'none' }}
+            />
+          </>
         )}
-        {/* dedicated blur layer — masked on its own so the blur feathers into
-            the image (a mask on a combined background+blur+text element won't). */}
-        <div className="case-cover-hero__blur" aria-hidden="true" />
         <div className="case-cover-hero__panel">
           <div className="case-cover-hero__kicker">How I solved it</div>
           <p className="case-cover-hero__solution">{study.solution}</p>

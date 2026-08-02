@@ -72,7 +72,7 @@ export const caseStudies = [
       { value: '~90%', label: 'Calls deflected' },
     ],
     mailto: `mailto:${CONTACT_EMAIL}?subject=Self-service%20cards`,
-    seed: { x: 0.96, y: 0.32, r: 2 },
+    seed: { x: 0.96, y: 0.33, r: 2 },
   },
   {
     id: 'postoffice',
@@ -92,7 +92,7 @@ export const caseStudies = [
       { value: '1 system', label: 'Reused across suite' },
     ],
     mailto: `mailto:${CONTACT_EMAIL}?subject=Post-office%20portal`,
-    seed: { x: 0.02, y: 0.62, r: 1.6 },
+    seed: { x: 0.02, y: 0.61, r: 1.6 },
   },
   {
     id: 'postbox',
@@ -112,7 +112,7 @@ export const caseStudies = [
       { value: 'Self-serve', label: 'Was banker-led' },
     ],
     mailto: `mailto:${CONTACT_EMAIL}?subject=Postbox`,
-    seed: { x: 0.98, y: 0.92, r: -1.6 },
+    seed: { x: 0.98, y: 0.89, r: -1.6 },
   },
 ]
 

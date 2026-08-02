@@ -100,7 +100,7 @@ export function useDragBoard(refs, cards) {
     const layout = () => {
       const s = scatter.getBoundingClientRect()
       const b = board.getBoundingClientRect()
-      const CARD_W = Math.min(240, Math.max(170, (s.width || 300) - 80))
+      const CARD_W = Math.min(276, Math.max(170, (s.width || 300) - 80))
       const left = s.left - b.left + 14
       const right = s.right - b.left - 14
       const top = s.top - b.top + 44

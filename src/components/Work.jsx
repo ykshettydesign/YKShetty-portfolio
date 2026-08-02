@@ -17,7 +17,7 @@ const cardBase = {
   position: 'absolute',
   left: 0,
   top: 0,
-  width: 240,
+  width: 276,
   cursor: 'grab',
   userSelect: 'none',
   willChange: 'transform',

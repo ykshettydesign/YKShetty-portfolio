@@ -74,9 +74,9 @@ export default function CaseStudyGate({ title, onUnlock }) {
     if (mood !== 'happy') setMood(v.length ? 'closed' : '')
   }
 
-  const submit = (e) => {
+  const submit = async (e) => {
     e.preventDefault()
-    if (isValidPassword(value)) {
+    if (await isValidPassword(value)) {
       unlock()
       setMood('happy')
       setTimeout(onUnlock, reduce ? 0 : 420)

@@ -4,13 +4,17 @@
    Client-side password gate for selected case studies.
 
    NOTE: this is a light "please knock first" gate, not real
-   security — the case-study content still ships in the JS bundle,
-   so a determined visitor can read it. It's meant to keep the
-   work behind a shared password for recruiters / on request,
+   security. Passwords are stored as SHA-256 hashes (below) so the
+   plaintext isn't sitting in the JS bundle — but the case-study
+   content itself still ships client-side, so a determined visitor
+   can bypass the check or read the content directly. It's meant to
+   keep work behind a shared password for recruiters / on request,
    which is the standard expectation for a portfolio.
 
    To protect a case study: add its slug to PROTECTED_SLUGS.
-   To change who gets in: edit PASSWORDS (any one of them works).
+   To change who gets in: replace PASSWORD_HASHES. Generate a hash
+   for a new password (any one of them unlocks) with, e.g.:
+     printf '%s' 'YourPassword' | shasum -a 256
    ============================================================ */
 
 /** Slugs (folder names under src/case-studies/) that require a password. */
@@ -18,22 +22,37 @@ export const PROTECTED_SLUGS = new Set([
   'swiftsort',
 ])
 
-/** Any one of these unlocks the protected case studies. Add more freely. */
-export const PASSWORDS = [
-  'YKShetty',
-  'yks-carft',
+/**
+ * SHA-256 hashes of the accepted passwords (case-sensitive, trimmed).
+ * Current plaintext: "YKShetty" and "yks-carft".
+ */
+export const PASSWORD_HASHES = [
+  '5787deaa7a8ea2bd70a681eed552e3ea03c59dca5ecffa7dcab1365afe4433c1',
+  '2742ce32dae07660045ae5247b21e600b5c4834d7c665335ac1c98893e5eaf11',
 ]
-
-const STORAGE_KEY = 'cs-unlocked'
 
 /** Does this slug sit behind the password gate? */
 export function isProtected(slug) {
   return PROTECTED_SLUGS.has(slug)
 }
 
-/** Case-sensitive check against the allowed passwords. */
-export function isValidPassword(input) {
-  return PASSWORDS.includes((input ?? '').trim())
+/** SHA-256 → lowercase hex, using the browser's built-in Web Crypto. */
+async function sha256Hex(text) {
+  const bytes = new TextEncoder().encode(text)
+  const digest = await crypto.subtle.digest('SHA-256', bytes)
+  return [...new Uint8Array(digest)].map((b) => b.toString(16).padStart(2, '0')).join('')
+}
+
+/** Async, case-sensitive check of a password against the stored hashes. */
+export async function isValidPassword(input) {
+  const value = (input ?? '').trim()
+  if (!value) return false
+  try {
+    const hash = await sha256Hex(value)
+    return PASSWORD_HASHES.includes(hash)
+  } catch {
+    return false
+  }
 }
 
 /**

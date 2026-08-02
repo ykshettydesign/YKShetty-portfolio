@@ -8,6 +8,7 @@ import { CONTACT_EMAIL } from './data/content'
 import './styles/tokens.css'
 import './styles/global.css'
 import './styles/case-study.css'
+import './styles/case-study-gate.css'
 
 // Last-resort fallback if anything above throws during render/mount. Kept
 // self-contained (no theme/CSS-var dependency) so it always renders legibly,

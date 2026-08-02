@@ -1,0 +1,143 @@
+/* ============================================================
+   CASE-STUDY GATE  (chat concept)
+   ------------------------------------------------------------
+   A password prompt styled as a continuation of the Hero chat:
+   an incoming request → my first-person reply → the password
+   field as the chat composer. Avatar eyes track the cursor and
+   close while a password is being typed ("I'm not peeking").
+   ============================================================ */
+
+.gate-stage {
+  min-height: calc(100vh - 56px);
+  display: grid;
+  place-items: center;
+  padding: 40px 22px 64px;
+}
+
+.gate-card {
+  position: relative;
+  width: 100%;
+  max-width: 460px;
+  background: var(--bg-surface);
+  border-radius: 22px;
+  box-shadow: var(--shadow-lift);
+  overflow: hidden;
+}
+
+/* window chrome — mirrors the Work panel */
+.gate-chrome {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 18px;
+  border-bottom: 1px solid var(--border-subtle);
+  background: var(--bg-surface-alt);
+}
+.gate-dots { display: flex; gap: 5px; }
+.gate-dots span { width: 7px; height: 7px; border-radius: 50%; }
+.gate-dots span:nth-child(1) { background: var(--accent); opacity: .5; }
+.gate-dots span:nth-child(2) { background: var(--dot-amber); opacity: .5; }
+.gate-dots span:nth-child(3) { background: var(--teal); opacity: .5; }
+.gate-chrome-label {
+  font-family: var(--font-mono); font-size: 9px; font-weight: 700;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--text-tertiary);
+}
+
+/* thread */
+.gate-thread {
+  padding: 22px 22px 8px;
+  display: flex; flex-direction: column; gap: 14px;
+  min-height: 200px;
+}
+.gate-row {
+  display: flex; gap: 10px; align-items: flex-end;
+  opacity: 0; transform: translateY(8px);
+  animation: gate-pop .45s cubic-bezier(.2,.7,.3,1) forwards;
+}
+.gate-row.them { flex-direction: row; }
+.gate-row.me { flex-direction: row-reverse; }
+@keyframes gate-pop { to { opacity: 1; transform: none; } }
+
+.gate-bubble {
+  padding: 14px 18px; font-family: var(--font-display);
+  font-size: 15px; line-height: 1.4; max-width: 80%;
+  box-shadow: var(--shadow-float); color: var(--text-primary);
+  border: 1px solid var(--border-subtle);
+}
+.gate-row.them .gate-bubble { background: var(--bg-surface-alt); border-radius: 4px 18px 18px 18px; }
+.gate-row.me .gate-bubble { background: var(--bg-surface); border-radius: 18px 18px 4px 18px; }
+.gate-kicker {
+  display: block; font-family: var(--font-mono); font-size: 9px; font-weight: 700;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin-bottom: 7px;
+}
+.gate-bubble small {
+  display: block; font-family: var(--font-body); font-size: 12.5px;
+  line-height: 1.5; color: var(--text-muted); margin-top: 8px; font-weight: 400;
+}
+.gate-bubble small a { color: var(--accent); text-decoration: none; border-bottom: 1px solid var(--accent-ring); }
+
+/* avatar with cursor-tracking eyes — dark in both themes so eyes stay legible */
+.gate-avatar {
+  flex: none; width: 40px; height: 40px; border-radius: 12px;
+  background: var(--text-primary); position: relative; box-shadow: var(--shadow-float);
+}
+.gate-eye {
+  position: absolute; top: 14px; width: 11px; height: 11px; border-radius: 50%;
+  background: var(--bg-surface); overflow: hidden;
+  transition: height .14s ease, top .14s ease, border-radius .14s ease;
+}
+.gate-eye.l { left: 8px; } .gate-eye.r { left: 21px; }
+.gate-pupil {
+  position: absolute; top: 50%; left: 50%; width: 5px; height: 5px; border-radius: 50%;
+  background: var(--text-primary); transform: translate(-50%,-50%); transition: opacity .1s;
+}
+.gate-avatar.is-closed .gate-eye { height: 2px; top: 19px; }
+.gate-avatar.is-closed .gate-pupil { opacity: 0; }
+.gate-avatar.is-happy .gate-eye { height: 7px; top: 15px; border-radius: 12px 12px 0 0; }
+.gate-avatar.is-happy .gate-pupil { opacity: 0; }
+.gate-avatar.is-squint .gate-eye { height: 4px; top: 17px; }
+
+/* typing indicator */
+.gate-typing {
+  display: inline-flex; gap: 4px; padding: 16px 18px;
+  background: var(--bg-surface); border: 1px solid var(--border-subtle);
+  border-radius: 18px 18px 4px 18px; box-shadow: var(--shadow-float);
+}
+.gate-typing span { width: 6px; height: 6px; border-radius: 50%; background: var(--text-muted); animation: gate-blink 1.2s infinite; }
+.gate-typing span:nth-child(2) { animation-delay: .2s; }
+.gate-typing span:nth-child(3) { animation-delay: .4s; }
+@keyframes gate-blink { 0%,60%,100% { opacity: .3; transform: translateY(0); } 30% { opacity: 1; transform: translateY(-3px); } }
+
+/* composer = password field */
+.gate-composer { padding: 14px 18px 18px; border-top: 1px solid var(--border-subtle); background: var(--bg-surface); }
+.gate-field {
+  display: flex; align-items: center; gap: 8px;
+  background: var(--bg-surface-alt); border: 1.5px solid var(--border-input);
+  border-radius: 14px; padding: 6px 6px 6px 16px;
+  transition: border-color .15s, box-shadow .15s;
+}
+.gate-field:focus-within { border-color: var(--accent); box-shadow: 0 0 0 4px var(--accent-ring); }
+.gate-field.is-err { border-color: var(--dot-amber); animation: gate-shake .4s; }
+@keyframes gate-shake { 0%,100% { transform: translateX(0); } 20% { transform: translateX(-7px); } 40% { transform: translateX(6px); } 60% { transform: translateX(-4px); } 80% { transform: translateX(3px); } }
+.gate-field input {
+  flex: 1; border: none; outline: none; background: none;
+  font-family: var(--font-body); font-size: 15px; color: var(--text-primary); padding: 8px 0;
+}
+.gate-field input::placeholder { color: var(--text-muted); }
+.gate-peek { border: none; background: none; color: var(--text-muted); cursor: pointer; padding: 8px; display: grid; place-items: center; }
+.gate-peek:hover { color: var(--text-secondary); }
+.gate-send {
+  border: none; background: var(--accent); color: var(--on-accent);
+  width: 38px; height: 38px; border-radius: 11px; cursor: pointer;
+  display: grid; place-items: center; font-size: 18px; flex: none;
+  transition: background .15s, transform .1s;
+}
+.gate-send:hover { background: var(--accent-hover); }
+.gate-send:active { transform: scale(.94); }
+.gate-hint { font-family: var(--font-mono); font-size: 10px; letter-spacing: .03em; color: var(--text-muted); margin: 10px 2px 0; text-align: center; }
+.gate-hint a { color: var(--accent); text-decoration: none; border-bottom: 1px solid var(--accent-ring); }
+
+@media (prefers-reduced-motion: reduce) {
+  .gate-row, .gate-typing span, .gate-field.is-err { animation-duration: .001s !important; }
+  .gate-eye, .gate-pupil { transition: none !important; }
+}

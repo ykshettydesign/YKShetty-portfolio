@@ -1,8 +1,10 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { MDXProvider } from '@mdx-js/react'
 import CaseStudyLayout from '../layouts/CaseStudyLayout'
 import { mdxComponents, SectionIconsContext } from '../components/case-study'
 import { getCaseStudy, getNextCaseStudy } from '../case-studies/registry'
+import { isProtected, isUnlocked } from '../case-studies/access'
+import CaseStudyGate from './CaseStudyGate'
 import { Link } from '../router'
 
 /**
@@ -13,6 +15,14 @@ import { Link } from '../router'
  */
 export default function CaseStudyPage({ slug }) {
   const entry = getCaseStudy(slug)
+
+  // Gate: a protected case study stays locked until the visitor enters a valid
+  // password (persisted per session). Re-evaluated when the slug changes.
+  const gated = isProtected(slug)
+  const [unlocked, setUnlocked] = useState(() => !gated || isUnlocked())
+  useEffect(() => {
+    setUnlocked(!isProtected(slug) || isUnlocked())
+  }, [slug])
 
   useEffect(() => {
     if (entry?.meta?.title) {
@@ -26,6 +36,10 @@ export default function CaseStudyPage({ slug }) {
 
   const { Component, meta } = entry
   const next = getNextCaseStudy(slug)
+
+  if (gated && !unlocked) {
+    return <CaseStudyGate title={meta.title} onUnlock={() => setUnlocked(true)} />
+  }
 
   return (
     <CaseStudyLayout meta={meta} next={next}>

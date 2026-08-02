@@ -149,10 +149,26 @@ export default function Work() {
                 Cases · 04
               </div>
               {caseStudies.map((c, i) => (
-                <div key={c.id} ref={setCardRefs[i]} data-card={c.id} style={cardBase}>
+                <div
+                  key={c.id}
+                  ref={setCardRefs[i]}
+                  data-card={c.id}
+                  className={`case-card${active === c.id ? '' : ' case-card-float'}`}
+                  style={{ ...cardBase, animationDelay: `${i * 0.6}s` }}
+                >
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12, ...mono, fontSize: 10, color: 'var(--text-secondary)' }}>
                     <span>{c.meta}</span>
-                    <span style={{ fontWeight: 700, color: 'var(--border-fade)' }}>{c.index}</span>
+                    <span style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                      {/* draggable signifier — grip handle, brightens on hover */}
+                      <svg className="case-card-grip" width="10" height="14" viewBox="0 0 10 14" aria-hidden="true">
+                        <g fill="currentColor">
+                          <circle cx="2" cy="2" r="1.25" /><circle cx="8" cy="2" r="1.25" />
+                          <circle cx="2" cy="7" r="1.25" /><circle cx="8" cy="7" r="1.25" />
+                          <circle cx="2" cy="12" r="1.25" /><circle cx="8" cy="12" r="1.25" />
+                        </g>
+                      </svg>
+                      <span style={{ fontWeight: 700, color: 'var(--border-fade)' }}>{c.index}</span>
+                    </span>
                   </div>
                   <div style={{ fontFamily: 'var(--font-display)', fontSize: 15.5, fontWeight: 500, lineHeight: 1.3, letterSpacing: '-0.01em', color: 'var(--text-primary)' }}>
                     {c.card}

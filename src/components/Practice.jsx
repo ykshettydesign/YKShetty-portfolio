@@ -104,7 +104,7 @@ export default function Practice() {
             marginBottom: 14,
           }}
         >
-          02 · Practice
+          Practice
         </div>
         <h2
           style={{

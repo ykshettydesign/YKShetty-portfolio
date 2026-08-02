@@ -9,7 +9,7 @@ export default function Instruments() {
       <div style={{ maxWidth: 1100, margin: '0 auto', padding: 'clamp(56px,8vw,96px) clamp(22px,5vw,44px)' }}>
         <div data-reveal="" style={{ marginBottom: 'clamp(36px,5vw,52px)' }}>
           <div style={{ ...mono, fontSize: 10, fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--text-tertiary)', marginBottom: 14 }}>
-            03 · Instruments
+            Instruments
           </div>
           <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(28px,3.8vw,44px)', fontWeight: 600, lineHeight: 1.02, letterSpacing: '-0.03em', margin: 0, maxWidth: '22ch', color: 'var(--text-primary)' }}>
             When the work repeats, the tool gets built.

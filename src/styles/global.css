@@ -517,6 +517,10 @@ img { max-width: 100%; }
 
 [data-hero-step="5"] .hero-post { opacity: 1; }
 
+/* Work section: mobile-only title is hidden on desktop (the window-chrome bar
+   carries the label there). Toggled on in the responsive block below. */
+.work-mobile-title { display: none; }
+
 /* ============================================================
    RESPONSIVE
    ============================================================ */
@@ -550,6 +554,8 @@ img { max-width: 100%; }
   .drop-mobile { display: block !important; }
 
   .board { display: none !important; }
+  .work-panel { display: none !important; }
+  .work-mobile-title { display: block !important; }
   .mobile-cards { display: flex !important; }
   .spread { max-width: 100% !important; overflow-x: auto !important; }
   .hero-section { position: relative !important; }

@@ -78,9 +78,19 @@ export default function Work() {
   return (
     <section id="work" style={{ position: 'relative', zIndex: 10, marginTop: '-100vh' }}>
       <div style={{ maxWidth: 1164, margin: '0 auto', padding: '0 clamp(22px,5vw,44px) 81px' }}>
+        {/* Mobile-only section title — replaces the window-chrome bar (which is
+            hidden with the drag board on small screens). */}
+        <div
+          className="work-mobile-title"
+          style={{ ...mono, fontSize: 10, fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--text-tertiary)', marginBottom: 16 }}
+        >
+          Case studies
+        </div>
+
         <MobileCaseCards />
 
         <div
+          className="work-panel"
           data-reveal=""
           style={{
             borderRadius: '28px 28px 18px 18px',
@@ -108,7 +118,7 @@ export default function Work() {
                 ))}
               </div>
               <div style={{ ...mono, fontSize: 10, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--text-tertiary)' }}>
-                01 · Case studies
+                Case studies
               </div>
             </div>
           </div>

@@ -1,0 +1,373 @@
+import {
+  OutcomeBand,
+  Prose,
+  PullQuote,
+  ImageFigure,
+  HeroShowcase,
+  BeforeAfter,
+  DecisionBlock,
+  DecisionList,
+  ComparisonTable,
+  MetricRow,
+} from '../../components/case-study'
+
+{/* Base path for this case study's images. Drop the real files into
+    public/case-studies/cards/images/ using the filenames in IMAGES.md — until
+    then each figure shows a styled placeholder with its alt text. */}
+export const IMAGES = '/case-studies/cards/images'
+
+export const meta = {
+  order: 2,
+  title: 'Self-service card management — a two-hour banking task, resolved in taps',
+  subtitle:
+    'Giving Neuflize OBC private-banking clients direct control of their debit cards — without loosening a single guardrail.',
+  tags: ['Private Banking', 'Native iOS & Android', 'Self-service', 'End-to-end ownership'],
+  glance: [
+    {
+      label: 'Role',
+      value:
+        'Sole designer, end to end — workshop facilitation, user flows, interaction and visual design, and design–engineering alignment',
+    },
+    { label: 'Team', value: '1 Designer (me) · Engineering / tech lead · RMs & Operations as research stakeholders' },
+    { label: 'Client', value: 'Neuflize OBC — ABN AMRO Private Banking, France' },
+    { label: 'Platform', value: 'Native iOS & Android' },
+    { label: 'Design system', value: 'ABN AMRO Emerald' },
+    { label: 'Status', value: 'Live in production' },
+  ],
+  sectionIcons: {
+    'the-outcome': 'rocket',
+    'the-problem': 'alert',
+    'how-i-approached-it': 'compass',
+    'the-hard-part-was-translation-not-requirements': 'refresh',
+    'built-on-emerald': 'layers',
+    'what-we-kept-with-a-human-on-purpose': 'flag',
+    'the-impact-in-the-operation': 'chart',
+    'the-takeaway': 'target',
+  },
+}
+
+<HeroShowcase
+  src={`${IMAGES}/01-hero.png`}
+  alt="The Manage card screen: a Neuflize OBC Visa Infinite card, a green ‘This card is active’ status, Card details and Block actions, and live payment and cash-withdrawal limits with progress bars."
+  secondary={{
+    src: `${IMAGES}/02-all-cards.png`,
+    alt: 'The All cards overview — a client’s debit cards as tappable tiles, each showing the last four digits and holder name.',
+  }}
+  chip="Live in production"
+/>
+
+## The outcome
+
+<Prose>
+
+At Neuflize OBC — ABN AMRO's private bank in France — clients had **no way to manage their own debit cards**. Adjusting a limit, blocking a lost card, turning on payments abroad: each one meant contacting a relationship manager and waiting.
+
+The feature I designed is **live in production** on native iOS and Android. It takes a change that used to run through two people and up to two hours, and resolves it in a few taps — while keeping every check a private bank needs.
+
+</Prose>
+
+<OutcomeBand
+  items={[
+    { icon: 'rocket', text: <><strong>Shipped and live</strong> on iOS and Android — clients now manage their own cards, not a prototype or a stalled pilot</> },
+    { icon: 'zap', text: <><strong>Up to two hours → a matter of taps</strong> — the client acts directly, with no relationship-manager handoff in the loop</> },
+    { icon: 'users', text: <><strong>Routine work off two teams' desks</strong> — thousands of card requests a year no longer route through RMs and operations by hand</> },
+  ]}
+/>
+
+<Prose>
+
+*One principle held the whole thing together:*
+
+</Prose>
+
+<PullQuote variant="principle">
+  <strong>Self-service doesn't mean removing friction everywhere.</strong> It means putting friction exactly where the <em>risk</em> is — and nowhere else.
+</PullQuote>
+
+## The problem
+
+<Prose>
+
+Picture being a private-banking client who wants to raise a card limit before a large purchase. You can't just do it. You call — or email — your relationship manager (RM). They pick up, eventually. You explain. They pass it to the operations team, who log into the card-management back office and make the change by hand, then tell the RM, who tells you it's done.
+
+Nothing about that request was complex. The wait was **entirely structural** — the client simply had no door into the system.
+
+</Prose>
+
+<PullQuote variant="user">Clients weren't asking for anything clever. They wanted to change a limit or block a card — and felt powerless that they couldn't.</PullQuote>
+
+<Prose>
+
+What that cost, measured across the operation:
+
+- A client could wait **up to two hours** for a change as small as a limit bump.
+- RMs fielded **2,000+ card requests a year** — routine work pulling them off the advisory conversations they're actually there for.
+- Operations spent roughly **80 hours a week** processing those requests by hand, acting as a manual layer between the client and a system that could have taken the instruction directly.
+
+The core question was blunt: *could card management become fully self-service — without a private bank giving up any of its control?*
+
+</Prose>
+
+<ImageFigure
+  wide
+  src={`${IMAGES}/03-current-journey.png`}
+  alt="A service blueprint of the current journey for raising a card limit: client → relationship manager → operations team → card back-office → back again, with a row of frowning faces and pain-point notes across every handoff."
+  caption="The old journey for one limit change. Every column is a handoff; every handoff is a place it can stall — and the client can't act at any point in the chain."
+/>
+
+<Prose>
+
+Laid out end to end, the diagnosis was obvious: **every step was a handoff, and every handoff was a failure point** — a person to reach, a queue to wait in, a verbal instruction that could be misheard, and no status the client could see. The job wasn't to speed the chain up. It was to collapse it into a single self-contained flow the client runs alone.
+
+</Prose>
+
+## How I approached it
+
+<Prose>
+
+I started with interviews on both sides of the counter — clients, RMs, operations, and digital support — to map where the friction actually lived rather than where the business assumed it did. Two pictures lined up: clients felt powerless over trivial tasks, and the internal teams knew these requests were routine and repetitive but still had to touch every one.
+
+Then, before drawing anything, I ran a **workshop with stakeholders** to pressure-test the problem space — mapping the card tasks clients actually did against the problems they actually hit, so we designed for real behaviour, not an assumed feature list.
+
+</Prose>
+
+<ImageFigure
+  src={`${IMAGES}/04-workshop.png`}
+  alt="A whiteboard from the discovery workshop: clustered sticky notes under Usage and Problem columns, with ‘How might we…’ questions written alongside for lost cards, managing multiple cards, changing limits, forgotten PINs and payment errors."
+  caption="Mapping usage against real problems — the input that decided what to build first, and what to leave for later."
+/>
+
+<Prose>
+
+That mapping is where the **scope decision** got made. Clients hit a long tail of card problems, but four rose to the top on frequency and on how cleanly they could be solved self-service:
+
+- **Limit change** — the single most common request
+- **Block / unblock** — urgent and time-sensitive by nature
+- **Card removal** — rare, but entirely manual today
+- **Payments abroad** — recurring friction for travelling clients
+
+Everything else stayed out of v1 on purpose. Choosing four and defending the boundary mattered as much as the design itself.
+
+**One boundary worth naming:** I owned the client-facing design across those flows and the card landing page. The routing and limit *policy*, the card-management back office, and the identity/authentication service were the bank's systems — engineering owned whether the app could even reach them, and the entire self-service premise rode on that access being there. Knowing exactly where my slice started and ended shaped every trade-off below.
+
+</Prose>
+
+## The hard part was translation, not requirements
+
+<Prose>
+
+I'll be honest about where the difficulty was on this one. The *requirement* was never ambiguous: make card management self-service, keep it bank-grade secure. The challenge was entirely in the **design** — turning a task that had always been mediated by a person, with all the verification and reassurance that person quietly provided, into a screen a client trusts enough to act on alone.
+
+Two surfaces carried most of that weight, and I explored both widely before committing:
+
+**The card landing page** had to answer a client's first two questions at a glance — *what can I do here, and is my card okay?* — without burying the state under a menu.
+
+**The limit-change interaction** had to hold a surprising amount: how much, for how long, whether it's permanent or temporary, and proof that it's really you — all without feeling like the phone call it replaced.
+
+</Prose>
+
+<ImageFigure
+  wide
+  src={`${IMAGES}/05-landing-explorations.png`}
+  alt="Six explorations of the card landing page side by side, varying how card state, limits, management actions and payment toggles are ordered and grouped."
+  caption="Landing-page explorations. The question every variant was tested against: does a client see their card's state and their next action without thinking?"
+/>
+
+<ImageFigure
+  wide
+  src={`${IMAGES}/06-limit-explorations.png`}
+  alt="Explorations of the limit-change component: different ways of showing the current limit, a new amount, preset chips, and the temporary-versus-permanent choice."
+  caption="Limit-change explorations — the hardest single component, because it had to carry amount, duration and identity at once."
+/>
+
+## The design decisions
+
+<DecisionList
+  heading="The design decisions"
+  eyebrow="And what each one traded off"
+  icon="sliders"
+  intro={<>Every decision below is the same principle applied at a different level of risk: keep the low-risk actions instant, and spend the client's attention only where a mistake would actually cost them.</>}
+  coda={{
+    title: 'Built to survive real banking states',
+    body: <>Underneath all of it, the interface had to hold states the phone call used to absorb: a blocked card, a limit that's only temporary, missing contact details, an identity that still needs proving. One decision per screen, and the card's current state visible at every step.</>,
+  }}
+>
+
+<DecisionBlock
+  index="01"
+  title="The landing page shows state first, actions second"
+  media={{
+    src: `${IMAGES}/08-manage-card-final.png`,
+    alt: 'The final Manage card landing: the card itself, an active/blocked status line, Card details and Block, then live limits with progress bars, then payment toggles, then Delete card.',
+  }}
+  tradeoff={{
+    considered: 'A flat menu of card actions — the conventional pattern.',
+    why: (
+      <>
+        A menu hides the one thing clients open the screen to see: <strong>is my card okay, and what's left on it?</strong> It
+        also flattens risk — listing “view details” and “raise my limit by €30k” as equal rows. Leading with live
+        state, then ordering actions by how often they're used, answered the real first question.
+      </>
+    ),
+  }}
+>
+
+The landing page opens with the card and a plain status line — *this card is active* — then live payment and cash-withdrawal limits as progress bars, then management actions, and only then the destructive ones. It reads top to bottom as *reassurance → routine → rare*.
+
+</DecisionBlock>
+
+<DecisionBlock
+  index="02"
+  title="Authenticate at the point of commitment — not on the way in"
+  media={{
+    src: `${IMAGES}/09-manage-payments.png`,
+    alt: 'The Manage payments section: simple on/off toggles for Remote payment, Cash withdrawal and Payment abroad, with no authentication step.',
+  }}
+  tradeoff={{
+    considered: 'Gating the whole feature behind a verification wall — the compliance-safe instinct to lock every action.',
+    why: (
+      <>
+        Uniform friction would have rebuilt the exact wait we were removing. Most card actions are low-risk and
+        reversible; a few aren't. So I put the identity step where the <strong>commitment</strong> is — raising a
+        limit, deleting a card — and left browsing, viewing and toggling free.
+      </>
+    ),
+  }}
+>
+
+Viewing card state and flipping low-risk controls — remote payment, cash withdrawal, payments abroad — happen instantly, because they're reversible and carry little exposure. The identity check appears only when a client is about to do something that would actually cost them if it were the wrong person. Same feature, friction calibrated to the stakes.
+
+</DecisionBlock>
+
+<DecisionBlock
+  index="03"
+  title="Default the limit change to temporary, not permanent"
+  media={{
+    src: `${IMAGES}/10-limit-change-final.png`,
+    alt: 'The limit-change flow across screens: enter a new amount within a shown ceiling, a summary of current versus new limit with an end date, a 5-digit PIN identity step, and a success confirmation.',
+    caption: 'Enter an amount within the ceiling → confirm the summary → prove identity → done. The end date is part of the request, not an afterthought.',
+  }}
+  tradeoff={{
+    considered: 'A single permanent “new limit” field, the simplest possible control.',
+    why: (
+      <>
+        Watching the real requests, most limit bumps are for one reason — a large purchase, a trip — not a permanent
+        change. A permanent-only field either over-exposes the client indefinitely or forces a <em>second</em> call
+        to put it back. Foregrounding a temporary increase with an automatic end date fit what clients actually needed.
+      </>
+    ),
+  }}
+>
+
+The flow makes duration a first-class part of the request: a client raises the limit *for seven days*, or *for thirty*, up to a clearly shown ceiling, and it reverts on its own. The card landing then carries a quiet “temporarily valid until…” marker so the temporary state is never a surprise. Identity is proven with a PIN step folded into the flow — not a separate hoop.
+
+</DecisionBlock>
+
+<DecisionBlock
+  index="04"
+  title="Block is instant and reversible — cancelling stays with a human"
+  media={{
+    src: `${IMAGES}/11-block-card.png`,
+    alt: 'The block flow: a confirmation sheet to block the card, and the resulting blocked state with a padlock over the card, an Unblock action, and a note to call support to fully cancel.',
+  }}
+  tradeoff={{
+    considered: 'Treating block as a single destructive “cancel card” action.',
+    why: (
+      <>
+        Blocking is usually a <em>panic</em> action — a card that's briefly missing. It should be instant and, just
+        as importantly, <strong>reversible in seconds</strong> when the card turns up. Cancellation is destructive and
+        rare, so it deliberately stays a call. Collapsing the two would make the common, urgent case as heavy as the
+        rare one.
+      </>
+    ),
+  }}
+>
+
+A client blocks a card in one confirmation, and the card visibly locks. If it resurfaces, they unblock it just as fast — no call, no wait. Permanent cancellation, which can't be undone, still routes to support on purpose.
+
+</DecisionBlock>
+
+<DecisionBlock index="05" title="When verification is missing, fall back — don't dead-end">
+
+A sensitive change needs verified contact details to confirm it's really the client. Rather than let someone reach the end of a flow and hit a wall, the design checks up front: if a verified email or phone number is on file, the change proceeds and the identity step confirms it; if not, the flow routes cleanly to the bank to sort the details out first.
+
+It's the unglamorous decision that keeps a security requirement from becoming a dead end — the app degrades to a human hand-off gracefully, instead of failing the client at the last step.
+
+</DecisionBlock>
+
+</DecisionList>
+
+## Built on Emerald
+
+<Prose>
+
+None of this shipped as bespoke UI. Every screen is built on **ABN AMRO's Emerald design system**, so the feature reads as part of the wider app rather than a bolt-on, and it moved into development faster because engineering was assembling known, governed components rather than interpreting one-off designs.
+
+That's the quiet leverage of designing inside a system: my slice was the *flows and the decisions*; the system carried the consistency and cut the handoff cost. On a regulated private-banking app, that's not a constraint to work around — it's what makes the work trustworthy and shippable.
+
+</Prose>
+
+<ImageFigure
+  src={`${IMAGES}/13-emerald-cards.png`}
+  alt="The Neuflize OBC card family rendered in the Emerald system — Visa Classic, Visa Infinite, Visa Business and Premier variants, consistent in type, layout and treatment."
+  caption="The card family in Emerald — consistent with the broader digital ecosystem, and faster to hand off because of it."
+/>
+
+## What we kept with a human, on purpose
+
+<Prose>
+
+The honest boundary of this release: **not every card action became self-service, and that was a design choice, not a gap I missed.**
+
+Two things still route to a person. **Permanently cancelling a card** stays with the support team — it's irreversible and identity-sensitive, and the seconds saved by automating it aren't worth the risk of getting it wrong. And **correcting stale contact details** — a wrong email or phone number on file — routes to the relationship manager rather than letting the client edit the very data used to verify them.
+
+Both are deliberate. In a private bank, the right MVP isn't the one that automates the most actions — it's the one that automates every action where self-service is clearly *safer and faster*, and knows precisely where to stop. Naming that line is the point, not apologising for it.
+
+</Prose>
+
+<ImageFigure
+  wide
+  src={`${IMAGES}/14-delete-card.png`}
+  alt="The delete-card flow: choose a reason (stolen, lost, fraud), opt into a replacement and a new PIN, confirm the details on file, review a summary, and a success screen — with a route to contact the RM if the details are wrong."
+  caption="The most sensitive flow carries the most steps — reason, replacement, identity, and a confirm — with a human hand-off kept in reach when the details don't match."
+/>
+
+## The impact, in the operation
+
+<Prose>
+
+The change isn't just faster for the client — it changes who does the work.
+
+</Prose>
+
+<MetricRow
+  items={[
+    { icon: 'zap', value: '2h → taps', label: 'Time to change a card limit', note: 'Client acts directly — no RM in the loop' },
+    { icon: 'users', value: '2,000+/yr', label: 'Card requests off RMs’ desks', note: 'Freeing them for advisory work' },
+    { icon: 'ban', value: '~80 hrs/wk', label: 'Manual operations work removed', note: 'The middle layer, automated away' },
+  ]}
+/>
+
+<Prose>
+
+The figures above are the operation's own numbers — measured internally rather than estimated by me, and the reason the project got prioritised. Beyond the time saved, the *shape* of the work shifted: RMs got hours back for the advisory conversations that justify a private bank, operations stopped being a manual relay, and the client got something a phone call never gave them — the ability to act the moment they needed to.
+
+It also set the pattern. Proving that a genuinely sensitive banking task could be made self-service — securely, inside the design system — laid the groundwork for the next self-service capabilities on the platform.
+
+</Prose>
+
+## The takeaway
+
+<Prose>
+
+This wasn't a task made prettier. It was a **handoff chain collapsed into a flow the client runs alone** — and the discipline that made it safe to do was refusing to spread friction evenly.
+
+The clearest lesson: on a regulated product, self-service is a question of *placement*, not addition. Put the guardrail exactly where the risk is, make everything else instant, and know — precisely — which few actions still belong with a human. That's what turns a two-hour call into a few taps without a bank giving up an ounce of control.
+
+</Prose>
+
+<Prose>
+
+*Yogesh Shetty · Product Designer — sole designer on the card-management feature, end to end.*
+
+</Prose>

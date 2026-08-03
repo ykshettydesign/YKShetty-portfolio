@@ -59,6 +59,7 @@ export const caseStudies = [
     index: '02',
     meta: 'ABN AMRO · 2024',
     metaLong: '02 · ABN AMRO · Neuflize OBC · 2024',
+    href: '/case-studies/cards', // full case study page
     brief: 'Wall off the whole flow.',
     card: 'A 2-hour banking task cut to 60 seconds of self-service.',
     cover: null, // neutral placeholder until a real cover image is dropped in

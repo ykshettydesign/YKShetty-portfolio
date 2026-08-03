@@ -933,6 +933,8 @@
   background: transparent;
   border: none;
   border-radius: 0;
+  display: flex;
+  justify-content: center;
 }
 .cs-hero--bare .cs-hero-stage img {
   width: min(900px, 100%);

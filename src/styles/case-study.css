@@ -921,6 +921,29 @@
   box-shadow: 0 0 0 4px rgba(124, 92, 252, 0.25);
 }
 
+/* Bare variant — image renders directly without device frames,
+   background overridable via --cs-hero-bg inline style. */
+.cs-hero--bare {
+  background: var(--cs-hero-bg, radial-gradient(120% 150% at 80% 8%, #1b5e3a 0%, #14402a 34%, #0b1f12 72%, #09140d 100%));
+}
+.cs-hero--bare .cs-hero-glow {
+  background: radial-gradient(circle, rgba(46, 125, 50, 0.5), transparent 62%);
+}
+.cs-hero--bare .cs-hero-stage .cs-figure-media {
+  background: transparent;
+  border: none;
+  border-radius: 0;
+}
+.cs-hero--bare .cs-hero-stage img {
+  width: min(900px, 100%);
+  height: auto;
+  display: block;
+}
+.cs-hero--bare .cs-hero-chip-dot {
+  background: #4caf50;
+  box-shadow: 0 0 0 4px rgba(76, 175, 80, 0.25);
+}
+
 /* ============================================================
    RESPONSIVE — stack, don't squash (≤720px)
    ============================================================ */

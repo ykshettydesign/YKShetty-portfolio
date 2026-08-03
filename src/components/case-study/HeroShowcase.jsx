@@ -11,24 +11,36 @@ import { Media } from './Media'
  * primary (e.g. the handheld TC57 next to the tablet — telegraphs the
  * "two form factors" story up front). Falls back to styled placeholders.
  */
-export function HeroShowcase({ src, alt = '', chip, secondary, ...rest }) {
+export function HeroShowcase({ src, alt = '', chip, secondary, bare, ...rest }) {
+  const cls = [
+    'cs-hero',
+    secondary && !bare ? 'cs-hero--multi' : '',
+    bare ? 'cs-hero--bare' : '',
+  ].filter(Boolean).join(' ')
+
   return (
-    <div className={`cs-hero${secondary ? ' cs-hero--multi' : ''}`} {...rest}>
+    <div className={cls} {...rest}>
       <span className="cs-hero-grid" aria-hidden="true" />
       <span className="cs-hero-glow" aria-hidden="true" />
       <div className="cs-hero-stage">
-        <div className="cs-hero-device cs-hero-device--tablet">
-          <div className="cs-hero-screen">
-            <Media src={src} alt={alt} />
-          </div>
-        </div>
-        {secondary ? (
-          <div className="cs-hero-device cs-hero-device--phone">
-            <div className="cs-hero-screen cs-hero-screen--phone">
-              <Media src={secondary.src} alt={secondary.alt} />
+        {bare ? (
+          <Media src={src} alt={alt} />
+        ) : (
+          <>
+            <div className="cs-hero-device cs-hero-device--tablet">
+              <div className="cs-hero-screen">
+                <Media src={src} alt={alt} />
+              </div>
             </div>
-          </div>
-        ) : null}
+            {secondary ? (
+              <div className="cs-hero-device cs-hero-device--phone">
+                <div className="cs-hero-screen cs-hero-screen--phone">
+                  <Media src={secondary.src} alt={secondary.alt} />
+                </div>
+              </div>
+            ) : null}
+          </>
+        )}
       </div>
       {chip ? (
         <span className="cs-hero-chip">

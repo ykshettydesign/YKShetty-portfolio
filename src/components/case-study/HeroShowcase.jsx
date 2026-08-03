@@ -24,12 +24,12 @@ export function HeroShowcase({ src, alt = '', chip, secondary, bare, ...rest }) 
       <span className="cs-hero-glow" aria-hidden="true" />
       <div className="cs-hero-stage">
         {bare ? (
-          <Media src={src} alt={alt} />
+          <Media src={src} alt={alt} loading="eager" />
         ) : (
           <>
             <div className="cs-hero-device cs-hero-device--tablet">
               <div className="cs-hero-screen">
-                <Media src={src} alt={alt} />
+                <Media src={src} alt={alt} loading="eager" />
               </div>
             </div>
             {secondary ? (

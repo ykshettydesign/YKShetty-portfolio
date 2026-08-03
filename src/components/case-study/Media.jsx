@@ -6,12 +6,12 @@ import React, { useState } from 'react'
  * placeholder that keeps the layout intact and shows the alt text + filename so
  * intent stays legible until the real asset is dropped in.
  */
-export function Media({ src, alt = '' }) {
+export function Media({ src, alt = '', loading = 'lazy' }) {
   const [failed, setFailed] = useState(false)
   if (src && !failed) {
     return (
       <span className="cs-figure-media">
-        <img src={src} alt={alt} loading="lazy" decoding="async" onError={() => setFailed(true)} />
+        <img src={src} alt={alt} loading={loading} decoding="async" onError={() => setFailed(true)} />
       </span>
     )
   }

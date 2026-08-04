@@ -94,6 +94,7 @@ export const caseStudies = [
     index: '03',
     meta: 'Posten Bring · 2025',
     metaLong: '03 · Posten Bring · Oslo · 2025',
+    href: '/case-studies/postoffice', // full case study page
     brief: 'Rebuild it screen by screen.',
     card: 'Onboarding 65% faster — a legacy terminal re-architected as a cloud portal.',
     cover: null, // neutral placeholder until a real cover image is dropped in
@@ -114,6 +115,7 @@ export const caseStudies = [
     index: '04',
     meta: 'ABN AMRO · multi',
     metaLong: '04 · ABN AMRO · iOS · Android · Web',
+    href: '/case-studies/postbox', // full case study page
     brief: 'Sort by document type.',
     card: 'A complex document archive made self-service — across all three platforms.',
     cover: null, // neutral placeholder until a real cover image is dropped in

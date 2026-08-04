@@ -867,3 +867,171 @@ html.lenis body { height: auto; }
 .lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
 .lenis.lenis-stopped { overflow: clip; }
 .lenis.lenis-smooth iframe { pointer-events: none; }
+
+/* ============================================================
+   CASE-STACK — scroll-driven stacked case-study cards
+   (Skiper16-style: sticky cards that scale into a deck; the scale
+   is driven by useCardStack.)
+   ============================================================ */
+.case-stack-section {
+  position: relative;
+  z-index: 10;
+  background: var(--bg-page);
+}
+.case-stack {
+  position: relative;
+  padding-bottom: 100vh; /* scroll room so cards stay pinned through the tail */
+}
+.case-stack__intro {
+  text-align: center;
+  padding: clamp(48px, 9vh, 110px) 22px clamp(24px, 5vh, 56px);
+}
+.case-stack__eyebrow {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+}
+.case-stack__hint {
+  margin-top: 8px;
+  font-family: var(--font-body);
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+/* each slot pins its card to the top; short slots + tall container tail =
+   cards pile up and remain stacked */
+.case-stack__slot {
+  position: sticky;
+  top: 0;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+.case-stack__link {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+
+.stack-card {
+  position: relative;               /* `top` set per-index inline for the stagger */
+  transform-origin: top center;     /* shrink toward the top edge */
+  will-change: transform;
+  width: min(540px, 92vw);
+  height: clamp(300px, 46vh, 360px);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-card);
+  border-radius: 24px;
+  box-shadow: var(--shadow-lift);
+  transition: box-shadow 0.25s ease;
+}
+.case-stack__link:hover .stack-card {
+  box-shadow: 0 24px 60px -16px rgba(0, 0, 0, 0.22), 0 0 0 1px var(--accent-ring);
+}
+
+.stack-card__cover {
+  flex: 0 0 46%;
+  overflow: hidden;
+  background: var(--bg-surface-alt);
+}
+.stack-card__cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.stack-card__body {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  padding: clamp(20px, 3vw, 30px);
+}
+.stack-card__meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  color: var(--text-secondary);
+}
+.stack-card__index {
+  color: var(--accent);
+  font-weight: 700;
+}
+.stack-card__headline {
+  flex: 1;
+  margin: 14px 0 0;
+  font-family: var(--font-display);
+  font-size: clamp(19px, 2.5vw, 27px);
+  font-weight: 600;
+  line-height: 1.22;
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+}
+.stack-card__stats {
+  display: flex;
+  gap: clamp(18px, 4vw, 32px);
+  margin-top: 16px;
+}
+.stack-card__stat {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.stack-card__stat-value {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+.stack-card__stat-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+.stack-card__cta {
+  margin-top: 16px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+/* Compact / reduced-motion fallback: no pinning, no scaling — cards read as a
+   plain vertical list so nothing hides behind the top card. */
+@media (max-width: 640px) {
+  .case-stack { padding-bottom: 0; }
+  .case-stack__slot { position: static; }
+  .stack-card {
+    top: 0 !important;
+    transform: none !important;
+    width: 100%;
+    height: auto;
+    min-height: 280px;
+    margin-bottom: 20px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .case-stack { padding-bottom: 0; }
+  .case-stack__slot { position: static; }
+  .stack-card {
+    top: 0 !important;
+    transform: none !important;
+    height: auto;
+    min-height: 280px;
+    margin-bottom: 20px;
+  }
+}

@@ -1,0 +1,69 @@
+import {
+  Prose,
+  PullQuote,
+  MetricRow,
+} from '../../components/case-study'
+
+{/* Short-form case study — built from the summary on the home page. Text only;
+    drop images in public/case-studies/postbox/images/ and add figures later. */}
+export const meta = {
+  order: 4,
+  title: 'Postbox — a complex document archive, made self-service',
+  subtitle:
+    'Reorganising a private-bank document archive around life events — the way clients actually think — across iOS, Android and web.',
+  tags: ['Private banking', 'Information architecture', 'Multi-platform', 'Self-service'],
+  glance: [
+    { label: 'Client', value: 'ABN AMRO' },
+    { label: 'Platform', value: 'iOS · Android · Web' },
+    { label: 'Focus', value: 'Document archive · information architecture' },
+  ],
+  sectionIcons: {
+    'the-outcome': 'rocket',
+    'the-problem': 'alert',
+    'how-i-approached-it': 'compass',
+    'the-takeaway': 'target',
+  },
+}
+
+## The outcome
+
+<Prose>
+
+A complex document archive made self-service — across all three platforms.
+
+</Prose>
+
+<MetricRow
+  items={[
+    { icon: 'smartphone', value: '3 platforms', valueText: true, label: 'iOS · Android · Web' },
+    { icon: 'target', value: 'Self-serve', valueText: true, label: 'Was banker-led' },
+  ]}
+/>
+
+## The problem
+
+<Prose>
+
+Clients needed their banker to find every document, because files were sorted the bank's way, not theirs.
+
+</Prose>
+
+## How I approached it
+
+<Prose>
+
+High-net-worth clients leaned on their banker for every document. I built retrieval around life events rather than the compliance taxonomy — which stays underneath, invisible, doing its job.
+
+</Prose>
+
+## The takeaway
+
+<PullQuote variant="principle">
+  Organise by life event — the client's mental model.
+</PullQuote>
+
+<Prose>
+
+*Yogesh Shetty · Product Designer*
+
+</Prose>

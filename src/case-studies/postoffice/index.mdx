@@ -1,0 +1,71 @@
+import {
+  OutcomeBand,
+  Prose,
+  PullQuote,
+  MetricRow,
+} from '../../components/case-study'
+
+{/* Short-form case study — built from the summary on the home page. Text only;
+    drop images in public/case-studies/postoffice/images/ and add figures later. */}
+export const meta = {
+  order: 3,
+  title: 'Post-office portal — a legacy terminal, re-architected as a cloud portal',
+  subtitle:
+    'Mapping the system first, then designing one shared frame — the portal became the foundation for the whole Nordic ProdApp suite.',
+  tags: ['Logistics', 'Enterprise portal', 'Systems thinking', 'Nordic'],
+  glance: [
+    { label: 'Client', value: 'Posten Bring' },
+    { label: 'Region', value: 'Oslo, Norway' },
+    { label: 'Timeline', value: '2025' },
+    { label: 'Scope', value: 'Legacy desktop terminal → cloud portal' },
+  ],
+  sectionIcons: {
+    'the-outcome': 'rocket',
+    'the-problem': 'alert',
+    'how-i-approached-it': 'compass',
+    'the-takeaway': 'target',
+  },
+}
+
+## The outcome
+
+<Prose>
+
+Onboarding **65% faster** — a legacy terminal re-architected as a cloud portal, and reused across the whole Nordic ProdApp suite.
+
+</Prose>
+
+<MetricRow
+  items={[
+    { icon: 'chart', value: '65%', label: 'Faster onboarding' },
+    { icon: 'layers', value: '1 system', valueText: true, label: 'Reused across the suite' },
+  ]}
+/>
+
+## The problem
+
+<Prose>
+
+A legacy desktop terminal chained managers to one location and took weeks to learn.
+
+</Prose>
+
+## How I approached it
+
+<Prose>
+
+A desk-bound legacy terminal chained managers to one location. Before drawing screens I mapped the dependencies between driver tools and regional management — and the portal became the foundation for the whole Nordic ProdApp suite.
+
+</Prose>
+
+## The takeaway
+
+<PullQuote variant="principle">
+  Map the system first, then design the shared frame.
+</PullQuote>
+
+<Prose>
+
+*Yogesh Shetty · Product Designer*
+
+</Prose>

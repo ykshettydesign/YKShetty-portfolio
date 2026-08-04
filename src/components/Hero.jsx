@@ -22,8 +22,9 @@ export default function Hero() {
   const { step } = useHeroSequence()
   const heroInnerRef = useRef(null)
   const driftRootRef = useRef(null)
+  const scrollCueRef = useRef(null)
 
-  useHeroScroll(heroInnerRef, driftRootRef)
+  useHeroScroll(heroInnerRef, driftRootRef, scrollCueRef)
 
   return (
     <div style={{ position: 'relative', height: '100vh' }}>
@@ -175,6 +176,13 @@ export default function Hero() {
               </div>
             </div>
           </div>
+        </div>
+
+        <div ref={scrollCueRef} className="hero-scroll-cue" aria-hidden="true">
+          <span className="hero-scroll-cue__label">Scroll</span>
+          <span className="hero-scroll-cue__track">
+            <span className="hero-scroll-cue__thumb" />
+          </span>
         </div>
       </section>
     </div>

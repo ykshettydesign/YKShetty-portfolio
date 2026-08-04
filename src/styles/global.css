@@ -106,6 +106,53 @@ img { max-width: 100%; }
   padding: 0 clamp(22px, 5vw, 44px);
   z-index: 2;
 }
+
+/* Scroll cue — anchored to the hero bottom (not inside the zooming cluster).
+   A mono "Scroll" label above a thin line with a travelling highlight; the
+   whole cue's opacity is faded out on first scroll by useHeroScroll. */
+.hero-scroll-cue {
+  position: absolute;
+  left: 50%;
+  bottom: clamp(20px, 4.5vh, 44px);
+  transform: translateX(-50%);
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  pointer-events: none;
+  color: var(--text-tertiary);
+}
+.hero-scroll-cue__label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  opacity: 0.75;
+}
+.hero-scroll-cue__track {
+  position: relative;
+  width: 1px;
+  height: 46px;
+  overflow: hidden;
+  background: var(--border-fade);
+}
+.hero-scroll-cue__thumb {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 1px;
+  height: 40%;
+  background: var(--accent);
+  animation: heroScrollThumb 1.9s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+}
+@keyframes heroScrollThumb {
+  0%   { transform: translateY(-100%); opacity: 0; }
+  25%  { opacity: 1; }
+  75%  { opacity: 1; }
+  100% { transform: translateY(250%); opacity: 0; }
+}
 /* Inner wrapper that carries the swap swing (translateY + rotate). Keeping the
    swing here — not on .hero-cluster — leaves the carousel controls (a sibling
    below) still while the card morphs. */

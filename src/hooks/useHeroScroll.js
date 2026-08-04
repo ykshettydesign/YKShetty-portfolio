@@ -10,7 +10,7 @@ import { useEffect } from 'react'
  *
  * A single passive scroll listener drives both, rAF-throttled for the scale.
  */
-export function useHeroScroll(heroInnerRef, driftRootRef) {
+export function useHeroScroll(heroInnerRef, driftRootRef, scrollCueRef) {
   useEffect(() => {
     const heroInner = heroInnerRef.current
     const driftRoot = driftRootRef.current
@@ -29,6 +29,12 @@ export function useHeroScroll(heroInnerRef, driftRootRef) {
         // preserve the cluster's translateX(-50%) centering, add the zoom
         heroInner.style.transform = `translateX(-50%) scale(${scale.toFixed(3)})`
         heroInner.style.opacity = opacity.toFixed(3)
+      }
+      // fade the "Scroll" cue out over the first sliver of scroll — its job is
+      // done the moment the user starts moving.
+      if (scrollCueRef && scrollCueRef.current) {
+        const cueOut = clamp01(window.scrollY / (vh * 0.15))
+        scrollCueRef.current.style.opacity = (1 - cueOut).toFixed(3)
       }
     }
     // ── 2. blob drift velocity ──
@@ -84,7 +90,7 @@ export function useHeroScroll(heroInnerRef, driftRootRef) {
       window.removeEventListener('scroll', onScroll)
       if (driftRaf) cancelAnimationFrame(driftRaf)
     }
-  }, [heroInnerRef, driftRootRef])
+  }, [heroInnerRef, driftRootRef, scrollCueRef])
 }
 
 export default useHeroScroll

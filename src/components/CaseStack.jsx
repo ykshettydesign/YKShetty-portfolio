@@ -3,6 +3,15 @@ import { caseStudies } from '../data/content'
 import { Link } from '../router'
 import { useCardStack } from '../hooks/useCardStack'
 
+/** Placeholder cover gradients, used for cards without a real cover image so
+ *  every card carries an image band. Picked by card index. */
+const PH_GRADIENTS = [
+  'linear-gradient(135deg, #8b7bff 0%, #5b46c4 100%)',
+  'linear-gradient(135deg, #35c2b0 0%, #0d7d72 100%)',
+  'linear-gradient(135deg, #7c8bff 0%, #3b3aa0 100%)',
+  'linear-gradient(135deg, #b58bff 0%, #7a3fd0 100%)',
+]
+
 /**
  * Case studies as a scroll-driven stacked-cards deck (ported from Skiper UI's
  * Skiper16 to plain JSX — no Tailwind, no framer-motion). Each card is
@@ -30,11 +39,19 @@ export default function CaseStack() {
               <article
                 ref={(el) => { cardRefs.current[i] = el }}
                 className="stack-card"
-                style={{ top: `calc(12vh + ${i * 16}px)`, zIndex: i + 1 }}
+                style={{ top: `calc(11vh + ${i * 18}px)`, zIndex: i + 1 }}
               >
-                {c.cover && (
+                {c.cover ? (
                   <div className="stack-card__cover">
                     <img src={c.cover} alt="" loading="lazy" />
+                  </div>
+                ) : (
+                  <div
+                    className="stack-card__cover stack-card__cover--ph"
+                    style={{ backgroundImage: PH_GRADIENTS[i % PH_GRADIENTS.length] }}
+                    aria-hidden="true"
+                  >
+                    <span className="stack-card__ph-index">{c.index}</span>
                   </div>
                 )}
                 <div className="stack-card__body">
@@ -43,15 +60,17 @@ export default function CaseStack() {
                     <span>{c.meta}</span>
                   </div>
                   <h3 className="stack-card__headline">{c.card}</h3>
-                  <div className="stack-card__stats">
-                    {c.stats.map((s, si) => (
-                      <div key={si} className="stack-card__stat">
-                        <span className="stack-card__stat-value">{s.value}</span>
-                        <span className="stack-card__stat-label">{s.label}</span>
-                      </div>
-                    ))}
+                  <div className="stack-card__footer">
+                    <div className="stack-card__stats">
+                      {c.stats.map((s, si) => (
+                        <div key={si} className="stack-card__stat">
+                          <span className="stack-card__stat-value">{s.value}</span>
+                          <span className="stack-card__stat-label">{s.label}</span>
+                        </div>
+                      ))}
+                    </div>
+                    <span className="stack-card__cta">Read case →</span>
                   </div>
-                  <span className="stack-card__cta">Read case →</span>
                 </div>
               </article>
             </Link>

@@ -1,5 +1,5 @@
 import React, { useRef } from 'react'
-import { hero, CONTACT_EMAIL } from '../data/content'
+import { hero } from '../data/content'
 import { useHeroSequence } from '../hooks/useHeroSequence'
 import { useHeroScroll } from '../hooks/useHeroScroll'
 
@@ -19,10 +19,9 @@ const TypingDots = () => (
 )
 
 export default function Hero() {
-  const { step, replay } = useHeroSequence()
+  const { step } = useHeroSequence()
   const heroInnerRef = useRef(null)
   const driftRootRef = useRef(null)
-  const paraRef = useRef(null)
 
   useHeroScroll(heroInnerRef, driftRootRef)
 
@@ -174,37 +173,6 @@ export default function Hero() {
               >
                 {hero.replyFoot}
               </div>
-            </div>
-          </div>
-          <div ref={paraRef} className="hero-post" style={{ marginTop: 'clamp(80px,12vw,128px)' }}>
-            <div
-              style={{
-                display: 'flex',
-                flexWrap: 'wrap',
-                gap: 22,
-                alignItems: 'center',
-                fontFamily: 'var(--font-body)',
-                fontSize: 14,
-                fontWeight: 500,
-                justifyContent: 'center',
-              }}
-            >
-              <a href="#work" className="text-link text-link--primary" style={{ paddingBottom: 3 }}>
-                Case studies ↓
-              </a>
-              <a href={`mailto:${CONTACT_EMAIL}`} className="text-link text-link--muted">
-                Say hello
-              </a>
-              <span
-                onClick={replay}
-                role="button"
-                tabIndex={0}
-                onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && replay()}
-                className="replay-btn"
-                style={{ cursor: 'pointer', userSelect: 'none', fontSize: 12, color: 'var(--text-muted)' }}
-              >
-                ↻ replay
-              </span>
             </div>
           </div>
         </div>

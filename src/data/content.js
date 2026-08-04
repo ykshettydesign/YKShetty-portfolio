@@ -16,6 +16,20 @@ export const profile = {
     'Senior Product Designer. I practice systems thinking — looking past the apparent problem to the root cause, then designing the simplest fix the system already supports.',
 }
 
+/* ── Scroll-reveal statement (montone-style, line-by-line brighten) ──
+   Each array entry is one visual line; lines light up in order as the
+   pinned section scrolls past. Edit the breaks to taste. */
+export const statement = {
+  lines: [
+    'Senior Product Designer.',
+    'I practice systems thinking —',
+    'looking past the apparent problem',
+    'to the root cause, then designing',
+    'the simplest fix the system',
+    'already supports.',
+  ],
+}
+
 export const navLinks = [
   { label: 'Work', href: '#work' },
   { label: 'Practice', href: '#practice' },

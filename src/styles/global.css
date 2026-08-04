@@ -766,3 +766,57 @@ img { max-width: 100%; }
     scroll-behavior: auto !important;
   }
 }
+
+/* ── Scroll-reveal statement (montone-style) ──
+   Tall section = scroll track; the inner block pins (sticky) while it
+   scrolls past, and useStatementReveal ramps each line's color alpha. */
+.statement-section {
+  position: relative;
+  height: 300vh;              /* scroll "distance" spent on the reveal */
+  background: var(--accent);  /* brand primary color */
+}
+
+.statement-sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding: 0 6vw;
+}
+
+.statement-text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;         /* centered lines (not left, per request) */
+  text-align: center;
+  gap: 0.12em;
+  margin: 0;
+  max-width: min(1000px, 92vw);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(26px, 4.6vw, 52px);
+  line-height: 1.16;
+  letter-spacing: -0.02em;
+}
+
+.statement-line {
+  color: rgba(255, 255, 255, 0.18);   /* JS overrides this per scroll */
+  transition: color 0.12s linear;
+  will-change: color;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .statement-section { height: 100vh; }
+  .statement-line { color: #fff; }
+}
+
+/* ── Lenis smooth-scroll (only active when SMOOTH_SCROLL is enabled) ── */
+html.lenis,
+html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+.lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+.lenis.lenis-stopped { overflow: clip; }
+.lenis.lenis-smooth iframe { pointer-events: none; }

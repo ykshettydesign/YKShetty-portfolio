@@ -1,5 +1,5 @@
 import React, { useRef } from 'react'
-import { hero, profile, CONTACT_EMAIL } from '../data/content'
+import { hero, CONTACT_EMAIL } from '../data/content'
 import { useHeroSequence } from '../hooks/useHeroSequence'
 import { useHeroScroll } from '../hooks/useHeroScroll'
 
@@ -177,18 +177,6 @@ export default function Hero() {
             </div>
           </div>
           <div ref={paraRef} className="hero-post" style={{ marginTop: 'clamp(80px,12vw,128px)' }}>
-            <p
-              style={{
-                fontFamily: 'var(--font-body)',
-                fontSize: 15,
-                lineHeight: 1.65,
-                color: 'var(--text-body)',
-                margin: '0 0 24px',
-                textAlign: 'center',
-              }}
-            >
-              {profile.tagline}
-            </p>
             <div
               style={{
                 display: 'flex',

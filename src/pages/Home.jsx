@@ -1,17 +1,24 @@
 import React, { useEffect, useRef } from 'react'
 import Header from '../components/Header'
 import Hero from '../components/Hero'
+import Statement from '../components/Statement'
 import Work from '../components/Work'
 import Practice from '../components/Practice'
 import Instruments from '../components/Instruments'
 import About from '../components/About'
 import Footer from '../components/Footer'
 import { useScrollReveal } from '../hooks/useScrollReveal'
+import { useLenis } from '../hooks/useLenis'
+
+/** Flip to `true` to enable Lenis smooth-scroll (montone's gliding feel).
+ *  Left off by default — native scrolling. */
+const SMOOTH_SCROLL = false
 
 /** The portfolio home page — the original single-page composition. */
 export default function Home() {
   const rootRef = useRef(null)
   useScrollReveal(rootRef)
+  useLenis(SMOOTH_SCROLL)
 
   // Deep-linked hash (e.g. arriving at "/#work" from a case study): the browser
   // tries to scroll before React has rendered the target, so it lands at the top.
@@ -46,6 +53,7 @@ export default function Home() {
       <Header />
       <main>
         <Hero />
+        <Statement />
         <Work />
         <Practice />
         <Instruments />

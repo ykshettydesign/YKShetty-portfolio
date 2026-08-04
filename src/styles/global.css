@@ -844,7 +844,7 @@ img { max-width: 100%; }
   max-width: min(1000px, 92vw);
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: clamp(26px, 4.6vw, 52px);
+  font-size: clamp(21px, 2.9vw, 32px);
   line-height: 1.16;
   letter-spacing: -0.02em;
 }

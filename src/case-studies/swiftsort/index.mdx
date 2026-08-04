@@ -377,9 +377,10 @@ This is the part I'm most deliberate about: the clever solution was matched to t
 </Prose>
 
 <ImageFigure
+  wide
   src={`${IMAGES}/12-tc57-stacking.png`}
-  alt="The handheld TC57 stacking screen: a “23 CD” header, a green “Drop” button top-right, and the grouped parcel list for Fløyfjellsveien 178 / 9876 Bergen — with no QR card."
-  caption="In-hand device — tap to drop, no QR needed."
+  alt={'Three TC57 handheld screens side by side: the sort list with parcel cards, the stack mode showing grouped parcels at a destination, and the drop zone grid for manual zone lookup.'}
+  caption=”The full TC57 flow: sort, stack, and drop zone lookup, all tap-driven, no QR needed.”
 />
 
 
@@ -422,27 +423,6 @@ Net effect: roughly **30% faster early exploration** — but every decision that
   src={`${IMAGES}/14-discarded-variants.png`}
   alt="A grid of early LIFO card layout explorations with the rejected variants visibly marked."
   caption="The range Figma Make gave me. Most were killed against one test: readable at arm's length, in motion, wearing gloves."
-/>
-
-## Testing on the floor
-
-<Prose>
-
-Not validated in a design tool — validated on Zebra devices, on the terminal floor, twice.
-
-**Round 1 failed in useful ways.** Workers struggled with controls *while moving*, stacking interactions were too fiddly, and scan feedback wasn't clear enough. Nothing about the concept was wrong — the execution was too fine-grained for a glove and a moving forklift.
-
-**I iterated:** stronger visual hierarchy, clearer color coding, higher visibility for the latest scan, bigger targets, simpler interactions.
-
-**Round 2 confirmed the fix.** Workers moved through sorting noticeably faster, preferred the guided flow over memorization, and stacking got measurably more consistent — holding up under real movement, real gloves, real noise. That's what let us ship.
-
-</Prose>
-
-<ImageFigure
-  wide
-  src={`${IMAGES}/15-round1-vs-round2.png`}
-  alt="A before/after of a screen that changed between test rounds — the stacking interaction or scan-feedback state — annotated with what Round 1 taught and how Round 2 answered it."
-  caption="What the Round 1 failure taught, and how Round 2 answered it."
 />
 
 ## Outcomes

@@ -26,7 +26,7 @@ export default function Hero() {
   useHeroScroll(heroInnerRef, driftRootRef)
 
   return (
-    <div style={{ position: 'relative', height: '200vh' }}>
+    <div style={{ position: 'relative', height: '100vh' }}>
       <section
         className="hero-section"
         data-hero-step={step}

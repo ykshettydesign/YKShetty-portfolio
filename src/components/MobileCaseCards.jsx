@@ -96,13 +96,23 @@ export default function MobileCaseCards() {
                       </div>
                     ))}
                   </div>
-                  <a
-                    href={c.mailto}
-                    onClick={(e) => e.stopPropagation()}
-                    style={{ fontFamily: 'var(--font-body)', fontSize: 14, fontWeight: 500, color: 'var(--accent)' }}
-                  >
-                    Request full case study →
-                  </a>
+                  {c.href ? (
+                    <a
+                      href={c.href}
+                      onClick={(e) => e.stopPropagation()}
+                      style={{ fontFamily: 'var(--font-body)', fontSize: 14, fontWeight: 500, color: 'var(--accent)' }}
+                    >
+                      Read case study →
+                    </a>
+                  ) : (
+                    <a
+                      href={c.mailto}
+                      onClick={(e) => e.stopPropagation()}
+                      style={{ fontFamily: 'var(--font-body)', fontSize: 14, fontWeight: 500, color: 'var(--accent)' }}
+                    >
+                      Request full case study →
+                    </a>
+                  )}
                 </div>
               </div>
             )}

@@ -92,13 +92,13 @@ export default function Practice() {
           sits on-grid with the rest of the site, then scrolls away as the
           animation track pins below it. Text is light because the Practice
           backdrop is always dark (in both themes). */}
-      <div style={{ maxWidth: 1100, margin: '0 auto', padding: 'clamp(64px,9vw,120px) clamp(22px,5vw,44px) clamp(40px,6vw,72px)' }}>
+      <div style={{ maxWidth: 1100, margin: '0 auto', padding: 'clamp(40px,6vw,72px) clamp(22px,5vw,44px) clamp(28px,4.5vw,52px)', textAlign: 'center' }}>
         <div
           style={{
             fontFamily: 'var(--font-mono)',
-            fontSize: 10,
+            fontSize: 11,
             fontWeight: 700,
-            letterSpacing: '0.14em',
+            letterSpacing: '0.16em',
             textTransform: 'uppercase',
             color: 'var(--text-on-inverse-soft)',
             marginBottom: 14,
@@ -111,9 +111,9 @@ export default function Practice() {
             fontFamily: 'var(--font-display)',
             fontSize: 'clamp(28px,3.8vw,44px)',
             fontWeight: 600,
-            lineHeight: 1.02,
+            lineHeight: 1.05,
             letterSpacing: '-0.03em',
-            margin: 0,
+            margin: '0 auto',
             maxWidth: '18ch',
             color: 'var(--text-on-inverse)',
           }}

@@ -30,6 +30,7 @@ export default function CaseStack() {
       <div ref={containerRef} className="case-stack">
         <div className="case-stack__intro" data-reveal="">
           <div className="case-stack__eyebrow">Case studies</div>
+          <h2 className="case-stack__heading">Real problems, solved at the root.</h2>
         </div>
 
         {caseStudies.map((c, i) => (

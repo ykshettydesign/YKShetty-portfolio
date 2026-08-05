@@ -1,6 +1,7 @@
 import React, { useRef } from 'react'
 import { statement } from '../data/content'
 import { useStatementReveal } from '../hooks/useStatementReveal'
+import StatementScrollCue from './StatementScrollCue'
 
 /**
  * Montone-style scroll-reveal statement. A tall section acts as the scroll
@@ -31,6 +32,8 @@ export default function Statement() {
             </span>
           ))}
         </p>
+        {/* Exact copy of the hero scroll cue — same position & fade behaviour. */}
+        <StatementScrollCue sectionRef={sectionRef} />
       </div>
     </section>
   )

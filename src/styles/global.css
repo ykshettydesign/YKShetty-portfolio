@@ -875,12 +875,7 @@ img { max-width: 100%; }
 .case-scroll-cue-layer__fade {
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    to bottom,
-    rgba(18, 14, 50, 0) 0%,
-    rgba(18, 14, 50, 0) 42%,
-    rgba(18, 14, 50, 0.62) 100%
-  );
+  background: none;
 }
 
 @media (prefers-reduced-motion: reduce) {

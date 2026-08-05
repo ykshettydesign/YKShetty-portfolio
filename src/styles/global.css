@@ -880,9 +880,10 @@ html.lenis body { height: auto; }
 .case-stack-section {
   position: relative;
   z-index: 10;
-  /* Solid purple, continuous with the statement above; hard cut into the dark
-     tree (Practice) section below — no gradient for now. */
-  background: var(--accent);
+  /* Starts on the statement's purple (seamless seam) and transitions down into
+     the deep teal brand colour as you scroll the cards, settling on teal for the
+     pinned tail — so the hard cut into the dark tree (Practice) below is teal→dark. */
+  background: linear-gradient(180deg, var(--accent) 0%, var(--case-bg-teal) 55%);
 }
 .case-stack {
   position: relative;

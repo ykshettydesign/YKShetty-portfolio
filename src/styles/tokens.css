@@ -56,6 +56,10 @@
   --teal-accent: #12897E;
   --teal-ink: #0B5C55;
   --teal-bg: #EEF6F4;
+  /* Deep teal used as a section background fill. Kept constant across themes
+     (unlike --teal-accent, which flips to a light mint for foreground use in
+     dark mode) so white text stays legible on it. */
+  --case-bg-teal: #12897E;
 
   /* ── Chips ── */
   --chip-border: rgba(0, 0, 0, 0.12);

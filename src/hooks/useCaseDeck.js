@@ -77,14 +77,14 @@ export function useCaseDeck(trackRef) {
           opacity = d > 3.4 ? 0 : 1
           z = 100 - Math.round(dd * 10)
         } else {
-          // Leaving card: rotates and flies up off the top as you scroll on —
-          // stays fully opaque while it travels, then fades over the last stretch.
+          // Leaving card: stays fully opaque and just rotates and flies straight
+          // up off the top of the stage (no fade) — the stage clips it cleanly.
           const t = Math.min(-d, 1) // 0 → 1 as it departs
-          rot = t * 12
-          ty = -t * 200
-          tx = -t * 40
-          scale = 1 + t * 0.03
-          opacity = clamp((1 - t) / 0.4, 0, 1) // 1 until t≈0.6, then fades to 0 by t=1
+          rot = t * 14
+          ty = -t * (vh * 1.25) // travel fully past the viewport top
+          tx = -t * 60
+          scale = 1 + t * 0.05
+          opacity = 1
           z = 160
         }
         // Front + leaving cards keep their content crisp (the card opacity fades

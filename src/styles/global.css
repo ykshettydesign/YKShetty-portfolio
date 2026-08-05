@@ -859,20 +859,6 @@ img { max-width: 100%; }
   will-change: color;
 }
 
-/* "Case studies" cue (see CaseScrollCue). Pinned to the viewport bottom so it
-   does NOT scroll — text and cards scroll over it. Its opacity is driven by JS:
-   appears when the statement's last line lights up, then fades out on scroll. */
-.case-scroll-cue-layer {
-  position: fixed;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 42vh;
-  z-index: 20;
-  pointer-events: none;
-  will-change: opacity;
-}
-
 @media (prefers-reduced-motion: reduce) {
   .statement-section { height: 100vh; }
   .statement-line { color: #fff; }

@@ -3,41 +3,35 @@ import React, { useEffect, useRef } from 'react'
 const clamp = (v, lo, hi) => Math.min(hi, Math.max(lo, v))
 
 /**
- * "Case studies" scroll cue, pinned to the bottom of the viewport (it does NOT
- * scroll). It fades in once the statement's last line finishes highlighting,
- * then — like the hero's "Scroll" cue — disappears the moment the user scrolls
- * on into the case-study section. Its job is done as soon as they start moving.
+ * "Case studies" scroll cue — the exact hero-cue treatment, reused for the
+ * purple statement section. It is rendered INSIDE `.statement-sticky` and
+ * anchored to its bottom (position: absolute), so it behaves just like the
+ * hero's "Scroll" cue: it sits at the bottom edge while the statement is
+ * pinned, then — as the pinned block releases — scrolls up and clips out of
+ * view with the rest of the section. It is NOT fixed to the viewport.
  *
- * The cue reuses the hero's scroll-cue visual (mono label + animated line),
- * relabelled and light-toned for the purple background.
+ * `sectionRef` is the tall `.statement-section` track; its scroll progress
+ * fades the cue in as the last line finishes highlighting.
  */
-export default function CaseScrollCue() {
+export default function CaseScrollCue({ sectionRef }) {
   const ref = useRef(null)
 
   useEffect(() => {
     const el = ref.current
-    if (!el) return undefined
+    const stmt = sectionRef?.current
+    if (!el || !stmt) return undefined
 
     let ticking = false
     const paint = () => {
       ticking = false
-      const stmt = document.querySelector('.statement-section')
-      if (!stmt) return
       const vh = window.innerHeight
       // Statement reveal progress (mirrors useStatementReveal): the last line is
-      // lit around 0.72 → 0.85, so fade the cue in across that window.
+      // lit around 0.72 → 0.85, so fade the cue in just after that. Past that the
+      // pinned block releases and the cue scrolls away on its own — no opacity
+      // fade-out needed, exactly like the hero cue.
       const sScrollable = stmt.offsetHeight - vh
       const sProgress = sScrollable > 0 ? clamp(-stmt.getBoundingClientRect().top / sScrollable, 0, 1) : 0
-      let opacity = clamp((sProgress - 0.72) / (0.85 - 0.72), 0, 1)
-      // Dismiss on scroll (same feel as the hero cue): as the case-study section
-      // rises up into the viewport, fade the cue out over a short distance so it
-      // vanishes the moment the user scrolls on rather than lingering over the cards.
-      const work = document.getElementById('work')
-      if (work) {
-        const wTop = work.getBoundingClientRect().top
-        const out = clamp((vh * 0.75 - wTop) / (vh * 0.2), 0, 1)
-        opacity *= 1 - out
-      }
+      const opacity = clamp((sProgress - 0.75) / (0.92 - 0.75), 0, 1)
       el.style.opacity = opacity.toFixed(3)
     }
     const onScroll = () => { if (!ticking) { ticking = true; requestAnimationFrame(paint) } }
@@ -49,16 +43,14 @@ export default function CaseScrollCue() {
       window.removeEventListener('scroll', onScroll)
       window.removeEventListener('resize', onScroll)
     }
-  }, [])
+  }, [sectionRef])
 
   return (
-    <div ref={ref} className="case-scroll-cue-layer" aria-hidden="true" style={{ opacity: 0 }}>
-      <div className="hero-scroll-cue hero-scroll-cue--light">
-        <span className="hero-scroll-cue__label">Case studies</span>
-        <span className="hero-scroll-cue__track">
-          <span className="hero-scroll-cue__thumb" />
-        </span>
-      </div>
+    <div ref={ref} className="hero-scroll-cue hero-scroll-cue--light" aria-hidden="true" style={{ opacity: 0 }}>
+      <span className="hero-scroll-cue__label">Case studies</span>
+      <span className="hero-scroll-cue__track">
+        <span className="hero-scroll-cue__thumb" />
+      </span>
     </div>
   )
 }

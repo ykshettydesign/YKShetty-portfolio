@@ -3,7 +3,6 @@ import Header from '../components/Header'
 import Hero from '../components/Hero'
 import Statement from '../components/Statement'
 import CaseStack from '../components/CaseStack'
-import CaseScrollCue from '../components/CaseScrollCue'
 import Practice from '../components/Practice'
 import Instruments from '../components/Instruments'
 import About from '../components/About'
@@ -60,8 +59,6 @@ export default function Home() {
         <Instruments />
         <About />
       </main>
-      {/* Fixed dark fade + "Case studies" scroll cue over the statement/cards. */}
-      <CaseScrollCue />
       <Footer />
     </div>
   )

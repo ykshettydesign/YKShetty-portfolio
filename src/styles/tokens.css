@@ -60,6 +60,10 @@
      (unlike --teal-accent, which flips to a light mint for foreground use in
      dark mode) so white text stays legible on it. */
   --case-bg-teal: #12897E;
+  /* Lavender ink layered over the case-study deck's ghost cards; the further
+     back a card sits, the higher this overlay's opacity, so the peeking cards
+     get progressively darker (see useCaseDeck). */
+  --deck-ghost-ink: #A9A5E0;
 
   /* ── Chips ── */
   --chip-border: rgba(0, 0, 0, 0.12);
@@ -134,6 +138,8 @@
   --teal-accent: #5EEAD4;
   --teal-ink: #99F6E4;
   --teal-bg: rgba(45, 212, 191, 0.12);
+  /* Deck ghost tint darkens (rather than lightens) the peeking cards in dark mode. */
+  --deck-ghost-ink: #05060f;
 
   /* ── Chips ── */
   --chip-border: rgba(255, 255, 255, 0.14);

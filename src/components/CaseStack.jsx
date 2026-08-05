@@ -1,7 +1,7 @@
 import React, { useRef } from 'react'
 import { caseStudies } from '../data/content'
 import { Link } from '../router'
-import { useCardStack } from '../hooks/useCardStack'
+import { useCaseDeck } from '../hooks/useCaseDeck'
 
 /** Placeholder cover gradients, used for cards without a real cover image so
  *  every card carries an image band. Picked by card index. */
@@ -13,69 +13,68 @@ const PH_GRADIENTS = [
 ]
 
 /**
- * Case studies as a scroll-driven stacked-cards deck (ported from Skiper UI's
- * Skiper16 to plain JSX — no Tailwind, no framer-motion). Each card is
- * position: sticky so the cards pin and pile up; useCardStack scales the
- * earlier ones down into a graduated deck as you scroll. Cards link to their
- * full case-study page.
+ * Case studies as a scroll-driven *advancing* deck (netgiro.is-style, but
+ * dependency-free — see useCaseDeck). A two-column stage pins while you scroll:
+ * the left column shows the active case's outcome headline, and the right
+ * column is a stack of cards where the front (white) card is the active case
+ * and the ones behind peek out, progressively darker. As you scroll, the front
+ * card advances to the next case and the deck reshuffles forward.
  */
 export default function CaseStack() {
-  const containerRef = useRef(null)
-  const cardRefs = useRef([])
+  const trackRef = useRef(null)
 
-  useCardStack(containerRef, cardRefs)
+  useCaseDeck(trackRef)
 
   return (
     <section id="work" className="case-stack-section">
-      <div ref={containerRef} className="case-stack">
-        <div className="case-stack__intro" data-reveal="">
-          <div className="case-stack__eyebrow">Case studies</div>
-          <h2 className="case-stack__heading">Real problems, solved at the root.</h2>
-        </div>
+      <div className="case-stack__intro" data-reveal="">
+        <div className="case-stack__eyebrow">Case studies</div>
+        <h2 className="case-stack__heading">Real problems, solved at the root.</h2>
+      </div>
 
-        {caseStudies.map((c, i) => (
-          <div key={c.id} className="case-stack__slot">
-            <Link to={c.href || '#work'} className="case-stack__link" aria-label={`Read case study: ${c.card}`}>
-              <article
-                ref={(el) => { cardRefs.current[i] = el }}
-                className="stack-card"
-                style={{ top: `calc(11vh + ${i * 18}px)`, zIndex: i + 1 }}
-              >
-                {c.cover ? (
-                  <div className="stack-card__cover">
-                    <img src={c.cover} alt="" loading="lazy" />
-                  </div>
-                ) : (
-                  <div
-                    className="stack-card__cover stack-card__cover--ph"
-                    style={{ backgroundImage: PH_GRADIENTS[i % PH_GRADIENTS.length] }}
-                    aria-hidden="true"
+      <div ref={trackRef} className="deck-track" style={{ height: `${caseStudies.length * 90}vh` }}>
+        <div className="deck-sticky">
+          <div className="deck-inner">
+            {/* LEFT: the active case's outcome headline (cross-fades on scroll). */}
+            <div className="deck-lead" aria-hidden="true">
+              {caseStudies.map((c) => (
+                <p key={c.id} className="deck-lead__item">{c.card}</p>
+              ))}
+            </div>
+
+            {/* RIGHT: the advancing card deck. */}
+            <div className="deck">
+              {caseStudies.map((c, i) => (
+                <article key={c.id} className="deck__card" style={{ zIndex: caseStudies.length - i }}>
+                  <div className="deck__tint" aria-hidden="true" />
+                  <Link
+                    to={c.href || '#work'}
+                    className="deck__content"
+                    aria-label={`Read case study: ${c.card}`}
                   >
-                    <span className="stack-card__ph-index">{c.index}</span>
-                  </div>
-                )}
-                <div className="stack-card__body">
-                  <div className="stack-card__meta">
-                    <span className="stack-card__index">{c.index}</span>
-                    <span>{c.meta}</span>
-                  </div>
-                  <h3 className="stack-card__headline">{c.card}</h3>
-                  <div className="stack-card__footer">
-                    <div className="stack-card__stats">
-                      {c.stats.map((s, si) => (
-                        <div key={si} className="stack-card__stat">
-                          <span className="stack-card__stat-value">{s.value}</span>
-                          <span className="stack-card__stat-label">{s.label}</span>
-                        </div>
-                      ))}
+                    <div className="deck__meta">{c.metaLong || c.meta}</div>
+                    <div className="deck__label">The problem</div>
+                    <p className="deck__problem">{c.problem}</p>
+                    <div
+                      className={`deck__media${c.cover ? '' : ' deck__media--ph'}`}
+                      style={c.cover ? undefined : { backgroundImage: PH_GRADIENTS[i % PH_GRADIENTS.length] }}
+                    >
+                      {c.cover ? (
+                        <img src={c.cover} alt="" loading="lazy" />
+                      ) : (
+                        <span className="deck__ph-index" aria-hidden="true">{c.index}</span>
+                      )}
+                      <div className="deck__solution">
+                        <div className="deck__solution-label">Design solution</div>
+                        <p className="deck__solution-text">{c.solution}</p>
+                      </div>
                     </div>
-                    <span className="stack-card__cta">Read case →</span>
-                  </div>
-                </div>
-              </article>
-            </Link>
+                  </Link>
+                </article>
+              ))}
+            </div>
           </div>
-        ))}
+        </div>
       </div>
     </section>
   )

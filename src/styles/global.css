@@ -873,25 +873,20 @@ html.lenis body { height: auto; }
 .lenis.lenis-smooth iframe { pointer-events: none; }
 
 /* ============================================================
-   CASE-STACK — scroll-driven stacked case-study cards
-   (Skiper16-style: sticky cards that scale into a deck; the scale
-   is driven by useCardStack.)
+   CASE STUDIES — scroll-driven advancing card deck
+   (netgiro-style: a pinned two-column stage where the front card
+   advances through the cases; driven by useCaseDeck.)
    ============================================================ */
 .case-stack-section {
   position: relative;
   z-index: 10;
-  /* Starts on the statement's purple (seamless seam) and transitions down into
-     the deep teal brand colour as you scroll the cards, settling on teal for the
-     pinned tail — so the hard cut into the dark tree (Practice) below is teal→dark. */
-  background: linear-gradient(180deg, var(--accent) 0%, var(--case-bg-teal) 55%);
+  background: var(--bg-page); /* light, like the mockup */
 }
-.case-stack {
-  position: relative;
-  padding-bottom: 78vh; /* scroll room so cards stay pinned through the darkening tail */
-}
+
+/* Section intro (centered eyebrow + heading) — dark text on the light bg. */
 .case-stack__intro {
   text-align: center;
-  padding: clamp(36px, 5vh, 64px) 22px clamp(24px, 4vh, 44px);
+  padding: clamp(48px, 7vw, 88px) 22px clamp(4px, 1.5vw, 16px);
 }
 .case-stack__eyebrow {
   font-family: var(--font-mono);
@@ -899,7 +894,7 @@ html.lenis body { height: auto; }
   font-weight: 700;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.82);
+  color: var(--text-tertiary);
 }
 .case-stack__heading {
   margin: 14px auto 0;
@@ -909,167 +904,198 @@ html.lenis body { height: auto; }
   font-weight: 600;
   line-height: 1.05;
   letter-spacing: -0.03em;
-  color: #fff;
-}
-.case-stack__hint {
-  margin-top: 8px;
-  font-family: var(--font-body);
-  font-size: 13px;
-  color: rgba(255, 255, 255, 0.55);
+  color: var(--text-primary);
 }
 
-/* each slot pins its card to the top; short slots + tall container tail =
-   cards pile up and remain stacked */
-.case-stack__slot {
+/* ── Advancing deck ──────────────────────────────────────────────────────── */
+/* Tall track = the scroll distance; the sticky stage pins while you scroll it.
+   Track height is set inline (per case count) in CaseStack.jsx. */
+.deck-track { position: relative; }
+.deck-sticky {
   position: sticky;
   top: 0;
+  height: 100vh;
   display: flex;
-  justify-content: center;
-  align-items: flex-start;
+  align-items: center;
 }
-.case-stack__link {
-  display: block;
-  text-decoration: none;
-  color: inherit;
+.deck-inner {
+  width: 100%;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0 clamp(22px, 5vw, 60px);
+  display: grid;
+  grid-template-columns: 1fr 1.05fr;
+  gap: clamp(28px, 5vw, 72px);
+  align-items: center;
 }
 
-.stack-card {
-  position: relative;               /* `top` set per-index inline for the stagger */
-  transform-origin: top center;     /* shrink toward the top edge */
-  will-change: transform;
-  width: min(560px, 90vw);
-  height: clamp(360px, 64vh, 480px);
+/* LEFT — outcome headline, one per case, cross-faded by useCaseDeck. */
+.deck-lead {
+  position: relative;
+  min-height: clamp(150px, 24vh, 240px);
+}
+.deck-lead__item {
+  position: absolute;
+  inset: 0;
+  margin: 0;
   display: flex;
-  flex-direction: column;
+  align-items: center;
+  font-family: var(--font-display);
+  font-size: clamp(24px, 3.2vw, 42px);
+  font-weight: 600;
+  line-height: 1.14;
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+  will-change: opacity, transform;
+}
+
+/* RIGHT — the stacked cards. */
+.deck {
+  position: relative;
+  justify-self: center;
+  width: min(560px, 92vw);
+  height: clamp(420px, 66vh, 540px);
+}
+.deck__card {
+  position: absolute;
+  inset: 0;
+  border-radius: 26px;
   overflow: hidden;
   background: var(--bg-surface);
   border: 1px solid var(--border-card);
-  border-radius: 26px;
-  box-shadow: 0 30px 70px -20px rgba(10, 8, 40, 0.5);
-  transition: box-shadow 0.25s ease;
+  box-shadow: 0 30px 70px -26px rgba(24, 20, 70, 0.30);
+  transform-origin: top center;
+  will-change: transform, opacity;
 }
-.case-stack__link:hover .stack-card {
-  box-shadow: 0 36px 90px -22px rgba(10, 8, 40, 0.6), 0 0 0 1px var(--accent-ring);
+.deck__tint { /* lavender overlay; opacity set per depth by useCaseDeck */
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: var(--deck-ghost-ink);
+  opacity: 0;
+  pointer-events: none;
 }
-
-.stack-card__cover {
-  flex: 0 0 54%;
+.deck__content {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  padding: clamp(22px, 2.6vw, 30px);
+  text-decoration: none;
+  color: inherit;
+  will-change: opacity;
+}
+.deck__meta {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.03em;
+  color: var(--text-secondary);
+}
+.deck__label {
+  margin-top: clamp(14px, 2vw, 20px);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+}
+.deck__problem {
+  margin: 8px 0 0;
+  font-family: var(--font-display);
+  font-size: clamp(17px, 1.9vw, 22px);
+  font-weight: 600;
+  line-height: 1.26;
+  letter-spacing: -0.01em;
+  color: var(--text-primary);
+}
+.deck__media {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  margin-top: clamp(14px, 2vw, 20px);
+  border-radius: 16px;
   overflow: hidden;
   background: var(--bg-surface-alt);
 }
-.stack-card__cover img {
+.deck__media img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
 }
-/* Placeholder cover for case studies without a real image */
-.stack-card__cover--ph {
-  display: grid;
-  place-items: center;
-  background-size: cover;
-}
-.stack-card__ph-index {
+.deck__media--ph { display: grid; place-items: center; background-size: cover; }
+.deck__ph-index {
   font-family: var(--font-display);
   font-size: clamp(64px, 12vw, 118px);
   font-weight: 700;
   letter-spacing: -0.03em;
-  color: rgba(255, 255, 255, 0.32);
+  color: rgba(255, 255, 255, 0.34);
   line-height: 1;
 }
-
-.stack-card__body {
-  flex: 1;
-  min-height: 0;
-  display: flex;
-  flex-direction: column;
-  padding: clamp(20px, 2.6vw, 28px);
+.deck__solution {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: clamp(28px, 4vw, 44px) clamp(16px, 2vw, 22px) clamp(14px, 2vw, 18px);
+  background: linear-gradient(
+    to top,
+    rgba(10, 12, 32, 0.9) 0%,
+    rgba(10, 12, 32, 0.55) 55%,
+    transparent 100%
+  );
 }
-.stack-card__meta {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  font-family: var(--font-mono);
-  font-size: 11px;
-  letter-spacing: 0.04em;
-  color: var(--text-secondary);
-}
-.stack-card__index {
-  color: var(--accent);
-  font-weight: 700;
-}
-.stack-card__headline {
-  flex: 1;
-  margin: 12px 0 0;
-  font-family: var(--font-display);
-  font-size: clamp(19px, 2.4vw, 26px);
-  font-weight: 600;
-  line-height: 1.24;
-  letter-spacing: -0.02em;
-  color: var(--text-primary);
-}
-.stack-card__footer {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 16px;
-  margin-top: 18px;
-}
-.stack-card__stats {
-  display: flex;
-  gap: clamp(16px, 3.5vw, 30px);
-}
-.stack-card__stat {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-.stack-card__stat-value {
-  font-family: var(--font-display);
-  font-size: 18px;
-  font-weight: 600;
-  color: var(--text-primary);
-}
-.stack-card__stat-label {
+.deck__solution-label {
   font-family: var(--font-mono);
   font-size: 10px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--text-muted);
-}
-.stack-card__cta {
-  flex: none;
-  font-family: var(--font-mono);
-  font-size: 12px;
   font-weight: 700;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--accent);
-  white-space: nowrap;
+  color: rgba(255, 255, 255, 0.72);
+}
+.deck__solution-text {
+  margin: 5px 0 0;
+  font-family: var(--font-display);
+  font-size: clamp(15px, 1.7vw, 20px);
+  font-weight: 600;
+  line-height: 1.22;
+  color: #fff;
 }
 
-/* Compact / reduced-motion fallback: no pinning, no scaling — cards read as a
-   plain vertical list so nothing hides behind the top card. */
-@media (max-width: 640px) {
-  .case-stack { padding-bottom: 8vh; }
-  .case-stack__slot { position: static; }
-  .stack-card {
-    top: 0 !important;
+/* Compact / reduced-motion: no pin, no deck — a plain vertical list of cards. */
+@media (max-width: 760px) {
+  .deck-track { height: auto !important; }
+  .deck-sticky { position: static; height: auto; display: block; padding: 8px 0 32px; }
+  .deck-inner { grid-template-columns: 1fr; gap: 20px; }
+  .deck-lead { display: none; }
+  .deck { width: 100%; height: auto; }
+  .deck__card {
+    position: relative;
+    inset: auto;
+    height: clamp(440px, 82vh, 540px);
     transform: none !important;
-    width: 100%;
-    height: auto;
+    opacity: 1 !important;
     margin-bottom: 22px;
   }
-  .stack-card__cover { flex: 0 0 auto; height: 190px; }
+  .deck__tint { opacity: 0 !important; }
+  .deck__content { position: relative; height: 100%; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .case-stack { padding-bottom: 8vh; }
-  .case-stack__slot { position: static; }
-  .stack-card {
-    top: 0 !important;
+  .deck-track { height: auto !important; }
+  .deck-sticky { position: static; height: auto; display: block; }
+  .deck-inner { grid-template-columns: 1fr; gap: 20px; }
+  .deck-lead { display: none; }
+  .deck { width: 100%; height: auto; }
+  .deck__card {
+    position: relative;
+    inset: auto;
+    height: clamp(440px, 82vh, 540px);
     transform: none !important;
-    height: auto;
+    opacity: 1 !important;
     margin-bottom: 22px;
   }
-  .stack-card__cover { flex: 0 0 auto; height: 190px; }
+  .deck__tint { opacity: 0 !important; }
+  .deck__content { position: relative; height: 100%; }
 }

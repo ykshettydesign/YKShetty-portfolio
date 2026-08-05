@@ -153,6 +153,10 @@ img { max-width: 100%; }
   75%  { opacity: 1; }
   100% { transform: translateY(250%); opacity: 0; }
 }
+/* Light-toned cue for dark/purple backgrounds (reused by the case-study cue). */
+.hero-scroll-cue--light { color: rgba(255, 255, 255, 0.85); }
+.hero-scroll-cue--light .hero-scroll-cue__track { background: rgba(255, 255, 255, 0.28); }
+.hero-scroll-cue--light .hero-scroll-cue__thumb { background: #fff; }
 /* Inner wrapper that carries the swap swing (translateY + rotate). Keeping the
    swing here — not on .hero-cluster — leaves the carousel controls (a sibling
    below) still while the card morphs. */
@@ -855,17 +859,28 @@ img { max-width: 100%; }
   will-change: color;
 }
 
-/* Dark gradient at the bottom of the purple statement — the depth cue the case
-   cards rise out of ("bottom dark gradient before the card"). */
-.statement-section::after {
-  content: '';
-  position: absolute;
+/* Fixed dark fade + "Case studies" cue (see CaseScrollCue). Pinned to the
+   viewport bottom so it does NOT scroll — text and cards scroll over it. Its
+   opacity is driven by JS: appears when the statement's last line lights up. */
+.case-scroll-cue-layer {
+  position: fixed;
   left: 0;
   right: 0;
   bottom: 0;
-  height: 38vh;
+  height: 42vh;
+  z-index: 20;
   pointer-events: none;
-  background: linear-gradient(to bottom, rgba(20, 16, 60, 0) 0%, rgba(20, 16, 60, 0.55) 100%);
+  will-change: opacity;
+}
+.case-scroll-cue-layer__fade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(18, 14, 50, 0) 0%,
+    rgba(18, 14, 50, 0) 42%,
+    rgba(18, 14, 50, 0.62) 100%
+  );
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -889,17 +904,9 @@ html.lenis body { height: auto; }
 .case-stack-section {
   position: relative;
   z-index: 10;
-  /* Continuous with the purple statement above, darkening as the cards scroll
-     until it lands on the tree backdrop (--practice-bg) — so it merges into the
-     Practice section below. Tune these stops to taste. */
-  background: linear-gradient(
-    180deg,
-    var(--accent) 0%,
-    #6a4fd8 14%,
-    #4a3ab0 40%,
-    #241d5e 68%,
-    var(--practice-bg) 100%
-  );
+  /* Solid purple, continuous with the statement above; hard cut into the dark
+     tree (Practice) section below — no gradient for now. */
+  background: var(--accent);
 }
 .case-stack {
   position: relative;

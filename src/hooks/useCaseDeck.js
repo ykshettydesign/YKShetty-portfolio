@@ -61,26 +61,39 @@ export function useCaseDeck(trackRef) {
 
       cards.forEach((card, i) => {
         const d = i - s
+        let tx = 0
         let ty
+        let rot
         let scale
         let opacity
         let z
         if (d >= 0) {
+          // Resting fan: each card behind is tilted + nudged up + shrunk a touch,
+          // so the deck reads as a rotated stack (like netgiro.is).
           const dd = Math.min(d, 3) // only ever show ~3 cards deep
-          ty = -dd * 16 // peek upward
-          scale = 1 - dd * 0.045
+          rot = -dd * 4.5
+          ty = -dd * 9
+          scale = 1 - dd * 0.035
           opacity = d > 3.4 ? 0 : 1
           z = 100 - Math.round(dd * 10)
         } else {
-          ty = 0 // passed card fades out in place, on top
-          scale = 1
-          opacity = clamp(1 + d, 0, 1)
-          z = 150
+          // Leaving card: rotates and flies up off the top as you scroll on —
+          // stays fully opaque while it travels, then fades over the last stretch.
+          const t = Math.min(-d, 1) // 0 → 1 as it departs
+          rot = t * 12
+          ty = -t * 200
+          tx = -t * 40
+          scale = 1 + t * 0.03
+          opacity = clamp((1 - t) / 0.4, 0, 1) // 1 until t≈0.6, then fades to 0 by t=1
+          z = 160
         }
-        const contentOpacity = clamp(1 - Math.abs(d), 0, 1)
+        // Front + leaving cards keep their content crisp (the card opacity fades
+        // the leaving one); only the cards still stacked behind fade their content.
+        const contentOpacity = clamp(1 - Math.max(d, 0), 0, 1)
         const tintOpacity = d >= 0 ? clamp(Math.min(d, 3) / 3, 0, 1) * MAX_TINT : 0
 
-        card.style.transform = `translateY(${ty.toFixed(2)}px) scale(${scale.toFixed(4)})`
+        card.style.transform =
+          `translate(${tx.toFixed(2)}px, ${ty.toFixed(2)}px) rotate(${rot.toFixed(2)}deg) scale(${scale.toFixed(4)})`
         card.style.opacity = opacity.toFixed(3)
         card.style.zIndex = String(z)
         card.style.pointerEvents = contentOpacity > 0.6 ? 'auto' : 'none'

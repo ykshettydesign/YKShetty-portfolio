@@ -3,10 +3,10 @@ import React, { useEffect, useRef } from 'react'
 const clamp = (v, lo, hi) => Math.min(hi, Math.max(lo, v))
 
 /**
- * Fixed dark fade + "Case studies" scroll cue, pinned to the bottom of the
- * viewport (it does NOT scroll). It fades in once the statement's last line
- * finishes highlighting, stays put while the case-study cards scroll up over
- * the purple, and fades out as the Practice/tree section arrives.
+ * "Case studies" scroll cue, pinned to the bottom of the viewport (it does NOT
+ * scroll). It fades in once the statement's last line finishes highlighting,
+ * then — like the hero's "Scroll" cue — disappears the moment the user scrolls
+ * on into the case-study section. Its job is done as soon as they start moving.
  *
  * The cue reuses the hero's scroll-cue visual (mono label + animated line),
  * relabelled and light-toned for the purple background.
@@ -29,11 +29,14 @@ export default function CaseScrollCue() {
       const sScrollable = stmt.offsetHeight - vh
       const sProgress = sScrollable > 0 ? clamp(-stmt.getBoundingClientRect().top / sScrollable, 0, 1) : 0
       let opacity = clamp((sProgress - 0.72) / (0.85 - 0.72), 0, 1)
-      // Fade back out as the tree section rises into view.
-      const tree = document.getElementById('practice')
-      if (tree) {
-        const treeIn = clamp((vh - tree.getBoundingClientRect().top) / (vh * 0.6), 0, 1)
-        opacity *= 1 - treeIn
+      // Dismiss on scroll (same feel as the hero cue): as the case-study section
+      // rises up into the viewport, fade the cue out over a short distance so it
+      // vanishes the moment the user scrolls on rather than lingering over the cards.
+      const work = document.getElementById('work')
+      if (work) {
+        const wTop = work.getBoundingClientRect().top
+        const out = clamp((vh * 0.75 - wTop) / (vh * 0.2), 0, 1)
+        opacity *= 1 - out
       }
       el.style.opacity = opacity.toFixed(3)
     }
@@ -50,7 +53,6 @@ export default function CaseScrollCue() {
 
   return (
     <div ref={ref} className="case-scroll-cue-layer" aria-hidden="true" style={{ opacity: 0 }}>
-      <div className="case-scroll-cue-layer__fade" />
       <div className="hero-scroll-cue hero-scroll-cue--light">
         <span className="hero-scroll-cue__label">Case studies</span>
         <span className="hero-scroll-cue__track">

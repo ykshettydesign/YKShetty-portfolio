@@ -859,9 +859,9 @@ img { max-width: 100%; }
   will-change: color;
 }
 
-/* Fixed dark fade + "Case studies" cue (see CaseScrollCue). Pinned to the
-   viewport bottom so it does NOT scroll — text and cards scroll over it. Its
-   opacity is driven by JS: appears when the statement's last line lights up. */
+/* "Case studies" cue (see CaseScrollCue). Pinned to the viewport bottom so it
+   does NOT scroll — text and cards scroll over it. Its opacity is driven by JS:
+   appears when the statement's last line lights up, then fades out on scroll. */
 .case-scroll-cue-layer {
   position: fixed;
   left: 0;
@@ -871,11 +871,6 @@ img { max-width: 100%; }
   z-index: 20;
   pointer-events: none;
   will-change: opacity;
-}
-.case-scroll-cue-layer__fade {
-  position: absolute;
-  inset: 0;
-  background: none;
 }
 
 @media (prefers-reduced-motion: reduce) {

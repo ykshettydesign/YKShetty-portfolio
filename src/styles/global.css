@@ -823,7 +823,7 @@ img { max-width: 100%; }
    scrolls past, and useStatementReveal ramps each line's color alpha. */
 .statement-section {
   position: relative;
-  height: 300vh;              /* scroll "distance" spent on the reveal */
+  height: 270vh;              /* scroll "distance" spent on the reveal (no dead tail) */
   background: var(--accent);  /* brand primary color */
 }
 

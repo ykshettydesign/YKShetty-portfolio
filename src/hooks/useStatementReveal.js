@@ -2,8 +2,9 @@ import { useEffect } from 'react'
 
 const MIN_ALPHA = 0.18 // resting (dim) text opacity
 const MAX_ALPHA = 1 // fully lit
-const FILL_END = 0.85 // all lines are lit by this fraction of the section's scroll,
-//                       leaving a beat of full-brightness before it scrolls away.
+const FILL_END = 1 // the reveal fills the whole scroll track, so the last line
+//                    lights right as the section releases and the next section
+//                    starts scrolling in — no dead pinned scroll afterwards.
 
 const clamp = (v, lo, hi) => Math.min(hi, Math.max(lo, v))
 

@@ -2,10 +2,11 @@ import React, { useEffect, useRef } from 'react'
 
 const clamp01 = (v) => Math.max(0, Math.min(1, v))
 
-// Statement reveal lights every line by this fraction of the section's scroll
-// (mirrors useStatementReveal's FILL_END) — so the last line is fully lit here.
-const FADE_START = 0.85
-const FADE_END = 0.95 // cue is gone a beat after the last line finishes
+// The reveal now fills the whole scroll track (useStatementReveal FILL_END = 1),
+// so the last line lights right at the end. Keep the cue visible until then and
+// fade it out over the final sliver, as the section releases and scrolls away.
+const FADE_START = 0.9
+const FADE_END = 1
 
 /**
  * The hero's scroll cue — same visual and same bottom-centre position — placed

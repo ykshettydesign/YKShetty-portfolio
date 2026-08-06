@@ -13,7 +13,7 @@ export const profile = {
   location: 'Oslo',
   logo: '/logos/header_logo.svg',
   tagline:
-    'Hello — I'm Yogesh Shetty. I think at system level, where business, users, and AI meet in one design.',
+    'Hello — I\'m Yogesh Shetty. A Senior Product Designer practicing systems thinking, where business, users, and AI meet in one design.',
 }
 
 /* ── Scroll-reveal statement (montone-style, line-by-line brighten) ──
@@ -22,7 +22,8 @@ export const profile = {
 export const statement = {
   lines: [
     'Hello — I\'m Yogesh Shetty.',
-    'I think at system level,',
+    'A Senior Product Designer',
+    'practicing systems thinking,',
     'where business, users, and AI',
     'meet in one design.',
   ],

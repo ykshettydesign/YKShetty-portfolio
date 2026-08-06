@@ -1000,6 +1000,7 @@ html.lenis body { height: auto; }
 }
 .deck__label {
   margin-top: clamp(14px, 2vw, 20px);
+  margin-bottom: 8px; /* gap to the problem, which now has margin: 0 */
   font-family: var(--font-mono);
   font-size: 11px;
   font-weight: 700;
@@ -1007,14 +1008,15 @@ html.lenis body { height: auto; }
   text-transform: uppercase;
   color: var(--text-tertiary);
 }
+/* Old style — matches the case-reader subtitle: Sora 400, secondary, roomy. */
 .deck__problem {
-  margin: 8px 0 0;
+  margin: 0;
+  max-width: calc(100% - 170px);
   font-family: var(--font-display);
   font-size: clamp(17px, 1.9vw, 22px);
-  font-weight: 600;
-  line-height: 1.26;
-  letter-spacing: -0.01em;
-  color: var(--text-primary);
+  font-weight: 400;
+  line-height: 1.3;
+  color: var(--text-secondary);
 }
 .deck__media {
   position: relative;
@@ -1054,6 +1056,7 @@ html.lenis body { height: auto; }
   );
 }
 .deck__solution-label {
+  margin-bottom: 5px; /* gap to the solution text, which now has margin: 0 */
   font-family: var(--font-mono);
   font-size: 10px;
   font-weight: 700;
@@ -1061,13 +1064,17 @@ html.lenis body { height: auto; }
   text-transform: uppercase;
   color: rgba(255, 255, 255, 0.72);
 }
+/* Old style — matches .case-cover-hero__solution on the reader pages. */
 .deck__solution-text {
-  margin: 5px 0 0;
+  margin: 0;
   font-family: var(--font-display);
-  font-size: clamp(15px, 1.7vw, 20px);
+  font-size: clamp(17px, 2vw, 20px);
   font-weight: 600;
   line-height: 1.22;
+  letter-spacing: -0.02em;
   color: #fff;
+  text-shadow: 0 1px 10px rgba(0, 0, 0, 0.35);
+  text-wrap: balance;
 }
 
 /* Compact / reduced-motion: no pin, no deck — a plain vertical list of cards. */

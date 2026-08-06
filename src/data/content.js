@@ -13,7 +13,7 @@ export const profile = {
   location: 'Oslo',
   logo: '/logos/header_logo.svg',
   tagline:
-    'Senior Product Designer. I practice systems thinking — looking past the apparent problem to the root cause, then designing the simplest fix the system already supports.',
+    'Hello — I'm Yogesh Shetty. I think at system level, where business, users, and AI meet in one design.',
 }
 
 /* ── Scroll-reveal statement (montone-style, line-by-line brighten) ──
@@ -21,12 +21,10 @@ export const profile = {
    pinned section scrolls past. Edit the breaks to taste. */
 export const statement = {
   lines: [
-    'Senior Product Designer.',
-    'I practice systems thinking —',
-    'looking past the apparent problem',
-    'to the root cause, then designing',
-    'the simplest fix the system',
-    'already supports.',
+    'Hello — I\'m Yogesh Shetty.',
+    'I think at system level,',
+    'where business, users, and AI',
+    'meet in one design.',
   ],
 }
 

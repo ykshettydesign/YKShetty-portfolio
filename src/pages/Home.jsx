@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from 'react'
 import Header from '../components/Header'
 import Hero from '../components/Hero'
 import Statement from '../components/Statement'
+import ClientLogos from '../components/ClientLogos'
 import CaseStack from '../components/CaseStack'
 import Practice from '../components/Practice'
 import Instruments from '../components/Instruments'
@@ -54,6 +55,7 @@ export default function Home() {
       <main>
         <Hero />
         <Statement />
+        <ClientLogos />
         <CaseStack />
         <Practice />
         <Instruments />

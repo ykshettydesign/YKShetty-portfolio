@@ -29,6 +29,31 @@ export const statement = {
   ],
 }
 
+/* ── Client / experience logo marquee ──
+   Rendered as single-tint wordmarks by default. To swap in a real mark, drop a
+   monochrome SVG into public/logos/clients/ and add `logo: '/logos/clients/x.svg'`
+   to that entry — the component renders the image instead of the wordmark.
+   Order = strongest names first. TCS/HCL are the consulting route (see footer
+   career line), so they're intentionally not in this "products" strip. */
+export const clientLogos = {
+  heading: "Products I've contributed to",
+  items: [
+    { name: 'Microsoft' },
+    { name: 'JPMorgan Chase' },
+    { name: 'SAP' },
+    { name: 'Qualcomm' },
+    { name: 'Johnson & Johnson' },
+    { name: 'Swiss Re' },
+    { name: 'Credit Suisse' },
+    { name: 'ABN AMRO' },
+    { name: 'USAA' },
+    { name: 'Posten Bring' },
+    { name: 'Euroflorist' },
+    { name: 'Mirka' },
+    { name: 'YOPE' },
+  ],
+}
+
 export const navLinks = [
   { label: 'Work', href: '#work' },
   { label: 'Practice', href: '#practice' },

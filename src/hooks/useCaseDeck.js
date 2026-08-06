@@ -45,7 +45,11 @@ export function useCaseDeck(trackRef) {
         const content = card.querySelector('.deck__content')
         if (content) content.style.opacity = ''
       })
-      leads.forEach((lead) => { lead.style.opacity = ''; lead.style.transform = '' })
+      leads.forEach((lead) => {
+        lead.style.opacity = ''
+        lead.style.transform = ''
+        lead.style.removeProperty('--reveal')
+      })
     }
 
     let ticking = false
@@ -110,6 +114,11 @@ export function useCaseDeck(trackRef) {
       const leadH = leadWrap ? leadWrap.offsetHeight : 0
       leads.forEach((lead, i) => {
         lead.style.transform = `translateY(${((i - s) * leadH).toFixed(1)}px)`
+        // Per-case reframe reveal: 0 while the case is off-centre, ramping to 1
+        // as it settles dead-centre. Drives the strike-through + insight bloom
+        // in CSS via the --reveal custom property.
+        const reveal = clamp(1 - Math.abs(i - s) / 0.45, 0, 1)
+        lead.style.setProperty('--reveal', reveal.toFixed(3))
       })
     }
 

@@ -942,18 +942,69 @@ html.lenis body { height: auto; }
   mask-image: linear-gradient(to bottom, transparent 0, #000 15%, #000 85%, transparent 100%);
 }
 .deck-lead__item {
+  --reveal: 1;              /* 0 → 1 as this case settles centre; set by useCaseDeck */
   position: absolute;
   inset: 0;
   margin: 0;
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  will-change: transform;
+}
+
+/* The reframe: hero's "brief → shift" replayed for each case. */
+.reframe {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+}
+.reframe__ask,
+.reframe__reveal {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.reframe__ask { color: var(--text-tertiary); }
+.reframe__reveal {
+  color: var(--accent);
+  margin-top: 14px;
+  opacity: var(--reveal);
+}
+.reframe__brief {
+  position: relative;
+  align-self: flex-start;
   font-family: var(--font-display);
-  font-size: clamp(24px, 3.2vw, 42px);
+  font-size: clamp(20px, 2.4vw, 30px);
+  font-weight: 500;
+  line-height: 1.16;
+  letter-spacing: -0.02em;
+  color: var(--text-secondary);
+}
+/* strike-through that draws left → right as the case settles */
+.reframe__brief::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 54%;
+  height: 2px;
+  background: var(--text-tertiary);
+  transform: scaleX(var(--reveal));
+  transform-origin: left center;
+}
+.reframe__insight {
+  font-family: var(--font-display);
+  font-size: clamp(22px, 2.8vw, 36px);
   font-weight: 600;
   line-height: 1.14;
   letter-spacing: -0.02em;
-  color: var(--text-primary);
-  will-change: transform;
+  color: var(--accent);
+  opacity: var(--reveal);
+  transform: translateY(calc((1 - var(--reveal)) * 10px));
 }
 
 /* RIGHT — the stacked cards. */

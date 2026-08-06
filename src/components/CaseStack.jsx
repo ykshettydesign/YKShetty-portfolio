@@ -35,10 +35,19 @@ export default function CaseStack() {
       <div ref={trackRef} className="deck-track" style={{ height: `${caseStudies.length * 90}vh` }}>
         <div className="deck-sticky">
           <div className="deck-inner">
-            {/* LEFT: the active case's outcome headline (cross-fades on scroll). */}
+            {/* LEFT: the reframe. As each case rolls to center it replays the
+                hero's "brief → shift": the literal ask strikes through and the
+                real insight lights up. Reveal is driven per-case by useCaseDeck. */}
             <div className="deck-lead" aria-hidden="true">
               {caseStudies.map((c) => (
-                <p key={c.id} className="deck-lead__item">{c.card}</p>
+                <div key={c.id} className="deck-lead__item">
+                  <div className="reframe">
+                    <span className="reframe__ask">What they asked for</span>
+                    <span className="reframe__brief">{c.brief}</span>
+                    <span className="reframe__reveal">What I saw →</span>
+                    <span className="reframe__insight">{c.insight}</span>
+                  </div>
+                </div>
               ))}
             </div>
 

@@ -32,7 +32,7 @@ export default function About() {
           </div>
 
           <div>
-            <div style={{ borderRadius: 16, overflow: 'hidden', background: 'var(--bg-surface)', boxShadow: 'var(--shadow-card)' }}>
+            <div className="portrait-reveal" style={{ borderRadius: 16, overflow: 'hidden', background: 'var(--bg-surface)', boxShadow: 'var(--shadow-card)' }}>
               <img src={about.portrait} alt="Yogesh Shetty" style={{ width: '100%', aspectRatio: '855/1024', objectFit: 'cover', display: 'block' }} />
               <div style={{ padding: '16px 18px' }}>
                 <div style={{ fontFamily: 'var(--font-display)', fontSize: 16, fontWeight: 600, color: 'var(--text-primary)' }}>Yogesh Shetty</div>

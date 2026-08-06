@@ -22,18 +22,17 @@ export default function Instruments() {
 
         <div
           className="instruments-grid"
-          data-reveal=""
-          style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 'clamp(14px,2vw,20px)', transitionDelay: '0.12s' }}
+          style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 'clamp(14px,2vw,20px)' }}
         >
-          {instruments.map((tool) => (
+          {instruments.map((tool, i) => (
+            <div key={tool.id} data-reveal="" style={{ transitionDelay: `${i * 0.09}s`, display: 'flex' }}>
             <a
-              key={tool.id}
               href={tool.href}
               target="_blank"
               rel="noopener noreferrer"
               aria-label={`${tool.alt} on the Figma Community`}
               className="instrument-card"
-              style={{ background: 'var(--bg-surface)', borderRadius: 16, padding: '28px 24px', display: 'flex', flexDirection: 'column', minHeight: 280, boxShadow: 'var(--shadow-card)', color: 'inherit' }}
+              style={{ background: 'var(--bg-surface)', borderRadius: 16, padding: '28px 24px', display: 'flex', flexDirection: 'column', minHeight: 280, boxShadow: 'var(--shadow-card)', color: 'inherit', width: '100%' }}
             >
               <div style={{ height: 28, display: 'flex', alignItems: 'center' }}>
                 <img src={tool.logo} alt={tool.alt} className="theme-logo" style={{ ...tool.logoStyle, opacity: 1 }} />
@@ -57,6 +56,7 @@ export default function Instruments() {
                 </div>
               </div>
             </a>
+            </div>
           ))}
         </div>
       </div>

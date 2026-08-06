@@ -5,6 +5,8 @@ const MAX_ALPHA = 1 // fully lit
 const FILL_END = 1 // the reveal fills the whole scroll track, so the last line
 //                    lights right as the section releases and the next section
 //                    starts scrolling in — no dead pinned scroll afterwards.
+const BLUR_MAX = 6 // px — each line resolves from soft-focus to sharp as it lights
+const LIFT_MAX = 10 // px — and settles up into place while it does
 
 const clamp = (v, lo, hi) => Math.min(hi, Math.max(lo, v))
 
@@ -31,9 +33,13 @@ export function useStatementReveal(sectionRef, lineRefs) {
     if (reduce) {
       lines.forEach((el) => {
         el.style.color = `rgba(255, 255, 255, ${MAX_ALPHA})`
+        el.style.filter = 'none'
+        el.style.transform = 'none'
       })
       return undefined
     }
+
+    const lastIndex = lines.length - 1
 
     let ticking = false
 
@@ -50,7 +56,20 @@ export function useStatementReveal(sectionRef, lineRefs) {
       lines.forEach((el, i) => {
         const local = clamp((eased - i * step) / step, 0, 1)
         const alpha = MIN_ALPHA + (MAX_ALPHA - MIN_ALPHA) * local
+        const blur = (1 - local) * BLUR_MAX
+        const lift = (1 - local) * LIFT_MAX
         el.style.color = `rgba(255, 255, 255, ${alpha.toFixed(3)})`
+        el.style.filter = blur > 0.05 ? `blur(${blur.toFixed(2)}px)` : 'none'
+        el.style.transform = `translateY(${lift.toFixed(2)}px)`
+        // The final line lands with a beat: a soft white glow blooms in over the
+        // last stretch of its reveal, so the payoff line "arrives" rather than
+        // just brightening like the rest.
+        if (i === lastIndex) {
+          const glow = clamp((local - 0.6) / 0.4, 0, 1)
+          el.style.textShadow = glow > 0
+            ? `0 0 ${(glow * 24).toFixed(1)}px rgba(255, 255, 255, ${(glow * 0.5).toFixed(3)})`
+            : 'none'
+        }
       })
     }
 

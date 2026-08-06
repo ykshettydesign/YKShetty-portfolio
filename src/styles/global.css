@@ -854,9 +854,10 @@ img { max-width: 100%; }
 }
 
 .statement-line {
-  color: rgba(255, 255, 255, 0.18);   /* JS overrides this per scroll */
-  transition: color 0.12s linear;
-  will-change: color;
+  color: rgba(255, 255, 255, 0.18);   /* JS overrides these per scroll */
+  transition: color 0.12s linear, filter 0.12s linear,
+    transform 0.12s linear, text-shadow 0.25s ease-out;
+  will-change: color, filter, transform;
 }
 
 @media (prefers-reduced-motion: reduce) {

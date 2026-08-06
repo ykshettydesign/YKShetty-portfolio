@@ -1011,7 +1011,6 @@ html.lenis body { height: auto; }
 /* Old style — matches the case-reader subtitle: Sora 400, secondary, roomy. */
 .deck__problem {
   margin: 0;
-  max-width: calc(100% - 170px);
   font-family: var(--font-display);
   font-size: clamp(17px, 1.9vw, 22px);
   font-weight: 400;

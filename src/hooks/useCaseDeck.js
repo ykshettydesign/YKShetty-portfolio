@@ -103,10 +103,13 @@ export function useCaseDeck(trackRef) {
         if (content) content.style.opacity = contentOpacity.toFixed(3)
       })
 
+      // Left headline: a vertical "roll" — each item is offset by one container
+      // height per step, so the active one is centred while the others sit fully
+      // above/below (clipped). No overlap, no cross-fade mush.
+      const leadWrap = leads[0] ? leads[0].parentElement : null
+      const leadH = leadWrap ? leadWrap.offsetHeight : 0
       leads.forEach((lead, i) => {
-        const d = i - s
-        lead.style.opacity = clamp(1 - Math.abs(d), 0, 1).toFixed(3)
-        lead.style.transform = `translateY(${(d * 18).toFixed(2)}px)`
+        lead.style.transform = `translateY(${((i - s) * leadH).toFixed(1)}px)`
       })
     }
 

@@ -930,10 +930,15 @@ html.lenis body { height: auto; }
   align-items: center;
 }
 
-/* LEFT — outcome headline, one per case, cross-faded by useCaseDeck. */
+/* LEFT — outcome headline. A vertical "roll": items are stacked one container
+   height apart and slid by useCaseDeck, clipped here with soft mask edges so
+   only the active headline reads (no cross-fade overlap). */
 .deck-lead {
   position: relative;
-  min-height: clamp(150px, 24vh, 240px);
+  height: clamp(210px, 34vh, 300px);
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 15%, #000 85%, transparent 100%);
+  mask-image: linear-gradient(to bottom, transparent 0, #000 15%, #000 85%, transparent 100%);
 }
 .deck-lead__item {
   position: absolute;
@@ -947,7 +952,7 @@ html.lenis body { height: auto; }
   line-height: 1.14;
   letter-spacing: -0.02em;
   color: var(--text-primary);
-  will-change: opacity, transform;
+  will-change: transform;
 }
 
 /* RIGHT — the stacked cards. */

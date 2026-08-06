@@ -12,7 +12,7 @@ import { useLenis } from '../hooks/useLenis'
 
 /** Flip to `true` to enable Lenis smooth-scroll (montone's gliding feel).
  *  Left off by default — native scrolling. */
-const SMOOTH_SCROLL = false
+const SMOOTH_SCROLL = true
 
 /** The portfolio home page — the original single-page composition. */
 export default function Home() {

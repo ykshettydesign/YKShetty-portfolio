@@ -9,12 +9,15 @@ import { clientLogos } from '../data/content'
  * `logo` field). Pauses on hover; under prefers-reduced-motion the marquee
  * stops and wraps into a static, centred row (see global.css).
  */
-export default function ClientLogos() {
+export default function ClientLogos({ onAccent = false }) {
   const { heading, items } = clientLogos
   const loop = [...items, ...items]
 
   return (
-    <section className="clients" aria-label="Products and companies worked with">
+    <section
+      className={`clients${onAccent ? ' clients--on-accent' : ''}`}
+      aria-label="Products and companies worked with"
+    >
       {heading && <div className="clients__eyebrow">{heading}</div>}
       <div className="clients__marquee">
         <ul className="clients__track">

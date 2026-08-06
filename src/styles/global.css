@@ -977,6 +977,34 @@ html.lenis body { height: auto; }
   .clients__item[aria-hidden="true"] { display: none; }
 }
 
+/* Statement + logos as one block (montone-style): text and the drifting logo
+   strip stacked, centred, on the accent background. */
+.statement-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: min(1100px, 92vw);
+}
+.clients--on-accent {
+  background: transparent;
+  padding: clamp(34px, 5vw, 60px) 0 0;   /* gap above the strip; none below */
+  width: 100%;
+  z-index: auto;
+}
+.clients--on-accent .clients__eyebrow {
+  max-width: none;
+  margin: 0 auto clamp(18px, 2.5vw, 26px);
+  padding: 0;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.55);
+}
+.clients--on-accent .clients__word { color: #fff; opacity: 0.5; }
+.clients--on-accent .clients__item:hover .clients__word { opacity: 1; }
+/* real SVGs (when added) render white on the accent bg */
+.clients--on-accent .clients__logo { filter: brightness(0) invert(1); opacity: 0.7; }
+.clients--on-accent .clients__item:hover .clients__logo { opacity: 1; filter: brightness(0) invert(1); }
+
 /* ============================================================
    CASE STUDIES — scroll-driven advancing card deck
    (netgiro-style: a pinned two-column stage where the front card

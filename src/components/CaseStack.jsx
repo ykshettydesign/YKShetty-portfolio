@@ -42,9 +42,9 @@ export default function CaseStack() {
               {caseStudies.map((c) => (
                 <div key={c.id} className="deck-lead__item">
                   <div className="reframe">
-                    <span className="reframe__ask">What they asked for</span>
+                    <span className="reframe__ask">The obvious fix</span>
                     <span className="reframe__brief">{c.brief}</span>
-                    <span className="reframe__reveal">What I saw →</span>
+                    <span className="reframe__reveal">What I did instead →</span>
                     <span className="reframe__insight">{c.insight}</span>
                   </div>
                 </div>

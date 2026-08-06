@@ -72,10 +72,10 @@ export const caseStudies = [
     meta: 'Posten Bring · 2026',
     metaLong: '01 · Posten Bring · Oslo · 2026 · SwiftSort',
     href: '/case-studies/swiftsort', // full case study page
-    brief: 'Make the button bigger.',
+    brief: 'More training, better equipment.',
     card: "Sorting sped up ~40% — decisions moved from workers' memory to the moment of scan.",
     cover: '/case-studies/swiftsort/images/cover.jpg',
-    insight: "Delete touch — the scanner's already on their hand.",
+    insight: "Moved the decision out of workers' memory and into the system — nothing left to memorize.",
     problem: 'Sorting decisions lived in workers’ heads, so every new hire needed weeks to get up to speed.',
     solution: 'Replaced memory with real-time, system-guided sorting — zero touch, no new hardware.',
     body:
@@ -93,10 +93,10 @@ export const caseStudies = [
     meta: 'ABN AMRO · 2024',
     metaLong: '02 · ABN AMRO · Neuflize OBC · 2024',
     href: '/case-studies/cards', // full case study page
-    brief: 'Wall off the whole flow.',
+    brief: 'Put a login on every action.',
     card: 'A 2-hour banking task cut to 60 seconds of self-service.',
     cover: null, // neutral placeholder until a real cover image is dropped in
-    insight: 'Gate only the destructive action.',
+    insight: 'Authenticated only where the risk is — the rest stays instant.',
     problem: 'Clients waited two hours on the phone just to block a lost card, and compliance wanted a login on everything.',
     solution: 'Added authentication only where the real risk was — browsing stays free, blocking takes seconds.',
     body:
@@ -114,10 +114,10 @@ export const caseStudies = [
     meta: 'Posten Bring · 2025',
     metaLong: '03 · Posten Bring · Oslo · 2025',
     href: '/case-studies/postoffice', // full case study page
-    brief: 'Rebuild it screen by screen.',
+    brief: 'Rebuild the old terminal, screen by screen.',
     card: 'Onboarding 65% faster — a legacy terminal re-architected as a cloud portal.',
     cover: null, // neutral placeholder until a real cover image is dropped in
-    insight: 'Map the system first, then design the shared frame.',
+    insight: 'Mapped the system first — one shared frame the whole Nordic suite now reuses.',
     problem: 'A legacy desktop terminal chained managers to one location and took weeks to learn.',
     solution: 'Mapped the system first, then built one shared portal — now reused across the whole Nordic suite.',
     body:

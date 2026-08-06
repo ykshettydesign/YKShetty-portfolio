@@ -1105,8 +1105,8 @@ html.lenis body { height: auto; }
   margin: 0;
   font-family: var(--font-display);
   font-size: clamp(20px, 2.5vw, 30px);
-  font-weight: 600;
-  line-height: 1.2;
+  font-weight: 400;
+  line-height: 1.25;
   letter-spacing: -0.02em;
   color: var(--text-primary);
 }

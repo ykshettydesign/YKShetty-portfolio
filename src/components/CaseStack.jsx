@@ -35,17 +35,14 @@ export default function CaseStack() {
       <div ref={trackRef} className="deck-track" style={{ height: `${caseStudies.length * 90}vh` }}>
         <div className="deck-sticky">
           <div className="deck-inner">
-            {/* LEFT: the reframe. As each case rolls to center it replays the
-                hero's "brief → shift": the literal ask strikes through and the
-                real insight lights up. Reveal is driven per-case by useCaseDeck. */}
+            {/* LEFT: the active case's problem statement. Rolls into centre and
+                brightens as it settles (--reveal, set per-case by useCaseDeck). */}
             <div className="deck-lead" aria-hidden="true">
               {caseStudies.map((c) => (
                 <div key={c.id} className="deck-lead__item">
-                  <div className="reframe">
-                    <span className="reframe__ask">The obvious fix</span>
-                    <span className="reframe__brief">{c.brief}</span>
-                    <span className="reframe__reveal">What I did instead →</span>
-                    <span className="reframe__insight">{c.insight}</span>
+                  <div className="lead-problem">
+                    <span className="lead-problem__label">The problem</span>
+                    <p className="lead-problem__text">{c.problem}</p>
                   </div>
                 </div>
               ))}
@@ -62,8 +59,8 @@ export default function CaseStack() {
                     aria-label={`Read case study: ${c.card}`}
                   >
                     <div className="deck__meta">{c.metaLong || c.meta}</div>
-                    <div className="deck__label">The problem</div>
-                    <p className="deck__problem">{c.problem}</p>
+                    <div className="deck__label">Design solution</div>
+                    <p className="deck__solution-headline">{c.solution}</p>
                     <div
                       className={`deck__media${c.cover ? '' : ' deck__media--ph'}`}
                       style={c.cover ? undefined : { backgroundImage: PH_GRADIENTS[i % PH_GRADIENTS.length] }}
@@ -73,9 +70,14 @@ export default function CaseStack() {
                       ) : (
                         <span className="deck__ph-index" aria-hidden="true">{c.index}</span>
                       )}
-                      <div className="deck__solution">
-                        <div className="deck__solution-label">Design solution</div>
-                        <p className="deck__solution-text">{c.solution}</p>
+                      {/* Success metrics — fade in over the image on hover. */}
+                      <div className="deck__metrics" aria-hidden="true">
+                        {c.stats.map((s) => (
+                          <div key={s.label} className="deck__metric">
+                            <span className="deck__metric-value">{s.value}</span>
+                            <span className="deck__metric-label">{s.label}</span>
+                          </div>
+                        ))}
                       </div>
                     </div>
                   </Link>

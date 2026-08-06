@@ -1085,58 +1085,30 @@ html.lenis body { height: auto; }
   will-change: transform;
 }
 
-/* The reframe: hero's "brief → shift" replayed for each case. */
-.reframe {
+/* LEFT — the active case's problem statement; brightens as it settles centre. */
+.lead-problem {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 6px;
+  gap: clamp(12px, 1.6vw, 16px);
+  opacity: calc(0.4 + 0.6 * var(--reveal));
 }
-.reframe__ask,
-.reframe__reveal {
+.lead-problem__label {
   font-family: var(--font-mono);
   font-size: 10px;
   font-weight: 700;
   letter-spacing: 0.14em;
   text-transform: uppercase;
+  color: var(--text-tertiary);
 }
-.reframe__ask { color: var(--text-tertiary); }
-.reframe__reveal {
-  color: var(--accent);
-  margin-top: 14px;
-  opacity: var(--reveal);
-}
-.reframe__brief {
-  position: relative;
-  align-self: flex-start;
+.lead-problem__text {
+  margin: 0;
   font-family: var(--font-display);
-  font-size: clamp(20px, 2.4vw, 30px);
-  font-weight: 500;
-  line-height: 1.16;
-  letter-spacing: -0.02em;
-  color: var(--text-secondary);
-}
-/* strike-through that draws left → right as the case settles */
-.reframe__brief::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 54%;
-  height: 2px;
-  background: var(--text-tertiary);
-  transform: scaleX(var(--reveal));
-  transform-origin: left center;
-}
-.reframe__insight {
-  font-family: var(--font-display);
-  font-size: clamp(22px, 2.8vw, 36px);
+  font-size: clamp(20px, 2.5vw, 30px);
   font-weight: 600;
-  line-height: 1.14;
+  line-height: 1.2;
   letter-spacing: -0.02em;
-  color: var(--accent);
-  opacity: var(--reveal);
-  transform: translateY(calc((1 - var(--reveal)) * 10px));
+  color: var(--text-primary);
 }
 
 /* RIGHT — the stacked cards. */
@@ -1192,14 +1164,16 @@ html.lenis body { height: auto; }
   text-transform: uppercase;
   color: var(--text-tertiary);
 }
-/* Old style — matches the case-reader subtitle: Sora 400, secondary, roomy. */
-.deck__problem {
+/* The design solution — the card's headline. Hero-size, so it visually
+   dominates (same scale as the homepage hero reply). */
+.deck__solution-headline {
   margin: 0;
   font-family: var(--font-display);
-  font-size: clamp(17px, 1.9vw, 22px);
-  font-weight: 400;
-  line-height: 1.3;
-  color: var(--text-secondary);
+  font-size: clamp(21px, 2.9vw, 32px);
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
 }
 .deck__media {
   position: relative;
@@ -1225,39 +1199,44 @@ html.lenis body { height: auto; }
   color: rgba(255, 255, 255, 0.34);
   line-height: 1;
 }
-.deck__solution {
+/* Success metrics — hidden by default, fade in over the image when the front
+   card is hovered. */
+.deck__metrics {
   position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  padding: clamp(28px, 4vw, 44px) clamp(16px, 2vw, 22px) clamp(14px, 2vw, 18px);
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-end;
+  gap: clamp(12px, 1.6vw, 18px);
+  padding: clamp(22px, 3vw, 32px);
   background: linear-gradient(
     to top,
-    rgba(10, 12, 32, 0.9) 0%,
-    rgba(10, 12, 32, 0.55) 55%,
-    transparent 100%
+    rgba(10, 12, 32, 0.92) 0%,
+    rgba(10, 12, 32, 0.72) 55%,
+    rgba(10, 12, 32, 0.4) 100%
   );
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  pointer-events: none;
 }
-.deck__solution-label {
-  margin-bottom: 5px; /* gap to the solution text, which now has margin: 0 */
-  font-family: var(--font-mono);
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.72);
-}
-/* Old style — matches .case-cover-hero__solution on the reader pages. */
-.deck__solution-text {
-  margin: 0;
+.deck__card:hover .deck__metrics { opacity: 1; }
+.deck__metric { display: flex; flex-direction: column; }
+.deck__metric-value {
   font-family: var(--font-display);
-  font-size: clamp(17px, 2vw, 20px);
-  font-weight: 600;
-  line-height: 1.22;
+  font-size: clamp(26px, 3.4vw, 40px);
+  font-weight: 700;
+  line-height: 1;
   letter-spacing: -0.02em;
   color: #fff;
-  text-shadow: 0 1px 10px rgba(0, 0, 0, 0.35);
-  text-wrap: balance;
+}
+.deck__metric-label {
+  margin-top: 5px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.05em;
+  color: rgba(255, 255, 255, 0.72);
 }
 
 /* Compact / reduced-motion: no pin, no deck — a plain vertical list of cards. */

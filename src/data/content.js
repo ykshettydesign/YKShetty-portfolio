@@ -75,7 +75,7 @@ export const caseStudies = [
     brief: 'More training, better equipment.',
     card: "Sorting sped up ~40% — decisions moved from workers' memory to the moment of scan.",
     cover: '/case-studies/swiftsort/images/cover.jpg',
-    insight: "Moved the decision out of workers' memory and into the system — nothing left to memorize.",
+    insight: 'Moved the decision out of their heads and into the system.',
     problem: 'Sorting decisions lived in workers’ heads, so every new hire needed weeks to get up to speed.',
     solution: 'Replaced memory with real-time, system-guided sorting — zero touch, no new hardware.',
     body:
@@ -117,7 +117,7 @@ export const caseStudies = [
     brief: 'Rebuild the old terminal, screen by screen.',
     card: 'Onboarding 65% faster — a legacy terminal re-architected as a cloud portal.',
     cover: null, // neutral placeholder until a real cover image is dropped in
-    insight: 'Mapped the system first — one shared frame the whole Nordic suite now reuses.',
+    insight: 'Mapped the system first — one frame the whole suite reuses.',
     problem: 'A legacy desktop terminal chained managers to one location and took weeks to learn.',
     solution: 'Mapped the system first, then built one shared portal — now reused across the whole Nordic suite.',
     body:
@@ -135,10 +135,10 @@ export const caseStudies = [
     meta: 'ABN AMRO · multi',
     metaLong: '04 · ABN AMRO · iOS · Android · Web',
     href: '/case-studies/postbox', // full case study page
-    brief: 'Sort by document type.',
+    brief: "Sort documents the bank's way, by type.",
     card: 'A complex document archive made self-service — across all three platforms.',
     cover: null, // neutral placeholder until a real cover image is dropped in
-    insight: "Organise by life event — the client's mental model.",
+    insight: 'Organised by life event — the way clients actually search.',
     problem: 'Clients needed their banker to find every document, because files were sorted the bank’s way, not theirs.',
     solution: 'Reorganised around life events — the way clients actually think — so they self-serve.',
     body:

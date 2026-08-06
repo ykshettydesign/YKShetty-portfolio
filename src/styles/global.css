@@ -1068,10 +1068,10 @@ html.lenis body { height: auto; }
    only the active headline reads (no cross-fade overlap). */
 .deck-lead {
   position: relative;
-  height: clamp(240px, 40vh, 360px);   /* room for the longest 2-line insight */
+  height: clamp(280px, 46vh, 400px);   /* room for the longest reframe block */
   overflow: hidden;
-  -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 12%, #000 88%, transparent 100%);
-  mask-image: linear-gradient(to bottom, transparent 0, #000 12%, #000 88%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 6%, #000 94%, transparent 100%);
+  mask-image: linear-gradient(to bottom, transparent 0, #000 6%, #000 94%, transparent 100%);
 }
 .deck-lead__item {
   --reveal: 1;              /* 0 → 1 as this case settles centre; set by useCaseDeck */

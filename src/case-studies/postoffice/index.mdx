@@ -2,70 +2,325 @@ import {
   OutcomeBand,
   Prose,
   PullQuote,
+  ImageFigure,
+  HeroShowcase,
+  BeforeAfter,
+  DecisionBlock,
+  DecisionList,
+  ComparisonTable,
   MetricRow,
 } from '../../components/case-study'
 
-{/* Short-form case study — built from the summary on the home page. Text only;
-    drop images in public/case-studies/postoffice/images/ and add figures later. */}
+{/* Base path for this case study's images. Drop the real files into
+    public/case-studies/postoffice/images/ using the filenames in IMAGES.md — until
+    then each figure renders a styled placeholder with its alt text. */}
+export const IMAGES = '/case-studies/postoffice/images'
+
+{/* Structured data for the shared shell (title, subtitle, tags, and the
+    Project-at-a-glance meta block). The body below is content only. */}
 export const meta = {
   order: 3,
-  title: 'Post-office portal — a legacy terminal, re-architected as a cloud portal',
+  title: 'Modernizing post-office management — a legacy counter terminal, re-architected as a cloud portal',
   subtitle:
-    'Mapping the system first, then designing one shared frame — the portal became the foundation for the whole Nordic ProdApp suite.',
-  tags: ['Logistics', 'Enterprise portal', 'Systems thinking', 'Nordic'],
+    'A mandatory technical migration turned into operational freedom — moving staff management off a desk-bound terminal and into a device-agnostic cloud portal.',
+  tags: ['Enterprise portal', 'Responsive web', 'Workforce management', 'Systems thinking'],
   glance: [
-    { label: 'Client', value: 'Posten Bring' },
-    { label: 'Region', value: 'Oslo, Norway' },
-    { label: 'Timeline', value: '2025' },
-    { label: 'Scope', value: 'Legacy desktop terminal → cloud portal' },
+    {
+      label: 'Role',
+      value:
+        'Design Consultant — owned the UX end to end: field research, interaction design, and design–engineering alignment against a hard deadline',
+    },
+    { label: 'Region', value: 'Norway' },
+    { label: 'Platform', value: 'Responsive web portal (mobile-first)' },
+    { label: 'Timeline', value: '1 month' },
+    { label: 'Tools', value: 'Figma, Generative AI for early ideation' },
   ],
   sectionIcons: {
     'the-outcome': 'rocket',
     'the-problem': 'alert',
     'how-i-approached-it': 'compass',
+    'the-insight-that-changed-the-scope': 'refresh',
+    'the-design-decisions': 'sliders',
+    'how-the-work-got-made': 'sparkles',
+    'the-impact': 'chart',
     'the-takeaway': 'target',
   },
 }
+
+<HeroShowcase
+  src={`${IMAGES}/01-hero.png`}
+  alt="The finished post-office management portal shown on a desktop browser and a phone side by side — the same staff-management workflow, responsive across both."
+  bare
+  chip="Mandatory migration, delivered in 1 month"
+/>
 
 ## The outcome
 
 <Prose>
 
-Onboarding **65% faster** — a legacy terminal re-architected as a cloud portal, and reused across the whole Nordic ProdApp suite.
+A legacy, counter-bound desktop terminal was re-architected into a modern, standalone cloud portal — one managers could run from any device, anywhere. What started as a *mandatory technical migration* became a genuine shift in how post-office managers worked.
 
 </Prose>
 
-<MetricRow
+<OutcomeBand
   items={[
-    { icon: 'chart', value: '65%', label: 'Faster onboarding' },
-    { icon: 'layers', value: '1 system', valueText: true, label: 'Reused across the suite' },
+    { icon: 'rocket', text: <><strong>100% remote-ready portal</strong> — admin work no longer chained to the physical front counter</> },
+    { icon: 'trendUp', text: <><strong>~65% faster onboarding</strong> — user creation and staff setup, down from a slow counter-only process</> },
+    { icon: 'shield', text: <><strong>0% accidental data loss</strong> — a new 7-day recovery window replaced irreversible hard deletes</> },
   ]}
 />
+
+<Prose>
+
+*The whole project ran on one objective:*
+
+</Prose>
+
+<PullQuote variant="principle">
+  <strong>Operational freedom</strong> — move staff management off a single desk-bound terminal and into a device-agnostic cloud, so a manager's location stops deciding what they can get done.
+</PullQuote>
 
 ## The problem
 
 <Prose>
 
-A legacy desktop terminal chained managers to one location and took weeks to learn.
+On paper this was a migration: lift a legacy desktop terminal into the cloud. But the terminal wasn't just old — it was *physically trapping* the people who depended on it.
+
+**The counter-lock bottleneck.** Managers could only do admin work at the physical front counter — the one machine, in the one spot, that ran the terminal. Every staffing task competed directly with serving customers standing at that same counter.
 
 </Prose>
+
+<ImageFigure
+  src={`${IMAGES}/02-counter-lock.png`}
+  alt="A post-office manager at the front counter, split between a customer waiting to be served and the legacy staff-management terminal — the single point where admin work could happen."
+  caption="The counter-lock: admin work and customer service fought over the same desk, the same minute."
+/>
+
+<Prose>
+
+That single constraint produced everything else:
+
+- **A shadow system.** With no remote access, managers copied private staff details into personal paper notebooks so they could do the work at home — sensitive data walking out the door, off any secure system
+- **Interrupted service.** Any staffing change meant stepping away from the customer in front of them
+- **Rehiring friction.** Old database rules blocked managers from easily re-onboarding seasonal staff — a recurring, predictable need the system treated as an exception
+
+The instinct with a mandatory migration is to port the thing faithfully and move on. But the paper notebooks were the tell: the real failure wasn't the technology, it was *where* the work was allowed to happen.
+
+</Prose>
+
+<PullQuote variant="principle">
+  This was never just a migration. The terminal's real defect was that it bound critical work to one physical location — so the design goal wasn't "recreate the terminal in a browser," it was "unbind the work from the counter."
+</PullQuote>
 
 ## How I approached it
 
 <Prose>
 
-A desk-bound legacy terminal chained managers to one location. Before drawing screens I mapped the dependencies between driver tools and regional management — and the portal became the foundation for the whole Nordic ProdApp suite.
+One month, a hard deadline, and a system with real legacy constraints underneath it. I ran this as a lead UX process built for rapid, grounded execution — not a long discovery, but never a blind one either.
+
+The move that mattered most: I went to the stores. During physical site visits and face-to-face interviews, one thing became unambiguous — managers weren't using paper because they *preferred* it. They used it because the system was inaccessible anywhere but the counter.
+
+</Prose>
+
+<ImageFigure
+  wide
+  src={`${IMAGES}/03-site-visit.png`}
+  alt="Field notes and photos from in-store visits — a manager walking through their real workflow at the counter, with the paper notebook and terminal both in frame."
+  caption="Talking to managers in their actual workspace confirmed the priority I couldn't have ranked from a desk: mobile access came first."
+/>
+
+<Prose>
+
+That visit reset the platform priority. **Mobile access was the #1 request** — not a nicer desktop screen. So the portal became mobile-first, not desktop-first-then-shrunk. The whole layout strategy pivoted on a finding I could only have gotten by standing where the work happens.
+
+</Prose>
+
+## The insight that changed the scope
+
+<Prose>
+
+The most important decision wasn't a screen — it was a scope call about the shadow system.
+
+The easy read was: "managers keep paper notebooks, so digitize the list and the notebooks disappear." But the field interviews said something subtler. Managers didn't want paper for its own sake — they wanted a **physical copy they could rely on** when they were away from the counter, offline, or handling an emergency. Take that away with nothing in its place and the notebooks come right back.
+
+So I didn't just digitize the list. I designed a secure **Download / Export** feature into the portal.
+
+</Prose>
+
+<ImageFigure
+  src={`${IMAGES}/04-export-feature.png`}
+  alt="The portal's staff list with a secure Download / Export action — producing a physical-copy export while the live record stays in the cloud as the source of truth."
+  caption="Export gives managers the physical copy they actually needed — while the source of truth stays digital and secure."
+/>
+
+<Prose>
+
+That one addition is what genuinely *eliminated* the shadow system instead of just competing with it. It met the real need — a backup they could hold — while keeping the **source of truth** digital, current, and secure. The paper habit had somewhere legitimate to go.
+
+</Prose>
+
+<PullQuote variant="principle">
+  You don't kill a workaround by banning it. You kill it by understanding the need underneath it and serving that need better — here, a secure export beat an insecure notebook on its own terms.
+</PullQuote>
+
+## The design decisions
+
+<Prose>
+
+Post offices are high-stress, high-distraction retail floors — often being used one-handed, on a small screen, between customers. Every interaction choice below came from designing for *that* environment, not a calm desktop.
+
+</Prose>
+
+<DecisionList
+  heading="Adaptive interaction design"
+  eyebrow="Three decisions, and what each one traded off"
+  icon="sliders"
+  intro={<>The portal had to feel fast and forgiving under pressure. These are the choices that made it so.</>}
+  coda={{
+    title: 'Designed against a real database',
+    body: <>None of this lived in a vacuum — every concept was pressure-tested against the legacy database's actual limits before it went to high fidelity, so what I designed was also what could ship in a month.</>,
+  }}
+>
+
+<DecisionBlock
+  index="01"
+  title="Role inheritance — one choice, not two"
+  media={{
+    src: `${IMAGES}/05-role-inheritance.png`,
+    alt: 'The add-user form where selecting the "Admin" role automatically toggles on "Standard User" permissions underneath it.',
+  }}
+>
+
+Selecting **"Admin"** automatically toggles on **"Standard User"** permissions beneath it — because an admin is always also a standard user. A small logic tweak, but during hiring peaks it removed a whole class of clicks and configuration errors: managers couldn't accidentally create an admin who lacked the base permissions to actually work.
+
+</DecisionBlock>
+
+<DecisionBlock
+  index="02"
+  title="Full-row click targets"
+  media={{
+    src: `${IMAGES}/06-full-row-click.png`,
+    alt: 'A staff table on a small mobile screen where the entire row is a tap target, not just the name link.',
+  }}
+  tradeoff={{
+    considered: 'A conventional table with a small "edit" link or icon per row.',
+    why: (
+      <>
+        On a phone, between customers, a tiny target is a missed tap and a lost second. Making the whole
+        row tappable was the higher-reliability choice for the environment this actually runs in.
+      </>
+    ),
+  }}
+>
+
+I made the **entire row** a tap target across every staff table (Fitts's Law in practice — the bigger and closer the target, the faster and safer the hit). For a busy manager on a small mobile screen in a high-distraction space, it means fast, error-free navigation instead of hunting for a link.
+
+</DecisionBlock>
+
+<DecisionBlock
+  index="03"
+  title="The 7-day safety net for deletes"
+>
+
+The legacy behavior was a **hard delete** — remove a staff member and the record was gone, no recovery. In a system managers now run one-handed between customers, that's a data-loss incident waiting to happen.
+
+So I replaced it with a **soft delete on a 7-day recovery window**, and designed the confirmation to make the stakes unmistakable: *"The account will be permanently removed in 7 days. You can undo the deletion anytime."*
+
+The modal itself does deliberate work: the **Remove** button is high-contrast **red** to signal the seriousness of the action, while **Cancel** stays visually neutral. That asymmetry forces a conscious *stop-and-think* moment — you can't fat-finger your way through a destructive action.
+
+</DecisionBlock>
+
+</DecisionList>
+
+<BeforeAfter
+  before={{
+    src: `${IMAGES}/07-delete-before.png`,
+    alt: 'The legacy hard-delete: a plain confirmation that permanently removes a staff record with no way back.',
+  }}
+  after={{
+    src: `${IMAGES}/08-delete-after.png`,
+    alt: 'The new delete modal: a 7-day recovery notice, a high-contrast red Remove button, and a neutral Cancel button.',
+  }}
+  caption="From irreversible to recoverable — and a modal that makes the weight of the action obvious."
+/>
+
+## How the work got made
+
+<Prose>
+
+A one-month deadline forces sharp choices about *where* the time goes. Mine went to the field and the engineering loop — and AI absorbed the slow start.
+
+</Prose>
+
+<ComparisonTable
+  head={['Phase', 'How I moved fast', 'What it protected']}
+  rows={[
+    [
+      'AI-accelerated ideation',
+      'Used generative AI to brainstorm layout variations for complex staff tables',
+      <>Skipped the blank-page phase entirely — more time for the decisions that actually mattered</>,
+    ],
+    [
+      'Technical feasibility sync',
+      'Ran a tight loop with engineering to stress-test concepts against legacy DB limits',
+      <>Nothing reached high-fidelity that the old database couldn't actually support</>,
+    ],
+    [
+      'Physical validation',
+      'Visited the stores and interviewed managers in their real workspace',
+      <>Confirmed mobile access as the #1 priority — the finding that set the whole layout strategy</>,
+    ],
+  ]}
+/>
+
+<Prose>
+
+The honest version: AI got me *out of the gate* faster, engineering kept the ideas *buildable*, and the store visits made sure I was solving the right problem. None of those three could carry the project alone — the speed came from the sequence.
+
+</Prose>
+
+## The impact
+
+<Prose>
+
+For a mandatory migration, the wins landed where they change how the operation actually runs — not just a screen that looks newer.
+
+</Prose>
+
+<MetricRow
+  items={[
+    { icon: 'chart', value: '~65%', label: 'Faster user creation & onboarding' },
+    { icon: 'shield', value: '~0%', label: 'Accidental data loss, via the 7-day window' },
+    { icon: 'layers', value: 'Shadow system', valueText: true, label: 'Eliminated — data secured, off paper' },
+  ]}
+/>
+
+<Prose>
+
+Three outcomes, one through-line:
+
+- **Efficiency** — onboarding and user creation got roughly **65% faster**, freeing manager time back to customers
+- **Risk mitigation** — the 7-day recovery window drove accidental data loss to **near zero**
+- **Security compliance** — the paper-based shadow system was **eliminated**, bringing all personal staff information back onto a secure, digital source of truth
 
 </Prose>
 
 ## The takeaway
 
+<Prose>
+
+This project looked like a technical chore — port a legacy terminal to the cloud. The design work was refusing to treat it that way.
+
+The terminal's real defect wasn't that it was old; it was that it bound critical work to one physical spot, which is why the paper notebooks existed at all. Once the goal became *operational freedom* rather than *faithful migration*, everything followed — mobile-first because that's what managers asked for, a secure export because that's what the notebooks were really for, and a recoverable delete because the system now runs in someone's hand between customers.
+
+</Prose>
+
 <PullQuote variant="principle">
-  Map the system first, then design the shared frame.
+  The best migration doesn't reproduce the old system faithfully — it fixes the constraint the old system forced people to live with. Unbind the work, and the workarounds disappear on their own.
 </PullQuote>
 
 <Prose>
 
-*Yogesh Shetty · Product Designer*
+*Yogesh Shetty · Design Consultant — UX lead on the post-office management portal, end to end*
 
 </Prose>

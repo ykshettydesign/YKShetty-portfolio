@@ -22,13 +22,13 @@ export const meta = {
   order: 3,
   title: 'Modernizing post-office management — a legacy counter terminal, re-architected as a cloud portal',
   subtitle:
-    'A mandatory technical migration turned into operational freedom — moving staff management off a desk-bound terminal and into a device-agnostic cloud portal.',
-  tags: ['Enterprise portal', 'Responsive web', 'Workforce management', 'Systems thinking'],
+    'A mandatory technical migration turned into operational freedom — moving staff management off a desk-bound terminal and into a device-agnostic cloud portal, then testing it with the people who run the counter.',
+  tags: ['Enterprise portal', 'Responsive web', 'Workforce management', 'Usability testing'],
   glance: [
     {
       label: 'Role',
       value:
-        'Design Consultant — owned the UX end to end: field research, interaction design, and design–engineering alignment against a hard deadline',
+        'Design Consultant — owned the UX end to end: field research, interaction design, usability testing, and design–engineering alignment against a hard deadline',
     },
     { label: 'Region', value: 'Norway' },
     { label: 'Platform', value: 'Responsive web portal (mobile-first)' },
@@ -41,15 +41,17 @@ export const meta = {
     'how-i-approached-it': 'compass',
     'the-insight-that-changed-the-scope': 'refresh',
     'the-design-decisions': 'sliders',
+    'what-testing-changed': 'flask',
     'how-the-work-got-made': 'sparkles',
     'the-impact': 'chart',
+    'the-honest-limits': 'flag',
     'the-takeaway': 'target',
   },
 }
 
 <HeroShowcase
   src={`${IMAGES}/01-hero.png`}
-  alt="The finished post-office management portal shown on a desktop browser and a phone side by side — the same staff-management workflow, responsive across both."
+  alt="The finished staff-management portal shown on a desktop browser and a phone side by side — the same admin workflow, responsive across both."
   bare
   chip="Mandatory migration, delivered in 1 month"
 />
@@ -58,15 +60,15 @@ export const meta = {
 
 <Prose>
 
-A legacy, counter-bound desktop terminal was re-architected into a modern, standalone cloud portal — one managers could run from any device, anywhere. What started as a *mandatory technical migration* became a genuine shift in how post-office managers worked.
+A legacy, counter-bound desktop terminal was re-architected into a modern, standalone cloud portal — one store admins could run from any device, anywhere. What started as a *mandatory technical migration* became a genuine shift in how the people who run a shop actually work.
 
 </Prose>
 
 <OutcomeBand
   items={[
-    { icon: 'rocket', text: <><strong>100% remote-ready portal</strong> — admin work no longer chained to the physical front counter</> },
+    { icon: 'rocket', text: <><strong>100% remote-ready portal</strong> — admin work no longer chained to the physical service desk</> },
     { icon: 'trendUp', text: <><strong>~65% faster onboarding</strong> — user creation and staff setup, down from a slow counter-only process</> },
-    { icon: 'shield', text: <><strong>0% accidental data loss</strong> — a new 7-day recovery window replaced irreversible hard deletes</> },
+    { icon: 'shield', text: <><strong>0% accidental data loss</strong> — a 7-day recovery window (surfaced in testing) replaced irreversible hard deletes</> },
   ]}
 />
 
@@ -77,39 +79,41 @@ A legacy, counter-bound desktop terminal was re-architected into a modern, stand
 </Prose>
 
 <PullQuote variant="principle">
-  <strong>Operational freedom</strong> — move staff management off a single desk-bound terminal and into a device-agnostic cloud, so a manager's location stops deciding what they can get done.
+  <strong>Operational freedom</strong> — move staff management off a single desk-bound terminal and into a device-agnostic cloud, so an admin's location stops deciding what they can get done.
 </PullQuote>
 
 ## The problem
 
 <Prose>
 
-On paper this was a migration: lift a legacy desktop terminal into the cloud. But the terminal wasn't just old — it was *physically trapping* the people who depended on it.
+On paper this was a migration: lift a legacy in-store desktop tool into the cloud. But the tool wasn't just old — it was *physically trapping* the people who depended on it.
 
-**The counter-lock bottleneck.** Managers could only do admin work at the physical front counter — the one machine, in the one spot, that ran the terminal. Every staffing task competed directly with serving customers standing at that same counter.
+Picture a store admin running the counter of a busy shop. They're managing around **eight staff accounts** and serving customers — from the *same machine, at the same desk*. Every bit of admin work happens in the gaps between customers, and the old tool made those gaps expensive.
 
 </Prose>
 
 <ImageFigure
   src={`${IMAGES}/02-counter-lock.png`}
-  alt="A post-office manager at the front counter, split between a customer waiting to be served and the legacy staff-management terminal — the single point where admin work could happen."
+  alt="A store admin at the service desk, split between a customer waiting to be served and the legacy staff-management terminal — the single point where admin work could happen."
   caption="The counter-lock: admin work and customer service fought over the same desk, the same minute."
 />
 
 <Prose>
 
-That single constraint produced everything else:
+Shadowing that work, the friction was specific — not "the UI is dated," but a stack of concrete blocks:
 
-- **A shadow system.** With no remote access, managers copied private staff details into personal paper notebooks so they could do the work at home — sensitive data walking out the door, off any secure system
-- **Interrupted service.** Any staffing change meant stepping away from the customer in front of them
-- **Rehiring friction.** Old database rules blocked managers from easily re-onboarding seasonal staff — a recurring, predictable need the system treated as an exception
+- **No remote access.** Everything had to be done at the service desk — so admin work and serving customers competed for the same minute
+- **A login tax on every task.** To act as admin, they had to log the current user *out* and log back *in* as admin on the counter machine — a context-switch before the real work even started
+- **Deleted users couldn't come back.** Remove someone, and the system refused to re-add them under the same username. For a shop that rehires seasonal staff every peak, a routine rehire became a workaround
+- **Service accounts mixed in with people.** System and service users sat in the same list as real staff, so finding the right person meant hunting
+- **A paper shadow system.** With no remote access, admins copied private staff details into personal notebooks to work from home — sensitive data walking out the door, off any secure system
 
-The instinct with a mandatory migration is to port the thing faithfully and move on. But the paper notebooks were the tell: the real failure wasn't the technology, it was *where* the work was allowed to happen.
+The instinct with a mandatory migration is to port the thing faithfully and move on. But the notebooks were the tell: the real failure wasn't the technology, it was *where* — and *as whom* — the work was allowed to happen.
 
 </Prose>
 
 <PullQuote variant="principle">
-  This was never just a migration. The terminal's real defect was that it bound critical work to one physical location — so the design goal wasn't "recreate the terminal in a browser," it was "unbind the work from the counter."
+  This was never just a migration. The terminal's real defect was that it bound critical work to one physical location and one login — so the goal wasn't "recreate the terminal in a browser," it was "unbind the work from the counter."
 </PullQuote>
 
 ## How I approached it
@@ -118,15 +122,15 @@ The instinct with a mandatory migration is to port the thing faithfully and move
 
 One month, a hard deadline, and a system with real legacy constraints underneath it. I ran this as a lead UX process built for rapid, grounded execution — not a long discovery, but never a blind one either.
 
-The move that mattered most: I went to the stores. During physical site visits and face-to-face interviews, one thing became unambiguous — managers weren't using paper because they *preferred* it. They used it because the system was inaccessible anywhere but the counter.
+The move that mattered most: I went to the stores. During physical site visits and face-to-face interviews, one thing became unambiguous — admins weren't using paper because they *preferred* it. They used it because the system was inaccessible anywhere but the counter.
 
 </Prose>
 
 <ImageFigure
   wide
   src={`${IMAGES}/03-site-visit.png`}
-  alt="Field notes and photos from in-store visits — a manager walking through their real workflow at the counter, with the paper notebook and terminal both in frame."
-  caption="Talking to managers in their actual workspace confirmed the priority I couldn't have ranked from a desk: mobile access came first."
+  alt="Field notes and photos from in-store visits — an admin walking through their real workflow at the counter, with the paper notebook and terminal both in frame."
+  caption="Talking to admins in their actual workspace confirmed the priority I couldn't have ranked from a desk: mobile access came first."
 />
 
 <Prose>
@@ -141,7 +145,7 @@ That visit reset the platform priority. **Mobile access was the #1 request** —
 
 The most important decision wasn't a screen — it was a scope call about the shadow system.
 
-The easy read was: "managers keep paper notebooks, so digitize the list and the notebooks disappear." But the field interviews said something subtler. Managers didn't want paper for its own sake — they wanted a **physical copy they could rely on** when they were away from the counter, offline, or handling an emergency. Take that away with nothing in its place and the notebooks come right back.
+The easy read was: "admins keep paper notebooks, so digitize the list and the notebooks disappear." But the field interviews said something subtler. Admins didn't want paper for its own sake — they wanted a **physical copy they could rely on** when they were away from the counter, offline, or handling an emergency. Take that away with nothing in its place and the notebooks come right back.
 
 So I didn't just digitize the list. I designed a secure **Download / Export** feature into the portal.
 
@@ -150,12 +154,12 @@ So I didn't just digitize the list. I designed a secure **Download / Export** fe
 <ImageFigure
   src={`${IMAGES}/04-export-feature.png`}
   alt="The portal's staff list with a secure Download / Export action — producing a physical-copy export while the live record stays in the cloud as the source of truth."
-  caption="Export gives managers the physical copy they actually needed — while the source of truth stays digital and secure."
+  caption="Export gives admins the physical copy they actually needed — while the source of truth stays digital and secure."
 />
 
 <Prose>
 
-That one addition is what genuinely *eliminated* the shadow system instead of just competing with it. It met the real need — a backup they could hold — while keeping the **source of truth** digital, current, and secure. The paper habit had somewhere legitimate to go.
+That one addition is what set out to *eliminate* the shadow system instead of just competing with it: meet the real need — a backup they could hold — while keeping the **source of truth** digital, current, and secure. Whether it actually worked wasn't mine to assert; it was a question for testing. (It held up — more below.)
 
 </Prose>
 
@@ -167,15 +171,15 @@ That one addition is what genuinely *eliminated* the shadow system instead of ju
 
 <Prose>
 
-Post offices are high-stress, high-distraction retail floors — often being used one-handed, on a small screen, between customers. Every interaction choice below came from designing for *that* environment, not a calm desktop.
+Post offices are high-stress, high-distraction retail floors — often used one-handed, on a small screen, between customers. Every interaction choice below came from designing for *that* environment, not a calm desktop.
 
 </Prose>
 
 <DecisionList
   heading="Adaptive interaction design"
-  eyebrow="Three decisions, and what each one traded off"
+  eyebrow="Four decisions, and what each one traded off"
   icon="sliders"
-  intro={<>The portal had to feel fast and forgiving under pressure. These are the choices that made it so.</>}
+  intro={<>The portal had to feel fast and forgiving under pressure. These are the choices that made it so — each one later put in front of real admins.</>}
   coda={{
     title: 'Designed against a real database',
     body: <>None of this lived in a vacuum — every concept was pressure-tested against the legacy database's actual limits before it went to high fidelity, so what I designed was also what could ship in a month.</>,
@@ -191,7 +195,7 @@ Post offices are high-stress, high-distraction retail floors — often being use
   }}
 >
 
-Selecting **"Admin"** automatically toggles on **"Standard User"** permissions beneath it — because an admin is always also a standard user. A small logic tweak, but during hiring peaks it removed a whole class of clicks and configuration errors: managers couldn't accidentally create an admin who lacked the base permissions to actually work.
+Selecting **"Admin"** automatically toggles on **"Standard User"** permissions beneath it — because an admin is always also a standard user. A small logic tweak, but during hiring peaks it removed a whole class of clicks and configuration errors: admins couldn't accidentally create an admin who lacked the base permissions to actually work. (Testing confirmed this matched how admins already expected it to behave.)
 
 </DecisionBlock>
 
@@ -213,24 +217,79 @@ Selecting **"Admin"** automatically toggles on **"Standard User"** permissions b
   }}
 >
 
-I made the **entire row** a tap target across every staff table (Fitts's Law in practice — the bigger and closer the target, the faster and safer the hit). For a busy manager on a small mobile screen in a high-distraction space, it means fast, error-free navigation instead of hunting for a link.
+I made the **entire row** a tap target across every staff table (Fitts's Law in practice — the bigger and closer the target, the faster and safer the hit). Paired with **color-coded role chips**, an admin can scan a list and act on the right person without hunting. Both landed cleanly in testing.
 
 </DecisionBlock>
 
 <DecisionBlock
   index="03"
-  title="The 7-day safety net for deletes"
+  title="A delete you have to mean"
+  tradeoff={{
+    considered: 'A standard confirm dialog with the destructive action as the default button.',
+    why: (
+      <>
+        In a system now run one-handed between customers, a default-styled "delete" is a fat-fingered
+        data-loss incident waiting to happen. The safeguard had to be in the layout, not just the copy.
+      </>
+    ),
+  }}
 >
 
-The legacy behavior was a **hard delete** — remove a staff member and the record was gone, no recovery. In a system managers now run one-handed between customers, that's a data-loss incident waiting to happen.
+Removing a staff member is destructive, so I made the confirmation *work for its click*: the **Remove** button is high-contrast **red** to signal the weight of the action, while **Cancel** stays visually neutral and is *not* the primary button. That asymmetry forces a conscious *stop-and-think* moment.
 
-So I replaced it with a **soft delete on a 7-day recovery window**, and designed the confirmation to make the stakes unmistakable: *"The account will be permanently removed in 7 days. You can undo the deletion anytime."*
+That was the first line of defense. Testing would tell me it wasn't enough on its own — [see below](#what-testing-changed).
 
-The modal itself does deliberate work: the **Remove** button is high-contrast **red** to signal the seriousness of the action, while **Cancel** stays visually neutral. That asymmetry forces a conscious *stop-and-think* moment — you can't fat-finger your way through a destructive action.
+</DecisionBlock>
+
+<DecisionBlock
+  index="04"
+  title="Bulk creation for hiring peaks"
+  media={{
+    src: `${IMAGES}/10-bulk-create.png`,
+    alt: 'The bulk / import user-creation flow — adding many staff accounts at once from a single import instead of one form at a time.',
+  }}
+>
+
+Onboarding is spiky: a shop hires a wave of seasonal staff at once, not one a week. The old tool made you create each account individually. So I designed **bulk / import creation** — set up many users in a single pass — aimed squarely at the peak when admin time is scarcest. In testing it was the feature that drew a genuine "I don't remember creating them all in one go" — the good kind of surprise.
 
 </DecisionBlock>
 
 </DecisionList>
+
+## What testing changed
+
+<Prose>
+
+Designed isn't done. I put the portal in front of the people who'd live in it — **store admins, the exact role I'd been shadowing** — and ran a usability test on the flows that carried the most risk: the landing page, editing a user, resetting a password, and removing a user. The questions were blunt: *Does the landing page show what you need? Is export actually useful? Would you trust bulk-creating users?*
+
+Here's the whole point of testing, laid out honestly — what held up, and what I had to change:
+
+</Prose>
+
+<ComparisonTable
+  head={['Flow tested', 'What held up', 'What I changed after']}
+  rows={[
+    ['Landing page', 'Clean layout, logical navigation, right info surfaced', '—'],
+    ['Export', <>Useful for offline records &amp; printing lists — the shadow-system fix, confirmed by the people who'd kept the notebooks</>, '—'],
+    ['Edit user', 'Full-row click, color-coded chips, admin-implies-standard', <>Default new users to <strong>Standard</strong>; auto-fill usernames; add a last-name column; hide the unit ID most staff never needed</>],
+    ['Reset password', 'Easy to find; confirm-before-reset reassured', <>Auto-generated <strong>complex</strong> passwords → <strong>simple, admin-defined</strong> ones</>],
+    ['Remove user', <>Confirm isn't the primary button — read as a deliberate safeguard</>, <>Added a <strong>7-day soft-delete</strong> recovery window</>],
+  ]}
+/>
+
+<Prose>
+
+Two of those changes are worth more than a table cell, because they're the reason testing exists.
+
+**The passwords — I was wrong.** I'd designed **auto-generated, complex** passwords on the reasonable-sounding logic that stronger is safer. Admins pushed back immediately: too complex to read out or hand to a new hire on day one at a busy counter. They wanted **simple, admin-defined** passwords they could set and share on the spot. I changed it. A security instinct that ignored the counter reality, corrected by the counter.
+
+**The recovery window wasn't my idea.** My delete had a careful confirmation — testers validated that, then went further and asked to *keep deleted users for about a week before permanent removal*. That request became the **7-day soft delete** — and it quietly solved a *second* problem I'd flagged much earlier: a seasonal worker returning within the window could now be **restored**, instead of colliding with the "can't reuse that username" block. One change from the floor closed two gaps at once.
+
+</Prose>
+
+<PullQuote variant="principle">
+  The most useful hour of the project was the one where I got told I was wrong. The "correct" passwords were unusable, and the recovery window wasn't mine at all. Testing is where a design stops being what I *think* will work and starts being what does.
+</PullQuote>
 
 <BeforeAfter
   before={{
@@ -239,21 +298,21 @@ The modal itself does deliberate work: the **Remove** button is high-contrast **
   }}
   after={{
     src: `${IMAGES}/08-delete-after.png`,
-    alt: 'The new delete modal: a 7-day recovery notice, a high-contrast red Remove button, and a neutral Cancel button.',
+    alt: 'The reshaped delete: a 7-day recovery notice, a high-contrast red Remove button, and a neutral, non-primary Cancel button.',
   }}
-  caption="From irreversible to recoverable — and a modal that makes the weight of the action obvious."
+  caption="The delete testing reshaped — from a careful confirm to a recoverable, restore-anytime action."
 />
 
 ## How the work got made
 
 <Prose>
 
-A one-month deadline forces sharp choices about *where* the time goes. Mine went to the field and the engineering loop — and AI absorbed the slow start.
+A one-month deadline forces sharp choices about *where* the time goes. Mine went to the field, the test, and a tight engineering loop — with AI absorbing the slow start.
 
 </Prose>
 
 <ComparisonTable
-  head={['Phase', 'How I moved fast', 'What it protected']}
+  head={['Lever', 'How I used it', 'What it protected']}
   rows={[
     [
       'AI-accelerated ideation',
@@ -263,19 +322,14 @@ A one-month deadline forces sharp choices about *where* the time goes. Mine went
     [
       'Technical feasibility sync',
       'Ran a tight loop with engineering to stress-test concepts against legacy DB limits',
-      <>Nothing reached high-fidelity that the old database couldn't actually support</>,
-    ],
-    [
-      'Physical validation',
-      'Visited the stores and interviewed managers in their real workspace',
-      <>Confirmed mobile access as the #1 priority — the finding that set the whole layout strategy</>,
+      <>Nothing reached high-fidelity that the old database couldn't support — and its limits shaped the design</>,
     ],
   ]}
 />
 
 <Prose>
 
-The honest version: AI got me *out of the gate* faster, engineering kept the ideas *buildable*, and the store visits made sure I was solving the right problem. None of those three could carry the project alone — the speed came from the sequence.
+The honest version: AI got me *out of the gate* faster, the field and the usability test made sure I was solving the right problem the right way, and engineering's constraints didn't just gate the work — they *shaped* it. Knowing which legacy-database limits were immovable (username reuse being the sharpest) told me exactly where design could win and where it had to defer. None of them could carry the project alone — the speed came from the sequence.
 
 </Prose>
 
@@ -290,18 +344,34 @@ For a mandatory migration, the wins landed where they change how the operation a
 <MetricRow
   items={[
     { icon: 'chart', value: '~65%', label: 'Faster user creation & onboarding' },
-    { icon: 'shield', value: '~0%', label: 'Accidental data loss, via the 7-day window' },
-    { icon: 'layers', value: 'Shadow system', valueText: true, label: 'Eliminated — data secured, off paper' },
+    { icon: 'shield', value: '~0%', label: 'Accidental permanent loss — via the 7-day window' },
+    { icon: 'layers', value: 'Shadow system', valueText: true, label: 'Export validated by the admins who kept the notebooks' },
   ]}
 />
 
 <Prose>
 
-Three outcomes, one through-line:
+A note on these numbers, because attribution is where case studies quietly overreach. Two of the three are **structural** — true the moment the design shipped, not claims about a trend I watched. A 7-day recovery window makes accidental *permanent* loss almost impossible by construction, and moving staff data off paper back onto one secure record removed the shadow system's reason to exist (with usability testers confirming export met the need).
 
-- **Efficiency** — onboarding and user creation got roughly **65% faster**, freeing manager time back to customers
-- **Risk mitigation** — the 7-day recovery window drove accidental data loss to **near zero**
-- **Security compliance** — the paper-based shadow system was **eliminated**, bringing all personal staff information back onto a secure, digital source of truth
+The efficiency figure is the softer one, and I'll flag it as such: **~65% faster onboarding** is the engagement's reported early indicator, not a number I tracked across a full staffing season. The honest read is a strong directional win that a longer runway would firm up — not a measured long-run result I'd defend to the decimal.
+
+</Prose>
+
+## The honest limits
+
+<Prose>
+
+A one-month migration buys focus by deferring things on purpose. Three I'd rather name than hide:
+
+- **The 7-day window came from a tester, and the exact number is still an assumption.** Seven days felt right — long enough to catch a mistake or a quick rehire, short enough to actually purge data. But the *correct* number is an operations question I'd pressure-test against real recovery and rehire patterns, not settle in a design tool.
+- **Export killing the shadow system is validated in the lab, not yet in the wild.** Testers found it genuinely useful — a strong signal — but whether admins *actually* stop keeping paper over a full season is a field question I'd instrument before calling it closed.
+- **Username reuse stayed bounded by the legacy database.** Soft delete softens the returning-worker problem *within* the window; fully removing the "can't reuse that username" friction needed backend change that sat outside a one-month scope.
+
+</Prose>
+
+<Prose>
+
+None of these are reasons the work wasn't ready. They're the line between what a migration can *prove* in a month and what it can only *set up* to learn — and being clear about which is which is the point.
 
 </Prose>
 
@@ -311,16 +381,18 @@ Three outcomes, one through-line:
 
 This project looked like a technical chore — port a legacy terminal to the cloud. The design work was refusing to treat it that way.
 
-The terminal's real defect wasn't that it was old; it was that it bound critical work to one physical spot, which is why the paper notebooks existed at all. Once the goal became *operational freedom* rather than *faithful migration*, everything followed — mobile-first because that's what managers asked for, a secure export because that's what the notebooks were really for, and a recoverable delete because the system now runs in someone's hand between customers.
+The terminal's real defect wasn't that it was old; it was that it bound critical work to one physical spot and one login, which is why the paper notebooks existed at all. Once the goal became *operational freedom* rather than *faithful migration*, everything followed — mobile-first because that's what admins asked for, a secure export because that's what the notebooks were really for, and a recoverable delete because the floor told me a careful confirm wasn't enough.
+
+That last part is the lesson I'd underline: the decisions I'm proudest of here are the ones testing *changed*. The confident design got sharper the moment I let the people at the counter be right.
 
 </Prose>
 
 <PullQuote variant="principle">
-  The best migration doesn't reproduce the old system faithfully — it fixes the constraint the old system forced people to live with. Unbind the work, and the workarounds disappear on their own.
+  The best migration doesn't reproduce the old system faithfully — it fixes the constraint the old system forced people to live with. Unbind the work, test it with the people who do it, and let them correct you.
 </PullQuote>
 
 <Prose>
 
-*Yogesh Shetty · Design Consultant — UX lead on the post-office management portal, end to end*
+*Yogesh Shetty · Design Consultant — UX lead on the staff-management portal, end to end*
 
 </Prose>

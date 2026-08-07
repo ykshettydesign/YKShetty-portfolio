@@ -95,7 +95,7 @@ export const caseStudies = [
     href: '/case-studies/cards', // full case study page
     brief: 'Put a login on every action.',
     card: 'A 2-hour banking task cut to 60 seconds of self-service.',
-    cover: null, // neutral placeholder until a real cover image is dropped in
+    cover: '/case-studies/cards/images/cover.jpg', // drop cover.jpg into that folder
     insight: 'Authenticated only where the risk is — the rest stays instant.',
     problem: 'Clients waited two hours on the phone just to block a lost card, and compliance wanted a login on everything.',
     solution: 'Added authentication only where the real risk was — browsing stays free, blocking takes seconds.',
@@ -116,7 +116,7 @@ export const caseStudies = [
     href: '/case-studies/postoffice', // full case study page
     brief: 'Rebuild the old terminal, screen by screen.',
     card: 'Onboarding 65% faster — a legacy terminal re-architected as a cloud portal.',
-    cover: null, // neutral placeholder until a real cover image is dropped in
+    cover: '/case-studies/postoffice/images/cover.jpg', // drop cover.jpg into that folder
     insight: 'Mapped the system first — one frame the whole suite reuses.',
     problem: 'A legacy desktop terminal chained managers to one location and took weeks to learn.',
     solution: 'Mapped the system first, then built one shared portal — now reused across the whole Nordic suite.',
@@ -137,7 +137,7 @@ export const caseStudies = [
     href: '/case-studies/postbox', // full case study page
     brief: "Sort documents the bank's way, by type.",
     card: 'A complex document archive made self-service — across all three platforms.',
-    cover: null, // neutral placeholder until a real cover image is dropped in
+    cover: '/case-studies/postbox/images/cover.jpg', // drop cover.jpg into that folder
     insight: 'Organised by life event — the way clients actually search.',
     problem: 'Clients needed their banker to find every document, because files were sorted the bank’s way, not theirs.',
     solution: 'Reorganised around life events — the way clients actually think — so they self-serve.',

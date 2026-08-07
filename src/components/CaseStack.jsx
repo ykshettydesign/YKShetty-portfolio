@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import React, { useRef, useState } from 'react'
 import { caseStudies } from '../data/content'
 import { Link } from '../router'
 import { useCaseDeck } from '../hooks/useCaseDeck'
@@ -22,6 +22,9 @@ const PH_GRADIENTS = [
  */
 export default function CaseStack() {
   const trackRef = useRef(null)
+  // A card's `cover` may point at a file that isn't dropped in yet; if it 404s,
+  // fall back to the gradient placeholder instead of showing a broken image.
+  const [failed, setFailed] = useState({})
 
   useCaseDeck(trackRef)
 
@@ -50,7 +53,9 @@ export default function CaseStack() {
 
             {/* RIGHT: the advancing card deck. */}
             <div className="deck">
-              {caseStudies.map((c, i) => (
+              {caseStudies.map((c, i) => {
+                const hasCover = c.cover && !failed[c.id]
+                return (
                 <article key={c.id} className="deck__card" style={{ zIndex: caseStudies.length - i }}>
                   <div className="deck__tint" aria-hidden="true" />
                   <Link
@@ -62,11 +67,11 @@ export default function CaseStack() {
                     <div className="deck__label">Design solution</div>
                     <p className="deck__solution-headline">{c.solution}</p>
                     <div
-                      className={`deck__media${c.cover ? '' : ' deck__media--ph'}`}
-                      style={c.cover ? undefined : { backgroundImage: PH_GRADIENTS[i % PH_GRADIENTS.length] }}
+                      className={`deck__media${hasCover ? '' : ' deck__media--ph'}`}
+                      style={hasCover ? undefined : { backgroundImage: PH_GRADIENTS[i % PH_GRADIENTS.length] }}
                     >
-                      {c.cover ? (
-                        <img src={c.cover} alt="" loading="lazy" />
+                      {hasCover ? (
+                        <img src={c.cover} alt="" onError={() => setFailed((f) => ({ ...f, [c.id]: true }))} />
                       ) : (
                         <span className="deck__ph-index" aria-hidden="true">{c.index}</span>
                       )}
@@ -82,7 +87,8 @@ export default function CaseStack() {
                     </div>
                   </Link>
                 </article>
-              ))}
+                )
+              })}
             </div>
           </div>
         </div>

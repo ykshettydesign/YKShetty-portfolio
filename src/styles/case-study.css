@@ -326,6 +326,57 @@
 }
 .cs-outcome-text strong { display: block; margin-bottom: 3px; color: var(--text-primary); font-weight: 600; }
 
+/* ── Snapshot — read-me-first TL;DR / contribution strip ── */
+.cs-snapshot { max-width: var(--cs-wide); margin-inline: auto; }
+.cs-snapshot-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--cs-accent);
+  margin: 0 0 var(--cs-4);
+}
+.cs-snapshot-grid {
+  display: grid;
+  grid-template-columns: repeat(var(--cs-snapshot-cols, 3), minmax(0, 1fr));
+  background: var(--bg-surface);
+  border: 1px solid var(--border-card);
+  border-left: 2px solid var(--cs-accent);
+  border-radius: var(--cs-radius);
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+}
+.cs-snapshot-grid[data-cells="2"] { --cs-snapshot-cols: 2; }
+.cs-snapshot-cell {
+  padding: clamp(18px, 2.2vw, 24px);
+  display: grid;
+  gap: 9px;
+  align-content: start;
+}
+.cs-snapshot-cell + .cs-snapshot-cell { border-left: 1px solid var(--border-card); }
+.cs-snapshot-label {
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+.cs-snapshot-value {
+  font-family: var(--font-body);
+  font-size: var(--cs-text-small);
+  line-height: 1.55;
+  color: var(--text-secondary);
+}
+.cs-snapshot-value strong { color: var(--text-primary); font-weight: 600; }
+.cs-snapshot-value ul { margin: 0; padding-left: 1.15em; }
+.cs-snapshot-value li { margin-top: 0.4em; }
+.cs-snapshot-value li::marker { color: var(--text-muted); }
+
 /* ============================================================
    PULL QUOTE — variants: user, principle
    ============================================================ */
@@ -952,6 +1003,8 @@
 @media (max-width: 720px) {
   .cs-glance { grid-template-columns: minmax(0, 1fr); }
   .cs-outcomeband-list { grid-template-columns: minmax(0, 1fr); }
+  .cs-snapshot-grid { grid-template-columns: minmax(0, 1fr); }
+  .cs-snapshot-cell + .cs-snapshot-cell { border-left: none; border-top: 1px solid var(--border-card); }
   .cs-illrow-grid { grid-template-columns: minmax(0, 1fr); }
   .cs-beforeafter-grid { grid-template-columns: minmax(0, 1fr); }
   .cs-figure--full { padding-inline: var(--cs-gutter); }

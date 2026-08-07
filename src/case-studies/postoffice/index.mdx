@@ -9,6 +9,7 @@ import {
   DecisionList,
   ComparisonTable,
   MetricRow,
+  Snapshot,
 } from '../../components/case-study'
 
 {/* Base path for this case study's images. Drop the real files into
@@ -56,6 +57,25 @@ export const meta = {
   chip="Mandatory migration, delivered in 1 month"
 />
 
+<Snapshot
+  eyebrow="The 60-second version"
+  icon="compass"
+  items={[
+    {
+      label: 'The problem',
+      value: <>A legacy in-store terminal chained staff admin to the front counter — no remote access, so managers kept private staff data in <strong>paper notebooks</strong> to work from home.</>,
+    },
+    {
+      label: 'What I did',
+      value: <>Reframed a "port the old tool" brief into <strong>unbinding the work from the counter</strong> — field research, the scope call, all interaction design, and a usability test that reshaped what shipped.</>,
+    },
+    {
+      label: 'The result',
+      value: <>A responsive, <strong>remote-ready admin portal</strong>. ~65% faster onboarding, and irreversible deletes replaced with a recoverable 7-day window.</>,
+    },
+  ]}
+/>
+
 ## The outcome
 
 <Prose>
@@ -74,13 +94,9 @@ A legacy, counter-bound desktop terminal was re-architected into a modern, stand
 
 <Prose>
 
-*The whole project ran on one objective:*
+The whole project ran on one objective — **operational freedom**: move staff management off a single desk-bound terminal and into a device-agnostic cloud, so an admin's location stops deciding what they can get done.
 
 </Prose>
-
-<PullQuote variant="principle">
-  <strong>Operational freedom</strong> — move staff management off a single desk-bound terminal and into a device-agnostic cloud, so an admin's location stops deciding what they can get done.
-</PullQuote>
 
 ## The problem
 
@@ -108,19 +124,17 @@ Shadowing that work, the friction was specific — not "the UI is dated," but a 
 - **Service accounts mixed in with people.** System and service users sat in the same list as real staff, so finding the right person meant hunting
 - **A paper shadow system.** With no remote access, admins copied private staff details into personal notebooks to work from home — sensitive data walking out the door, off any secure system
 
-The instinct with a mandatory migration is to port the thing faithfully and move on. But the notebooks were the tell: the real failure wasn't the technology, it was *where* — and *as whom* — the work was allowed to happen.
+The instinct with a mandatory migration is to port the thing faithfully and move on. But the notebooks were the tell: the real failure wasn't the technology, it was *where* — and *as whom* — the work was allowed to happen. **This was never just a migration.** The terminal's real defect was that it bound critical work to one physical location and one login — so the goal wasn't "recreate the terminal in a browser," it was "unbind the work from the counter."
 
 </Prose>
-
-<PullQuote variant="principle">
-  This was never just a migration. The terminal's real defect was that it bound critical work to one physical location and one login — so the goal wasn't "recreate the terminal in a browser," it was "unbind the work from the counter."
-</PullQuote>
 
 ## How I approached it
 
 <Prose>
 
 One month, a hard deadline, and a system with real legacy constraints underneath it. I ran this as a lead UX process built for rapid, grounded execution — not a long discovery, but never a blind one either.
+
+**My default lens on any "modernize the old system" brief:** find the constraint the old tool forced on the people using it, and design to *remove* it — not to reproduce the tool faithfully. Everything below is that lens applied.
 
 The move that mattered most: I went to the stores. During physical site visits and face-to-face interviews, one thing became unambiguous — admins weren't using paper because they *preferred* it. They used it because the system was inaccessible anywhere but the counter.
 
@@ -333,6 +347,33 @@ The honest version: AI got me *out of the gate* faster, the field and the usabil
 
 </Prose>
 
+<Snapshot
+  eyebrow="My contribution — an honest ledger"
+  icon="user"
+  items={[
+    {
+      label: 'What I owned',
+      value: (
+        <ul>
+          <li>The reframe and scope call — including the Export decision that targeted the shadow system</li>
+          <li>Field research, and all interaction & visual design</li>
+          <li>Running the usability test and driving every change out of it</li>
+        </ul>
+      ),
+    },
+    {
+      label: 'What was collaborative (not mine to claim)',
+      value: (
+        <ul>
+          <li>Engineering pressure-tested feasibility against the legacy database and set its hard limits</li>
+          <li>The 7-day recovery window came from a <strong>tester's</strong> suggestion, not me</li>
+          <li>The migration mandate, deadline, and stakes were set by the business</li>
+        </ul>
+      ),
+    },
+  ]}
+/>
+
 ## The impact
 
 <Prose>
@@ -387,7 +428,7 @@ That last part is the lesson I'd underline: the decisions I'm proudest of here a
 
 </Prose>
 
-<PullQuote variant="principle">
+<PullQuote variant="principle" cite="— how I approach any legacy-modernization brief">
   The best migration doesn't reproduce the old system faithfully — it fixes the constraint the old system forced people to live with. Unbind the work, test it with the people who do it, and let them correct you.
 </PullQuote>
 

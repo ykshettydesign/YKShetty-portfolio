@@ -28,8 +28,8 @@ export function DecisionBlock({ title, index, tag, media, tradeoff, children, ..
         <div className="cs-decision-body">{children}</div>
 
         {media ? (
-          <div className="cs-decision-media">
-            <Media src={media.src} alt={media.alt} />
+          <div className={`cs-decision-media${media.phone ? ' cs-decision-media--phone' : ''}`}>
+            <Media src={media.src} alt={media.alt} phone={media.phone} />
             {media.caption ? <div className="cs-caption">{media.caption}</div> : null}
           </div>
         ) : null}

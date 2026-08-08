@@ -44,12 +44,9 @@ export const meta = {
 }
 
 <HeroShowcase
+  bare
   src={`${IMAGES}/01-hero.png`}
-  alt="The Manage card screen: a Neuflize OBC Visa Infinite card, a green ‘This card is active’ status, Card details and Block actions, and live payment and cash-withdrawal limits with progress bars."
-  secondary={{
-    src: `${IMAGES}/02-all-cards.png`,
-    alt: 'The All cards overview — a client’s debit cards as tappable tiles, each showing the last four digits and holder name.',
-  }}
+  alt="Card Management hero — a hand holding a phone showing the Neuflize OBC Manage card screen, with the feature's other screens fanned behind it on a dark backdrop."
   chip="Live in production"
 />
 
@@ -149,13 +146,6 @@ Everything else stayed out of the first release on purpose. Choosing four and de
 
 </Prose>
 
-<ImageFigure
-  wide
-  src={`${IMAGES}/07-user-flows.png`}
-  alt="Two end-to-end user-flow diagrams — ‘Block card & manage payments’ and ‘Limit change’. Each runs Open app → Manage card → Select card → action, then through verification checks (is email/phone on file? verified?), branching to call the bank or verify details when they're missing, and ending in a confirmed change."
-  caption="Before any screens, I mapped each priority task end to end — including the verification branches and their fallbacks. This is where the ‘authenticate at the point of commitment’ and graceful-handoff decisions were actually shaped."
-/>
-
 ## The hard part was translation, not requirements
 
 <Prose>
@@ -197,6 +187,7 @@ Two surfaces carried most of that weight, and I explored both widely before comm
   title="The landing page shows state first, actions second"
   media={{
     src: `${IMAGES}/08-manage-card-final.png`,
+    phone: true,
     alt: 'The final Manage card landing: the card itself, an active/blocked status line, Card details and Block, then live limits with progress bars, then payment toggles, then Delete card.',
   }}
 >
@@ -226,6 +217,7 @@ Before the client types anything, the limit screen shows what they've already us
   title="Authenticate at the point of commitment — not on the way in"
   media={{
     src: `${IMAGES}/09-manage-payments.png`,
+    phone: true,
     alt: 'The Manage payments section: simple on/off toggles for Remote payment, Cash withdrawal and Payment abroad, with no authentication step.',
   }}
   tradeoff={{

@@ -664,6 +664,44 @@
    turning the section into a scroll marathon. */
 .cs-decision-media { margin-top: var(--cs-5); max-width: var(--cs-decision-media-w); }
 .cs-decision-media .cs-caption { margin-top: var(--cs-2); }
+/* When a decision holds a single phone screen, left-align the shell with the text. */
+.cs-decision-media--phone .cs-phone { margin-inline: 0; }
+
+/* ── Phone shell ──────────────────────────────────────────────
+   Opt-in device frame (Media `phone`) that wraps a bare single-screen mobile
+   screenshot so it reads as an intentional mockup, not a floating rectangle.
+   Height follows the image — works for a tall scrolled screen too. */
+.cs-phone {
+  display: block;
+  width: min(288px, 82%);
+  margin-inline: auto;
+  padding: 9px;
+  border-radius: 34px;
+  background: linear-gradient(180deg, #2c2c36 0%, #16161d 100%);
+  box-shadow:
+    0 30px 60px -30px rgba(0, 0, 0, 0.5),
+    0 0 0 1px rgba(255, 255, 255, 0.06),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+}
+.cs-phone-screen {
+  display: block;
+  border-radius: 26px;
+  overflow: hidden;
+  background: #fff;
+}
+.cs-phone-screen .cs-figure-media {
+  display: block;
+  border: 0;
+  border-radius: 0;
+  background: #fff;
+}
+.cs-phone-screen .cs-figure-media img { width: 100%; height: auto; display: block; }
+.cs-phone-screen .cs-placeholder {
+  border: 0;
+  border-radius: 0;
+  width: 100%;
+  aspect-ratio: 9 / 19.5;
+}
 
 /* Trade-off note — kept visually distinct (accent labels + a top rule) but
    compact: a two-column label/text list, no box, no extra padding stack. */

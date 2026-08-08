@@ -6,16 +6,26 @@ import React, { useState } from 'react'
  * placeholder that keeps the layout intact and shows the alt text + filename so
  * intent stays legible until the real asset is dropped in.
  */
-export function Media({ src, alt = '', loading = 'lazy' }) {
+export function Media({ src, alt = '', loading = 'lazy', phone = false }) {
   const [failed, setFailed] = useState(false)
-  if (src && !failed) {
-    return (
+  const inner =
+    src && !failed ? (
       <span className="cs-figure-media">
         <img src={src} alt={alt} loading={loading} decoding="async" onError={() => setFailed(true)} />
       </span>
+    ) : (
+      <Placeholder alt={alt} file={src} />
+    )
+  // `phone` wraps the screen in a device shell — for bare single-screen mobile
+  // shots that should read as an intentional mockup, not a floating rectangle.
+  if (phone) {
+    return (
+      <span className="cs-phone">
+        <span className="cs-phone-screen">{inner}</span>
+      </span>
     )
   }
-  return <Placeholder alt={alt} file={src} />
+  return inner
 }
 
 /** Standalone placeholder — also usable directly for non-image slots. */

@@ -194,19 +194,9 @@ Two surfaces carried most of that weight, and I explored both widely before comm
     src: `${IMAGES}/08-manage-card-final.png`,
     alt: 'The final Manage card landing: the card itself, an active/blocked status line, Card details and Block, then live limits with progress bars, then payment toggles, then Delete card.',
   }}
-  tradeoff={{
-    considered: 'A flat menu of card actions — the conventional pattern.',
-    why: (
-      <>
-        A menu hides the one thing clients open the screen to see: <strong>is my card okay, and what's left on it?</strong> It
-        also flattens risk — listing “view details” and “raise my limit by €30k” as equal rows. Leading with live
-        state, then ordering actions by how often they're used, answered the real first question.
-      </>
-    ),
-  }}
 >
 
-The landing page opens with the card and a plain status line — *this card is active* — then live payment and cash-withdrawal limits as progress bars, then management actions, and only then the destructive ones. It reads top to bottom as *reassurance → routine → rare*.
+The landing page opens with the card and a plain status line — *this card is active* — then live payment and cash-withdrawal limits as progress bars, then management actions, and only then the ones you can't undo. It reads top to bottom as *reassurance → routine → rare*: the client sees their card is okay, and what's left on it, before anything else — not an undifferentiated list where viewing details looks no different from raising a limit by €30k.
 
 </DecisionBlock>
 
@@ -219,19 +209,9 @@ The landing page opens with the card and a plain status line — *this card is a
     alt: 'The limit context card shown before input: “Remaining balance €5.750,00” with a progress bar reading “You spent €29.430 out of €30.000 within your current payment limit.”',
     caption: 'Context before the field — what you’ve used and how high you’re allowed to go — so the number a client enters is an informed one.',
   }}
-  tradeoff={{
-    considered: 'Dropping the client straight onto an empty amount field, the fastest path to “done”.',
-    why: (
-      <>
-        The most common source of errors — and follow-up support calls — was clients setting a limit whose
-        <strong> bounds they didn't understand</strong>. Showing current spend against the permitted ceiling{' '}
-        <em>before</em> the field turns a guess into an informed number, and pre-empts the call that used to follow.
-      </>
-    ),
-  }}
 >
 
-Before the client types anything, the limit screen shows what they've already used and the ceiling they're allowed to reach. It's the same "state first" instinct as the landing page, applied to the riskiest input in the feature — the moment a wrong number actually has consequences.
+Before the client types anything, the limit screen shows what they've already used and the ceiling they're allowed to reach. It's the same "state first" instinct as the landing page, applied to the riskiest input in the feature. This was the fix for the most common error we saw — clients setting a limit without understanding its bounds, then calling to sort it out afterwards.
 
 </DecisionBlock>
 
@@ -292,20 +272,9 @@ The flow makes duration part of the request: a client raises the limit *for seve
     src: `${IMAGES}/11-block-card.png`,
     alt: 'The block flow: a confirmation sheet to block the card, and the resulting blocked state with a padlock over the card, an Unblock action, and a note to call support to fully cancel.',
   }}
-  tradeoff={{
-    considered: 'Treating block as a single destructive “cancel card” action.',
-    why: (
-      <>
-        Blocking is usually a <em>panic</em> action — a card that's briefly missing. It should be instant and, just
-        as importantly, <strong>reversible in seconds</strong> when the card turns up. Cancellation is destructive and
-        rare, so it deliberately stays a call. Collapsing the two would make the common, urgent case as heavy as the
-        rare one.
-      </>
-    ),
-  }}
 >
 
-A client blocks a card in one confirmation, and the card visibly locks. If it resurfaces, they unblock it just as fast — no call, no wait. Permanent cancellation, which can't be undone, still routes to support on purpose.
+A client blocks a card in one confirmation, and it visibly locks. Blocking is usually a moment of panic — a card briefly missing — so it's built to be undone in seconds: if it turns up, they unblock it just as fast, no call, no wait. Permanent cancellation can't be undone, so it deliberately stays a call to support.
 
 </DecisionBlock>
 

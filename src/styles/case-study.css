@@ -664,8 +664,10 @@
    turning the section into a scroll marathon. */
 .cs-decision-media { margin-top: var(--cs-5); max-width: var(--cs-decision-media-w); }
 .cs-decision-media .cs-caption { margin-top: var(--cs-2); }
-/* When a decision holds a single phone screen, left-align the shell with the text. */
-.cs-decision-media--phone .cs-phone { margin-inline: 0; }
+/* A single portrait phone screen — capped to phone-sized width so it doesn't
+   dominate the column (a full-width 9:19.5 shot renders enormous). Scoped under
+   .cs-decision-main so it beats the responsive `.cs-decision-media` reset too. */
+.cs-decision-main .cs-decision-media--portrait { max-width: 300px; }
 
 /* ── Phone shell ──────────────────────────────────────────────
    Opt-in device frame (Media `phone`) that wraps a bare single-screen mobile

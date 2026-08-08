@@ -635,6 +635,20 @@
   color: var(--text-primary);
   margin: 0;
 }
+/* Optional category chip (Strategy / Interaction / Trust …) in the left rail. */
+.cs-decision-tag {
+  display: inline-block;
+  margin-top: 11px;
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: var(--accent-soft-bg);
+  color: var(--accent-strong);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
 .cs-decision-main { min-width: 0; }
 .cs-decision-body {
   font-family: var(--font-body);

@@ -195,6 +195,7 @@ Two surfaces carried most of that weight, and I explored both widely before comm
 
 <DecisionBlock
   index="01"
+  tag="Interaction"
   title="The landing page shows state first, actions second"
   media={{
     src: `${IMAGES}/08-manage-card-final.png`,
@@ -218,6 +219,32 @@ The landing page opens with the card and a plain status line — *this card is a
 
 <DecisionBlock
   index="02"
+  tag="Interaction"
+  title="Show current usage and the ceiling before any input"
+  media={{
+    src: `${IMAGES}/12-limit-context.png`,
+    alt: 'The limit context card shown before input: “Remaining balance €5.750,00” with a progress bar reading “You spent €29.430 out of €30.000 within your current payment limit.”',
+    caption: 'Context before the field — what you’ve used and how high you’re allowed to go — so the number a client enters is an informed one.',
+  }}
+  tradeoff={{
+    considered: 'Dropping the client straight onto an empty amount field, the fastest path to “done”.',
+    why: (
+      <>
+        The most common source of errors — and follow-up support calls — was clients setting a limit whose
+        <strong> bounds they didn't understand</strong>. Showing current spend against the permitted ceiling{' '}
+        <em>before</em> the field turns a guess into an informed number, and pre-empts the call that used to follow.
+      </>
+    ),
+  }}
+>
+
+Before the client types anything, the limit screen shows what they've already used and the ceiling they're allowed to reach. It's the same "state first" instinct as the landing page, applied to the riskiest input in the feature — the moment a wrong number actually has consequences.
+
+</DecisionBlock>
+
+<DecisionBlock
+  index="03"
+  tag="Security"
   title="Authenticate at the point of commitment — not on the way in"
   media={{
     src: `${IMAGES}/09-manage-payments.png`,
@@ -240,7 +267,8 @@ Viewing card state and flipping low-risk controls — remote payment, cash withd
 </DecisionBlock>
 
 <DecisionBlock
-  index="03"
+  index="04"
+  tag="Compliance"
   title="Default the limit change to temporary, not permanent"
   media={{
     src: `${IMAGES}/10-limit-change-final.png`,
@@ -264,7 +292,8 @@ The flow makes duration a first-class part of the request: a client raises the l
 </DecisionBlock>
 
 <DecisionBlock
-  index="04"
+  index="05"
+  tag="Interaction"
   title="Block is instant and reversible — cancelling stays with a human"
   media={{
     src: `${IMAGES}/11-block-card.png`,
@@ -287,11 +316,17 @@ A client blocks a card in one confirmation, and the card visibly locks. If it re
 
 </DecisionBlock>
 
-<DecisionBlock index="05" title="When verification is missing, fall back — don't dead-end">
+<DecisionBlock
+  index="06"
+  tag="Trust"
+  title="Keep the human reachable — and hand off gracefully"
+>
 
-A sensitive change needs verified contact details to confirm it's really the client. Rather than let someone reach the end of a flow and hit a wall, the design checks up front: if a verified email or phone number is on file, the change proceeds and the identity step confirms it; if not, the flow routes cleanly to the bank to sort the details out first.
+Self-service should never feel like abandonment — least of all in private banking, where the relationship-manager bond carries real value. So a **Call customer service shortcut sits at the bottom of every screen**: the client is always one tap from a person, even mid-flow.
 
-It's the unglamorous decision that keeps a security requirement from becoming a dead end — the app degrades to a human hand-off gracefully, instead of failing the client at the last step.
+The same instinct shows up in how the flows fail safely. A sensitive change needs verified contact details to confirm it's really the client — so the design checks up front. If a verified email or phone is on file, the change proceeds; if not, the flow routes cleanly to the bank to fix the details first, rather than letting someone reach the last step and hit a wall.
+
+The vast majority of cases now resolve in the app. This decision is for the ones that don't: give them a clean exit, not a dead end.
 
 </DecisionBlock>
 

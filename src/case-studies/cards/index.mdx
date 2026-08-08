@@ -4,11 +4,8 @@ import {
   PullQuote,
   ImageFigure,
   HeroShowcase,
-  BeforeAfter,
   DecisionBlock,
   DecisionList,
-  ComparisonTable,
-  MetricRow,
 } from '../../components/case-study'
 
 {/* Base path for this case study's images. Drop the real files into
@@ -88,7 +85,7 @@ The feature I designed is **live in production** on native iOS and Android. It t
 
 <Prose>
 
-Picture being a private-banking client who wants to raise a card limit before a large purchase. You can't just do it. You call — or email — your relationship manager (RM). They pick up, eventually. You explain. They pass it to the operations team, who log into the card-management back office and make the change by hand, then tell the RM, who tells you it's done.
+Picture being a private-banking client who wants to raise a card's spending limit before a big purchase. You can't do it yourself. You call — or email — your relationship manager, the personal banker every client is assigned. Eventually they pick up. You explain. They pass it to the operations team, who open the bank's internal system and make the change by hand, then report back up the chain to you.
 
 Nothing about that request was complex. The wait was **entirely structural** — the client simply had no door into the system.
 
@@ -112,12 +109,12 @@ The core question was blunt: *could card management become fully self-service �
   wide
   src={`${IMAGES}/03-current-journey.png`}
   alt="A service blueprint of the current journey for raising a card limit: client → relationship manager → operations team → card back-office → back again, with a row of frowning faces and pain-point notes across every handoff."
-  caption="The old journey for one limit change. Every column is a handoff; every handoff is a place it can stall — and the client can't act at any point in the chain."
+  caption="The old journey for one limit change: every column is a handoff, and the client can't act at any point in the chain."
 />
 
 <Prose>
 
-Laid out end to end, the diagnosis was obvious: **every step was a handoff, and every handoff was a failure point** — a person to reach, a queue to wait in, a verbal instruction that could be misheard, and no status the client could see. The job wasn't to speed the chain up. It was to collapse it into a single self-contained flow the client runs alone.
+The pattern was the whole problem: **every step was a handoff, and every handoff was a place it could stall.** The fix wasn't to speed the chain up — it was to remove it, and let the client do the whole thing themselves.
 
 </Prose>
 
@@ -125,9 +122,9 @@ Laid out end to end, the diagnosis was obvious: **every step was a handoff, and 
 
 <Prose>
 
-I started with interviews on both sides of the counter — clients, RMs, operations, and digital support — to map where the friction actually lived rather than where the business assumed it did. Two pictures lined up: clients felt powerless over trivial tasks, and the internal teams knew these requests were routine and repetitive but still had to touch every one.
+I started with interviews on both sides of the counter — clients, bankers, operations, digital support — to find where the friction actually lived, not where the business assumed it did. Both sides agreed: clients felt powerless over trivial tasks, and the internal teams knew these requests were routine but still had to touch every one.
 
-Then, before drawing anything, I ran a **workshop with stakeholders** to pressure-test the problem space — mapping the card tasks clients actually did against the problems they actually hit, so we designed for real behaviour, not an assumed feature list.
+Then, before drawing anything, I ran a **workshop with stakeholders** — mapping the tasks clients actually did against the problems they actually hit, so we built for real behaviour, not an assumed feature list.
 
 </Prose>
 
@@ -139,16 +136,16 @@ Then, before drawing anything, I ran a **workshop with stakeholders** to pressur
 
 <Prose>
 
-That mapping is where the **scope decision** got made. Clients hit a long tail of card problems, but four rose to the top on frequency and on how cleanly they could be solved self-service:
+That mapping is where the **scope decision** got made. Four problems rose to the top — on how often they happened, and how cleanly they could go self-service:
 
 - **Limit change** — the single most common request
 - **Block / unblock** — urgent and time-sensitive by nature
 - **Card removal** — rare, but entirely manual today
 - **Payments abroad** — recurring friction for travelling clients
 
-Everything else stayed out of v1 on purpose. Choosing four and defending the boundary mattered as much as the design itself.
+Everything else stayed out of the first release on purpose. Choosing four and defending the boundary mattered as much as the design itself.
 
-**One boundary worth naming:** I owned the client-facing design across those flows and the card landing page. The routing and limit *policy*, the card-management back office, and the identity/authentication service were the bank's systems — engineering owned whether the app could even reach them, and the entire self-service premise rode on that access being there. Knowing exactly where my slice started and ended shaped every trade-off below.
+**One boundary worth naming:** I owned the client-facing design — the flows and the screens. The bank's back-end systems — the ones that set the limits, hold the card data, and check a client's identity — belonged to engineering, and the whole idea depended on the app being able to reach them. Knowing where my slice started and ended shaped every trade-off below.
 
 </Prose>
 
@@ -156,13 +153,9 @@ Everything else stayed out of v1 on purpose. Choosing four and defending the bou
 
 <Prose>
 
-I'll be honest about where the difficulty was on this one. The *requirement* was never ambiguous: make card management self-service, keep it bank-grade secure. The challenge was entirely in the **design** — turning a task that had always been mediated by a person, with all the verification and reassurance that person quietly provided, into a screen a client trusts enough to act on alone.
+I'll be honest about where the difficulty was. The *ask* was never ambiguous: make card management self-service, keep it bank-grade secure. The hard part was the **design** — turning a task that had always been handled by a person, with all the checking and reassurance that person quietly provided, into a screen a client trusts enough to act on alone.
 
-Two surfaces carried most of that weight, and I explored both widely before committing:
-
-**The card landing page** had to answer a client's first two questions at a glance — *what can I do here, and is my card okay?* — without burying the state under a menu.
-
-**The limit-change interaction** had to hold a surprising amount: how much, for how long, whether it's permanent or temporary, and proof that it's really you — all without feeling like the phone call it replaced.
+Two surfaces carried most of that weight, and I explored both widely before committing. **The card landing page** had to answer a client's first two questions at a glance — *what can I do here, and is my card okay?* **The limit-change flow** had to hold a lot at once — how much, for how long, and proof it's really you — without feeling like the phone call it replaced.
 
 </Prose>
 
@@ -170,7 +163,7 @@ Two surfaces carried most of that weight, and I explored both widely before comm
   wide
   src={`${IMAGES}/05-landing-explorations.png`}
   alt="Six explorations of the card landing page side by side, varying how card state, limits, management actions and payment toggles are ordered and grouped."
-  caption="Landing-page explorations. The question every variant was tested against: does a client see their card's state and their next action without thinking?"
+  caption="Landing-page explorations, each tested against one question: does a client see their card's state and next action without thinking?"
 />
 
 <ImageFigure
@@ -262,7 +255,7 @@ Before the client types anything, the limit screen shows what they've already us
   }}
 >
 
-Viewing card state and flipping low-risk controls — remote payment, cash withdrawal, payments abroad — happen instantly, because they're reversible and carry little exposure. The identity check appears only when a client is about to do something that would actually cost them if it were the wrong person. Same feature, friction calibrated to the stakes.
+Viewing your card and flipping low-risk switches — remote payment, cash withdrawal, payments abroad — happen instantly. The identity check appears only when a client is about to do something that would actually cost them if it were the wrong person. Same feature, friction matched to the stakes.
 
 </DecisionBlock>
 
@@ -287,7 +280,7 @@ Viewing card state and flipping low-risk controls — remote payment, cash withd
   }}
 >
 
-The flow makes duration a first-class part of the request: a client raises the limit *for seven days*, or *for thirty*, up to a clearly shown ceiling, and it reverts on its own. The card landing then carries a quiet “temporarily valid until…” marker so the temporary state is never a surprise. Identity is proven with a PIN step folded into the flow — not a separate hoop.
+The flow makes duration part of the request: a client raises the limit *for seven days*, or *for thirty*, up to a clearly shown ceiling, and it reverts on its own. The card screen then shows a quiet “temporarily valid until…” note, so the temporary state is never a surprise. Identity is proven with a PIN step folded into the flow — not a separate hoop.
 
 </DecisionBlock>
 
@@ -324,7 +317,7 @@ A client blocks a card in one confirmation, and the card visibly locks. If it re
 
 Self-service should never feel like abandonment — least of all in private banking, where the relationship-manager bond carries real value. So a **Call customer service shortcut sits at the bottom of every screen**: the client is always one tap from a person, even mid-flow.
 
-The same instinct shows up in how the flows fail safely. A sensitive change needs verified contact details to confirm it's really the client — so the design checks up front. If a verified email or phone is on file, the change proceeds; if not, the flow routes cleanly to the bank to fix the details first, rather than letting someone reach the last step and hit a wall.
+The same instinct shows up in how the flows fail safely. A sensitive change needs verified contact details — so the app checks up front, and if they're missing, it sends the client to the bank to fix that first, instead of dead-ending them at the last step.
 
 The vast majority of cases now resolve in the app. This decision is for the ones that don't: give them a clean exit, not a dead end.
 
@@ -336,9 +329,9 @@ The vast majority of cases now resolve in the app. This decision is for the ones
 
 <Prose>
 
-None of this shipped as bespoke UI. Every screen is built on **ABN AMRO's Emerald design system**, so the feature reads as part of the wider app rather than a bolt-on, and it moved into development faster because engineering was assembling known, governed components rather than interpreting one-off designs.
+None of this shipped as custom, one-off design. Every screen is built from **ABN AMRO's Emerald design system** — the bank's shared library of ready-made, approved components — so the feature feels part of the wider app, and it reached development faster because engineers were assembling known pieces rather than interpreting new ones.
 
-That's the quiet leverage of designing inside a system: my slice was the *flows and the decisions*; the system carried the consistency and cut the handoff cost. On a regulated private-banking app, that's not a constraint to work around — it's what makes the work trustworthy and shippable.
+That's the quiet leverage of working inside a system: I owned the *flows and the decisions*; the system carried the consistency and cut the build cost. On a regulated banking app, that's not a constraint to work around — it's what makes the work shippable.
 
 </Prose>
 
@@ -354,9 +347,9 @@ That's the quiet leverage of designing inside a system: my slice was the *flows 
 
 The honest boundary of this release: **not every card action became self-service, and that was a design choice, not a gap I missed.**
 
-Two things still route to a person. **Permanently cancelling a card** stays with the support team — it's irreversible and identity-sensitive, and the seconds saved by automating it aren't worth the risk of getting it wrong. And **correcting stale contact details** — a wrong email or phone number on file — routes to the relationship manager rather than letting the client edit the very data used to verify them.
+Two things still route to a person — **permanently cancelling a card**, and **fixing a wrong email or phone number** on file. Both are irreversible or identity-sensitive: cancellation can't be undone, and letting a client edit the very details used to verify them would defeat the check. The seconds saved by automating either aren't worth the risk.
 
-Both are deliberate. In a private bank, the right MVP isn't the one that automates the most actions — it's the one that automates every action where self-service is clearly *safer and faster*, and knows precisely where to stop. Naming that line is the point, not apologising for it.
+Both are deliberate. In a private bank, the right first release isn't the one that automates the most actions — it's the one that automates every action where doing it yourself is clearly *safer and faster*, and knows exactly where to stop. Naming that line is the point, not apologising for it.
 
 </Prose>
 
@@ -371,23 +364,9 @@ Both are deliberate. In a private bank, the right MVP isn't the one that automat
 
 <Prose>
 
-The change isn't just faster for the client — it changes who does the work.
+The numbers up top are the operation's own — measured internally, not estimated by me, and the reason the project got prioritised. But the bigger change was in *who does the work*: bankers got hours back for the advisory conversations that justify a private bank, operations stopped being a manual relay, and clients got something a phone call never gave them — the ability to act the moment they needed to.
 
-</Prose>
-
-<MetricRow
-  items={[
-    { icon: 'zap', value: '2h → taps', label: 'Time to change a card limit', note: 'Client acts directly — no RM in the loop' },
-    { icon: 'users', value: '2,000+/yr', label: 'Card requests off RMs’ desks', note: 'Freeing them for advisory work' },
-    { icon: 'ban', value: '~80 hrs/wk', label: 'Manual operations work removed', note: 'The middle layer, automated away' },
-  ]}
-/>
-
-<Prose>
-
-The figures above are the operation's own numbers — measured internally rather than estimated by me, and the reason the project got prioritised. Beyond the time saved, the *shape* of the work shifted: RMs got hours back for the advisory conversations that justify a private bank, operations stopped being a manual relay, and the client got something a phone call never gave them — the ability to act the moment they needed to.
-
-It also set the pattern. Proving that a genuinely sensitive banking task could be made self-service — securely, inside the design system — laid the groundwork for the next self-service capabilities on the platform.
+It also set a pattern — proving a genuinely sensitive banking task could be made self-service, safely, cleared the way for the next ones.
 
 </Prose>
 

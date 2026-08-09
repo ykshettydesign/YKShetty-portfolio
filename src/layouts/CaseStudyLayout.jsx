@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react'
 import CaseStudyHeader from './CaseStudyHeader'
 import { contact } from '../data/content'
 import { Link } from '../router'
-import { Icon } from '../components/case-study'
+import { Icon, SectionRail } from '../components/case-study'
 import { useScrollReveal } from '../hooks/useScrollReveal'
 
 /** Default icon per standard glance label (a case study can override via meta). */
@@ -82,6 +82,9 @@ export default function CaseStudyLayout({ meta = {}, next, children }) {
           <article className="cs-content">{children}</article>
         </div>
       </main>
+
+      <SectionRail />
+
 
       <CaseStudyFooter next={next} />
     </div>

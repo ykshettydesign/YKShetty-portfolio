@@ -23,6 +23,7 @@ export { Snapshot } from './Snapshot'
 export { SectionHeading, SubHeading, SectionIconsContext } from './SectionHeading'
 export { Media, Placeholder } from './Media'
 export { Icon } from './Icon'
+export { SectionRail } from './SectionRail'
 
 /**
  * Map for <MDXProvider>. Keeps hand-authored MDX terse: `## Heading` becomes a

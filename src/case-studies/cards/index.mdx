@@ -45,9 +45,9 @@ export const meta = {
 
 <HeroShowcase
   bare
+  light
   src={`${IMAGES}/01-hero.png`}
-  alt="Card Management hero — a hand holding a phone showing the Neuflize OBC Manage card screen, with the feature's other screens fanned behind it on a dark backdrop."
-  chip="Live in production"
+  alt="Card Management hero — a hand holding a phone showing the Neuflize OBC Manage card screen, with the feature's other screens fanned behind it."
 />
 
 ## The outcome
@@ -240,11 +240,6 @@ Viewing your card and flipping low-risk switches — remote payment, cash withdr
   index="04"
   tag="Compliance"
   title="Default the limit change to temporary, not permanent"
-  media={{
-    src: `${IMAGES}/10-limit-change-final.png`,
-    alt: 'The limit-change flow across screens: enter a new amount within a shown ceiling, a summary of current versus new limit with an end date, a 5-digit PIN identity step, and a success confirmation.',
-    caption: 'Enter an amount within the ceiling → confirm the summary → prove identity → done. The end date is part of the request, not an afterthought.',
-  }}
   tradeoff={{
     considered: 'A single permanent “new limit” field, the simplest possible control.',
     why: (
@@ -260,6 +255,15 @@ Viewing your card and flipping low-risk switches — remote payment, cash withdr
 The flow makes duration part of the request: a client raises the limit *for seven days*, or *for thirty*, up to a clearly shown ceiling, and it reverts on its own. The card screen then shows a quiet “temporarily valid until…” note, so the temporary state is never a surprise. Identity is proven with a PIN step folded into the flow — not a separate hoop.
 
 </DecisionBlock>
+
+{/* The 6-screen limit flow is a full-width panel (not cramped in the decision
+    column) so each screen is legible — matching the delete-card flow. */}
+<ImageFigure
+  wide
+  src={`${IMAGES}/10-limit-change-final.png`}
+  alt="The limit-change flow across screens: enter a new amount within a shown ceiling, a summary of current versus new limit with an end date, a 5-digit PIN identity step, and a success confirmation."
+  caption="The limit-change flow — enter an amount within the ceiling → confirm the summary → prove identity → done. The end date is part of the request, not an afterthought."
+/>
 
 <DecisionBlock
   index="05"

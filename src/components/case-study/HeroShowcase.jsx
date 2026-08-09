@@ -11,11 +11,12 @@ import { Media } from './Media'
  * primary (e.g. the handheld TC57 next to the tablet — telegraphs the
  * "two form factors" story up front). Falls back to styled placeholders.
  */
-export function HeroShowcase({ src, alt = '', chip, secondary, bare, ...rest }) {
+export function HeroShowcase({ src, alt = '', chip, secondary, bare, light, ...rest }) {
   const cls = [
     'cs-hero',
     secondary && !bare ? 'cs-hero--multi' : '',
     bare ? 'cs-hero--bare' : '',
+    light ? 'cs-hero--light' : '',
   ].filter(Boolean).join(' ')
 
   return (

@@ -667,7 +667,15 @@
 /* A single portrait phone screen — capped to phone-sized width so it doesn't
    dominate the column (a full-width 9:19.5 shot renders enormous). Scoped under
    .cs-decision-main so it beats the responsive `.cs-decision-media` reset too. */
-.cs-decision-main .cs-decision-media--portrait { max-width: 300px; }
+.cs-decision-main .cs-decision-media--portrait { max-width: 250px; }
+/* A full-width flow panel placed between decision rows: give it decision-rhythm
+   spacing, and restore the hairline separator on the decision that follows it. */
+.cs-decisionlist-rows > .cs-figure { margin-block: clamp(28px, 4vw, 40px); }
+.cs-decisionlist-rows > .cs-figure + .cs-decision {
+  margin-top: clamp(28px, 4vw, 40px);
+  padding-top: clamp(28px, 4vw, 40px);
+  border-top: 1px solid var(--border-subtle);
+}
 
 /* ── Phone shell ──────────────────────────────────────────────
    Opt-in device frame (Media `phone`) that wraps a bare single-screen mobile
@@ -1027,13 +1035,24 @@
 }
 
 /* Bare variant — image renders directly without device frames,
-   background overridable via --cs-hero-bg inline style. */
+   background overridable via --cs-hero-bg inline style. Bottom-aligned so an
+   art-directed composite (e.g. a hand reaching up) meets the section's edge. */
 .cs-hero--bare {
   background: var(--cs-hero-bg, radial-gradient(120% 150% at 80% 8%, #1b5e3a 0%, #14402a 34%, #0b1f12 72%, #09140d 100%));
+  align-items: end;
+  padding-bottom: 0;
 }
 .cs-hero--bare .cs-hero-glow {
   background: radial-gradient(circle, rgba(46, 125, 50, 0.5), transparent 62%);
 }
+
+/* Light variant — for a transparent, light-toned composite. Backdrop matches the
+   image's warm-grey tone; the dark-hero glow/grid motifs are dropped. */
+.cs-hero--light {
+  background: var(--cs-hero-bg, linear-gradient(180deg, #edeae6 0%, #ddd8d1 100%));
+}
+.cs-hero--light .cs-hero-glow,
+.cs-hero--light .cs-hero-grid { display: none; }
 .cs-hero--bare .cs-hero-stage .cs-figure-media {
   background: transparent;
   border: none;

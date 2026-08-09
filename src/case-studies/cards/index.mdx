@@ -1,5 +1,5 @@
 import {
-  OutcomeBand,
+  MetricRow,
   Prose,
   PullQuote,
   ImageFigure,
@@ -56,16 +56,18 @@ export const meta = {
 
 At Neuflize OBC — ABN AMRO's private bank in France — clients had **no way to manage their own debit cards**. Adjusting a limit, blocking a lost card, turning on payments abroad: each one meant contacting a relationship manager and waiting.
 
-The feature I designed is **live in production** on native iOS and Android. It takes a change that used to run through two people and up to two hours, and resolves it in a few taps — while keeping every check a private bank needs.
+The feature I designed is **live in production** on native iOS and Android — not a prototype or a stalled pilot. It takes a change that used to run through two people and up to two hours, and resolves it in seconds, while keeping every check a private bank needs.
 
 </Prose>
 
-<OutcomeBand
+<MetricRow
+  band
   items={[
-    { icon: 'rocket', text: <><strong>Shipped and live</strong> on iOS and Android — clients now manage their own cards, not a prototype or a stalled pilot</> },
-    { icon: 'zap', text: <><strong>Up to two hours → a matter of taps</strong> — the client acts directly, with no relationship-manager handoff in the loop</> },
-    { icon: 'users', text: <><strong>Routine work off two teams' desks</strong> — thousands of card requests a year no longer route through RMs and operations by hand</> },
+    { before: '2-hour wait', value: '< 60 sec', note: 'to complete any card-management task' },
+    { before: '2,000+ manual requests / yr', value: '~85%', note: 'of card-related RM requests moved to self-service' },
+    { before: '~80 ops hours / week', value: '~75%', note: 'of manual processing automated end-to-end' },
   ]}
+  caption="Before → after · figures reported by the client's customer-service department"
 />
 
 <Prose>
@@ -336,9 +338,9 @@ Both are deliberate. In a private bank, the right first release isn't the one th
 
 <Prose>
 
-The numbers up top are the operation's own — measured internally, not estimated by me, and the reason the project got prioritised. But the bigger change was in *who does the work*: bankers got hours back for the advisory conversations that justify a private bank, operations stopped being a manual relay, and clients got something a phone call never gave them — the ability to act the moment they needed to.
+Those figures came from the client's customer-service department — the people who used to field the work — which is the validation I trust most. But the number I care about is *who does the work* now: bankers got hours back for the advisory conversations that justify a private bank, operations stopped being a manual relay, and clients got something a phone call never gave them — the ability to act the moment they needed to.
 
-It also set a pattern — proving a genuinely sensitive banking task could be made self-service, safely, cleared the way for the next ones.
+The work also laid the groundwork for further self-service across the platform — and showed stakeholders that a frictionless client experience and the compliance demands of a regulated private bank aren't in opposition. They can be designed for together.
 
 </Prose>
 

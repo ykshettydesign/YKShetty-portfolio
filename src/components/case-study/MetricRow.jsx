@@ -3,16 +3,20 @@ import { Icon } from './Icon'
 
 /**
  * Outcomes as label + status/value cards, each anchored by an icon chip.
- *   items = [{ icon, value, valueText, label, note }]
+ *   items = [{ before, icon, value, valueText, label, note }]
  * `value` is the headline (accent figure by default; `valueText` renders a
- * textual status in ink). Cards flow responsively (auto-fit) and never squash.
+ * textual status in ink). `before` renders a struck-through "old" value above
+ * it, so a card reads as a before → after delta. Cards flow responsively.
+ *   band    — wraps the row in a tinted container (for a highlighted outcome)
+ *   caption — a small line beneath (e.g. source/attribution of the figures)
  */
-export function MetricRow({ items = [], ...rest }) {
+export function MetricRow({ items = [], band = false, caption, ...rest }) {
   return (
-    <div className="cs-metricrow" {...rest}>
+    <div className={`cs-metricrow${band ? ' cs-metricrow--band' : ''}`} {...rest}>
       <div className="cs-metricrow-grid">
         {items.map((item, i) => (
           <div className="cs-metric" key={i}>
+            {item.before ? <div className="cs-metric-before">{item.before}</div> : null}
             {item.icon ? (
               <span className="cs-metric-icon" aria-hidden="true">
                 <Icon name={item.icon} size={18} />
@@ -28,6 +32,7 @@ export function MetricRow({ items = [], ...rest }) {
           </div>
         ))}
       </div>
+      {caption ? <div className="cs-metricrow-caption">{caption}</div> : null}
     </div>
   )
 }

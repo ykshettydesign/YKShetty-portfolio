@@ -103,7 +103,7 @@ export const caseStudies = [
       'Private-bank clients waited two hours on the phone just to block a card, and compliance wanted authentication over everything. I authenticated at the point of commitment instead — browsing stays free, and risk signed off in a single round.',
     stats: [
       { value: '2h→60s', label: 'Resolution time' },
-      { value: '~90%', label: 'Calls deflected' },
+      { value: '~85%', label: 'Requests self-served' },
     ],
     mailto: `mailto:${CONTACT_EMAIL}?subject=Self-service%20cards`,
     seed: { x: 0.96, y: 0.33, r: 2 },

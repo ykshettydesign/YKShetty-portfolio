@@ -858,6 +858,32 @@
   line-height: 1.5;
   color: var(--text-secondary);
 }
+/* Before → after: struck-through "old" value above the headline figure. */
+.cs-metric-before {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+  text-decoration: line-through;
+  text-decoration-thickness: 1px;
+}
+/* Tinted container for a highlighted outcome band + its source line. */
+.cs-metricrow--band {
+  background: var(--accent-soft-bg);
+  border-radius: 20px;
+  padding: clamp(16px, 2.6vw, 28px);
+}
+.cs-metricrow-caption {
+  margin-top: 14px;
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+}
 
 /* ============================================================
    FOOTER — next project + contact

@@ -21,7 +21,7 @@ Map from the screens you already exported → the filename to save it as:
 | `09-manage-payments.png` | The **Manage payments** toggles (Remote payment / Cash withdraw / Payment abroad) | Decision 03 · Security | `DecisionBlock` media |
 | `10-limit-change-final.png` | The final **Limit Change** flow (6 screens on dark bg: amount → summary → PIN → success) | Decision 04 · Compliance | `DecisionBlock` media |
 | `11-block-card.png` | The **Block Card** screens (confirm sheet + blocked state with padlock + Unblock) | Decision 05 · Interaction | `DecisionBlock` media |
-| `13-emerald-cards.png` | The **card family** art (Visa Classic / Infinite / Business / Premier) | Built on Emerald | `ImageFigure` |
+| `13-card-designs.png` | The **card designs** (Visa Classic / Infinite / Business / Premier / Gold) — digital cards replicating the physical cards | Built on Emerald | `ImageFigure` |
 | `14-delete-card.png` | The final **Delete Card** flow (6 screens: reason → replacement/PIN → confirm details → summary → success) | What we kept with a human | `ImageFigure` (wide) |
 
 Notes:

@@ -23,7 +23,7 @@ const GLANCE_ICONS = {
  * the `meta` object a case study's MDX file exports.
  */
 export default function CaseStudyLayout({ meta = {}, next, children }) {
-  const { title, subtitle, tags = [], glance = [], accent } = meta
+  const { title, subtitle, tags = [], glance = [], accent, keySections = [] } = meta
   const rootStyle = accent ? { '--cs-accent': accent } : undefined
   const rootRef = useRef(null)
 
@@ -83,7 +83,7 @@ export default function CaseStudyLayout({ meta = {}, next, children }) {
         </div>
       </main>
 
-      <SectionRail />
+      <SectionRail keySections={keySections} />
 
 
       <CaseStudyFooter next={next} />

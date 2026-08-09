@@ -15,10 +15,11 @@ import React, { useCallback, useEffect, useState } from 'react'
      so it stays legible over full-width media). Narrow screens: a
      "Contents" pill that opens a sheet — no wasted width.
    ============================================================ */
-export function SectionRail() {
+export function SectionRail({ keySections = [] }) {
   const [sections, setSections] = useState([])
   const [active, setActive] = useState('')
   const [open, setOpen] = useState(false)
+  const keySet = new Set(keySections)
 
   useEffect(() => {
     const nodes = document.querySelectorAll(
@@ -75,20 +76,23 @@ export function SectionRail() {
   // Not worth the chrome for a short page.
   if (sections.length < 3) return null
 
-  const item = (s, withDot) => (
-    <li key={s.id}>
-      <button
-        type="button"
-        className={`cs-rail-item${active === s.id ? ' is-active' : ''}`}
-        aria-current={active === s.id ? 'true' : undefined}
-        title={s.label}
-        onClick={() => go(s.id)}
-      >
-        {withDot ? <span className="cs-rail-dot" aria-hidden="true" /> : null}
-        <span className="cs-rail-label">{s.label}</span>
-      </button>
-    </li>
-  )
+  const item = (s, withDot) => {
+    const isKey = keySet.has(s.id)
+    return (
+      <li key={s.id}>
+        <button
+          type="button"
+          className={`cs-rail-item${active === s.id ? ' is-active' : ''}${isKey ? ' is-key' : ''}`}
+          aria-current={active === s.id ? 'true' : undefined}
+          title={isKey ? `${s.label} — key section` : s.label}
+          onClick={() => go(s.id)}
+        >
+          {withDot ? <span className="cs-rail-dot" aria-hidden="true" /> : null}
+          <span className="cs-rail-label">{s.label}</span>
+        </button>
+      </li>
+    )
+  }
 
   return (
     <>

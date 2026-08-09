@@ -924,6 +924,10 @@
   background: var(--accent);
   box-shadow: 0 0 0 3px var(--accent-soft-bg);
 }
+/* Key ("spine") sections — a darker label + accent dot so the substance stands
+   out from the connective tissue. The current section (is-active) still wins. */
+.cs-rail-item.is-key:not(.is-active) { color: var(--text-secondary); }
+.cs-rail-item.is-key:not(.is-active) .cs-rail-dot { background: var(--accent); }
 
 /* Narrow screens: a Contents pill that opens a sheet. */
 .cs-rail-mobile {

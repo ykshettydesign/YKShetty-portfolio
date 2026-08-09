@@ -191,6 +191,7 @@ export default function PracticeTree({ sectionRef, onStageChange, onAnnotationCh
     const clock = new THREE.Clock()
     let smoothedP = computeP()
     let rafId = null
+    let running = false
 
     const renderStatic = () => {
       const p = computeP()
@@ -202,6 +203,7 @@ export default function PracticeTree({ sectionRef, onStageChange, onAnnotationCh
     }
 
     const tick = () => {
+      if (!running) return
       const dt = Math.min(clock.getDelta(), 0.05)
       const time = clock.elapsedTime
       const targetP = computeP()
@@ -212,6 +214,32 @@ export default function PracticeTree({ sectionRef, onStageChange, onAnnotationCh
       emitStage(smoothedP)
       renderer.render(scene, camera)
       rafId = requestAnimationFrame(tick)
+    }
+
+    // The idle render loop is comparatively heavy (a ~25k-particle scene drawn
+    // 60x/sec). Only run it while the Practice section is near the viewport —
+    // otherwise it burns frame budget behind every other section and shows up
+    // as scroll jank far from the tree. start/stop gate the rAF loop; the clock
+    // delta is discarded on resume so the smoothing doesn't jump after a pause.
+    const start = () => {
+      if (running || prefersReduced) return
+      running = true
+      clock.getDelta()
+      rafId = requestAnimationFrame(tick)
+    }
+    const stop = () => {
+      running = false
+      if (rafId) {
+        cancelAnimationFrame(rafId)
+        rafId = null
+      }
+    }
+    // Manual near-viewport test (used on resume / initial mount); the observer
+    // below drives the common scroll-in / scroll-out transitions.
+    const isSectionNear = () => {
+      const r = section.getBoundingClientRect()
+      const m = 200
+      return r.bottom > -m && r.top < window.innerHeight + m
     }
 
     const onResize = () => {
@@ -225,27 +253,44 @@ export default function PracticeTree({ sectionRef, onStageChange, onAnnotationCh
     // the rAF tick. preventDefault lets the browser attempt a restore.
     const onContextLost = (e) => {
       e.preventDefault()
-      if (rafId) {
-        cancelAnimationFrame(rafId)
-        rafId = null
-      }
+      stop()
     }
     canvas.addEventListener('webglcontextlost', onContextLost, false)
 
     let onScroll = null
+    let io = null
+    let onVisibility = null
     if (prefersReduced) {
       // No idle animation: render one frame per scroll/resize event.
       onScroll = () => renderStatic()
       window.addEventListener('scroll', onScroll, { passive: true })
       renderStatic()
     } else {
-      rafId = requestAnimationFrame(tick)
+      // Run the loop only while the section is on (or just off) screen. The
+      // 200px margin warms it up a beat before it scrolls into view.
+      io = new IntersectionObserver(
+        (entries) => {
+          const visible = entries.some((e) => e.isIntersecting)
+          if (visible && !document.hidden) start()
+          else stop()
+        },
+        { rootMargin: '200px 0px 200px 0px' },
+      )
+      io.observe(section)
+      // Pause on a backgrounded tab; resume if the section is still in view.
+      onVisibility = () => {
+        if (document.hidden) stop()
+        else if (isSectionNear()) start()
+      }
+      document.addEventListener('visibilitychange', onVisibility)
     }
 
     return () => {
-      if (rafId) cancelAnimationFrame(rafId)
+      stop()
       window.removeEventListener('resize', onResize)
       if (onScroll) window.removeEventListener('scroll', onScroll)
+      if (io) io.disconnect()
+      if (onVisibility) document.removeEventListener('visibilitychange', onVisibility)
       canvas.removeEventListener('webglcontextlost', onContextLost, false)
       disposeScene(scene)
       scene.clear()

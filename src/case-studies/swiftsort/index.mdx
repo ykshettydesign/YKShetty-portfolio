@@ -86,6 +86,13 @@ Every gate is assigned to a set of postal codes. Workers read the address label 
 
 </Prose>
 
+<ImageFigure
+  wide
+  src={`${IMAGES}/00-terminal.jpg`}
+  alt="A Nordic parcel terminal from above — forklifts moving between pallets of goods, numbered delivery gates along the far wall with green postal-code signs."
+  caption="The terminal floor: goods arrive, get sorted by gate, and wait for last-mile drivers."
+/>
+
 <Snapshot
   eyebrow="Operating context"
   icon="layers"
@@ -113,9 +120,7 @@ Every gate is assigned to a set of postal codes. Workers read the address label 
 
 <Prose>
 
-Imagine standing on a warehouse floor as parcels pour in. Every box looks the same — nothing tells you which has to leave *today* and which can wait. You just have to *know*, from experience, which gate each postal code maps to and in what order to stack.
-
-That was the operating reality. Sorting relied entirely on tacit domain knowledge — undocumented heuristics that existed only in experienced workers' heads. During a contextual inquiry, one operator summarized the entire system gap:
+Sorting relied entirely on memory. Workers had to read the address label, recall which gate that postal code maps to, and decide the stacking order — all from experience. No system supported the decision; it lived in their heads.
 
 </Prose>
 
@@ -123,14 +128,7 @@ That was the operating reality. Sorting relied entirely on tacit domain knowledg
 
 <Prose>
 
-That single statement encapsulated the core design problem. Critical operational knowledge existed as internalized mental models — never externalized, never systematized — and it degraded with every shift change and was lost entirely with turnover.
-
-**What that cost the business:**
-
-- **Degraded throughput under load** — each parcel incurred cognitive overhead for heuristic-based route recall, compounding across hundreds of parcels per shift
-- **Priority misrouting** — no visual differentiation at the sorting decision point; time-sensitive and standard goods converged at the same gate
-- **Steep learnability curve** — new operators lacked the internalized mental model, creating a multi-week ramp before they could sort independently
-- **Cross-site variance** — throughput tracked tenure and individual expertise, not system capability; no two terminals performed alike
+Every parcel required three steps — one physical, two mental:
 
 </Prose>
 
@@ -162,15 +160,9 @@ That single statement encapsulated the core design problem. Critical operational
 
 <Prose>
 
-Steps 2 and 3 were invisible cognitive work — unobservable in any system log, unmeasured by any KPI. That is where the time, the errors, and the learnability cost all accumulated. The obvious interventions — new equipment, more training, a redesigned floor — would have been slow, costly, and hard to scale across sites. The highest-leverage move was to externalize the decision, not optimize around it.
-
-**The reframe that shaped everything:**
+Steps 2 and 3 were invisible cognitive work — no system log captured them, no KPI measured them. That is where the errors, the slow onboarding, and the throughput loss all came from.
 
 </Prose>
-
-<PullQuote variant="principle">
-  Sorting was never a screen problem. It was a *decision-architecture* problem. Workers were performing system-level cognition — mapping, remembering, sequencing — manually, under time pressure. The design opportunity was not faster information display. It was **externalizing the decision entirely** — moving the cognitive work from the operator to the system.
-</PullQuote>
 
 ## How I approached it
 

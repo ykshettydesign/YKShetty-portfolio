@@ -46,7 +46,6 @@ export const meta = {
     'project-landscape': 'layers',
     'the-problem': 'alert',
     'how-i-approached-it': 'compass',
-    'what-the-old-workflow-actually-looked-like': 'eye',
     'the-moment-that-changed-the-design': 'refresh',
     'working-with-engineering': 'merge',
     'how-the-workflow-shrank': 'minimize',
@@ -164,7 +163,37 @@ That single statement encapsulated the core design problem. Critical operational
 - **Steep learnability curve** — new operators lacked the internalized mental model, creating a multi-week ramp before they could sort independently
 - **Cross-site variance** — throughput tracked tenure and individual expertise, not system capability; no two terminals performed alike
 
-The obvious interventions — new equipment, more training, a redesigned floor — would have been slow, costly, and hard to scale across sites. The highest-leverage move was to externalize the decision, not optimize around it.
+</Prose>
+
+<IllustrationRow
+  items={[
+    {
+      src: `${IMAGES}/02-illustration-scan.png`,
+      alt: 'Comic panel — the driver calmly scans the box, an empty thought-bubble above them: no mental effort.',
+      title: 'Scan the barcode',
+      tag: 'Physical',
+      tone: 'neutral',
+    },
+    {
+      src: `${IMAGES}/03-illustration-read.png`,
+      alt: 'Comic panel — the driver reads the label, a small thought-bubble with a magnifying glass and a question mark: mild effort.',
+      title: 'Read the postal code off the label',
+      tag: 'Mental',
+      tone: 'mental',
+    },
+    {
+      src: `${IMAGES}/04-illustration-mental-lookup.png`,
+      alt: 'Comic panel — the driver looks overwhelmed, a huge chaotic thought-bubble tangled with gate numbers, routes and arrows.',
+      title: 'Recall which gate, which route, which order',
+      tag: 'Mental — the bottleneck',
+      tone: 'bottleneck',
+    },
+  ]}
+/>
+
+<Prose>
+
+Steps 2 and 3 were invisible cognitive work — unobservable in any system log, unmeasured by any KPI. That is where the time, the errors, and the learnability cost all accumulated. The obvious interventions — new equipment, more training, a redesigned floor — would have been slow, costly, and hard to scale across sites. The highest-leverage move was to externalize the decision, not optimize around it.
 
 **The reframe that shaped everything:**
 
@@ -248,46 +277,6 @@ The research goal was not to invent a new workflow, but to map the existing one 
     },
   ]}
 />
-
-## What the old workflow actually looked like
-
-<Prose>
-
-A single parcel took three steps — one physical, two mental. The cognitive load escalated with each:
-
-</Prose>
-
-<IllustrationRow
-  items={[
-    {
-      src: `${IMAGES}/02-illustration-scan.png`,
-      alt: 'Comic panel — the driver calmly scans the box, an empty thought-bubble above them: no mental effort.',
-      title: 'Scan the barcode',
-      tag: 'Physical',
-      tone: 'neutral',
-    },
-    {
-      src: `${IMAGES}/03-illustration-read.png`,
-      alt: 'Comic panel — the driver reads the label, a small thought-bubble with a magnifying glass and a question mark: mild effort.',
-      title: 'Read the postal code off the label',
-      tag: 'Mental',
-      tone: 'mental',
-    },
-    {
-      src: `${IMAGES}/04-illustration-mental-lookup.png`,
-      alt: 'Comic panel — the driver looks overwhelmed, a huge chaotic thought-bubble tangled with gate numbers, routes and arrows.',
-      title: 'Recall which gate, which route, which order',
-      tag: 'Mental — the bottleneck',
-      tone: 'bottleneck',
-    },
-  ]}
-/>
-
-<Prose>
-
-Steps 2 and 3 were invisible cognitive work — unobservable in any system log, unmeasured by any KPI. That is where the time, the errors, and the learnability cost all accumulated. The system had no model of this work; the operator bore it alone.
-
-</Prose>
 
 ## The moment that changed the design
 

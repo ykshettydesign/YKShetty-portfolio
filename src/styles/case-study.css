@@ -326,6 +326,94 @@
 }
 .cs-outcome-text strong { display: block; margin-bottom: 3px; color: var(--text-primary); font-weight: 600; }
 
+/* ── Insight grid — research findings with supporting quotes ── */
+.cs-insights { max-width: var(--cs-wide); margin-inline: auto; }
+.cs-insights-header { margin-bottom: var(--cs-6); }
+.cs-insights-title {
+  font-family: var(--font-display);
+  font-size: var(--cs-text-h3);
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0;
+}
+.cs-insights-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: clamp(14px, 1.8vw, 18px);
+}
+@media (max-width: 720px) {
+  .cs-insights-grid { grid-template-columns: 1fr; }
+}
+.cs-insight {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-card);
+  border-radius: var(--cs-radius);
+  padding: clamp(20px, 2.4vw, 26px);
+  display: flex;
+  flex-direction: column;
+  gap: var(--cs-5);
+  box-shadow: var(--shadow-card);
+}
+.cs-insight-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: var(--accent-soft-bg);
+  color: var(--cs-accent);
+  margin-bottom: var(--cs-3);
+}
+.cs-insight-title {
+  font-family: var(--font-display);
+  font-size: var(--cs-text-lead);
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0 0 var(--cs-2) 0;
+}
+.cs-insight-bullets {
+  margin: 0;
+  padding-left: 1.15em;
+  font-size: var(--cs-text-small);
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+.cs-insight-bullets li { margin-top: 0.4em; }
+.cs-insight-bullets li::marker { color: var(--text-muted); }
+.cs-insight-quotes {
+  border-top: 1px solid var(--border-card);
+  padding-top: var(--cs-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--cs-3);
+}
+.cs-insight-quote {
+  display: flex;
+  gap: var(--cs-3);
+  align-items: flex-start;
+}
+.cs-insight-quote-mark {
+  flex-shrink: 0;
+  color: var(--cs-accent);
+  opacity: 0.5;
+  margin-top: 2px;
+}
+.cs-insight-quote-text {
+  margin: 0;
+  font-size: var(--cs-text-small);
+  font-style: italic;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+.cs-insight-quote-src {
+  display: block;
+  font-size: var(--cs-text-caption);
+  color: var(--text-muted);
+  margin-top: 3px;
+  font-style: normal;
+}
+
 /* ── Snapshot — read-me-first TL;DR / contribution strip ── */
 .cs-snapshot { max-width: var(--cs-wide); margin-inline: auto; }
 .cs-snapshot-eyebrow {

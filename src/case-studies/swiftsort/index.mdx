@@ -184,11 +184,21 @@ Steps 2 and 3 were invisible cognitive work — no system log captured them, no 
 
 <Prose>
 
-We built a proof of concept with minimal UX effort: **show the gate number on scan** so workers place goods where the system tells them, not where they remember.
+We built a proof of concept with minimal UX effort: **show the gate number on scan** so workers place goods where the system tells them, not where they remember. The POC displayed the destination gate (e.g. "26CD") and two buttons — "Confirm drop off" and "Alternate drop off."
 
-The POC proved the business impact — fewer stops, shorter routes. And for UX, it doubled as preliminary usability testing: watching workers use it revealed the real interaction challenges — cognitive load, reach, and confirmation friction.
+</Prose>
 
-Gate assignment became **programmable**. Planners change routing based on volume; workers scan, see a gate, place it there. They don't need to know the strategy.
+<ImageFigure
+  src={`${IMAGES}/08-poc-screen.png`}
+  alt="The POC interface on a Zebra tablet mounted in the terminal — gate number 26CD displayed prominently, with Confirm drop off and Alternate drop off buttons below."
+  caption="The POC: scan a parcel, see the gate, confirm the drop. Minimal UX — built to prove the business model."
+/>
+
+<Prose>
+
+The POC proved the business impact — fewer stops, shorter routes. Gate assignment became **programmable**: planners change routing based on volume, workers scan, see a gate, place it there.
+
+For UX, the POC doubled as preliminary usability testing. Watching workers use it revealed interaction problems beyond memorization — reach to the confirmation button, cognitive overhead from multiple on-screen options, and confirmation friction with gloves on. These became the design brief for the production version.
 
 </Prose>
 
@@ -196,9 +206,7 @@ Gate assignment became **programmable**. Planners change routing based on volume
 
 <Prose>
 
-I started on the terminal floor — shadowing operators across shifts, observing how goods got sorted and stacked, and interviewing terminal managers to surface workarounds no documentation captured.
-
-The goal was not to invent a new workflow but to find the behavior that *already worked* and build the system around it.
+I spoke with business stakeholders who were part of POC testing and watched session recordings from the pilot. The goal was to understand what the POC got right (system-guided sorting works) and what it got wrong (the interaction design).
 
 </Prose>
 
@@ -221,9 +229,7 @@ The goal was not to invent a new workflow but to find the behavior that *already
         'Experienced operators had internalized the routing heuristic; new hires had no scaffold',
         'Knowledge was siloed and non-transferable — it degraded every shift change',
       ],
-      quotes: [
-        { text: 'I just memorize it. When I forget, I ask someone.', source: 'Terminal operator — contextual inquiry' },
-      ],
+      quotes: [],
     },
     {
       icon: 'alert',

@@ -44,7 +44,7 @@ export const meta = {
   // markdown `##`; the icon is looked up here (SectionIconsContext).
   sectionIcons: {
     'project-landscape': 'layers',
-    'the-business-problem': 'trendUp',
+    'the-business-goal': 'trendUp',
     'the-problem': 'alert',
     'how-i-approached-it': 'compass',
     'the-moment-that-changed-the-design': 'refresh',
@@ -118,27 +118,15 @@ Every gate is assigned to a set of postal codes. Workers read the address label 
   ]}
 />
 
-## The business problem
+## The business goal
 
 <Prose>
 
-Drivers visited every customer stop daily — even for a single parcel. That meant too many stops, longer routes, and underloaded trucks.
+Drivers visited every customer stop daily — even for a single parcel. Too many stops, longer routes, underloaded trucks.
 
 The business wanted to **accumulate goods by volume** and batch deliveries: instead of visiting stops A, B, C, D, E, F every day, a driver covers A, B one day, C, D the next, E, F the day after. Fewer stops, shorter routes, fuller trucks.
 
-**The blocker:** workers sorted by reading the address label and recalling the gate from memory — no system guided them. Experienced operators had memorized the postal-code-to-gate mapping, but the business had no way to override it. You can't say "hold parcels for route C at gate 7 until Thursday" when the worker's only reference is what they've memorized.
-
-</Prose>
-
-### The POC that proved the model
-
-<Prose>
-
-We built a proof of concept with minimal UX effort: **show the gate number on scan** so workers place goods at dedicated accumulation zones instead of sorting by address alone.
-
-The POC proved the business impact — fewer stops, shorter routes. And for UX, it doubled as preliminary usability testing: watching workers use it is where we discovered the real interaction problems — memorization, cognitive load, reach.
-
-Once the system shows the gate number, the gate assignment becomes **programmable**. Planners can change routing based on volume thresholds. Workers don't need to know the strategy — they scan, see a gate, place it there.
+For this to work, workers needed **frequent, system-driven gate assignments** — the system tells them where to place each parcel, and that assignment can change based on volume thresholds.
 
 </Prose>
 
@@ -146,7 +134,9 @@ Once the system shows the gate number, the gate assignment becomes **programmabl
 
 <Prose>
 
-The POC proved the business case, but usability testing during the pilot exposed the deeper UX problem: sorting relied entirely on memory. Workers read the address label, recalled the gate from experience, and decided the stacking order — all mentally. No system supported any of it.
+Workers sorted entirely from memory. They read the address label, recalled which gate that postal code maps to, and decided the stacking order — all from experience. Gate assignments lived in their heads, not in any system.
+
+That made the business goal impossible: you can't dynamically reassign gates when the worker's only reference is what they've memorized. And asking them to override that muscle memory with changing gate numbers was confusing — every update fought against years of internalized routing.
 
 </Prose>
 
@@ -187,6 +177,18 @@ Every parcel required three steps — one physical, two mental:
 <Prose>
 
 Steps 2 and 3 were invisible cognitive work — no system log captured them, no KPI measured them. That is where the errors, the slow onboarding, and the throughput loss all came from.
+
+</Prose>
+
+### The POC that proved the model
+
+<Prose>
+
+We built a proof of concept with minimal UX effort: **show the gate number on scan** so workers place goods where the system tells them, not where they remember.
+
+The POC proved the business impact — fewer stops, shorter routes. And for UX, it doubled as preliminary usability testing: watching workers use it revealed the real interaction challenges — cognitive load, reach, and confirmation friction.
+
+Gate assignment became **programmable**. Planners change routing based on volume; workers scan, see a gate, place it there. They don't need to know the strategy.
 
 </Prose>
 

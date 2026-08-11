@@ -42,7 +42,6 @@ export const meta = {
   // Section eyebrow icons, keyed by heading slug. Authored headings stay plain
   // markdown `##`; the icon is looked up here (SectionIconsContext).
   sectionIcons: {
-    'the-outcome': 'rocket',
     'project-landscape': 'layers',
     'the-problem': 'alert',
     'how-i-approached-it': 'compass',
@@ -62,7 +61,7 @@ export const meta = {
   // The "spine" — the sections a skimming lead should hit first. The section
   // rail marks these so the substance stands out from the connective tissue.
   keySections: [
-    'the-outcome',
+    'outcomes',
     'the-moment-that-changed-the-design',
     'the-design-decisions',
     'what-we-shipped-knowingly-incomplete',
@@ -77,66 +76,13 @@ export const meta = {
   chip={'Live in production'}
 />
 
-## The outcome
-
-<Prose>
-
-SwiftSort is **live in production**, running across the client's Nordic terminals. It replaced memory-dependent sorting with a scan-guided workflow — and the operations side felt the difference firsthand.
-
-</Prose>
-
-<OutcomeBand
-  items={[
-    { icon: 'rocket', text: <><strong>Shipped and running in live terminals</strong> — not a prototype or a pilot that stalled</> },
-    { icon: 'trendUp', text: <><strong>Faster onboarding and fewer gate errors</strong> — reported by terminal managers to business stakeholders, not just observed by the design team</> },
-    { icon: 'cube', text: <><strong>Zero new hardware, zero layout changes</strong> — it ran on scanners workers already used</> },
-  ]}
-/>
-
-<Prose>
-
-*The whole project ran on one principle:*
-
-</Prose>
-
-<PullQuote variant="principle">
-  <strong>Find the behavior that already exists, and build the system around it</strong> — so workers have less to learn, not more.
-</PullQuote>
-
 ## Project landscape
 
 <Prose>
 
-SwiftSort sits at a specific inflection point in the parcel logistics value chain: the **terminal sort** — the moment upstream routing data must become a physical action on a warehouse floor. Understanding where this slice began and ended shaped every design trade-off.
+SwiftSort sits in the **mid-mile** of the logistics value chain — the terminal (warehouse), where incoming goods are sorted and placed at delivery gates for last-mile drivers to pick up.
 
-</Prose>
-
-<Snapshot
-  eyebrow="System context"
-  icon="layers"
-  items={[
-    {
-      label: 'Upstream input',
-      value: 'Planners assign postal-code-to-gate routing upstream — this data existed but never reached the worker at the moment of action',
-    },
-    {
-      label: 'Design scope',
-      value: 'The worker-facing decision layer: transforming a barcode scan into the correct physical sort, with zero cognitive overhead',
-    },
-    {
-      label: 'Downstream impact',
-      value: 'Correctly sorted parcels feed departure trucks on schedule — misroutes here cascade into missed delivery windows',
-    },
-  ]}
-/>
-
-<Prose>
-
-**Operating environment:** Nordic parcel terminals — cold, noisy, glove-required. Workers operate forklifts with mounted tablets (sometimes out of arm's reach) or carry handheld TC57 scanners. The workforce spans experienced operators with years of internalized route knowledge to new hires with no mental model at all.
-
-**Key constraint:** Any intervention had to run on hardware already deployed — no new devices, no floor layout changes, no additional training cycles. The design had to reduce interaction cost to near-zero while respecting existing motor patterns.
-
-**Users:** Forklift operators and terminal sorters, working under time pressure with gloves on. Their expertise lives in muscle memory and route recall — not in screens.
+Every gate is assigned to a set of postal codes. Workers read the address label on each parcel, determine the correct gate, and stage it for the driver. That gate-lookup — label to destination — is the decision this project redesigned.
 
 </Prose>
 
@@ -522,6 +468,20 @@ Net effect: roughly **30% faster early exploration** — but every decision that
 />
 
 ## Outcomes
+
+<Prose>
+
+SwiftSort is **live in production**, running across the client's Nordic terminals. It replaced memory-dependent sorting with a scan-guided workflow — and the operations side felt the difference firsthand.
+
+</Prose>
+
+<OutcomeBand
+  items={[
+    { icon: 'rocket', text: <><strong>Shipped and running in live terminals</strong> — not a prototype or a pilot that stalled</> },
+    { icon: 'trendUp', text: <><strong>Faster onboarding and fewer gate errors</strong> — reported by terminal managers to business stakeholders, not just observed by the design team</> },
+    { icon: 'cube', text: <><strong>Zero new hardware, zero layout changes</strong> — it ran on scanners workers already used</> },
+  ]}
+/>
 
 <Prose>
 

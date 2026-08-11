@@ -12,6 +12,7 @@ import {
   MetricRow,
   InsightGrid,
   Snapshot,
+  WorkflowComparison,
 } from '../../components/case-study'
 
 {/* Base path for this case study's images. Drop the real files into
@@ -277,20 +278,28 @@ We landed on **static QR** — simpler to build and better on the floor:
 
 ## How the workflow shrank
 
-<Prose>
-
-The two mental steps were eliminated. Confirmation was freed from reach.
-
-</Prose>
-
-<ComparisonTable
-  head={['', 'Old workflow', 'Final design']}
-  rows={[
-    ['Scan the parcel', '✅', '✅ (unchanged)'],
-    ['Read the postal code', 'Manual, from the label', <><strong>Eliminated</strong> — destination shown instantly</>],
-    ['Recall gate & route', 'Mental lookup', <><strong>Eliminated</strong> — no memory needed</>],
-    ['Confirm drop-off', 'Tap a button you had to reach', <><strong>Scan or tap</strong> — the QR works from anywhere</>],
-  ]}
+<WorkflowComparison
+  old={{
+    steps: [
+      { label: 'Scan the barcode', sub: 'Physical', tone: 'physical' },
+      { label: 'Read postal code...', sub: 'Mental', tone: 'mental' },
+      { label: 'Recall gate & route from memory', sub: 'Mental — bottleneck', tone: 'bottleneck' },
+      { label: 'Confirm drop-off (tap out-of-reach button)', sub: 'Physical — unreliable', tone: 'unreliable' },
+    ],
+    note: 'Steps 2 & 3 are invisible work — no system support, pure memory. This is where time, errors, and training cost all lived.',
+  }}
+  new={{
+    steps: [
+      { label: 'Scan parcel → destination shown instantly', sub: 'Physical + System', tone: 'system' },
+      { label: 'Confirm drop-off — Scan QR or tap', sub: 'Physical — works from anywhere', tone: 'system' },
+    ],
+    eliminated: [
+      'Read postal code → System shows destination instantly',
+      'Recall gate assignment → No memory needed',
+      'Recall route priority → System handles sequencing',
+      'Reach to tap button → Scan QR from anywhere',
+    ],
+  }}
 />
 
 <DecisionList

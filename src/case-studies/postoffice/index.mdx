@@ -7,8 +7,6 @@ import {
   BeforeAfter,
   DecisionBlock,
   DecisionList,
-  ComparisonTable,
-  MetricRow,
   Snapshot,
 } from '../../components/case-study'
 
@@ -27,9 +25,9 @@ export const meta = {
     {
       label: 'Role',
       value:
-        'Design Consultant — owned the UX end to end: field research, interaction design, usability testing, and design–engineering alignment against a hard deadline',
+        'Design Consultant — owned the UX end to end: interaction design, usability testing, and design-engineering alignment against a hard deadline',
     },
-    { label: 'Region', value: 'Norway' },
+    { label: 'Region', value: 'Nordic markets' },
     { label: 'Platform', value: 'Responsive web portal (mobile-first)' },
     { label: 'Timeline', value: '1 month' },
     { label: 'Tools', value: 'Figma, Generative AI for early ideation' },
@@ -38,9 +36,8 @@ export const meta = {
     'project-context': 'layers',
     'the-business-goal': 'trendUp',
     'the-problem': 'alert',
-    'how-i-approached-it': 'compass',
-    'the-insight-that-changed-the-scope': 'refresh',
-    'what-testing-changed': 'flask',
+    'the-first-prototype': 'compass',
+    'what-testing-revealed': 'flask',
     'ai-in-the-process': 'sparkles',
     outcomes: 'chart',
     'what-we-shipped-knowingly-incomplete': 'flag',
@@ -48,9 +45,9 @@ export const meta = {
   },
   keySections: [
     'outcomes',
-    'the-insight-that-changed-the-scope',
+    'the-first-prototype',
+    'what-testing-revealed',
     'the-design-decisions',
-    'what-testing-changed',
     'what-we-shipped-knowingly-incomplete',
     'the-takeaway',
   ],
@@ -67,9 +64,9 @@ export const meta = {
 
 <Prose>
 
-Postal services in Norway operate through partner retail stores — grocery shops that run a postal counter alongside their own business. Staff at these counters handle parcel intake, shipping sales, and customer service using a dedicated sales application.
+Postal services in the Nordic region operate through partner retail stores — grocery shops that run a postal counter alongside their own business. Staff at these counters handle parcel intake, shipping sales, and customer service using a dedicated sales application.
 
-Managing staff accounts — adding users, resetting passwords, assigning roles — happened through a separate, older admin portal built into the same counter terminal. That portal is what this project replaced.
+Managing staff accounts — adding users, resetting passwords, assigning roles — happened through a separate, older admin portal built into the counter terminal. That portal is what this project replaced.
 
 </Prose>
 
@@ -82,8 +79,12 @@ Managing staff accounts — adding users, resetting passwords, assigning roles �
       value: 'Retail postal counters inside partner stores — high traffic, shared machines, staff splitting time between customers and admin tasks',
     },
     {
+      label: 'Scale',
+      value: '10,000-13,000 employees across locations throughout Nordic markets',
+    },
+    {
       label: 'Users',
-      value: 'Store admins managing ~8 staff accounts each, while also serving customers at the counter',
+      value: 'Store admins managing staff accounts while also serving customers at the counter',
     },
     {
       label: 'Platform',
@@ -100,11 +101,9 @@ Managing staff accounts — adding users, resetting passwords, assigning roles �
 
 <Prose>
 
-The old admin portal was reaching end of life. The business needed a replacement before the cutoff — a mandatory migration on a fixed deadline.
+The old admin portal was reaching end of life, and the business needed a replacement before the cutoff. But this was more than a technical migration — it was a chance to rethink how staff administration worked across the organization.
 
-But the migration was also an opportunity. The old portal was physically locked to the counter terminal: no remote access, no mobile support, admin work competing with customer service for the same machine. Store admins had resorted to copying private staff details into **paper notebooks** so they could work from home — sensitive data leaving the secure system entirely.
-
-The goal: **replace the old portal with a cloud-based admin tool** that works from any device — and in doing so, unbind staff management from the counter.
+The goal: **a centralized web portal** that gives authorized business administrators the ability to manage users, roles, and system settings — reducing dependency on IT teams and ensuring consistent operation across Nordic markets. Where the old portal locked every admin task to a single counter terminal, the new SalesApp Admin Portal would work from any device, anywhere.
 
 </Prose>
 
@@ -112,13 +111,11 @@ The goal: **replace the old portal with a cloud-based admin tool** that works fr
 
 <Prose>
 
-The old portal forced five concrete constraints on every admin:
+The core business requirement was user administration: create, edit, deactivate, and reactivate staff accounts. Assign roles and permissions. Manage access by country, region, team, or business unit.
 
-- **No remote access** — everything had to be done at the service desk, so admin work and serving customers competed for the same minute
-- **A login tax on every task** — to act as admin, staff had to log the current user out and log back in as admin on the counter machine
-- **Deleted users could not return** — remove someone, and the system refused to re-add them under the same username. For shops that rehire seasonal staff, a routine rehire became a workaround
-- **Service accounts mixed with people** — system users sat in the same list as real staff, making it hard to find the right person
-- **A paper shadow system** — with no remote access, admins copied private staff details into personal notebooks to work from home
+The old portal could technically do this — but it was bound to the counter terminal. No remote access, no mobile support. To act as admin, staff had to log the current user out and log back in on the counter machine — admin work and customer service competing for the same desk, the same minute.
+
+For a system supporting **10,000-13,000 employees across locations**, that friction compounded at every store.
 
 </Prose>
 
@@ -128,19 +125,28 @@ The old portal forced five concrete constraints on every admin:
   caption="Admin work and customer service fought over the same desk, the same minute."
 />
 
+## The first prototype
+
 <Prose>
 
-The notebooks were the tell: the real failure was not the technology — it was *where* the work was allowed to happen. This was never just a migration. The goal was not "recreate the old portal in a browser" — it was **unbind the work from the counter**.
+Based on business data and insights, I designed the first prototype covering the core user-management flows: **adding store users, resetting passwords, assigning admin roles, updating user details, and deleting users**.
+
+Every concept was pressure-tested against the legacy database's actual limits before going to high fidelity — so what shipped was what could build in a month.
 
 </Prose>
 
-## How I approached it
+<ImageFigure
+  wide
+  src={`${IMAGES}/09-prototype-overview.png`}
+  alt="The first prototype of the SalesApp Admin Portal — the core user-management flows covering add user, reset password, assign roles, edit details, and delete user."
+  caption="The first prototype: core user administration flows, designed from business data before any field testing."
+/>
+
+## What testing revealed
 
 <Prose>
 
-I went to the stores. During site visits and face-to-face interviews, one thing became clear — admins were not using paper because they preferred it. They used it because the system was inaccessible anywhere but the counter.
-
-That finding reset the platform priority. **Mobile access was the #1 request** — not a nicer desktop screen. The portal became mobile-first, not desktop-first-then-shrunk.
+I took the prototype to the stores — **site visits and usability testing** with the admins who would actually run the portal. Testing in the real counter environment uncovered problems the business data alone could not surface.
 
 </Prose>
 
@@ -148,24 +154,23 @@ That finding reset the platform priority. **Mobile access was the #1 request** �
   wide
   src={`${IMAGES}/03-site-visit.png`}
   alt="Field notes and photos from in-store visits — an admin walking through their real workflow at the counter, with the paper notebook and terminal both in frame."
-  caption="Talking to admins in their actual workspace confirmed the priority: mobile access came first."
+  caption="Testing with admins in their actual workspace — the prototype met reality at the counter."
 />
-
-## The insight that changed the scope
 
 <Prose>
 
-The easy read was: "admins keep paper notebooks, so digitize the list and the notebooks disappear." But field interviews revealed something subtler — admins wanted a **physical copy they could rely on** when away from the counter, offline, or handling an emergency. Digitize without meeting that need, and the notebooks come right back.
+Three findings changed the scope:
 
-So I designed a secure **Download / Export** feature into the portal — meeting the real need (a backup they could hold) while keeping the source of truth digital, current, and secure.
+- **Deleted users could not return.** Remove someone, and the old system refused to re-add them under the same username. For shops that rehire seasonal staff, a routine rehire became a workaround. Admins asked to keep deleted users recoverable for about a week before permanent removal.
+- **Service accounts mixed with people.** System users sat in the same list as real staff, making it impossible to find the right person quickly — a problem invisible until admins used the prototype with real data.
+- **A paper shadow system.** With no remote access on the old portal, admins had been copying private staff details into personal notebooks to work from home. The notebooks were not a preference — they were a survival mechanism. Admins wanted a **physical copy they could rely on** offline or in an emergency. Digitize without meeting that need, and the notebooks come right back.
+
+Two more findings shaped the interaction design directly:
+
+- **Auto-generated passwords were too complex.** I had designed complex passwords on the logic that stronger is safer. Admins pushed back: too complex to read out or hand to a new hire at a busy counter. They wanted simple, admin-defined passwords they could set and share on the spot.
+- **Mobile access was the #1 request.** Admins did not want a nicer desktop screen — they wanted to manage staff from their phone, away from the counter. The portal became mobile-first, not desktop-first-then-shrunk.
 
 </Prose>
-
-<ImageFigure
-  src={`${IMAGES}/04-export-feature.png`}
-  alt="The portal's staff list with a secure Download / Export action — producing a physical-copy export while the live record stays in the cloud as the source of truth."
-  caption="Export gives admins the physical copy they needed — while the source of truth stays digital and secure."
-/>
 
 <PullQuote variant="principle">
   You don't kill a workaround by banning it. You kill it by understanding the need underneath it and serving that need better.
@@ -173,17 +178,30 @@ So I designed a secure **Download / Export** feature into the portal — meeting
 
 <DecisionList
   heading="The design decisions"
-  eyebrow="Counter-pressure design"
+  eyebrow="Shaped by the counter"
   icon="sliders"
-  intro={<>The portal runs on retail floors — one-handed, on small screens, between customers. Every choice below came from designing for that environment.</>}
+  intro={<>Every decision below traces back to a testing finding. The prototype gave us the structure; the counter told us what to change.</>}
   coda={{
-    title: 'Designed against the real database',
-    body: <>Every concept was pressure-tested against the legacy database's actual limits before high fidelity, so what shipped was what could build in a month.</>,
+    title: 'Every decision tested at the counter',
+    body: <>These decisions were not designed in isolation — they were validated and reshaped by the people who run the counter, on the devices they actually use.</>,
   }}
 >
 
 <DecisionBlock
   index="01"
+  title="Simple, admin-defined passwords"
+  media={{
+    src: `${IMAGES}/11-simple-password.png`,
+    alt: 'The new user creation confirmation showing a simple, admin-defined one-time password instead of a complex auto-generated string.',
+  }}
+>
+
+Testing killed the complex auto-generated passwords. Admins needed to read a password out loud to a new hire across a busy counter — not decipher a random string. The redesign lets admins **set a simple one-time password** on the spot. A security instinct that ignored the counter reality, corrected by the counter.
+
+</DecisionBlock>
+
+<DecisionBlock
+  index="02"
   title="Role inheritance — one choice, not two"
   media={{
     src: `${IMAGES}/05-role-inheritance.png`,
@@ -196,7 +214,40 @@ Selecting **"Admin"** automatically includes **"Standard User"** permissions —
 </DecisionBlock>
 
 <DecisionBlock
-  index="02"
+  index="03"
+  title="Secure export — kill the shadow system"
+  media={{
+    src: `${IMAGES}/04-export-feature.png`,
+    alt: 'The portal staff list with a secure Download / Export action — producing a physical-copy export while the live record stays in the cloud as the source of truth.',
+  }}
+>
+
+Site visits revealed the paper notebooks. The fix was not banning them — it was serving the need underneath. A secure **Download / Export** gives admins the physical copy they relied on, while the source of truth stays digital, current, and secure.
+
+</DecisionBlock>
+
+<DecisionBlock
+  index="04"
+  title="Soft delete with 7-day recovery"
+  tradeoff={{
+    considered: 'A standard hard-delete with a careful confirmation dialog.',
+    why: (
+      <>
+        Testers validated the careful confirmation, then went further — they asked to keep deleted users
+        recoverable before permanent removal. One change from the floor closed two gaps: accidental
+        deletes became reversible, and seasonal workers returning within the window could be restored
+        instead of hitting the "cannot reuse that username" block.
+      </>
+    ),
+  }}
+>
+
+The **7-day soft delete** was not my idea — it came directly from testing. The **Remove** button is high-contrast red to signal the weight, and **Cancel** stays visually neutral, forcing a conscious stop-and-think moment. But the real safeguard is the recovery window behind it.
+
+</DecisionBlock>
+
+<DecisionBlock
+  index="05"
   title="Full-row click targets"
   media={{
     src: `${IMAGES}/06-full-row-click.png`,
@@ -217,67 +268,7 @@ The **entire row** is a tap target across every staff table. Paired with **color
 
 </DecisionBlock>
 
-<DecisionBlock
-  index="03"
-  title="A delete you have to mean"
-  tradeoff={{
-    considered: 'A standard confirm dialog with the destructive action as the default button.',
-    why: (
-      <>
-        In a system run one-handed between customers, a default-styled "delete" is a fat-fingered
-        data-loss incident waiting to happen. The safeguard had to be in the layout, not the copy.
-      </>
-    ),
-  }}
->
-
-The **Remove** button is high-contrast red to signal the weight. **Cancel** stays visually neutral and is not the primary button — forcing a conscious stop-and-think moment. Testing told me this was not enough on its own — [see below](#what-testing-changed).
-
-</DecisionBlock>
-
-<DecisionBlock
-  index="04"
-  title="Bulk creation for hiring peaks"
-  media={{
-    src: `${IMAGES}/10-bulk-create.png`,
-    alt: 'The bulk / import user-creation flow — adding many staff accounts at once from a single import.',
-  }}
->
-
-Onboarding is spiky: shops hire waves of seasonal staff at once. The old portal made you create each account individually. **Bulk / import creation** sets up many users in a single pass — aimed at the peak when admin time is scarcest.
-
-</DecisionBlock>
-
 </DecisionList>
-
-## What testing changed
-
-<Prose>
-
-I put the portal in front of **store admins** — the exact role I had been shadowing — and tested the flows that carried the most risk: landing page, editing a user, resetting a password, and removing a user.
-
-</Prose>
-
-<ComparisonTable
-  head={['Flow tested', 'What held up', 'What I changed after']}
-  rows={[
-    ['Landing page', 'Clean layout, logical navigation, right info surfaced', '—'],
-    ['Export', <>Useful for offline records and printing — the shadow-system fix, confirmed by the people who kept the notebooks</>, '—'],
-    ['Edit user', 'Full-row click, color-coded chips, admin-implies-standard', <>Default new users to <strong>Standard</strong>; auto-fill usernames; add a last-name column; hide unit ID most staff never need</>],
-    ['Reset password', 'Easy to find; confirm-before-reset reassured', <>Auto-generated <strong>complex</strong> passwords changed to <strong>simple, admin-defined</strong> ones</>],
-    ['Remove user', <>Confirm is not the primary button — read as a deliberate safeguard</>, <>Added a <strong>7-day soft-delete</strong> recovery window</>],
-  ]}
-/>
-
-<Prose>
-
-Two changes are worth calling out because they are the reason testing exists.
-
-**The passwords — I was wrong.** I designed auto-generated complex passwords on the logic that stronger is safer. Admins pushed back: too complex to read out or hand to a new hire at a busy counter. They wanted simple, admin-defined passwords they could set and share on the spot. A security instinct that ignored the counter reality, corrected by the counter.
-
-**The recovery window was not my idea.** Testers validated the careful confirmation, then went further — they asked to keep deleted users for about a week before permanent removal. That became the **7-day soft delete**, which quietly solved a second problem: a seasonal worker returning within the window could now be **restored** instead of hitting the "cannot reuse that username" block. One change from the floor closed two gaps.
-
-</Prose>
 
 <BeforeAfter
   before={{
@@ -339,7 +330,9 @@ Three gaps I would rather name than hide:
 
 This project looked like a technical chore — port a legacy portal to the cloud. The design work was refusing to treat it that way.
 
-The old portal's real defect was not that it was old — it was that it bound critical work to one physical spot and one login. Once the goal became **operational freedom** rather than faithful migration, everything followed: mobile-first because that is what admins asked for, a secure export because that is what the notebooks were really for, and a recoverable delete because the floor told me a careful confirm was not enough.
+The prototype gave us the structure. Testing gave us the truth. Admins did not need a nicer version of the old portal — they needed to manage **10,000+ staff accounts from anywhere, on any device**, without the workarounds the old system forced.
+
+Once the goal became **operational freedom** rather than faithful migration, everything followed: mobile-first because that is what admins asked for, a secure export because that is what the notebooks were really for, simple passwords because the counter is not a security lab, and a recoverable delete because the floor told me a careful confirm was not enough.
 
 The decisions I am proudest of here are the ones testing changed.
 

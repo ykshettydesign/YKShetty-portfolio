@@ -43,7 +43,7 @@ export const meta = {
   // Section eyebrow icons, keyed by heading slug. Authored headings stay plain
   // markdown `##`; the icon is looked up here (SectionIconsContext).
   sectionIcons: {
-    'project-landscape': 'layers',
+    'project-context': 'layers',
     'the-business-goal': 'trendUp',
     'the-problem': 'alert',
     'how-i-approached-it': 'compass',
@@ -77,7 +77,7 @@ export const meta = {
   chip={'Live in production'}
 />
 
-## Project landscape
+## Project context
 
 <Prose>
 
@@ -334,6 +334,22 @@ We landed on **static QR** — simpler to build and better on the floor:
   }}
 />
 
+## A second win, surfaced by the business
+
+<Prose>
+
+A discovery session with ops leads revealed that drivers with **several items for the same destination** had to scan and drop each one separately — repetitive and slow at volume.
+
+In a brainstorm with the tech lead and PO, we shaped the solution: **group everything bound for one destination and drop it in a single scan.**
+
+</Prose>
+
+<ImageFigure
+  src={`${IMAGES}/11-stacking-mode.png`}
+  alt={'The split-screen stacking view: the main sort list on the left, a Stacking Mode panel on the right grouping multiple parcels under one destination.'}
+  caption="Stacking mode — group loose items under one destination, drop them in a single scan."
+/>
+
 <DecisionList
   heading="The design decisions"
   eyebrow="Research finding → design response"
@@ -433,22 +449,6 @@ The QR solves reach on a mounted tablet. Workers carrying a handheld **TC57** al
   caption="The full TC57 flow: sort, stack, and drop zone lookup — all tap-driven, no QR needed."
 />
 
-
-## A second win, surfaced by the business
-
-<Prose>
-
-A discovery session with ops leads revealed that drivers with **several items for the same destination** had to scan and drop each one separately — repetitive and slow at volume.
-
-In a brainstorm with the tech lead and PO, we shaped the solution: **group everything bound for one destination and drop it in a single scan.**
-
-</Prose>
-
-<ImageFigure
-  src={`${IMAGES}/11-stacking-mode.png`}
-  alt={'The split-screen stacking view: the main sort list on the left, a Stacking Mode panel on the right grouping multiple parcels under one destination.'}
-  caption="Stacking mode — group loose items under one destination, drop them in a single scan."
-/>
 
 ## AI in the process
 

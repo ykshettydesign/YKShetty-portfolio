@@ -4,7 +4,7 @@ You are editing a portfolio case study for a senior/lead product designer. Apply
 
 2. **Narrative structure: business goal → problem → solution → outcomes.** Start with why this work mattered to the business. Frame the problem as what blocked that goal. If a POC or prototype existed, show it as the bridge between problem and production design. Not every case study will have a POC — adapt the structure, but always lead with the business context.
 
-3. **Add a project landscape section early.** Include a real environment photo and a Snapshot component (environment, devices, constraints, users). Ground the reader in the physical or operational context before diving into the problem.
+3. **Add a project context section early.** Include a real environment photo (if available) and a Snapshot component (environment, devices, constraints, users). Ground the reader in the physical or operational context before diving into the problem.
 
 4. **Shift the ratio from text to visuals.** One short paragraph per section, maximum. Use visual components — IllustrationRow, WorkflowComparison, ComparisonTable, BeforeAfter, ImageFigure — to carry the explanation. Don't duplicate in text what a visual already shows.
 

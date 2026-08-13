@@ -20,17 +20,18 @@ export const meta = {
   title: 'Postbox — a private-bank document vault, redesigned search-first',
   subtitle:
     'Turning a complex, banker-dependent document archive into an intuitive self-service vault for high-net-worth clients — across iOS, Android and web.',
-  tags: ['Private Banking', 'Multi-platform', 'Self-service', 'End-to-end ownership'],
+  tags: ['Private Banking', 'Multi-platform', 'Self-service', 'UX research & testing'],
   glance: [
     {
       label: 'Role',
       value:
-        'Lead product designer, end to end — research and data analysis, journey mapping, workshop facilitation, interaction and visual design, and usability testing',
+        'UX designer on a two-designer team — UX research and data analysis, journey mapping, workshop facilitation, UI design, and usability testing',
     },
-    { label: 'Team', value: 'Project manager · Technical architect · Business-development managers' },
-    { label: 'Client', value: 'ABN AMRO — Private Banking & Wealth Management' },
+    { label: 'Team', value: '2 product designers (incl. me) · 1 project manager · 1 business-development manager' },
+    { label: 'Client', value: "Bethmann Bank — ABN AMRO's private bank in Germany" },
     { label: 'Platform', value: 'Native iOS & Android · Web' },
-    { label: 'Timeline', value: '4 months' },
+    { label: 'Tools', value: 'Figma · Adobe Analytics · Usabilla' },
+    { label: 'Timeline', value: '12 months overall — 2+ wks research, 8+ wks design & testing' },
     { label: 'Status', value: 'Live in production' },
   ],
   sectionIcons: {
@@ -64,7 +65,7 @@ export const meta = {
 
 <Prose>
 
-Postbox is the secure digital vault inside ABN AMRO's private-banking apps — where high-net-worth clients receive, store, and share confidential documents: statements, contracts, tax papers, correspondence with their relationship manager.
+Postbox is the secure digital vault inside ABN AMRO Private Banking's apps — used here by **Bethmann Bank**, ABN AMRO's private bank in Germany — where high-net-worth clients receive, store, and share confidential documents: statements, contracts, tax papers, correspondence with their relationship manager.
 
 For a private-banking client, these are not files to skim and forget. They are the documents an accountant asks for, a notary needs, a tax deadline depends on. Retrieval isn't a nice-to-have — it's the whole job of the vault.
 
@@ -76,7 +77,7 @@ For a private-banking client, these are not files to skim and forget. They are t
   items={[
     {
       label: 'Users',
-      value: 'High-net-worth private-banking clients, each with a dedicated relationship manager',
+      value: "High-net-worth clients of Bethmann Bank (ABN AMRO's German private bank), each with a dedicated relationship manager",
     },
     {
       label: 'Platform',
@@ -111,20 +112,19 @@ High-net-worth clients **struggled to find and export the documents that mattere
 
 </Prose>
 
-<PullQuote variant="user">I know the document is in there somewhere. It's faster to just ask my banker to send it.</PullQuote>
+<PullQuote variant="user">The page looks nice, but it's difficult to navigate — and the technology behind it is not OK.</PullQuote>
 
-<ImageFigure
-  wide
-  src={`${IMAGES}/02-current-journey.png`}
-  alt="A customer journey map of a client trying to retrieve a document in the old Postbox — folder-by-folder navigation, a search that returns little, a failed export, and the final step of contacting the relationship manager."
-  caption="The old retrieval journey ended where it should never have started — with the client handing the task back to their banker."
-/>
+<Prose>
+
+*— verbatim client feedback via Usabilla, Germany*
+
+</Prose>
 
 ## Discover
 
 <Prose>
 
-I started where the friction was measurable, pairing behavioural data with direct client feedback so the redesign answered evidence, not assumption.
+One real constraint shaped the whole approach: in this private-banking context, **direct interviews with clients weren't possible** — the product managers couldn't open that channel. So instead of guessing, I triangulated three evidence sources that *were* available — behavioural analytics, an in-product feedback stream, and secondary research — and built the personas from those. No direct access doesn't have to mean no understanding.
 
 </Prose>
 
@@ -136,25 +136,25 @@ I started where the friction was measurable, pairing behavioural data with direc
       icon: 'chart',
       title: 'Quantitative — Adobe Analytics',
       bullets: [
-        'Postbox was a top feature by traffic, but the tool inside it that mattered most was ignored',
-        'Search saw only ~3% daily use — clients were navigating folders instead of searching',
-        'Behaviour said the fastest path to a document was the one people trusted least',
+        'Search: only ~3% daily use (≈4–5 people a day) — and just 70% of visitors who reached Search actually searched',
+        'Inbox: 52% of monthly active users, ~3 sessions each — the 2nd-ranked feature for Bethmann Bank',
+        'Download: 49% of logged-in users (~900/month) — 92% single-file, 26% multi-file, 17% doing both',
       ],
     },
     {
       icon: 'quote',
-      title: 'Qualitative — Usabilla',
+      title: 'Qualitative — Usabilla (Germany)',
       bullets: [
-        'Direct client feedback surfaced technical bugs and slow download speeds',
-        'Navigation frustration was a recurring theme — clients lost documents in the structure',
-        'The gap between "the file exists" and "I can get to it" was where trust leaked',
+        'Server failures — documents wouldn\'t load; repeated errors when downloading and archiving',
+        'Download speed "not acceptable"; the page "looks nice but difficult to navigate"',
+        '"Search shows 0 hits"; download limit and archive count unclear; no way to mark all as read',
       ],
     },
     {
       icon: 'users',
       title: 'The internal burden',
       bullets: [
-        'Relationship managers were regularly using "View as Client" to hunt for documents by hand',
+        'Staff regularly used "View as a Client" (from the CST-portal survey) to find documents for clients by hand',
         'Advisory time was being spent on clerical retrieval that never needed a banker',
         'Every manual lookup was a self-service failure with an operational cost attached',
       ],
@@ -166,7 +166,19 @@ I started where the friction was measurable, pairing behavioural data with direc
 
 <Prose>
 
-Synthesising the research into a persona and a customer journey map made the drop-off points concrete. Three fixes carried the most weight — each mapped directly to a place clients abandoned the vault:
+I distilled the evidence into **two personas** and a **customer journey map** — the artifacts that made the drop-off points concrete and kept the team anchored to real behaviour rather than opinion.
+
+</Prose>
+
+<ImageFigure
+  src={`${IMAGES}/02-persona.png`}
+  alt="Persona: Peter, 37, married, based in Germany — inherited wealth, an investment-banking background, and very little time. Core needs: an easy, convenient, omni-channel experience and easy sharing. Frustrations: daily email notifications that feel like spam, difficult file names, unclear search, and having to download files just to open them. High online-savviness and financial literacy; uses the mobile app and website."
+  caption="Peter — one of the two personas. His frustrations read like the backlog: spam-like notifications, unclear file names, search that doesn't help, and no in-app preview."
+/>
+
+<Prose>
+
+Mapping his path exposed three drop-off points, each of which became a fix that carried the most weight:
 
 - **Search that actually works** — real-time results across every folder, not a lookup confined to one branch of the tree
 - **Documents you can recognise** — clearer naming, and download limits communicated up front instead of discovered at failure
@@ -177,8 +189,8 @@ Synthesising the research into a persona and a customer journey map made the dro
 <ImageFigure
   wide
   src={`${IMAGES}/03-journey-map.png`}
-  alt="The synthesised customer journey map with a client persona, annotated at each stage with the friction point and the design opportunity — cross-folder search, clearer naming and download-limit messaging, and re-prioritised actions."
-  caption="Mapping the client's path turned scattered findings into three specific drop-off points to design against."
+  alt="The full customer journey map for document retrieval — four phases (Discovery/Awareness, Searching for documents, View/Download/Archive, Searching the document) tracked across a touchpoint row and an emotion curve that dips from Normal to Disappointed, Confused and Angry, with the critical pain points and mapped solutions listed beneath each stage."
+  caption="The customer journey map — the emotion curve names exactly where the vault lost the client, and every drop-off is paired with the fix that shipped."
 />
 
 ## Ideate
@@ -221,13 +233,13 @@ I validated the design across **two web versions and one mobile-app version** �
 <ImageFigure
   wide
   src={`${IMAGES}/06-usability-test.png`}
-  alt="Two web layout variations and one app version of Postbox side by side, annotated with tester ratings and comments — the preferred version marked with its 8.5 out of 10 score."
-  caption="Testing two web layouts and the app version head-to-head — the winner earned it, 8.5/10 from 60% of testers."
+  alt="The tested Postbox versions — two desktop layouts and two mobile layouts — annotated with tester feedback: what held up (clear search/filter, easy Inbox/Archive navigation, clear action buttons, an undo for a mis-moved file) and what testers asked for (search bar placed up front, clearer archive icon, less filtering when names are clear)."
+  caption="Both versions annotated with real tester feedback — what held up, and what the testers told me to change."
 />
 
 <Prose>
 
-**Version 1 won decisively** — 60% of testers chose it, rating it 8.5/10. But the most useful finding was one the prototype hadn't anticipated: clients wanted **control over how the vault reached them.** They wanted to choose the *channel* — email, SMS, push — and the *frequency*, like a weekly summary instead of a notification per document. That fed a new **Notification Preference Center**, added on the strength of testing rather than assumption.
+**Version 1 won decisively** — 60% of testers preferred it at an average **8.5/10**, against 40% and **7.5** for Version 2. But the most useful finding was one the prototype hadn't anticipated: clients wanted **control over how the vault reached them** — to choose the *channel* (email, SMS, push) and the *frequency*, like one weekly summary of everything unread instead of a mail per document. That became **customisable notification preferences**, added on the strength of testing rather than assumption.
 
 </Prose>
 
@@ -252,12 +264,11 @@ I validated the design across **two web versions and one mobile-app version** �
   title="Search-first — real-time results across every folder"
   media={{
     src: `${IMAGES}/07-search-first.png`,
-    portrait: true,
-    alt: 'The redesigned Postbox landing leading with a prominent search field, returning live results drawn from across every folder as the client types.',
+    alt: 'The redesigned Postbox mobile landing — a prominent search field sits at the top, above Inbox / Archive tabs, a Sort-by-date control and a Filter, then the document list with clear type icons and read indicators.',
   }}
 >
 
-The vault now opens on search, and search returns **live results across the whole archive** — not a lookup trapped in one folder. Analytics said clients avoided search because it didn't reward them; making it the first, fastest, most reliable path turned a 3%-used tool into the front door.
+The vault now opens on search, sitting above the Inbox/Archive tabs, and search returns **live results across the whole archive** — not a lookup trapped in one folder. Analytics said clients avoided search because it didn't reward them (only ~3% used it daily); making it the first, fastest, most reliable path turned a 3%-used tool into the front door.
 
 </DecisionBlock>
 
@@ -267,8 +278,8 @@ The vault now opens on search, and search returns **live results across the whol
   title="Recognisable names, and download limits shown up front"
   media={{
     src: `${IMAGES}/08-naming-limits.png`,
-    alt: 'A Postbox document row with a clear, human-readable name and a visible note communicating the download limit before the client acts.',
-    caption: 'Say the limit before the action, not after the failure.',
+    alt: 'The multi-select download screen in Postbox — a live size meter reads "56mb / 50mb" in an orange warning state as the client selects files, communicating the download limit before they hit it rather than after a failed export.',
+    caption: 'A live size meter warns "56mb / 50mb" as you select — the limit is said before the action, not after the failure.',
   }}
   tradeoff={{
     considered: 'Keeping the compliance-generated document names as the primary label.',
@@ -292,26 +303,21 @@ Documents read in language a client recognises, and any download limit is commun
   title="Re-prioritise around what clients actually do"
   media={{
     src: `${IMAGES}/09-bulk-actions.png`,
-    alt: 'The Postbox document list in multi-select mode, with bulk download and archive as the primary actions surfaced for the client.',
+    alt: 'Postbox in multi-select mode with four documents selected, exporting them together as a single ZIP through the native share sheet — AirDrop, Messages, Mail, Save to Files — so a client can hand a whole set to their accountant or family office in one action.',
   }}
 >
 
-Buttons and functions are ordered by **client importance, not taxonomy convenience** — retrieval and export first, with **bulk download and archive** promoted to primary actions. The tasks clients came to do are the tasks the interface leads with.
+Buttons and functions are ordered by **client importance, not taxonomy convenience** — retrieval and export first, with **bulk download and archive** promoted to primary actions. Select several documents and export them as one ZIP straight through the native share sheet — the exact "share with my family office" job clients described, done in one pass rather than one file at a time.
 
 </DecisionBlock>
 
 <DecisionBlock
   index="04"
   tag="Trust"
-  title="A Notification Preference Center — client-controlled channel and frequency"
-  media={{
-    src: `${IMAGES}/10-notification-center.png`,
-    portrait: true,
-    alt: 'The Notification Preference Center in Postbox — toggles to choose channel (email, SMS, push) and frequency, including a weekly-summary option.',
-  }}
+  title="Customisable notification preferences — client-controlled channel and frequency"
 >
 
-Surfaced entirely by testing: clients choose **how** the vault reaches them — email, SMS or push — and **how often**, down to a weekly summary. Control the old vault never offered, added because clients asked for it under test.
+Surfaced entirely by testing: the old daily email "feels like spam — you cannot deactivate these mails." So the redesign lets clients choose **how** the vault reaches them — email, SMS or push — and **how often**, down to a single weekly summary of everything unread. Control the old vault never offered, added because clients asked for it under test.
 
 </DecisionBlock>
 
@@ -321,21 +327,21 @@ Surfaced entirely by testing: clients choose **how** the vault reaches them — 
 
 <Prose>
 
-With the structure settled, I defined a **premium visual language** — one that made the vault feel as considered as the wealth it held — and documented it in a guide so the standard held as Postbox scaled across platforms and future releases.
+The UI was built on **Emerald** — ABN AMRO's shared design system — for consistency and speed, and optimised for **desktop, tablet and mobile** so the same search-first structure holds on every surface. The result reads as premium and on-brand, with the client's own feedback — customisable notifications included — designed in rather than bolted on.
 
 </Prose>
 
 <ImageFigure
   wide
   src={`${IMAGES}/11-app-designs.png`}
-  alt="Final Postbox app screens across iOS and Android — search-first landing, document detail, multi-select export, and the notification preference center — in the premium visual language."
-  caption="The final app designs — one premium, consistent language across iOS and Android."
+  alt="The redesigned Postbox shown responsively across a phone, a laptop and a tablet under ABN AMRO Private Banking branding — the same search-first Inbox/Archive layout, filter panel and document list adapting to each screen size."
+  caption="One responsive design, three surfaces — phone, tablet and desktop — on ABN AMRO's Emerald design system."
 />
 
 <ImageFigure
   src={`${IMAGES}/12-landing-web.png`}
-  alt="The Postbox landing on web — the same search-first structure and visual language carried onto the larger canvas."
-  caption="The same experience on web — search-first, consistent, built to scale."
+  alt="The full Postbox page on web — ABN AMRO Private Banking header, a left-hand filter panel (date, document type, portfolio name, account number), and a paginated document list with clear names, sizes, dates and per-row folder and download actions."
+  caption="The web experience in full — search and filter up front, clear document rows, and download built into every row."
 />
 
 ## Outcomes
@@ -382,6 +388,6 @@ The other lesson was procedural: **seek feedback early and continually.** Engagi
 
 <Prose>
 
-*Yogesh Shetty · Product Designer — lead designer on the Postbox redesign, end to end*
+*Yogesh Shetty · Product Designer — UX design, research, workshop facilitation and usability testing on the Postbox redesign*
 
 </Prose>

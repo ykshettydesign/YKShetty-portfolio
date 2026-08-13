@@ -137,7 +137,7 @@ export const caseStudies = [
     href: '/case-studies/postbox', // full case study page
     brief: 'A search no one trusted, in a vault clients leaned on their banker to use.',
     card: 'A complex document vault made self-service — search-first, across all three platforms.',
-    cover: '/case-studies/postbox/images/cover.jpg', // drop cover.jpg into that folder
+    cover: '/case-studies/postbox/images/11-app-designs.png', // responsive UI across phone/tablet/desktop
     insight: 'Made search the front door — the fastest path clients trusted least.',
     problem: 'Clients struggled to find and export documents, so they fell back on their banker — driving up support tickets.',
     solution: 'Rebuilt the vault search-first, with real-time results across every folder — so clients self-serve.',

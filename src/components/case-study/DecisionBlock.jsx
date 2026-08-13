@@ -7,7 +7,9 @@ import { Media } from './Media'
  * flow in the right column. Borderless — rows are separated by a hairline via
  * `.cs-decision + .cs-decision`. Compose several inside <DecisionList>.
  *
- *   media    = { src, alt, caption? }   inline, height-capped
+ *   media    = { src, alt, caption?, width? }  inline; `width` (px number or
+ *                                        CSS length) caps its size — use for a
+ *                                        small/square shot that shouldn't fill
  *   tradeoff = { considered, why }      compact "Alternative considered /
  *                                        Why we didn’t" note (kept visually
  *                                        distinct — it's the strongest signal)
@@ -28,7 +30,10 @@ export function DecisionBlock({ title, index, tag, media, tradeoff, children, ..
         <div className="cs-decision-body">{children}</div>
 
         {media ? (
-          <div className={`cs-decision-media${media.portrait ? ' cs-decision-media--portrait' : ''}`}>
+          <div
+            className={`cs-decision-media${media.portrait ? ' cs-decision-media--portrait' : ''}`}
+            style={media.width ? { maxWidth: typeof media.width === 'number' ? `${media.width}px` : media.width } : undefined}
+          >
             <Media src={media.src} alt={media.alt} />
             {media.caption ? <div className="cs-caption">{media.caption}</div> : null}
           </div>

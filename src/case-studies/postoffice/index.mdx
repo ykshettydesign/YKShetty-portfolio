@@ -7,6 +7,7 @@ import {
   BeforeAfter,
   DecisionBlock,
   DecisionList,
+  InsightGrid,
   Snapshot,
 } from '../../components/case-study'
 
@@ -157,20 +158,58 @@ I took the prototype to the stores — **site visits and usability testing** wit
   caption="The prototype, annotated with real testing feedback — what held up and what the counter changed."
 />
 
+<InsightGrid
+  eyebrow="Key findings from prototype testing"
+  heading="What the counter changed"
+  items={[
+    {
+      icon: 'shield',
+      title: 'Role defaults & inheritance',
+      bullets: [
+        'Selecting "Admin" should automatically include "Standard User" permissions',
+        'New users should default to Standard User',
+      ],
+    },
+    {
+      icon: 'alert',
+      title: 'Username conflicts',
+      bullets: [
+        'Admins entered usernames manually, risking clashes with existing accounts',
+        'Manual entry slowed the whole flow down',
+      ],
+    },
+    {
+      icon: 'sparkles',
+      title: 'Auto-populate usernames',
+      bullets: [
+        'Generate usernames from the first- and last-name fields',
+        'Eliminates manual entry and the errors that came with it',
+      ],
+    },
+    {
+      icon: 'eye',
+      title: 'Hide the unit ID at creation',
+      bullets: [
+        'Each store has a single default unit',
+        'Exposing the field added clutter with no value',
+      ],
+    },
+    {
+      icon: 'check',
+      title: 'Simple, admin-defined passwords',
+      bullets: [
+        'Auto-generated complex passwords were unreadable at a busy counter',
+        'Admins needed a simple password they could hand a new hire on the spot',
+      ],
+    },
+  ]}
+/>
+
 <Prose>
 
-**Key findings from prototype testing:**
-
-1. **Role defaults and inheritance** — selecting "Admin" should automatically include "Standard User" permissions; new users should default to Standard User
-2. **Username conflicts** — admins entered usernames manually, risking clashes with existing accounts and slowing down the flow
-3. **Auto-populate usernames** — generate usernames from first and last name fields to eliminate manual entry and reduce errors
-4. **Hide unit ID during creation** — each store has a single default unit, so exposing the field added clutter with no value
-5. **Simpler passwords** — auto-generated complex passwords were unreadable at a busy counter; admins needed simple, admin-defined passwords they could hand to a new hire on the spot
-
-Three more findings went beyond the prototype and changed the scope entirely:
+Two more findings went beyond the prototype and changed the scope entirely:
 
 - **Deleted users could not return.** The old system refused to re-add someone under the same username — turning every seasonal rehire into a workaround. Admins asked to keep deleted users recoverable for about a week before permanent removal.
-- **Service accounts mixed with people.** System users sat in the same list as real staff — a problem invisible until admins used the prototype with real data.
 - **A paper shadow system.** With no remote access, admins had been copying private staff details into personal notebooks to work from home. They wanted a **physical copy they could rely on** offline or in an emergency. Digitize without meeting that need, and the notebooks come right back.
 
 One more finding shaped the platform: **mobile access was the #1 request** — admins did not want a nicer desktop screen; they wanted to manage staff from their phone. The portal became mobile-first, not desktop-first-then-shrunk.

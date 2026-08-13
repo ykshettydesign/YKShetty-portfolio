@@ -186,10 +186,10 @@ I took the prototype to the stores — **site visits and usability testing** wit
     },
     {
       icon: 'check',
-      title: 'Simple, admin-defined passwords',
+      title: 'Simple 4-digit passcode, reset on first login',
       bullets: [
         'Auto-generated complex passwords were unreadable at a busy counter',
-        'Admins needed a simple password they could hand a new hire on the spot',
+        'A simple 4-digit passcode the admin reads aloud — the user resets it on first login',
       ],
     },
   ]}
@@ -222,14 +222,14 @@ And the finding that shaped the platform most: **mobile access was the #1 reques
 
 <DecisionBlock
   index="01"
-  title="Simple, admin-defined passwords"
+  title="Simple 4-digit passcode, reset on first login"
   media={{
     src: `${IMAGES}/11-simple-password.png`,
-    alt: 'The new user creation confirmation showing a simple, admin-defined one-time password instead of a complex auto-generated string.',
+    alt: 'The new user creation confirmation showing a simple auto-generated 4-digit passcode the admin hands over, which the new hire must reset on first login.',
   }}
 >
 
-Testing killed the complex auto-generated passwords. Admins needed to read a password out loud to a new hire across a busy counter — not decipher a random string. The redesign lets admins **set a simple one-time password** on the spot. A security instinct that ignored the counter reality, corrected by the counter.
+Testing killed the complex auto-generated passwords. Admins needed to read a code out loud to a new hire across a busy counter — not decipher a random string. The system now generates a **simple 4-digit passcode** the admin can hand over on the spot, and the **new hire resets it on first login** — a code the counter can actually read out, with security kept intact by the forced reset. A security instinct that ignored the counter reality, corrected by the counter.
 
 </DecisionBlock>
 
@@ -351,7 +351,7 @@ This project looked like a technical chore — port a legacy portal to the cloud
 
 The prototype gave us the structure. Testing gave us the truth. Admins did not need a nicer version of the old portal — they needed to manage **10,000+ staff accounts from anywhere, on any device**, without the workarounds the old system forced.
 
-Once the goal became **operational freedom** rather than faithful migration, everything followed: mobile-first because that is what admins asked for, a secure export because that is what the notebooks were really for, and simple passwords because the counter is not a security lab.
+Once the goal became **operational freedom** rather than faithful migration, everything followed: mobile-first because that is what admins asked for, a secure export because that is what the notebooks were really for, and a simple hand-off passcode because the counter is not a security lab.
 
 The decisions I am proudest of here are the ones testing changed.
 

@@ -3,7 +3,7 @@ import {
   Prose,
   PullQuote,
   ImageFigure,
-  IllustrationRow,
+  PrototypeShowcase,
   HeroShowcase,
   DecisionBlock,
   DecisionList,
@@ -197,12 +197,11 @@ I took the prototype to the stores — **site visits and usability testing** wit
 
 <Prose>
 
-Two more findings went beyond the prototype and changed the scope entirely:
+One more finding went beyond the prototype and changed the scope entirely:
 
-- **Deleted users could not return.** The old system refused to re-add someone under the same username — turning every seasonal rehire into a workaround. Admins asked to keep deleted users recoverable for about a week before permanent removal.
 - **A paper shadow system.** With no remote access, admins had been copying private staff details into personal notebooks to work from home. They wanted a **physical copy they could rely on** offline or in an emergency. Digitize without meeting that need, and the notebooks come right back.
 
-One more finding shaped the platform: **mobile access was the #1 request** — admins did not want a nicer desktop screen; they wanted to manage staff from their phone. The portal became mobile-first, not desktop-first-then-shrunk.
+And the finding that shaped the platform most: **mobile access was the #1 request** — admins did not want a nicer desktop screen; they wanted to manage staff from their phone. The portal became mobile-first, not desktop-first-then-shrunk.
 
 </Prose>
 
@@ -291,42 +290,18 @@ The **entire row** is a tap target across every staff table. Paired with **color
 
 </DecisionBlock>
 
-<DecisionBlock
-  index="06"
-  title="Soft delete with 7-day recovery"
-  tradeoff={{
-    considered: 'A standard hard-delete with a careful confirmation dialog.',
-    why: (
-      <>
-        Testers validated the careful confirmation, then went further — they asked to keep deleted users
-        recoverable before permanent removal. One change from the floor closed two gaps: accidental
-        deletes became reversible, and seasonal workers returning within the window could be restored
-        instead of hitting the "cannot reuse that username" block.
-      </>
-    ),
-  }}
->
-
-The **7-day soft delete** was not my idea — it came directly from testing. The **Remove** button is high-contrast red to signal the weight, and **Cancel** stays visually neutral, forcing a conscious stop-and-think moment. But the real safeguard is the recovery window behind it.
-
-</DecisionBlock>
-
 </DecisionList>
 
-<IllustrationRow
-  items={[
-    {
-      src: `${IMAGES}/12-create-user-web.png`,
-      alt: 'The final new-user creation flow on web — auto-populated username, role inheritance with Standard User defaulted on, and the unit ID hidden.',
-      title: 'Web',
-    },
-    {
-      src: `${IMAGES}/13-create-user-mobile.png`,
-      alt: 'The same new-user creation flow on mobile — the identical workflow, mobile-first, so an admin can onboard staff from their phone.',
-      title: 'Mobile',
-    },
-  ]}
-  caption="The final new-user creation flow — the same workflow across web and mobile, built mobile-first for the admins' #1 request."
+<PrototypeShowcase
+  web={{
+    src: `${IMAGES}/12-create-user-web.mp4`,
+    alt: 'A recorded walkthrough of the final new-user creation flow on web — auto-populated username, role inheritance with Standard User defaulted on, and the unit ID hidden.',
+  }}
+  mobile={{
+    src: `${IMAGES}/13-create-user-mobile.mp4`,
+    alt: 'A recorded walkthrough of the same new-user creation flow on mobile — the identical workflow, mobile-first, so an admin can onboard staff from their phone.',
+  }}
+  caption="The final new-user creation flow, recorded — the same workflow across web and mobile, built mobile-first for the admins' #1 request."
 />
 
 ## AI in the process
@@ -349,13 +324,12 @@ The SalesApp Admin Portal is **live in production** across partner stores.
   items={[
     { icon: 'rocket', text: <><strong>100% remote-ready</strong> — admin work no longer chained to the physical service desk</> },
     { icon: 'trendUp', text: <><strong>~65% faster onboarding</strong> — user creation and staff setup, down from a slow counter-only process</> },
-    { icon: 'shield', text: <><strong>0% accidental data loss</strong> — 7-day recovery window replaced irreversible hard deletes</> },
   ]}
 />
 
 <Prose>
 
-The efficiency figure is the engagement's reported early indicator, not a number tracked across a full staffing season — a strong directional win that a longer runway would firm up. The other two are structural: true the moment the design shipped.
+The efficiency figure is the engagement's reported early indicator, not a number tracked across a full staffing season — a strong directional win that a longer runway would firm up. The other is structural: true the moment the design shipped.
 
 </Prose>
 
@@ -363,11 +337,9 @@ The efficiency figure is the engagement's reported early indicator, not a number
 
 <Prose>
 
-Three gaps I would rather name than hide:
+One gap I would rather name than hide:
 
-- **The 7-day window is still an assumption.** Long enough to catch a mistake or a quick rehire, short enough to purge data — but the correct number is an operations question to pressure-test against real recovery and rehire patterns
 - **Export replacing the shadow system is validated in the lab, not yet in the wild.** Testers found it genuinely useful, but whether admins actually stop keeping paper over a full season is a field question to instrument
-- **Username reuse stayed bounded by the legacy database.** Soft delete softens the returning-worker problem within the window; fully removing the constraint needed backend change outside a one-month scope
 
 </Prose>
 
@@ -379,7 +351,7 @@ This project looked like a technical chore — port a legacy portal to the cloud
 
 The prototype gave us the structure. Testing gave us the truth. Admins did not need a nicer version of the old portal — they needed to manage **10,000+ staff accounts from anywhere, on any device**, without the workarounds the old system forced.
 
-Once the goal became **operational freedom** rather than faithful migration, everything followed: mobile-first because that is what admins asked for, a secure export because that is what the notebooks were really for, simple passwords because the counter is not a security lab, and a recoverable delete because the floor told me a careful confirm was not enough.
+Once the goal became **operational freedom** rather than faithful migration, everything followed: mobile-first because that is what admins asked for, a secure export because that is what the notebooks were really for, and simple passwords because the counter is not a security lab.
 
 The decisions I am proudest of here are the ones testing changed.
 

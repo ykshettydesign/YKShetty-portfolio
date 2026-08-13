@@ -711,6 +711,48 @@
 }
 
 /* ============================================================
+   PROTOTYPE SHOWCASE — paired web + mobile recordings
+   ------------------------------------------------------------
+   A landscape web clip beside a portrait mobile clip in a phone
+   shell. Columns sized to each form factor (web wider), so the
+   two proportions sit balanced rather than stretched to match.
+   ============================================================ */
+.cs-protoshow-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr);
+  gap: clamp(20px, 3.2vw, 44px);
+  align-items: center;
+}
+.cs-protoshow-col {
+  display: flex;
+  flex-direction: column;
+  gap: var(--cs-3);
+  min-width: 0;
+}
+.cs-protoshow-col--mobile { align-items: center; }
+.cs-protoshow-label {
+  font-family: var(--font-body);
+  font-size: var(--cs-text-small);
+  font-weight: 600;
+  line-height: 1.35;
+  color: var(--text-primary);
+}
+.cs-protoshow-web { background: var(--bg-surface-alt); }
+/* natural aspect ratio — the recording shows in full, never cropped or letterboxed */
+.cs-protoshow-web video {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.cs-protoshow-col--mobile .cs-phone { width: min(260px, 100%); margin: 0; }
+.cs-phone-screen video { display: block; width: 100%; height: auto; background: #fff; }
+
+@media (max-width: 720px) {
+  .cs-protoshow-grid { grid-template-columns: minmax(0, 1fr); gap: clamp(24px, 6vw, 36px); }
+  .cs-protoshow-col--mobile { justify-self: center; }
+}
+
+/* ============================================================
    ILLUSTRATION ROW — 2–4 images, one shared caption
    ============================================================ */
 .cs-illrow { max-width: var(--cs-wide); margin-inline: auto; }

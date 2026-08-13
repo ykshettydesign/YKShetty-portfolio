@@ -112,9 +112,7 @@ The goal: **a centralized web portal** that gives authorized business administra
 
 <Prose>
 
-The core business requirement was user administration: create, edit, deactivate, and reactivate staff accounts. Assign roles and permissions. Manage access by country, region, team, or business unit.
-
-The old portal could technically do this — but it was bound to the counter terminal. No remote access, no mobile support. To act as admin, staff had to log the current user out and log back in on the counter machine — admin work and customer service competing for the same desk, the same minute.
+Staff administration — adding people, resetting passwords, managing roles and access — was the kind of work that should take minutes. The old portal could handle it, but only from the counter terminal. No remote access, no mobile support. To act as admin, staff had to log the current user out and log back in on the same machine — admin work and customer service competing for the same desk, the same minute.
 
 For a system supporting **10,000-13,000 employees across locations**, that friction compounded at every store.
 
@@ -172,18 +170,10 @@ I took the prototype to the stores — **site visits and usability testing** wit
     },
     {
       icon: 'alert',
-      title: 'Username conflicts',
+      title: 'Username entry was error-prone',
       bullets: [
-        'Admins entered usernames manually, risking clashes with existing accounts',
-        'Manual entry slowed the whole flow down',
-      ],
-    },
-    {
-      icon: 'sparkles',
-      title: 'Auto-populate usernames',
-      bullets: [
-        'Generate usernames from the first- and last-name fields',
-        'Eliminates manual entry and the errors that came with it',
+        'Admins typed usernames manually, risking clashes with existing accounts',
+        'Auto-populating from first and last name fields eliminated the guesswork',
       ],
     },
     {
@@ -224,7 +214,7 @@ One more finding shaped the platform: **mobile access was the #1 request** — a
   heading="The design decisions"
   eyebrow="Shaped by the counter"
   icon="sliders"
-  intro={<>Every decision below traces back to a testing finding. The prototype gave us the structure; the counter told us what to change.</>}
+  intro={<>Every decision below was shaped or confirmed by testing. The prototype gave us the structure; the counter told us what to change.</>}
   coda={{
     title: 'Every decision tested at the counter',
     body: <>These decisions were not designed in isolation — they were validated and reshaped by the people who run the counter, on the devices they actually use.</>,
@@ -259,6 +249,15 @@ Selecting **"Admin"** automatically includes **"Standard User"** permissions —
 
 <DecisionBlock
   index="03"
+  title="Streamlined user creation"
+>
+
+Three testing findings pointed at the same form: **auto-populate usernames** from first and last name fields instead of manual entry, **hide the unit ID** (each store has one default), and **default the role to Standard User**. Each cut a field or a decision from the creation flow — small changes that compound when you are onboarding a wave of seasonal hires.
+
+</DecisionBlock>
+
+<DecisionBlock
+  index="04"
   title="Secure export — kill the shadow system"
   media={{
     src: `${IMAGES}/04-export-feature.png`,
@@ -267,26 +266,6 @@ Selecting **"Admin"** automatically includes **"Standard User"** permissions —
 >
 
 Site visits revealed the paper notebooks. The fix was not banning them — it was serving the need underneath. A secure **Download / Export** gives admins the physical copy they relied on, while the source of truth stays digital, current, and secure.
-
-</DecisionBlock>
-
-<DecisionBlock
-  index="04"
-  title="Soft delete with 7-day recovery"
-  tradeoff={{
-    considered: 'A standard hard-delete with a careful confirmation dialog.',
-    why: (
-      <>
-        Testers validated the careful confirmation, then went further — they asked to keep deleted users
-        recoverable before permanent removal. One change from the floor closed two gaps: accidental
-        deletes became reversible, and seasonal workers returning within the window could be restored
-        instead of hitting the "cannot reuse that username" block.
-      </>
-    ),
-  }}
->
-
-The **7-day soft delete** was not my idea — it came directly from testing. The **Remove** button is high-contrast red to signal the weight, and **Cancel** stays visually neutral, forcing a conscious stop-and-think moment. But the real safeguard is the recovery window behind it.
 
 </DecisionBlock>
 
@@ -309,6 +288,26 @@ The **7-day soft delete** was not my idea — it came directly from testing. The
 >
 
 The **entire row** is a tap target across every staff table. Paired with **color-coded role chips**, an admin can scan a list and act on the right person without hunting.
+
+</DecisionBlock>
+
+<DecisionBlock
+  index="06"
+  title="Soft delete with 7-day recovery"
+  tradeoff={{
+    considered: 'A standard hard-delete with a careful confirmation dialog.',
+    why: (
+      <>
+        Testers validated the careful confirmation, then went further — they asked to keep deleted users
+        recoverable before permanent removal. One change from the floor closed two gaps: accidental
+        deletes became reversible, and seasonal workers returning within the window could be restored
+        instead of hitting the "cannot reuse that username" block.
+      </>
+    ),
+  }}
+>
+
+The **7-day soft delete** was not my idea — it came directly from testing. The **Remove** button is high-contrast red to signal the weight, and **Cancel** stays visually neutral, forcing a conscious stop-and-think moment. But the real safeguard is the recovery window behind it.
 
 </DecisionBlock>
 

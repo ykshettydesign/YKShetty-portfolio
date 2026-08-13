@@ -3,8 +3,8 @@ import {
   Prose,
   PullQuote,
   ImageFigure,
+  PrototypeFigure,
   HeroShowcase,
-  BeforeAfter,
   DecisionBlock,
   DecisionList,
   InsightGrid,
@@ -313,16 +313,13 @@ The **7-day soft delete** was not my idea — it came directly from testing. The
 
 </DecisionList>
 
-<BeforeAfter
-  before={{
-    src: `${IMAGES}/07-delete-before.png`,
-    alt: 'The legacy hard-delete: a plain confirmation that permanently removes a staff record with no way back.',
-  }}
-  after={{
-    src: `${IMAGES}/08-delete-after.png`,
-    alt: 'The reshaped delete: a 7-day recovery notice, a high-contrast red Remove button, and a neutral, non-primary Cancel button.',
-  }}
-  caption="The delete testing reshaped — from a careful confirm to a recoverable, restore-anytime action."
+<PrototypeFigure
+  wide
+  src={`${IMAGES}/12-final-prototype.mp4`}
+  poster={`${IMAGES}/12-final-prototype-poster.png`}
+  alt="A recorded walkthrough of the final SalesApp Admin Portal prototype — clicking through adding a user, auto-populated username, role inheritance, and the 7-day soft-delete recovery flow."
+  label="Final prototype · recorded walkthrough"
+  caption="The final clickable prototype, walked through end to end — every decision above, working as one flow, on the devices admins actually use."
 />
 
 ## AI in the process

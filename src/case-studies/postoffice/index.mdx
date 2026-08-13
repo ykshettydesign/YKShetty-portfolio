@@ -3,7 +3,7 @@ import {
   Prose,
   PullQuote,
   ImageFigure,
-  PrototypeFigure,
+  IllustrationRow,
   HeroShowcase,
   DecisionBlock,
   DecisionList,
@@ -313,13 +313,20 @@ The **7-day soft delete** was not my idea — it came directly from testing. The
 
 </DecisionList>
 
-<PrototypeFigure
-  wide
-  src={`${IMAGES}/12-final-prototype.mp4`}
-  poster={`${IMAGES}/12-final-prototype-poster.png`}
-  alt="A recorded walkthrough of the final SalesApp Admin Portal prototype — clicking through adding a user, auto-populated username, role inheritance, and the 7-day soft-delete recovery flow."
-  label="Final prototype · recorded walkthrough"
-  caption="The final clickable prototype, walked through end to end — every decision above, working as one flow, on the devices admins actually use."
+<IllustrationRow
+  items={[
+    {
+      src: `${IMAGES}/12-create-user-web.png`,
+      alt: 'The final new-user creation flow on web — auto-populated username, role inheritance with Standard User defaulted on, and the unit ID hidden.',
+      title: 'Web',
+    },
+    {
+      src: `${IMAGES}/13-create-user-mobile.png`,
+      alt: 'The same new-user creation flow on mobile — the identical workflow, mobile-first, so an admin can onboard staff from their phone.',
+      title: 'Mobile',
+    },
+  ]}
+  caption="The final new-user creation flow — the same workflow across web and mobile, built mobile-first for the admins' #1 request."
 />
 
 ## AI in the process

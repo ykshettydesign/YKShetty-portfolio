@@ -711,51 +711,6 @@
 }
 
 /* ============================================================
-   PROTOTYPE FIGURE — recorded clickable-prototype walkthrough
-   ------------------------------------------------------------
-   A framed <video> that reads as an interactive prototype recording:
-   a labelled chip anchors it, the browser-style frame sets it apart
-   from a plain screenshot. Degrades to the shared placeholder.
-   ============================================================ */
-.cs-prototype-frame {
-  position: relative;
-  border-radius: var(--cs-radius);
-  border: 1px solid var(--border-card);
-  background: var(--bg-surface-alt);
-  padding: clamp(10px, 1.4vw, 16px);
-  overflow: hidden;
-}
-.cs-prototype-tag {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  margin-bottom: clamp(10px, 1.4vw, 14px);
-  padding: 5px 10px 5px 8px;
-  border-radius: 999px;
-  background: var(--accent-tint);
-  color: var(--cs-accent);
-  font-family: var(--font-mono);
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-}
-.cs-prototype-tag svg { display: block; }
-.cs-prototype-media {
-  /* the video sits in the shared media frame, edge-to-edge inside the outer pad */
-  background: #000;
-  aspect-ratio: 16 / 10;
-}
-.cs-prototype-media video {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  background: #000;
-}
-.cs-prototype-placeholder { margin: 0; }
-
-/* ============================================================
    ILLUSTRATION ROW — 2–4 images, one shared caption
    ============================================================ */
 .cs-illrow { max-width: var(--cs-wide); margin-inline: auto; }

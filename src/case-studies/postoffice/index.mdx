@@ -159,13 +159,21 @@ I took the prototype to the stores — **site visits and usability testing** wit
 
 <Prose>
 
-The annotations capture what admins validated and what they pushed back on. Three findings went beyond the prototype and changed the scope entirely:
+**Key findings from prototype testing:**
+
+1. **Role defaults and inheritance** — selecting "Admin" should automatically include "Standard User" permissions; new users should default to Standard User
+2. **Username conflicts** — admins entered usernames manually, risking clashes with existing accounts and slowing down the flow
+3. **Auto-populate usernames** — generate usernames from first and last name fields to eliminate manual entry and reduce errors
+4. **Hide unit ID during creation** — each store has a single default unit, so exposing the field added clutter with no value
+5. **Simpler passwords** — auto-generated complex passwords were unreadable at a busy counter; admins needed simple, admin-defined passwords they could hand to a new hire on the spot
+
+Three more findings went beyond the prototype and changed the scope entirely:
 
 - **Deleted users could not return.** The old system refused to re-add someone under the same username — turning every seasonal rehire into a workaround. Admins asked to keep deleted users recoverable for about a week before permanent removal.
 - **Service accounts mixed with people.** System users sat in the same list as real staff — a problem invisible until admins used the prototype with real data.
 - **A paper shadow system.** With no remote access, admins had been copying private staff details into personal notebooks to work from home. They wanted a **physical copy they could rely on** offline or in an emergency. Digitize without meeting that need, and the notebooks come right back.
 
-Two more findings shaped the interaction design: **auto-generated passwords were too complex** to read out at a busy counter, and **mobile access was the #1 request** — the portal became mobile-first, not desktop-first-then-shrunk.
+One more finding shaped the platform: **mobile access was the #1 request** — admins did not want a nicer desktop screen; they wanted to manage staff from their phone. The portal became mobile-first, not desktop-first-then-shrunk.
 
 </Prose>
 

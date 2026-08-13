@@ -135,17 +135,17 @@ export const caseStudies = [
     meta: 'ABN AMRO · multi',
     metaLong: '04 · ABN AMRO · iOS · Android · Web',
     href: '/case-studies/postbox', // full case study page
-    brief: "Sort documents the bank's way, by type.",
-    card: 'A complex document archive made self-service — across all three platforms.',
+    brief: 'A search no one trusted, in a vault clients leaned on their banker to use.',
+    card: 'A complex document vault made self-service — search-first, across all three platforms.',
     cover: '/case-studies/postbox/images/cover.jpg', // drop cover.jpg into that folder
-    insight: 'Organised by life event — the way clients actually search.',
-    problem: 'Clients needed their banker to find every document, because files were sorted the bank’s way, not theirs.',
-    solution: 'Reorganised around life events — the way clients actually think — so they self-serve.',
+    insight: 'Made search the front door — the fastest path clients trusted least.',
+    problem: 'Clients struggled to find and export documents, so they fell back on their banker — driving up support tickets.',
+    solution: 'Rebuilt the vault search-first, with real-time results across every folder — so clients self-serve.',
     body:
-      'High-net-worth clients leaned on their banker for every document. I built retrieval around life events rather than the compliance taxonomy — which stays underneath, invisible, doing its job.',
+      'High-net-worth clients leaned on their banker for basic retrieval. Analytics showed search — the fastest path — was used only ~3% of the time. I made it the front door, with live cross-folder results, while the compliance taxonomy stays underneath, invisible, doing its job.',
     stats: [
+      { value: '6.2 → 7.8', label: 'Internet-banking NPS' },
       { value: '3 platforms', label: 'iOS · Android · Web' },
-      { value: 'Self-serve', label: 'Was banker-led' },
     ],
     mailto: `mailto:${CONTACT_EMAIL}?subject=Postbox`,
     seed: { x: 0.98, y: 0.89, r: -1.6 },

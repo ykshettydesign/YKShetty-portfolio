@@ -31,7 +31,7 @@ export const meta = {
     { label: 'Region', value: 'Nordic markets' },
     { label: 'Platform', value: 'Responsive web portal (mobile-first)' },
     { label: 'Timeline', value: '1 month' },
-    { label: 'Tools', value: 'Figma, Generative AI for early ideation' },
+    { label: 'Tools', value: 'Figma' },
   ],
   sectionIcons: {
     'project-context': 'layers',
@@ -39,18 +39,13 @@ export const meta = {
     'the-problem': 'alert',
     'the-first-prototype': 'compass',
     'what-testing-revealed': 'flask',
-    'ai-in-the-process': 'sparkles',
     outcomes: 'chart',
-    'what-we-shipped-knowingly-incomplete': 'flag',
-    'the-takeaway': 'target',
   },
   keySections: [
     'outcomes',
     'the-first-prototype',
     'what-testing-revealed',
     'the-design-decisions',
-    'what-we-shipped-knowingly-incomplete',
-    'the-takeaway',
   ],
 }
 
@@ -305,14 +300,6 @@ The **entire row** is a tap target across every staff table. Paired with **color
   caption="The final new-user creation flow, recorded — the same workflow across web and mobile, built mobile-first for the admins' #1 request."
 />
 
-## AI in the process
-
-<Prose>
-
-A one-month deadline forces sharp choices about where time goes. **Generative AI** brainstormed layout variations for complex staff tables — skipping the blank-page phase entirely. Engineering ran a tight feasibility loop against legacy database limits, shaping what could ship. AI got me out of the gate faster; the field and usability test made sure I solved the right problem.
-
-</Prose>
-
 ## Outcomes
 
 <Prose>
@@ -331,30 +318,6 @@ The SalesApp Admin Portal is **live in production** across partner stores.
 <Prose>
 
 The efficiency figure is the engagement's reported early indicator, not a number tracked across a full staffing season — a strong directional win that a longer runway would firm up. The other is structural: true the moment the design shipped.
-
-</Prose>
-
-## What we shipped knowingly incomplete
-
-<Prose>
-
-One gap I would rather name than hide:
-
-- **Export replacing the shadow system is validated in the lab, not yet in the wild.** Testers found it genuinely useful, but whether admins actually stop keeping paper over a full season is a field question to instrument
-
-</Prose>
-
-## The takeaway
-
-<Prose>
-
-This project looked like a technical chore — port a legacy portal to the cloud. The design work was refusing to treat it that way.
-
-The prototype gave us the structure. Testing gave us the truth. Admins did not need a nicer version of the old portal — they needed to manage **10,000+ staff accounts from anywhere, on any device**, without the workarounds the old system forced.
-
-Once the goal became **operational freedom** rather than faithful migration, everything followed: mobile-first because that is what admins asked for, a secure export because that is what the notebooks were really for, and a simple hand-off passcode because the counter is not a security lab.
-
-The decisions I am proudest of here are the ones testing changed.
 
 </Prose>
 

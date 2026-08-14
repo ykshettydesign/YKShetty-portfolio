@@ -34,17 +34,15 @@ export const statement = {
    monochrome SVG into public/logos/clients/ and add `logo: '/logos/clients/x.svg'`
    to that entry — the component renders the image instead of the wordmark. */
 export const clientLogos = {
-  heading: "Products I've contributed to",
+  heading: "Companies I've designed for",
   items: [
     { name: 'Posten Bring' },
     { name: 'ABN AMRO' },
-    { name: 'TCS' },
     { name: 'Qualcomm' },
     { name: 'Johnson & Johnson' },
     { name: 'USAA' },
     { name: 'Microsoft' },
     { name: 'JPMorgan Chase' },
-    { name: 'HCLTech' },
     { name: 'Swiss Re' },
   ],
 }

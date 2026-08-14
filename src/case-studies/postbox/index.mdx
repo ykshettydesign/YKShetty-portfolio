@@ -7,6 +7,7 @@ import {
   DecisionBlock,
   DecisionList,
   InsightGrid,
+  IllustrationRow,
   Snapshot,
 } from '../../components/case-study'
 
@@ -57,7 +58,7 @@ export const meta = {
 <HeroShowcase
   bare
   src={`${IMAGES}/01-hero.png`}
-  alt="The redesigned Postbox — a private-banking document vault shown on a phone and a web browser side by side, opening on a search field with recent documents beneath."
+  alt="The redesigned Postbox on ABN AMRO Private Banking — the document vault shown on a phone beside the desktop web app, with a notification badge on the mail icon, opening on the Inbox with search and filter up front."
   chip="Live across iOS, Android and web"
 />
 
@@ -166,19 +167,31 @@ One real constraint shaped the whole approach: in this private-banking context, 
 
 <Prose>
 
-I distilled the evidence into **two personas** and a **customer journey map** — the artifacts that made the drop-off points concrete and kept the team anchored to real behaviour rather than opinion.
+I distilled the evidence into **two personas** — one for each user segment — and a **customer journey map**. The two personas mattered because they pull in different directions: one is time-poor and mobile-first, the other is web-only and wants a hand. Designing for both is what kept the solution from over-fitting to a single kind of client.
 
 </Prose>
 
-<ImageFigure
-  src={`${IMAGES}/02-persona.png`}
-  alt="Persona: Peter, 37, married, based in Germany — inherited wealth, an investment-banking background, and very little time. Core needs: an easy, convenient, omni-channel experience and easy sharing. Frustrations: daily email notifications that feel like spam, difficult file names, unclear search, and having to download files just to open them. High online-savviness and financial literacy; uses the mobile app and website."
-  caption="Peter — one of the two personas. His frustrations read like the backlog: spam-like notifications, unclear file names, search that doesn't help, and no in-app preview."
+<IllustrationRow
+  items={[
+    {
+      src: `${IMAGES}/02-persona.png`,
+      alt: 'Persona: Peter, 37, married, Germany — inherited wealth, an investment-banking background, very little time. Core needs: an easy, convenient, omni-channel experience and easy sharing. Frustrations: daily notification emails that feel like spam, difficult file names, unclear search, having to download files just to open them. High online-savviness and financial literacy; uses both the mobile app and the website.',
+      title: 'Peter, 37 — time-poor, mobile-first',
+      tag: 'Segment A',
+    },
+    {
+      src: `${IMAGES}/02-persona-2.png`,
+      alt: 'Persona: Dominik, 53, married, Germany — retired, managing savings and investments with his wife. Core needs: an easy, convenient way to view and download account statements, to feel special, and a proactive, personalised service. Frustrations: Postbox is uncomfortable and time-consuming, cannot filter properly, can only download documents one at a time and then cannot move them to the archive, and sorting is poor. Lower online-savviness, high financial literacy; uses the website only.',
+      title: 'Dominik, 53 — web-only, needs a hand',
+      tag: 'Segment B',
+    },
+  ]}
+  caption="Two segments, two mental models — Peter wants speed on mobile; Dominik wants a calm, filterable web experience. Their frustrations read like the backlog: spam-like notifications, unclear names, search and filters that don't help, and no bulk download."
 />
 
 <Prose>
 
-Mapping his path exposed three drop-off points, each of which became a fix that carried the most weight:
+Mapping their paths exposed three drop-off points, each of which became a fix that carried the most weight:
 
 - **Search that actually works** — real-time results across every folder, not a lookup confined to one branch of the tree
 - **Documents you can recognise** — clearer naming, and download limits communicated up front instead of discovered at failure
@@ -218,8 +231,8 @@ From the sketches I built an **interactive, high-fidelity prototype** — one th
 <ImageFigure
   wide
   src={`${IMAGES}/05-prototype.png`}
-  alt="The high-fidelity Postbox prototype — a search-first landing, cross-folder results, and multi-select controls for bulk download and archive."
-  caption="The high-fi prototype simulated bulk-download and archiving, so usability testing hit the hard flows, not just the easy ones."
+  alt="The high-fidelity web prototype — a task-based test start screen, a document (report) preview, and several versions of the search-first Postbox layout wired for click-through, covering search, multi-select and download."
+  caption="The high-fi prototype was task-based and clickable — testers ran real jobs (find, select, download), so testing hit the hard flows, not just the easy ones."
 />
 
 ## Usability testing
@@ -264,6 +277,7 @@ I validated the design across **two web versions and one mobile-app version** �
   title="Search-first — real-time results across every folder"
   media={{
     src: `${IMAGES}/07-search-first.png`,
+    width: 300,
     alt: 'The redesigned Postbox mobile landing — a prominent search field sits at the top, above Inbox / Archive tabs, a Sort-by-date control and a Filter, then the document list with clear type icons and read indicators.',
   }}
 >
@@ -278,6 +292,7 @@ The vault now opens on search, sitting above the Inbox/Archive tabs, and search 
   title="Recognisable names, and download limits shown up front"
   media={{
     src: `${IMAGES}/08-naming-limits.png`,
+    width: 300,
     alt: 'The multi-select download screen in Postbox — a live size meter reads "56mb / 50mb" in an orange warning state as the client selects files, communicating the download limit before they hit it rather than after a failed export.',
     caption: 'A live size meter warns "56mb / 50mb" as you select — the limit is said before the action, not after the failure.',
   }}
@@ -303,6 +318,7 @@ Documents read in language a client recognises, and any download limit is commun
   title="Re-prioritise around what clients actually do"
   media={{
     src: `${IMAGES}/09-bulk-actions.png`,
+    width: 300,
     alt: 'Postbox in multi-select mode with four documents selected, exporting them together as a single ZIP through the native share sheet — AirDrop, Messages, Mail, Save to Files — so a client can hand a whole set to their accountant or family office in one action.',
   }}
 >
@@ -338,10 +354,40 @@ The UI was built on **Emerald** — ABN AMRO's shared design system — for cons
   caption="One responsive design, three surfaces — phone, tablet and desktop — on ABN AMRO's Emerald design system."
 />
 
+<Prose>
+
+The everyday flows on mobile — acting on a document, filtering a long archive, and selecting a set to export — each got the same treatment: one clear decision per screen, actions named in plain language, and the compliance detail (portfolio ID, account number) kept available but out of the way.
+
+</Prose>
+
+<IllustrationRow
+  items={[
+    {
+      src: `${IMAGES}/13-app-actions.png`,
+      alt: "A document's action sheet in Postbox — Download, Share, Mark as unread, and Move to archive, each with a plain-language label and icon.",
+      title: 'Document actions',
+      tag: 'Act on one',
+    },
+    {
+      src: `${IMAGES}/14-app-filter.png`,
+      alt: 'The filter panel — Date range, Document type, Portfolio ID and Account number — so a client narrows a long archive without scrolling.',
+      title: 'Filter the archive',
+      tag: 'Narrow it down',
+    },
+    {
+      src: `${IMAGES}/15-app-select.png`,
+      alt: 'The Select-files screen with a "0kb / 50mb" download-size meter and per-row selection, ready for a bulk export.',
+      title: 'Select to export',
+      tag: 'Act on many',
+    },
+  ]}
+  caption="The core mobile flows — act on one, filter the archive, select many — all built on Emerald, one decision per screen."
+/>
+
 <ImageFigure
   src={`${IMAGES}/12-landing-web.png`}
   alt="The full Postbox page on web — ABN AMRO Private Banking header, a left-hand filter panel (date, document type, portfolio name, account number), and a paginated document list with clear names, sizes, dates and per-row folder and download actions."
-  caption="The web experience in full — search and filter up front, clear document rows, and download built into every row."
+  caption="The web experience in full — search and filter up front, clear document rows, and download built into every row. This is the surface Dominik lives in."
 />
 
 ## Outcomes

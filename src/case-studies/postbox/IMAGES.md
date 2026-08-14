@@ -12,15 +12,19 @@ case study. Swap any file for a better export by keeping the same filename.
 | Filename | What it is | Where it appears | Module |
 |---|---|---|---|
 | `01-hero.png` | Postbox on phone + desktop under ABN AMRO branding, with the "1" notification badge | Hero | `HeroShowcase` (bare) |
-| `02-persona.png` | The **persona "Peter"** — bio, core needs, frustrations, platform, savviness/literacy meters | Define | `ImageFigure` |
+| `02-persona.png` | Persona **"Peter"** (Segment A — time-poor, mobile-first) | Define | `IllustrationRow` (2-up) |
+| `02-persona-2.png` | Persona **"Dominik"** (Segment B — web-only, needs a hand) | Define | `IllustrationRow` (2-up) |
 | `03-journey-map.png` | The full **customer journey map** — phases, touchpoints, the emotion curve (Normal → Disappointed → Confused → Angry → slightly happy), Critical Points paired with Solutions | Define | `ImageFigure` (wide) |
 | `04-workshops.png` | **Workshop sketches + low-fi wireframes** (paper sketches above, digital lo-fi below) | Ideate | `ImageFigure` |
 | `05-prototype.png` | The **high-fidelity web prototype** — task landing, report view, and the tested version screens | Ideate | `ImageFigure` (wide) |
 | `06-usability-test.png` | The tested **desktop + mobile versions annotated** with tester feedback (what held up / what to change) | Usability testing | `ImageFigure` (wide) |
-| `07-search-first.png` | Mobile **search-first landing** — search field above Inbox/Archive tabs, sort + filter, document list | Decision 01 · Interaction | `DecisionBlock` media |
-| `08-naming-limits.png` | Multi-select download screen with the **"56mb / 50mb" limit warning** in orange | Decision 02 · Clarity | `DecisionBlock` media |
-| `09-bulk-actions.png` | Multi-select → **bulk export as one ZIP** via the native share sheet | Decision 03 · Interaction | `DecisionBlock` media |
+| `07-search-first.png` | Mobile **search-first landing** — search field above Inbox/Archive tabs, sort + filter, document list | Decision 01 · Interaction | `DecisionBlock` media (`width: 300`) |
+| `08-naming-limits.png` | Multi-select download screen with the **"56mb / 50mb" limit warning** in orange | Decision 02 · Clarity | `DecisionBlock` media (`width: 300`) |
+| `09-bulk-actions.png` | Multi-select → **bulk export as one ZIP** via the native share sheet | Decision 03 · Interaction | `DecisionBlock` media (`width: 300`) |
 | `11-app-designs.png` | The **responsive UI across phone / laptop / tablet** on the Emerald design system (also used as the home-page cover) | Visual design | `ImageFigure` (wide) |
+| `13-app-actions.png` | Mobile **document action sheet** (Download / Share / Mark as unread / Move to archive) | Visual design | `IllustrationRow` (3-up) |
+| `14-app-filter.png` | Mobile **filter panel** (date range, document type, portfolio ID, account number) | Visual design | `IllustrationRow` (3-up) |
+| `15-app-select.png` | Mobile **Select-files** screen with the "0kb / 50mb" size meter | Visual design | `IllustrationRow` (3-up) |
 | `12-landing-web.png` | The **full Postbox web page** — filter panel, document list, pagination | Visual design | `ImageFigure` |
 
 Notes:
@@ -29,9 +33,11 @@ Notes:
   dedicated notification-settings screenshot. If you export one later, drop it in
   as `10-notification-center.png` and re-add a `media={…}` block to that
   `DecisionBlock`.
-- The app screens (`07`–`09`) already include an iPhone bezel, so they render as
-  plain figures — **no `portrait` device shell** is applied (that would double the
-  frame).
+- The app screens are tall iPhone shots that already include a bezel, so they are
+  **capped in width** to keep them from dominating: `07`–`09` use `width: 300` on
+  the `DecisionBlock` media, and `13`–`15` sit three-up in an `IllustrationRow`
+  (each column ~a third of the width). No `portrait` device shell is applied —
+  that would double the frame.
 - **The problem** section is intentionally text-only — a verbatim Usabilla client
   quote, no figure.
 - No image is wired for the **Discover** section by design — the analytics and

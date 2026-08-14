@@ -13,7 +13,7 @@ export const profile = {
   location: 'Oslo',
   logo: '/logos/header_logo.svg',
   tagline:
-    'Hello — I\'m Yogesh Shetty. A Senior Product Designer practicing systems thinking, where business, users, and AI meet in one design.',
+    'I make complicated products simple — to use, and to build on.',
 }
 
 /* ── Scroll-reveal statement (montone-style, line-by-line brighten) ──
@@ -21,11 +21,11 @@ export const profile = {
    pinned section scrolls past. Edit the breaks to taste. */
 export const statement = {
   lines: [
-    'Hello — I\'m Yogesh Shetty.',
-    'A Senior Product Designer',
-    'practicing systems thinking,',
-    'where business, users, and AI',
-    'meet in one design.',
+    'I\'m Yogesh Shetty.',
+    'I make complicated products simple —',
+    'simple to use, and simple to build on.',
+    'Banking, logistics, whatever comes next,',
+    'it\'s the same problem underneath.',
   ],
 }
 

@@ -205,12 +205,12 @@ export const practiceStory = [
   {
     id: 'loop',
     num: '05 · THE HARVEST',
-    title: "If the numbers didn't move, I say so",
+    title: 'Shipping is the halfway point',
     callout: {
-      label: '⟳ Measure, honestly',
-      text: "Live means measured, not shipped. If the numbers didn't move, I say so — and that honesty writes the next brief.",
+      label: '⟳ Learn from real use',
+      text: 'Live is where I find out if it worked — and what to build next. I measure what I can, watch real sessions for what I can’t, and let real use surface the next requirement.',
     },
-    human: ['Track metrics', 'Watch real sessions', 'Feed the next brief'],
+    human: ['Measure what I can', 'Watch real sessions', 'Feed the next brief'],
     ai: ['Error & QA sweep', 'Analytics → insight'],
     desc: 'Fruit ripens and falls, dissolving back into soil — feeding the next brief.',
   },

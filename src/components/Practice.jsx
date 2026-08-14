@@ -118,7 +118,7 @@ export default function Practice() {
             color: 'var(--text-on-inverse)',
           }}
         >
-          The process, end to end.
+          Five things I believe.
         </h2>
       </div>
 

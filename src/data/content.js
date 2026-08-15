@@ -333,7 +333,7 @@ export const contact = {
     { label: 'LinkedIn ↗', href: 'https://www.linkedin.com/in/ykshetty/', external: true },
     { label: 'Medium ↗', href: 'https://medium.com/@ykshetty', external: true },
     { label: 'Dribbble ↗', href: 'https://dribbble.com/yogik4all', external: true },
-    { label: 'Résumé ↓', href: 'uploads/assets-1782636208625.pdf', download: true },
+    { label: 'Résumé ↓', href: 'assets/Yogesh-Shetty-Resume.pdf', download: true },
   ],
   copyright: '© 2026 · Yogesh Shetty',
 }

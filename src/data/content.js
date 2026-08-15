@@ -335,5 +335,5 @@ export const contact = {
     { label: 'Dribbble ↗', href: 'https://dribbble.com/yogik4all', external: true },
     { label: 'Résumé ↓', href: 'uploads/assets-1782636208625.pdf', download: true },
   ],
-  copyright: '© 2026 · Yogesh Shetty · v48',
+  copyright: '© 2026 · Yogesh Shetty',
 }

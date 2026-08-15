@@ -39,17 +39,17 @@ export const meta = {
     'project-context': 'layers',
     'the-business-goal': 'trendUp',
     'the-problem': 'alert',
-    discover: 'flask',
-    define: 'compass',
-    ideate: 'sliders',
-    'usability-testing': 'eye',
-    'visual-design': 'sparkles',
+    'no-client-access-so-i-triangulated-the-data': 'flask',
+    'two-kinds-of-user-opposite-needs': 'compass',
+    'prototyping-the-hard-flows-not-the-happy-path': 'sliders',
+    'what-testing-changed': 'eye',
+    'one-structure-three-surfaces': 'sparkles',
     outcomes: 'chart',
     'the-takeaway': 'target',
   },
   keySections: [
     'outcomes',
-    'usability-testing',
+    'what-testing-changed',
     'the-design-decisions',
     'the-takeaway',
   ],
@@ -121,11 +121,11 @@ High-net-worth clients **struggled to find and export the documents that mattere
 
 </Prose>
 
-## Discover
+## No client access, so I triangulated the data
 
 <Prose>
 
-One real constraint shaped the whole approach: in this private-banking context, **direct interviews with clients weren't possible** — the product managers couldn't open that channel. So instead of guessing, I triangulated three evidence sources that *were* available — behavioural analytics, an in-product feedback stream, and secondary research — and built the personas from those. No direct access doesn't have to mean no understanding.
+One real constraint shaped the whole approach: in this private-banking context, **direct interviews with clients weren't possible** — the product managers couldn't open that channel. So instead of guessing, I triangulated three evidence sources that *were* available — behavioural analytics, an in-product feedback stream, and secondary research. No direct access doesn't have to mean no understanding.
 
 </Prose>
 
@@ -163,35 +163,17 @@ One real constraint shaped the whole approach: in this private-banking context, 
   ]}
 />
 
-## Define
+## Two kinds of user, opposite needs
 
 <Prose>
 
-I distilled the evidence into **two personas** — one for each user segment — and a **customer journey map**. The two personas mattered because they pull in different directions: one is time-poor and mobile-first, the other is web-only and wants a hand. Designing for both is what kept the solution from over-fitting to a single kind of client.
+With no way to interview clients, I read the behaviour instead — and it split cleanly into two jobs. Most downloads (**92%**) are a single file: someone retrieving *one* document, fast. But a quarter pull **many** at once: someone managing a large archive who needs filter, sort and bulk export. The redesign had to serve both — speed for one, control for the other — without over-fitting to a single kind of client.
 
 </Prose>
 
-<IllustrationRow
-  items={[
-    {
-      src: `${IMAGES}/02-persona.png`,
-      alt: 'Persona: Peter, 37, married, Germany — inherited wealth, an investment-banking background, very little time. Core needs: an easy, convenient, omni-channel experience and easy sharing. Frustrations: daily notification emails that feel like spam, difficult file names, unclear search, having to download files just to open them. High online-savviness and financial literacy; uses both the mobile app and the website.',
-      title: 'Peter, 37 — time-poor, mobile-first',
-      tag: 'Segment A',
-    },
-    {
-      src: `${IMAGES}/02-persona-2.png`,
-      alt: 'Persona: Dominik, 53, married, Germany — retired, managing savings and investments with his wife. Core needs: an easy, convenient way to view and download account statements, to feel special, and a proactive, personalised service. Frustrations: Postbox is uncomfortable and time-consuming, cannot filter properly, can only download documents one at a time and then cannot move them to the archive, and sorting is poor. Lower online-savviness, high financial literacy; uses the website only.',
-      title: 'Dominik, 53 — web-only, needs a hand',
-      tag: 'Segment B',
-    },
-  ]}
-  caption="Two segments, two mental models — Peter wants speed on mobile; Dominik wants a calm, filterable web experience. Their frustrations read like the backlog: spam-like notifications, unclear names, search and filters that don't help, and no bulk download."
-/>
-
 <Prose>
 
-Mapping their paths exposed three drop-off points, each of which became a fix that carried the most weight:
+Mapping the journey exposed three drop-off points, each of which became a fix that carried the most weight:
 
 - **Search that actually works** — real-time results across every folder, not a lookup confined to one branch of the tree
 - **Documents you can recognise** — clearer naming, and download limits communicated up front instead of discovered at failure

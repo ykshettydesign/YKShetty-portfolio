@@ -115,14 +115,14 @@ export const caseStudies = [
     brief: 'Rebuild the old terminal, screen by screen.',
     card: 'Onboarding 65% faster — a legacy terminal re-architected as a cloud portal.',
     cover: '/case-studies/postoffice/images/cover.jpg', // drop cover.jpg into that folder
-    insight: 'Mapped the system first — one frame the whole suite reuses.',
+    insight: 'One layout and navigation structure — reused as the pattern across the Nordic suite.',
     problem: 'A legacy desktop terminal chained managers to one location and took weeks to learn.',
-    solution: 'Mapped the system first, then built one shared portal — now reused across the whole Nordic suite.',
+    solution: 'Built the first admin module — its layout and navigation became the pattern the Nordic ProdApp suite reused.',
     body:
-      'A desk-bound legacy terminal chained managers to one location. Before drawing screens I mapped the dependencies between driver tools and regional management — and the portal became the foundation for the whole Nordic ProdApp suite.',
+      'A desk-bound legacy terminal chained managers to one location. I rebuilt it as the first module of a role-scoped admin suite — and its layout and navigation structure became the pattern the rest of the Nordic ProdApp suite reused.',
     stats: [
       { value: '65%', label: 'Faster onboarding' },
-      { value: '1 system', label: 'Reused across suite' },
+      { value: '1 pattern', label: 'reused across the suite' },
     ],
     mailto: `mailto:${CONTACT_EMAIL}?subject=Post-office%20portal`,
     seed: { x: 0.02, y: 0.61, r: 1.6 },

@@ -247,9 +247,9 @@ export const instruments = [
 
 /* ── About ── */
 export const about = {
-  quoteLead: '"Good enough isn\'t the bar. If the design doesn\'t ',
-  quoteAccent: 'beat the alternative',
-  quoteTail: ', it isn\'t finished."',
+  quoteLead: '"A design isn\'t finished when it works — it\'s finished when I ',
+  quoteAccent: 'can\'t make it better',
+  quoteTail: '."',
   paragraphs: [
     'Thirteen years embedded inside regulated enterprises across India, the Netherlands and Norway. The ambiguous, unscoped brief tends to land on my desk — I turn it into a system the team can build on, keeping engineers and stakeholders in one conversation so what ships is what everyone agreed to. Along the way I\'ve mentored eight designers into client work of their own.',
     'Off the clock I paint watercolours — no undo, so you commit. Same instinct I bring to a room full of stakeholders.',

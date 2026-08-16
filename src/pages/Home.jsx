@@ -53,8 +53,12 @@ export default function Home() {
       <Header />
       <main>
         <Hero />
-        <Statement />
-        <CaseStack />
+        {/* Statement + Case Studies share a seam: the light Case Studies panel
+            rises up over the pinned accent Statement (sheet-lift transition). */}
+        <div className="seam-wrap">
+          <Statement />
+          <CaseStack />
+        </div>
         <Practice />
         <Instruments />
         <About />

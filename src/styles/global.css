@@ -846,15 +846,20 @@ img { max-width: 100%; }
 /* ── Scroll-reveal statement (montone-style) ──
    Tall section = scroll track; the inner block pins (sticky) while it
    scrolls past, and useStatementReveal ramps each line's color alpha. */
+/* Statement pins to the top while the Case Studies panel rises over it
+   (sheet-lift seam — see .seam-wrap / .case-stack-section). */
+.seam-wrap { position: relative; }
+
 .statement-section {
-  position: relative;
+  position: sticky;
+  top: 0;
+  z-index: 1;                 /* sits behind the lifting Case Studies sheet */
   height: 100vh;              /* static statement — no scroll-reveal track */
   background: var(--accent);  /* brand primary color */
 }
 
 .statement-sticky {
-  position: sticky;
-  top: 0;
+  position: relative;
   height: 100vh;
   display: flex;
   align-items: center;
@@ -1004,8 +1009,11 @@ html.lenis body { height: auto; }
    ============================================================ */
 .case-stack-section {
   position: relative;
-  z-index: 10;
+  z-index: 10;               /* the sheet that lifts up over the accent statement */
   background: var(--bg-page); /* light, like the mockup */
+  border-top-left-radius: clamp(24px, 4vw, 56px);
+  border-top-right-radius: clamp(24px, 4vw, 56px);
+  box-shadow: 0 -28px 60px -28px rgba(0, 0, 0, 0.35); /* lift shadow onto accent */
 }
 
 /* Section intro (centered eyebrow + heading) — dark text on the light bg. */

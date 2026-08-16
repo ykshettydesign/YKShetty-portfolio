@@ -1225,6 +1225,9 @@
    so it stays legible over full-width media. */
 @media (min-width: 1200px) {
   .cs-rail-mobile { display: none; }
+  /* The vertical rail (with scroll-spy) covers position on desktop, so the top
+     reading-progress bar is redundant here — keep it for mobile/tablet only. */
+  .cs-progress { display: none; }
   .cs-rail {
     display: block;
     position: fixed;

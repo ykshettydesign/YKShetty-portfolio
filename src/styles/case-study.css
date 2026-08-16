@@ -1228,22 +1228,37 @@
   /* The vertical rail (with scroll-spy) covers position on desktop, so the top
      reading-progress bar is redundant here — keep it for mobile/tablet only. */
   .cs-progress { display: none; }
+  /* Collapsed by default: just the vertical line + section dots, no panel
+     chrome — a quiet position indicator rather than a wall of text. Hovering
+     (or tabbing into) it expands to the full labelled panel. */
   .cs-rail {
     display: block;
     position: fixed;
     top: 50%;
     transform: translateY(-50%);
-    right: clamp(16px, calc(50vw - 700px), 56px);
-    width: 172px;
+    right: clamp(20px, calc(50vw - 660px), 64px);
+    width: 24px;
     z-index: 40;
-    padding: 14px 14px 12px;
-    border: 1px solid var(--border-subtle);
+    padding: 6px 0 6px 10px;
+    border: 1px solid transparent;
     border-radius: 14px;
-    background: var(--bg-surface);
-    background: color-mix(in srgb, var(--bg-surface) 84%, transparent);
+    background: transparent;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    transition: width 0.24s ease, padding 0.24s ease,
+                background 0.2s ease, border-color 0.2s ease;
+  }
+  .cs-rail:hover,
+  .cs-rail:focus-within {
+    width: 190px;
+    padding: 14px 14px 12px;
+    border-color: var(--border-subtle);
+    background: color-mix(in srgb, var(--bg-surface) 92%, transparent);
     -webkit-backdrop-filter: blur(8px);
     backdrop-filter: blur(8px);
   }
+
+  /* Title: hidden while collapsed, fades in with the panel. */
   .cs-rail-title {
     font-family: var(--font-mono);
     font-size: 10px;
@@ -1251,18 +1266,47 @@
     letter-spacing: 0.1em;
     text-transform: uppercase;
     color: var(--text-tertiary);
-    margin: 0 0 10px;
+    height: 0;
+    margin: 0;
     padding-left: 14px;
+    opacity: 0;
+    overflow: hidden;
+    transition: opacity 0.18s ease, height 0.24s ease, margin 0.24s ease;
   }
+  .cs-rail:hover .cs-rail-title,
+  .cs-rail:focus-within .cs-rail-title {
+    height: 14px;
+    margin: 0 0 10px;
+    opacity: 1;
+  }
+
   .cs-rail-list {
     list-style: none;
     margin: 0;
     padding: 0;
     border-left: 1px solid var(--border-subtle);
   }
+
+  /* Labels collapse to nothing, leaving the dots sitting on the line. */
+  .cs-rail .cs-rail-item { gap: 0; }
+  .cs-rail .cs-rail-label {
+    max-width: 0;
+    opacity: 0;
+    transition: max-width 0.24s ease, opacity 0.18s ease;
+  }
+  .cs-rail:hover .cs-rail-item,
+  .cs-rail:focus-within .cs-rail-item { gap: 10px; }
+  .cs-rail:hover .cs-rail-label,
+  .cs-rail:focus-within .cs-rail-label {
+    max-width: 150px;
+    opacity: 1;
+  }
 }
 @media (prefers-reduced-motion: reduce) {
-  .cs-rail-dot { transition: none; }
+  .cs-rail-dot,
+  .cs-rail,
+  .cs-rail-title,
+  .cs-rail .cs-rail-label { transition: none; }
 }
 
 /* ============================================================

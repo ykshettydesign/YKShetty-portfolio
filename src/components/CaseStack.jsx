@@ -2,7 +2,7 @@ import React, { useRef, useState } from 'react'
 import { caseStudies } from '../data/content'
 import { isProtected } from '../case-studies/access'
 import { Link } from '../router'
-import { useCaseDeck } from '../hooks/useCaseDeck'
+import { useCaseDeck, DECK_HOLD_VH } from '../hooks/useCaseDeck'
 
 /** Small "client-confidential" badge shown on gated case-study cards, so the
  *  password gate reads as intentional (and signals NDA respect) before a click. */
@@ -55,7 +55,7 @@ export default function CaseStack() {
         <h2 className="case-stack__heading">Real problems, solved at the root.</h2>
       </div>
 
-      <div ref={trackRef} className="deck-track" style={{ height: `${caseStudies.length * 90}vh` }}>
+      <div ref={trackRef} className="deck-track" style={{ height: `${caseStudies.length * 90 + DECK_HOLD_VH}vh` }}>
         <div className="deck-sticky">
           <div className="deck-inner">
             {/* LEFT: the active case's problem statement. Rolls into centre and

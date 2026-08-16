@@ -20,6 +20,9 @@
 /** Slugs (folder names under src/case-studies/) that require a password. */
 export const PROTECTED_SLUGS = new Set([
   'swiftsort',
+  'cards',
+  'postoffice',
+  'postbox',
 ])
 
 /**

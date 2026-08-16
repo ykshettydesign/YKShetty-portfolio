@@ -30,8 +30,8 @@ export const PROTECTED_SLUGS = new Set([
  * Any one of them unlocks. Keep the plaintext out of this file.
  */
 export const PASSWORD_HASHES = [
-  '5787deaa7a8ea2bd70a681eed552e3ea03c59dca5ecffa7dcab1365afe4433c1',
-  '2742ce32dae07660045ae5247b21e600b5c4834d7c665335ac1c98893e5eaf11',
+  // SHA-256 of 'designcraft'
+  '5a1b2eac748aaf5c54ba0cac0dc8a7711fe1f03c15bcbc2854ada724e0412b29',
 ]
 
 /** sessionStorage key holding the per-session unlock flag. */

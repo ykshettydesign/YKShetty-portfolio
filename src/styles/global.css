@@ -655,26 +655,20 @@ img { max-width: 100%; }
    intentional, not a black void. Rendered as its own layer (not on the <canvas>,
    whose CSS background paints unreliably after a failed GL context) and only
    mounted on WebGL-init failure. */
-/* Practice rises over the Case Studies deck as a rounded dark "card"
-   (scroll-lift seam). z-index/background/position are set inline on the section;
-   here we add the rounded top, the lift shadow, and the overlap that pulls the
-   card up over the deck's "hold" zone — where the last case card stays pinned
-   in the background while Practice lifts over it.
-   The overlap MUST match DECK_HOLD_VH in useCaseDeck.js (and the +hold added to
-   the deck-track height in CaseStack.jsx), so the rise spans exactly the hold. */
+/* "Window" reveal for the dark Practice section: the section is clipped to a
+   rounded inset rectangle so the light page shows through as margins around it,
+   reading as a framed window. As it scrolls into view the inset shrinks to 0
+   (full-bleed) — the window grows bigger on scroll. The inset + radius are
+   driven per-frame by usePracticeWindow via the two custom properties below;
+   clip-path is a visual mask only, so the full-viewport WebGL canvas is never
+   resized. Defaults (no JS / reduced-motion): full-bleed, no clip. */
 .practice-section {
-  border-top-left-radius: clamp(24px, 4vw, 56px);
-  border-top-right-radius: clamp(24px, 4vw, 56px);
-  box-shadow: 0 -28px 60px -24px rgba(0, 0, 0, 0.45); /* lift shadow onto the section behind */
-}
-
-/* The overlap only makes sense while the deck actually animates and holds its
-   last card (desktop + motion allowed). In the static deck modes (mobile or
-   reduced-motion) the deck-track collapses to auto height with a plain card
-   list, so there's no pinned card to rise over — Practice just butts the
-   list with its rounded top. */
-@media (min-width: 761px) and (prefers-reduced-motion: no-preference) {
-  .practice-section { margin-top: -90vh; }
+  --practice-inset: 0px;
+  --practice-radius: 0px;
+  clip-path: inset(
+    var(--practice-inset) var(--practice-inset) var(--practice-inset) var(--practice-inset)
+    round var(--practice-radius)
+  );
 }
 
 .practice-tree-fallback {

@@ -4,15 +4,6 @@ const clamp = (v, lo, hi) => Math.min(hi, Math.max(lo, v))
 
 const MAX_TINT = 0.5 // opacity of the lavender ghost overlay at the back of the deck
 
-// Extra scroll (in vh) appended to the deck track AFTER the deck finishes
-// advancing: a "hold" zone where the last card stays the pinned front card
-// while the Practice section rises up over it (the rounded-card lift seam).
-// The deck completes at progress=1 with this much track still left, so the
-// last card stays put instead of flying off. MUST match the negative
-// `margin-top` on `.practice-section` in global.css and the track height in
-// CaseStack.jsx.
-export const DECK_HOLD_VH = 90
-
 /**
  * Scroll-driven "advancing deck" for the case studies — the netgiro.is effect,
  * but dependency-free (same approach as the old useCardStack: a passive scroll
@@ -69,12 +60,7 @@ export function useCaseDeck(trackRef) {
       const vh = window.innerHeight
       const scrollable = track.offsetHeight - vh
       if (scrollable <= 0) return
-      // The deck advances over the track MINUS the hold zone, so progress
-      // reaches 1 (last card front) with the hold still left to scroll — the
-      // last card then stays pinned while Practice lifts over it.
-      const holdPx = (DECK_HOLD_VH / 100) * vh
-      const active = Math.max(1, scrollable - holdPx)
-      const progress = clamp(-track.getBoundingClientRect().top / active, 0, 1)
+      const progress = clamp(-track.getBoundingClientRect().top / scrollable, 0, 1)
       const s = progress * (n - 1)
 
       cards.forEach((card, i) => {

@@ -3,6 +3,7 @@ import { practiceStory } from '../data/content'
 import { useTheme } from '../theme/ThemeContext'
 import PracticeTree from './PracticeTree'
 import ErrorBoundary from './ErrorBoundary'
+import { usePracticeWindow } from '../hooks/usePracticeWindow'
 
 // Number of viewport-heights of scroll track that drive the growth sequence.
 const TRACK_VH = 560
@@ -80,6 +81,10 @@ export default function Practice() {
   const [webglFailed, setWebglFailed] = useState(false)
   const handleWebGLUnavailable = useCallback(() => setWebglFailed(true), [])
   const trackRef = useRef(null)
+
+  // "Window" reveal: the dark section grows from a rounded inset panel to
+  // full-bleed as it scrolls into view (drives clip-path via CSS vars).
+  usePracticeWindow(sectionRef)
 
   return (
     <section

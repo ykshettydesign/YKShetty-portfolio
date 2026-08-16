@@ -114,7 +114,7 @@ export default function CaseStudyGate({ title, onUnlock }) {
                   <span className="gate-kicker">A quick note</span>
                   This one belongs to the client — I keep it behind a password out of respect for their confidentiality.
                   <small>
-                    You’ll find the password in my résumé or cover letter. Otherwise, just{' '}
+                    If I applied to your role, the password’s in my cover letter. Otherwise, just{' '}
                     <a href={LINKEDIN} target="_blank" rel="noopener noreferrer">ping me on LinkedIn</a>.
                   </small>
                 </div>
@@ -124,7 +124,7 @@ export default function CaseStudyGate({ title, onUnlock }) {
             {error && (
               <div className="gate-row me" role="alert">
                 <Avatar avatarRef={registerAvatar} mood={mood} />
-                <div className="gate-bubble">That’s not the one — check the résumé header, it’s there. 🙂</div>
+                <div className="gate-bubble">That’s not the one — it’s in my cover letter, or just ping me on LinkedIn. 🙂</div>
               </div>
             )}
           </div>

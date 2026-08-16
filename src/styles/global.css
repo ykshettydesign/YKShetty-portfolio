@@ -848,7 +848,7 @@ img { max-width: 100%; }
    scrolls past, and useStatementReveal ramps each line's color alpha. */
 .statement-section {
   position: relative;
-  height: 270vh;              /* scroll "distance" spent on the reveal (no dead tail) */
+  height: 100vh;              /* static statement — no scroll-reveal track */
   background: var(--accent);  /* brand primary color */
 }
 
@@ -879,15 +879,7 @@ img { max-width: 100%; }
 }
 
 .statement-line {
-  color: rgba(255, 255, 255, 0.18);   /* JS overrides these per scroll */
-  transition: color 0.12s linear, filter 0.12s linear,
-    transform 0.12s linear, text-shadow 0.25s ease-out;
-  will-change: color, filter, transform;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .statement-section { height: 100vh; }
-  .statement-line { color: #fff; }
+  color: #fff;   /* static, fully lit — no scroll-driven blur/brighten */
 }
 
 /* ── Lenis smooth-scroll (only active when SMOOTH_SCROLL is enabled) ── */

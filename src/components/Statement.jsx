@@ -28,7 +28,7 @@ export default function Statement() {
                   lineRefs.current[i] = el
                 }}
                 className="statement-line"
-                style={{ color: 'rgba(255, 255, 255, 0.18)' }}
+                style={{ color: 'rgba(255, 255, 255, 1)' }}
               >
                 {line}
               </span>

@@ -22,8 +22,8 @@ export const profile = {
 export const statement = {
   lines: [
     'I\'m Yogesh Shetty.',
-    'I make complicated products simple —',
-    'simple to use, and simple to build on.',
+    'I make complicated products simple to use,',
+    'and simple to build on.',
     'Banking, logistics, whatever comes next,',
     'it\'s the same problem underneath.',
   ],

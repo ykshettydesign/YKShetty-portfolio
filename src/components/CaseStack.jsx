@@ -1,7 +1,27 @@
 import React, { useRef, useState } from 'react'
 import { caseStudies } from '../data/content'
+import { isProtected } from '../case-studies/access'
 import { Link } from '../router'
 import { useCaseDeck } from '../hooks/useCaseDeck'
+
+/** Small "client-confidential" badge shown on gated case-study cards, so the
+ *  password gate reads as intentional (and signals NDA respect) before a click. */
+const lockBadgeStyle = {
+  display: 'inline-flex',
+  alignItems: 'center',
+  gap: 5,
+  marginTop: 9,
+  fontFamily: 'var(--font-mono)',
+  fontSize: 9.5,
+  fontWeight: 700,
+  letterSpacing: '0.09em',
+  textTransform: 'uppercase',
+  color: 'var(--text-tertiary)',
+  border: '1px solid var(--border-strong)',
+  borderRadius: 100,
+  padding: '3px 9px',
+  width: 'fit-content',
+}
 
 /** Placeholder cover gradients, used for cards without a real cover image so
  *  every card carries an image band. Picked by card index. */
@@ -64,6 +84,9 @@ export default function CaseStack() {
                     aria-label={`Read case study: ${c.card}`}
                   >
                     <div className="deck__meta">{c.metaLong || c.meta}</div>
+                    {isProtected(c.id) && (
+                      <div style={lockBadgeStyle}>🔒 NDA-protected</div>
+                    )}
                     <div className="deck__label">Design solution</div>
                     <p className="deck__solution-headline">{c.solution}</p>
                     <div

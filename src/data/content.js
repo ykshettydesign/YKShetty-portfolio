@@ -326,8 +326,8 @@ export const recommendationsUrl = 'https://linkedin.com/in/ykshetty/details/reco
 
 /* ── Footer / contact ── */
 export const contact = {
-  heading: 'Got something to figure out?',
-  headingAccent: "Let's find it.",
+  heading: 'Open to Senior / Lead product design roles.',
+  headingAccent: "Let's talk.",
   links: [
     { label: CONTACT_EMAIL, href: `mailto:${CONTACT_EMAIL}`, variant: 'primary' },
     { label: 'LinkedIn ↗', href: 'https://www.linkedin.com/in/ykshetty/', external: true },

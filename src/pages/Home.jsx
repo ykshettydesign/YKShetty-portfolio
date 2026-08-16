@@ -8,7 +8,7 @@ import Instruments from '../components/Instruments'
 import About from '../components/About'
 import Footer from '../components/Footer'
 import { useScrollReveal } from '../hooks/useScrollReveal'
-import { useLenis } from '../hooks/useLenis'
+import { useLenis, getLenis } from '../hooks/useLenis'
 
 /** Flip to `true` to enable Lenis smooth-scroll (montone's gliding feel).
  *  Left off by default — native scrolling. */
@@ -34,7 +34,13 @@ export default function Home() {
     const timers = [0, 120, 300, 600].map((delay) =>
       setTimeout(() => {
         if (userScrolled) return
-        document.getElementById(id)?.scrollIntoView()
+        const target = document.getElementById(id)
+        if (!target) return
+        // Prefer Lenis (once its dynamic import has resolved) so the jump isn't
+        // fought by its scroll loop; fall back to native before it's ready.
+        const lenis = getLenis()
+        if (lenis) lenis.scrollTo(target, { offset: -72 })
+        else target.scrollIntoView()
       }, delay),
     )
     return () => {

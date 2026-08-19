@@ -67,8 +67,8 @@ export const caseStudies = [
   {
     id: 'swiftsort',
     index: '01',
-    meta: 'Posten Bring · 2026',
-    metaLong: '01 · Posten Bring · Oslo · 2026 · SwiftSort',
+    meta: 'Logistics · 2026',
+    metaLong: '01 · Logistics · Nordic · 2026 · SwiftSort',
     href: '/case-studies/swiftsort', // full case study page
     brief: 'More training, better equipment.',
     card: "Sorting sped up ~40% — decisions moved from workers' memory to the moment of scan.",
@@ -109,20 +109,20 @@ export const caseStudies = [
   {
     id: 'postoffice',
     index: '03',
-    meta: 'Posten Bring · 2025',
-    metaLong: '03 · Posten Bring · Oslo · 2025',
+    meta: 'Logistics · 2025',
+    metaLong: '03 · Logistics · Nordic · 2025',
     href: '/case-studies/postoffice', // full case study page
     brief: 'Rebuild the old terminal, screen by screen.',
     card: 'Onboarding 65% faster — a legacy terminal re-architected as a cloud portal.',
     cover: '/case-studies/postoffice/images/cover.jpg', // drop cover.jpg into that folder
     insight: 'One layout and navigation structure — reused as the pattern across the Nordic suite.',
     problem: 'A legacy desktop terminal chained managers to one location and took weeks to learn.',
-    solution: 'Built the first admin module — its layout and navigation became the pattern the Nordic ProdApp suite reused.',
+    solution: 'Mapped the system first, then built one shared portal — now reused across the whole Nordic suite.',
     body:
-      'A desk-bound legacy terminal chained managers to one location. I rebuilt it as the first module of a role-scoped admin suite — and its layout and navigation structure became the pattern the rest of the Nordic ProdApp suite reused.',
+      'A desk-bound legacy terminal chained managers to one location. I rebuilt it as a cloud-based admin portal — prototyped from business data, then reshaped by usability testing with the people who run the counter.',
     stats: [
       { value: '65%', label: 'Faster onboarding' },
-      { value: '1 pattern', label: 'reused across the suite' },
+      { value: '1 system', label: 'Reused across suite' },
     ],
     mailto: `mailto:${CONTACT_EMAIL}?subject=Post-office%20portal`,
     seed: { x: 0.02, y: 0.61, r: 1.6 },

@@ -78,6 +78,9 @@ img { max-width: 100%; }
 }
 .cta-arrow:hover .cta-arrow__circle { transform: rotate(-45deg); background: var(--accent-hover); }
 
+/* Scrim is mobile-only; hidden by default so it never shows on desktop. */
+.mobile-scrim { display: none; }
+
 .cta-pill {
   color: var(--on-accent) !important;
   background: var(--accent);
@@ -653,6 +656,7 @@ img { max-width: 100%; }
   .mobile-menu-open .nav-links {
     display: flex !important;
     flex-direction: column !important;
+    align-items: flex-start !important;
     position: absolute !important;
     top: 56px !important;
     left: 0 !important;
@@ -664,6 +668,19 @@ img { max-width: 100%; }
     border-bottom: 1px solid var(--border-subtle) !important;
     z-index: 59 !important;
   }
+  /* Dark scrim behind the dropdown — covers the page below the bar and closes
+     the menu when tapped (click-outside). Sits under the dropdown (z 59). */
+  .mobile-scrim {
+    display: block;
+    position: fixed;
+    inset: 56px 0 0 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 58;
+    opacity: 0;
+    animation: scrim-fade-in 0.25s ease forwards;
+    -webkit-tap-highlight-color: transparent;
+  }
+  @keyframes scrim-fade-in { to { opacity: 1; } }
   .hamburger { display: flex !important; }
 
   .board { grid-template-columns: minmax(0, 1fr) !important; min-height: auto !important; }

@@ -146,7 +146,7 @@ export default function Header({ subpage = false }) {
         <button
           className="hamburger"
           onClick={toggleMobile}
-          aria-label="Menu"
+          aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
           aria-expanded={mobileOpen}
           style={{
             display: 'none',
@@ -163,7 +163,17 @@ export default function Header({ subpage = false }) {
             padding: 0,
           }}
         >
-          ☰
+          {mobileOpen ? (
+            // close (×)
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
+              <path d="M6 6l12 12M18 6L6 18" />
+            </svg>
+          ) : (
+            // menu (☰)
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
+              <path d="M3 6h18M3 12h18M3 18h18" />
+            </svg>
+          )}
         </button>
 
         <nav
@@ -232,6 +242,12 @@ export default function Header({ subpage = false }) {
           </button>
         </nav>
       </div>
+
+      {/* Mobile only: a dark scrim behind the dropdown. Tapping it (i.e. anywhere
+          outside the menu container) closes the menu. */}
+      {mobileOpen && (
+        <div className="mobile-scrim" onClick={closeMenu} aria-hidden="true" />
+      )}
     </header>
   )
 }

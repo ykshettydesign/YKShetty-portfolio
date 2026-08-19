@@ -1193,8 +1193,8 @@
   display: inline-flex;
   align-items: center;
   gap: 7px;
-  background: var(--accent);
-  color: var(--on-accent);
+  background: var(--btn-bg);
+  color: var(--btn-fg);
   font-family: var(--font-mono);
   font-size: 11px;
   font-weight: 700;
@@ -1410,7 +1410,7 @@
   width: min(60vw, 760px);
   height: min(60vw, 760px);
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(124, 92, 252, 0.6), transparent 62%);
+  background: radial-gradient(circle, rgba(91, 33, 182, 0.55), transparent 62%);
   filter: blur(70px);
   pointer-events: none;
 }
@@ -1480,8 +1480,8 @@
   width: 7px;
   height: 7px;
   border-radius: 50%;
-  background: #7c5cfc;
-  box-shadow: 0 0 0 4px rgba(124, 92, 252, 0.25);
+  background: #7c3aed;
+  box-shadow: 0 0 0 4px rgba(91, 33, 182, 0.25);
 }
 
 /* Bare variant — image renders directly without device frames,

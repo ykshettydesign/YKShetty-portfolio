@@ -160,12 +160,12 @@
 .gate-peek { border: none; background: none; color: var(--text-muted); cursor: pointer; padding: 8px; display: grid; place-items: center; }
 .gate-peek:hover { color: var(--text-secondary); }
 .gate-send {
-  border: none; background: var(--accent); color: var(--on-accent);
+  border: none; background: var(--btn-bg); color: var(--btn-fg);
   width: 38px; height: 38px; border-radius: 11px; cursor: pointer;
   display: grid; place-items: center; font-size: 18px; flex: none;
   transition: background .15s, transform .1s;
 }
-.gate-send:hover { background: var(--accent-hover); }
+.gate-send:hover { background: var(--btn-bg-hover); }
 .gate-send:active { transform: scale(.94); }
 .gate-back {
   display: inline-block; margin: 14px 2px 0;

@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react'
+import { createPortal } from 'react-dom'
 import { navLinks, profile, CONTACT_EMAIL } from '../data/content'
 import { useTheme } from '../theme/ThemeContext'
 import { Link } from '../router'
@@ -243,11 +244,16 @@ export default function Header({ subpage = false }) {
         </nav>
       </div>
 
-      {/* Mobile only: a dark scrim behind the dropdown. Tapping it (i.e. anywhere
-          outside the menu container) closes the menu. */}
-      {mobileOpen && (
-        <div className="mobile-scrim" onClick={closeMenu} aria-hidden="true" />
-      )}
+      {/* Mobile only: a dark scrim behind the dropdown. Rendered through a portal
+          to <body> so it escapes this header's `transform` — a transformed
+          ancestor would otherwise become the containing block for the fixed
+          scrim, collapsing it to the 56px bar (invisible + no click target).
+          Tapping it (anywhere outside the menu) closes the menu. */}
+      {mobileOpen &&
+        createPortal(
+          <div className="mobile-scrim" onClick={closeMenu} aria-hidden="true" />,
+          document.body,
+        )}
     </header>
   )
 }

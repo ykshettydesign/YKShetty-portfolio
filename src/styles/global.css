@@ -656,26 +656,41 @@ img { max-width: 100%; }
   .mobile-menu-open .nav-links {
     display: flex !important;
     flex-direction: column !important;
-    align-items: flex-start !important;
+    align-items: stretch !important;
     position: absolute !important;
     top: 56px !important;
     left: 0 !important;
     right: 0 !important;
     background: var(--nav-mobile-bg) !important;
     backdrop-filter: blur(16px) !important;
-    padding: 24px clamp(22px, 5vw, 44px) !important;
-    gap: 20px !important;
+    padding: 16px clamp(22px, 5vw, 44px) 24px !important;
+    gap: 4px !important;
     border-bottom: 1px solid var(--border-subtle) !important;
     z-index: 59 !important;
   }
+  /* Center the labels and make each full row a tap target. */
+  .mobile-menu-open .nav-link {
+    display: block !important;
+    width: 100% !important;
+    text-align: center !important;
+    padding: 13px 0 !important;
+  }
+  .mobile-menu-open .cta-arrow {
+    width: 100% !important;
+    justify-content: center !important;
+    margin-top: 12px !important;
+  }
+  .mobile-menu-open .icon-btn { align-self: center !important; margin-top: 6px !important; }
+
   /* Dark scrim behind the dropdown — covers the page below the bar and closes
-     the menu when tapped (click-outside). Sits under the dropdown (z 59). */
+     the menu when tapped (click-outside). Portaled to <body>; sits under the
+     header (z 60) so the bar and dropdown stay above it. */
   .mobile-scrim {
     display: block;
     position: fixed;
     inset: 56px 0 0 0;
     background: rgba(0, 0, 0, 0.5);
-    z-index: 58;
+    z-index: 55;
     opacity: 0;
     animation: scrim-fade-in 0.25s ease forwards;
     -webkit-tap-highlight-color: transparent;

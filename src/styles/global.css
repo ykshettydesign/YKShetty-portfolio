@@ -27,8 +27,56 @@ a:hover { color: var(--accent-hover); }
 img { max-width: 100%; }
 
 /* ── Reusable hover utilities (token-driven) ── */
-.nav-link { color: var(--text-secondary); transition: color 0.2s ease; }
+/* Nav links carry a small accent dot under the active section (bou.co-style),
+   and shift from secondary → primary ink on hover. */
+.nav-link { position: relative; color: var(--text-secondary); transition: color 0.2s ease; }
 .nav-link:hover { color: var(--text-primary); }
+.nav-link::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: -8px;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--accent);
+  transform: translateX(-50%) scale(0);
+  transition: transform 0.22s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.nav-link.is-active { color: var(--text-primary); }
+.nav-link.is-active::after { transform: translateX(-50%) scale(1); }
+
+/* CTA — text label paired with a filled circular arrow (bou.co-style). The
+   circle rotates the arrow up-right on hover. */
+.cta-arrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 5px 5px 5px 15px;
+  border-radius: 100px;
+  color: var(--text-primary);
+  border: 1px solid var(--border-input);
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+.cta-arrow:hover { background: var(--bg-hover); border-color: var(--border-input-hover); }
+.cta-arrow__label {
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+.cta-arrow__circle {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--on-accent);
+  display: grid;
+  place-items: center;
+  flex: none;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), background 0.2s ease;
+}
+.cta-arrow:hover .cta-arrow__circle { transform: rotate(-45deg); background: var(--accent-hover); }
 
 .cta-pill {
   color: var(--on-accent) !important;

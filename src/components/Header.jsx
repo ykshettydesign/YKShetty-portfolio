@@ -3,12 +3,14 @@ import { navLinks, profile, CONTACT_EMAIL } from '../data/content'
 import { useTheme } from '../theme/ThemeContext'
 import { Link } from '../router'
 
-const labelStyle = {
-  fontFamily: 'var(--font-mono)',
-  fontSize: 10,
+// Grotesk, sentence-case nav labels (inspired by bou.co) — a deliberate move
+// away from the old mono/uppercase/tracked treatment.
+const navLinkStyle = {
+  fontFamily: 'var(--font-display)',
+  fontSize: 14,
   fontWeight: 400,
-  letterSpacing: '0.12em',
-  textTransform: 'uppercase',
+  letterSpacing: '-0.01em',
+  textTransform: 'none',
 }
 
 /**
@@ -32,7 +34,10 @@ export default function Header({ subpage = false }) {
 
   // Auto-hide on scroll (home only): slide the bar up when scrolling down into
   // content, slide it back on scroll up. Always visible near the very top.
+  // `scrolled` also drives the chrome: transparent overlay at the very top
+  // (bou.co-style), fading into the glass bar once you leave the hero.
   const [hidden, setHidden] = useState(false)
+  const [scrolled, setScrolled] = useState(false)
   useEffect(() => {
     if (subpage) return undefined
     let lastY = window.scrollY
@@ -41,6 +46,7 @@ export default function Header({ subpage = false }) {
       raf = null
       const y = window.scrollY
       const delta = y - lastY
+      setScrolled(y > 8)
       if (y < 80) setHidden(false)
       else if (delta > 4) setHidden(true)
       else if (delta < -4) setHidden(false)
@@ -54,8 +60,30 @@ export default function Header({ subpage = false }) {
     }
   }, [subpage])
 
+  // Scroll-spy (home only): light up the nav item whose section is in view, so
+  // the active link gets bou.co's small dot indicator.
+  const [activeId, setActiveId] = useState(null)
+  useEffect(() => {
+    if (subpage) return undefined
+    const els = navLinks
+      .map((l) => document.getElementById(l.href.replace('#', '')))
+      .filter(Boolean)
+    if (!els.length) return undefined
+    const obs = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => { if (e.isIntersecting) setActiveId(e.target.id) })
+      },
+      { rootMargin: '-45% 0px -50% 0px', threshold: 0 },
+    )
+    els.forEach((el) => obs.observe(el))
+    return () => obs.disconnect()
+  }, [subpage])
+
   // Section links are bare anchors at home, home-prefixed on a subpage.
   const sectionHref = (href) => (subpage ? `/${href}` : href)
+  // Chrome reads as solid on subpages (content starts immediately) and once
+  // scrolled on the home page; transparent while sitting over the hero.
+  const solid = subpage || scrolled
 
   const logoInner = (
     <>
@@ -87,12 +115,12 @@ export default function Header({ subpage = false }) {
         position: 'sticky',
         top: 0,
         zIndex: 60,
-        background: 'var(--nav-bg)',
-        backdropFilter: 'blur(16px) saturate(180%)',
-        WebkitBackdropFilter: 'blur(16px) saturate(180%)',
-        borderBottom: '1px solid var(--border-subtle)',
+        background: solid || mobileOpen ? 'var(--nav-bg)' : 'transparent',
+        backdropFilter: solid || mobileOpen ? 'blur(16px) saturate(180%)' : 'none',
+        WebkitBackdropFilter: solid || mobileOpen ? 'blur(16px) saturate(180%)' : 'none',
+        borderBottom: `1px solid ${solid || mobileOpen ? 'var(--border-subtle)' : 'transparent'}`,
         transform: hidden && !mobileOpen ? 'translateY(-100%)' : 'translateY(0)',
-        transition: 'transform 0.35s cubic-bezier(0.4, 0, 0.2, 1)',
+        transition: 'transform 0.35s cubic-bezier(0.4, 0, 0.2, 1), background 0.3s ease, border-color 0.3s ease, backdrop-filter 0.3s ease',
         willChange: 'transform',
       }}
     >
@@ -142,24 +170,32 @@ export default function Header({ subpage = false }) {
           className="nav-links"
           style={{ display: 'flex', alignItems: 'center', gap: 28 }}
         >
-          {navLinks.map((link) => (
-            <a key={link.href} href={sectionHref(link.href)} onClick={closeMenu} className="nav-link" style={labelStyle}>
-              {link.label}
-            </a>
-          ))}
+          {navLinks.map((link) => {
+            const isActive = !subpage && activeId === link.href.replace('#', '')
+            return (
+              <a
+                key={link.href}
+                href={sectionHref(link.href)}
+                onClick={closeMenu}
+                className={`nav-link${isActive ? ' is-active' : ''}`}
+                style={navLinkStyle}
+              >
+                {link.label}
+              </a>
+            )
+          })}
           <a
             href={`mailto:${CONTACT_EMAIL}`}
             onClick={closeMenu}
-            className="cta-pill"
-            style={{
-              ...labelStyle,
-              fontWeight: 500,
-              letterSpacing: '0.06em',
-              padding: '8px 18px',
-              borderRadius: 100,
-            }}
+            className="cta-arrow"
+            aria-label="Get in touch"
           >
-            Get in touch
+            <span className="cta-arrow__label">Get in touch</span>
+            <span className="cta-arrow__circle" aria-hidden="true">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M5 12h14M13 6l6 6-6 6" />
+              </svg>
+            </span>
           </a>
           <button
             type="button"

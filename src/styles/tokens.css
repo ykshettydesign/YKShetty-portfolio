@@ -40,20 +40,15 @@
   --border-dashed: #D8D8E4;
   --border-fade: #D0D0DA;
 
-  /* ── Accent (brand) — royal purple, used for links / rings / active states ── */
-  --accent: #5B21B6;
-  --accent-hover: #4C1D95;
-  --accent-strong: #4C1D95;
-  --accent-2: #7C3AED;
-  --accent-soft-bg: #F1EBFB;
-  --accent-tint: rgba(91, 33, 182, 0.05);
-  --accent-ring: rgba(91, 33, 182, 0.18);
+  /* ── Accent (brand) ── */
+  --accent: #7C5CFC;
+  --accent-hover: #6344E0;
+  --accent-strong: #6B4AE8;
+  --accent-2: #9B85FD;
+  --accent-soft-bg: #F0EEFF;
+  --accent-tint: rgba(124, 92, 252, 0.04);
+  --accent-ring: rgba(124, 92, 252, 0.18);
   --on-accent: #FFFFFF;
-
-  /* ── Buttons — near-black ink; brand purple lives on accents, not fills ── */
-  --btn-bg: #17171F;
-  --btn-bg-hover: #2E2740;
-  --btn-fg: #FFFFFF;
 
   /* ── Secondary accent (teal) ── */
   --teal: #0D9488;
@@ -83,19 +78,19 @@
   --shadow-soft: 0 2px 12px -4px rgba(0, 0, 0, 0.08);
   --shadow-lift: 0 16px 48px -12px rgba(0, 0, 0, 0.14), 0 0 0 1px rgba(0, 0, 0, 0.04);
   --shadow-panel: 0 -12px 40px -8px rgba(0, 0, 0, 0.04), 0 16px 48px -12px rgba(0, 0, 0, 0.08);
-  --shadow-active: 0 0 0 1px var(--accent), 0 8px 24px -6px rgba(91, 33, 182, 0.18);
+  --shadow-active: 0 0 0 1px var(--accent), 0 8px 24px -6px rgba(124, 92, 252, 0.18);
 
   /* ── Glass headers ── */
   --nav-bg: rgba(250, 250, 254, 0.85);
   --nav-mobile-bg: rgba(250, 250, 254, 0.97);
 
-  /* ── Hero gradient blobs — restrained purple + ink haze (no candy gradient) ── */
-  --blob-1: rgba(91, 33, 182, 0.12);
-  --blob-2: rgba(30, 27, 40, 0.08);
-  --blob-3: rgba(124, 58, 237, 0.09);
-  --blob-4: rgba(76, 29, 149, 0.07);
-  --blob-contact-1: rgba(91, 33, 182, 0.07);
-  --blob-contact-2: rgba(30, 27, 40, 0.04);
+  /* ── Hero gradient blobs ── */
+  --blob-1: rgba(139, 92, 246, 0.34);
+  --blob-2: rgba(236, 72, 153, 0.26);
+  --blob-3: rgba(56, 189, 248, 0.24);
+  --blob-4: rgba(168, 85, 247, 0.20);
+  --blob-contact-1: rgba(139, 92, 246, 0.1);
+  --blob-contact-2: rgba(236, 72, 153, 0.06);
 }
 
 [data-theme="dark"] {
@@ -127,20 +122,15 @@
   --border-dashed: #35353F;
   --border-fade: #35353F;
 
-  /* ── Accent (brand) — royal purple, lifted for dark bg ── */
-  --accent: #A78BFA;
-  --accent-hover: #C4B5FD;
-  --accent-strong: #8B5CF6;
-  --accent-2: #C4B5FD;
-  --accent-soft-bg: rgba(139, 92, 246, 0.20);
-  --accent-tint: rgba(167, 139, 250, 0.1);
-  --accent-ring: rgba(167, 139, 250, 0.3);
-  --on-accent: #17121F;
-
-  /* ── Buttons — invert to a light pill so they stay visible on dark bg ── */
-  --btn-bg: #EDECEF;
-  --btn-bg-hover: #FFFFFF;
-  --btn-fg: #17171F;
+  /* ── Accent (brand) — lifted for dark bg ── */
+  --accent: #9B85FD;
+  --accent-hover: #B4A4FF;
+  --accent-strong: #8A72F5;
+  --accent-2: #B4A4FF;
+  --accent-soft-bg: rgba(124, 92, 252, 0.18);
+  --accent-tint: rgba(124, 92, 252, 0.1);
+  --accent-ring: rgba(124, 92, 252, 0.3);
+  --on-accent: #12121A;
 
   /* ── Secondary accent (teal) ── */
   --teal: #2DD4BF;
@@ -161,17 +151,17 @@
   --shadow-soft: 0 8px 24px -12px rgba(0, 0, 0, 0.7);
   --shadow-lift: 0 16px 48px -12px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(255, 255, 255, 0.05);
   --shadow-panel: 0 -12px 40px -8px rgba(0, 0, 0, 0.4), 0 16px 48px -12px rgba(0, 0, 0, 0.7);
-  --shadow-active: 0 0 0 1px var(--accent), 0 8px 24px -6px rgba(139, 92, 246, 0.35);
+  --shadow-active: 0 0 0 1px var(--accent), 0 8px 24px -6px rgba(124, 92, 252, 0.35);
 
   /* ── Glass headers ── */
   --nav-bg: rgba(14, 14, 19, 0.85);
   --nav-mobile-bg: rgba(14, 14, 19, 0.97);
 
-  /* ── Hero gradient blobs — purple + ink haze, a touch stronger for dark ── */
-  --blob-1: rgba(139, 92, 246, 0.18);
-  --blob-2: rgba(30, 27, 40, 0.14);
-  --blob-3: rgba(167, 139, 250, 0.14);
-  --blob-4: rgba(124, 58, 237, 0.12);
-  --blob-contact-1: rgba(139, 92, 246, 0.12);
-  --blob-contact-2: rgba(30, 27, 40, 0.06);
+  /* ── Hero gradient blobs — a touch stronger ── */
+  --blob-1: rgba(139, 92, 246, 0.4);
+  --blob-2: rgba(236, 72, 153, 0.28);
+  --blob-3: rgba(56, 189, 248, 0.26);
+  --blob-4: rgba(168, 85, 247, 0.24);
+  --blob-contact-1: rgba(139, 92, 246, 0.14);
+  --blob-contact-2: rgba(236, 72, 153, 0.08);
 }
